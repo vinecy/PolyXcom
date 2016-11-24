@@ -36,12 +36,14 @@ int main() {
 	Affichable m1(0,1,1);
 	Affichable m2(2,0,1);
 
-	Hero test(2,3,5,11,7,"sergio");
-	test.display_info();
-
 	Carte Luminy( (int)4 , (int)4 );
 
 	Luminy.display();
+
+
+
+	Hero test(2,3,5,11,7,"sergio");
+	test.display_info();
 
 	return 0;
 }

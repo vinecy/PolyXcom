@@ -13,16 +13,19 @@ using namespace std;
 
 class Hero : public Personnage
 {
-	protected:
+	protected:								//Attribut
 		string _nom;
 
 	public:
-		Hero(string);
+		Hero(string);						//constructors
 		Hero(int,int,int,int,int,string);
-		string get_name(void);
+
+		string get_name(void);				//getter
+		void set_name(string);				//setter
+
 		void display_info();
 
-		virtual ~Hero();
+		virtual ~Hero();					//destructor
 };
 
 #endif /* HERO_H_ */

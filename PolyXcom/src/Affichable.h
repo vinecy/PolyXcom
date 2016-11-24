@@ -10,23 +10,25 @@
 
 class Affichable
 {
-	protected:
+	protected:					//Attributs
 		int _coordX;
 		int _coordY;
 		int _ID;
 
 	public:
-		Affichable();
+		Affichable();			//Construtors
 		Affichable(int,int,int);
-		int get_x(void);
+
+		int get_x(void);		//getters
 		int get_y(void);
-		void set_x(int);
+
+		void set_x(int);		//setters
 		void set_y(int);
+
 		void display_info();
-		virtual ~Affichable();
+
+		virtual ~Affichable();	//Destructor
 
 };
-
-
 
 #endif /* AFFICHABLE_H_ */

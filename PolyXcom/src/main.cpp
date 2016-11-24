@@ -33,8 +33,8 @@ int main() {
 	Personnage test;
 	test.display_info();
 
-	Carte test;
-	test.display();
+	Carte Luminy;
+	Luminy.display();
 
 	return 0;
 }

@@ -36,10 +36,8 @@ int main() {
 	Affichable m1(0,1,1);
 	Affichable m2(2,0,1);
 
-
-	test1.display_info();
-
 	Carte Luminy( (int)4 , (int)4 );
+
 	Luminy.display();
 
 	return 0;

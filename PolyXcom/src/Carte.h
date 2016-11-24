@@ -21,6 +21,7 @@ class Carte {
 		Carte( int x , int y );				// Constructeur
 
 		void display(void);		// Permet d'afficher la carte
+		void update(void);		// Met à jour la carte en fonction de la position des affichables
 
 		virtual ~Carte();		// Destructeur
 };

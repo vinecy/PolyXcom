@@ -30,7 +30,13 @@ using namespace std;
 
 int main() {
 	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
-	Personnage test1;
+	Affichable val(0,0,2);
+	Affichable e1(0,2,3);
+	Affichable e2(3,0,3);
+	Affichable m1(0,1,1);
+	Affichable m2(2,0,1);
+
+
 	test1.display_info();
 
 	Carte Luminy( (int)4 , (int)4 );

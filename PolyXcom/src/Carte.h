@@ -20,7 +20,7 @@ class Carte {
 	public:
 		Carte();				// Constructeur
 
-		void display(void);
+		void display(void);		// Permet d'afficher la carte
 
 		virtual ~Carte();		// Destructeur
 };

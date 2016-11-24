@@ -1,8 +1,26 @@
-/*
- * Carte.cpp
+/**
+ * Polytech Marseille
+ * Case 925 - 163, avenue de Luminy
+ * 13288 Marseille CEDEX 9
  *
- *  Created on: 24 nov. 2016
- *      Author: Valentin BISSUEL
+ * Ce fichier est l'oeuvre d'élèves de Polytech Marseille. Il ne peut être
+ * reproduit, utilisé ou modifié sans l'avis express de ses auteurs.
+ */
+
+/**
+ * @author BARTHOLOMEAU Vincent <vincent.bartholomeau@etu.univ-amu.fr>
+ * @author BISSUEL Valentin <valentin.bissuel@etu.univ-amu.fr>
+ *
+ * @version 0.0.1 / 24/11/2016
+ *
+ * @todo -
+ *
+ * @bug -
+ */
+
+/**
+ * @file Carte.cpp
+ * @brief La classe Carte permet de gérer les objets dans le monde
  */
 
 #include <iostream>
@@ -10,7 +28,9 @@
 
 using namespace std;
 
-// COMMENTAIRE
+/** Le constructeur <b>Carte</b> initialise le tableau contenant les entiers de l'ensemble
+	 * et le nombre courants d'éléments
+	 * @param taille - la taille de l'ensemble */
 Carte::Carte() {
 	sizeX = 4 ;
 	sizeY = 4 ;
@@ -39,9 +59,9 @@ Carte::~Carte() {
 
 void Carte::display() {
 	int i;		// indice parcours sur l'axe Y
-	cout << "  ------------------  " << endl;
-	for( i = 0 ; i < sizeX ; i++ ){
+	cout << " ----------------- " << endl;
+	for( i = sizeX-1 ; i >= 0 ; i-- ){
 		cout << " | " << map[i][0] << " | " << map[i][1] << " | "<< map[i][2] << " | "<< map[i][3] << " | "<< endl;
-		cout << "  ------------------  " << endl;
+		cout << " ----------------- " << endl;
 	}
 }

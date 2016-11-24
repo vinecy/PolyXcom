@@ -8,6 +8,8 @@
 #ifndef CARTE_H_
 #define CARTE_H_
 
+#include "Affichable.h"
+
 class Carte {
 
 	// Attributs
@@ -21,7 +23,7 @@ class Carte {
 		Carte( int x , int y );				// Constructeur
 
 		void display(void);		// Permet d'afficher la carte
-		void update(void);		// Met à jour la carte en fonction de la position des affichables
+		bool moveIsPossible( int x , int y );
 
 		virtual ~Carte();		// Destructeur
 };

@@ -63,13 +63,14 @@ void Carte::display( void ) {
 	int i;		// indice parcours sur l'axe Y
 	cout << " ----------------- " << endl;
 	for( i = _sizeX-1 ; i >= 0 ; i-- ){
-		cout << " | " << _map[i][0] << " | " << _map[i][1] << " | "<< _map[i][2] << " | "<< _map[i][3] << " | " << endl;
+		cout << " | " << _map[i][0] << " | " << _map[i][1] << " | "<< _map[i][2] << " | "<< _map[i][3] << " | "<< endl;
 		cout << " ----------------- " << endl;
 	}
 }
 
-/** La méthode <b>display</b> permet d'afficher la carte sur la console */
-void Carte::update( void ) {
-
+bool Carte::moveIsPossible( int x , int y ){
+	return (_map[x][y] == 0) ;
 }
+
+
 

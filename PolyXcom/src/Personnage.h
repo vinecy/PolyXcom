@@ -27,7 +27,7 @@ public:
 	int get_x(void);			//getter
 	int get_y(void);
 	int get_pvMax(void);
-	int get_paMAx(void);
+	int get_paMax(void);
 	int get_pvCurrent(void);
 	int get_paCurrent(void);
 
@@ -39,8 +39,6 @@ public:
 	void set_paCurrent(int pa);
 
 	void display_info(void);	//afichage debug
-
-	friend ostream & operator << (ostream & flot, const Personnage & p);
 
 
 	virtual ~Personnage(void);			//destructeur

@@ -42,7 +42,7 @@ int Personnage::get_pvMax(void)
 {
 	return(_pvMax);
 }
-int Personnage::get_paMAx(void)
+int Personnage::get_paMax(void)
 {
 	return(_paMax);
 }
@@ -79,15 +79,13 @@ void Personnage::set_paCurrent(int pa)
 	_paCurrent=pa;
 }
 
-ostream & operator<<(ostream & flot, const Personnage & p)
-{
-	 return(flot<<"coord=(" <<  p._coordX << " , " << p._coordY << ")");
-}
-
 void Personnage::display_info(void)		//debug display
 {
-	cout<<"///////DEBUG DISPLAY/////"<<endl;
-	cout<<this<<endl;
+	cout<<"///////BEGIN DEBUG DISPLAY/////"<<endl;
+	cout<<"Coord( X="<<this->get_x()<<" / Y="<<this->get_y()<<" )"<<endl;
+	cout<<"PV( "<<this->get_pvCurrent()<<" / "<<this->get_pvMax()<<" )"<<endl;
+	cout<<"PA( "<<this->get_paCurrent()<<" / "<<this->get_paMax()<<" )"<<endl;
+	cout<<"/////// END DEBUG DISPLAY/////"<<endl;
 }
 Personnage::~Personnage()
 {

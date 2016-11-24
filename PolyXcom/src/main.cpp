@@ -25,12 +25,17 @@
 
 #include <iostream>
 #include "Personnage.h"
+#include "Carte.h"
 using namespace std;
 
 int main() {
 	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
 	Personnage test;
 	test.display_info();
+
+	Carte test;
+	test.display();
+
 	return 0;
 }
 

@@ -19,8 +19,9 @@ Personnage::Personnage()		//constructeur par defaut
 	_rotation=0;
 }
 
-Personnage::Personnage(int pv,int pa)	//construteur surchargé
+Personnage::Personnage(int x,int y,int ID,int pv,int pa)	//construteur surchargé
 {
+	Affichable(x,y,ID);
 	_pvMax=pv;
 	_paMax=pa;
 	_pvCurrent=_pvMax;

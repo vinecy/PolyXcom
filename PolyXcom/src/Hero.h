@@ -15,6 +15,10 @@ class Hero : Personnage
 {
 	protected:
 		string _nom;
+
+
+	public:
+		Hero(int,int,int,int,int,string);
 };
 
 

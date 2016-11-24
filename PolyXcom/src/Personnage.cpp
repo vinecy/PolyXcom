@@ -6,7 +6,6 @@
  */
 
 #include "Personnage.h"
-#include "Carte.h"
 #include <iostream>
 
 using namespace std;
@@ -64,20 +63,20 @@ void Personnage::set_paCurrent(int pa)
 {
 	_paCurrent=pa;
 }
-/*
-void Personnage::move_up()
+
+void Personnage::move_up(Carte map)
 {
-	if (map.deplacementpossible(_coordX,_coordY+1))
+	if(map.moveIsPossible(_coordX,_coordY+1))
 	{
 		_coordY++;
-		maj carte;
+		map.update(_coordX,_coordY-1,_coordX,_coordY);
 	}
-	else()
+	else
 	{
-		cout<<"oups"<<endl;
+		cout<<"erreur"<<endl;
 	}
 }
-*/
+
 void Personnage::display_info(void)		//debug display
 {
 	cout<<"///////////////"<<endl;

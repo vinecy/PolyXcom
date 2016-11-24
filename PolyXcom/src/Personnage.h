@@ -9,6 +9,7 @@
 #define PERSONNAGE_H_
 #include <iostream>
 #include "Affichable.h"
+#include "Carte.h"
 using namespace std;
 
 class Personnage : public Affichable
@@ -34,7 +35,7 @@ public:
 	void set_pvCurrent(int pv);
 	void set_paCurrent(int pa);
 
-	void move_up();				//deplacement
+	void move_up(Carte);				//deplacement
 
 	void display_info(void);	//afichage debug
 

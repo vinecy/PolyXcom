@@ -31,6 +31,10 @@ int Affichable::get_y(void)
 {
 	return(_coordY);
 }
+int Affichable::get_ID(void)
+{
+	return(_ID);
+}
 
 void Affichable::set_x(int x)			//setters
 {

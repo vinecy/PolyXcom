@@ -11,7 +11,7 @@
 #include "Affichable.h"
 using namespace std;
 
-class Personnage : Affichable
+class Personnage : public Affichable
 {
 	protected:					//atributs
 		int _pvMax;
@@ -22,7 +22,7 @@ class Personnage : Affichable
 
 public:
 	Personnage(void);			//constructeurs
-	Personnage(int,int,int,int,int);
+	Personnage(int,int);
 
 	int get_pvMax(void);
 	int get_paMax(void);

@@ -6,6 +6,8 @@
  */
 
 #include "Affichable.h"
+#include <iostream>
+using namespace std;
 
 Affichable::Affichable(void)
 {
@@ -37,4 +39,17 @@ void Affichable::set_x(int x)			//setters
 void Affichable::set_y(int y)
 {
 	_coordY=y;
+}
+
+
+void Affichable::display_info(void)		//debug display
+{
+	cout<<"///////////////"<<endl;
+	cout<<"Coord( X="<<this->get_x()<<" / Y="<<this->get_y()<<" )"<<endl;
+	cout<<"///////////////"<<endl;
+}
+
+Affichable::~Affichable()
+{
+
 }

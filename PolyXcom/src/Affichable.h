@@ -22,6 +22,9 @@ class Affichable
 		int get_y(void);
 		void set_x(int);
 		void set_y(int);
+		void display_info();
+		virtual ~Affichable();
+
 };
 
 

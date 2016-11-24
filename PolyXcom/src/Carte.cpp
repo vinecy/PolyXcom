@@ -68,12 +68,10 @@ void Carte::display( void ) {
 
 	cout << " ----------------- " << endl;
 	for( i = _sizeX-1 ; i >= 0 ; i-- ){
-		for( i = _sizeX-1 ; i >= 0 ; i-- ){
-
-
-			cout << " | " << _map[i][0] << " | " << _map[i][1] << " | "<< _map[i][2] << " | "<< _map[i][3] << " | "<< endl;
-			cout << " ----------------- " << endl;
+		for( j = _sizeX-1 ; j >= 0 ; j-- ){
+			cout << " | " << _map[i][j] ;
 		}
+		cout << " | " << endl << " ----------------- " << endl;
 	}
 }
 
@@ -82,7 +80,7 @@ bool Carte::moveIsPossible( int x , int y ){
 }
 
 void Carte::addItem( int x , int y , Affichable a){
-	_map[ x ][ y ] = a;
+	_map[ x ][ y ] = a.get_ID();
 }
 
 void Carte::update( int oldX , int oldY , int newX, int newY ){

@@ -30,8 +30,8 @@ using namespace std;
 
 int main() {
 	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
-	Personnage test;
-	test.display_info();
+	Personnage test1;
+	test1.display_info();
 
 	Carte test;
 	test.display();

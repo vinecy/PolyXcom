@@ -45,6 +45,7 @@ Carte::Carte( int x , int y ) {
 		}
 	}
 
+
 	_map[0][0] = 2;
 	_map[0][2] = 1;
 	_map[0][3] = 3;

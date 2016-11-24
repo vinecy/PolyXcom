@@ -20,12 +20,12 @@ class Carte {
 
 	// Methodes
 	public:
-		Carte( int x , int y );				// Constructeur
+		Carte( int x , int y );						// Constructeur
 
-		void display(void);		// Permet d'afficher la carte
-		bool moveIsPossible( int x , int y );
+		void display(void);							// Permet d'afficher la carte
+		bool moveIsPossible( int x , int y );		// Déplacement possible à (x,y)
 
-		virtual ~Carte();		// Destructeur
+		virtual ~Carte();							// Destructeur
 };
 
 #endif /* CARTE_H_ */

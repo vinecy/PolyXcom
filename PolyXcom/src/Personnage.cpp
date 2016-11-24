@@ -12,32 +12,24 @@ using namespace std;
 
 Personnage::Personnage()		//constructeur par defaut
 {
-	_coordX=0;
-	_coordY=0;
 	_pvMax=10;
 	_paMax=6;
 	_pvCurrent=_pvMax;
 	_paCurrent=_paMax;
+	_rotation=0;
 }
 
-Personnage::Personnage(int x,int y,int pv,int pa)	//construteur surchargé
+Personnage::Personnage(int pv,int pa)	//construteur surchargé
 {
-	_coordX=x;
-	_coordY=y;
 	_pvMax=pv;
 	_paMax=pa;
 	_pvCurrent=_pvMax;
 	_paCurrent=_paMax;
+	_rotation=0;
 }
 
-int Personnage::get_x(void)				//getters
-{
-	return(_coordX);
-}
-int Personnage::get_y(void)
-{
-	return(_coordY);
-}
+
+
 int Personnage::get_pvMax(void)
 {
 	return(_pvMax);
@@ -54,14 +46,7 @@ int Personnage::get_paCurrent(void)
 {
 	return(_paCurrent);
 }
-void Personnage::set_x(int x)			//setters
-{
-	_coordX=x;
-}
-void Personnage::set_y(int y)
-{
-	_coordY=y;
-}
+
 void Personnage::set_pvMax(int pv)
 {
 	_pvMax=pv;

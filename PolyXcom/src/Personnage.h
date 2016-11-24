@@ -8,24 +8,22 @@
 #ifndef PERSONNAGE_H_
 #define PERSONNAGE_H_
 #include <iostream>
+#include "Affichable.h"
 using namespace std;
 
-class Personnage
+class Personnage : Affichable
 {
 	protected:					//atributs
-		int _coordX;
-		int _coordY;
 		int _pvMax;
 		int _paMax;
 		int _pvCurrent;
 		int _paCurrent;
+		int _rotation;
 
 public:
 	Personnage(void);			//constructeurs
-	Personnage(int x,int y,int pv,int pa);
+	Personnage(int pv,int pa);
 
-	int get_x(void);			//getter
-	int get_y(void);
 	int get_pvMax(void);
 	int get_paMax(void);
 	int get_pvCurrent(void);

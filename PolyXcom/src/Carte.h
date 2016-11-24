@@ -9,9 +9,20 @@
 #define CARTE_H_
 
 class Carte {
-public:
-	Carte();
-	virtual ~Carte();
+
+	// Attributs
+	private:
+		int sizeX;
+		int sizeY;
+		int **map;
+
+	// Methodes
+	public:
+		Carte();				// Constructeur
+
+		void display(void);
+
+		virtual ~Carte();		// Destructeur
 };
 
 #endif /* CARTE_H_ */

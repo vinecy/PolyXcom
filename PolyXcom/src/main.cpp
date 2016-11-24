@@ -24,10 +24,15 @@
  */
 
 #include <iostream>
+#include "Carte.h"
 using namespace std;
 
 int main() {
 	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
+
+	Carte test;
+	test.display();
+
 	return 0;
 }
 

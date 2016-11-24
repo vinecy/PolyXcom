@@ -34,8 +34,8 @@ using namespace std;
 Carte::Carte( int x , int y ) {
 	_sizeX = x ;
 	_sizeY = y ;
-	_map = new int*[_sizeY];
-
+	_map = new Affichable*[_sizeY];
+/*
 	int i,		// indice parcours sur l'axe Y
 		j;		// indice parcours sur l'axe X
 	for( i = 0 ; i < _sizeY ; i++ ){
@@ -45,13 +45,15 @@ Carte::Carte( int x , int y ) {
 		}
 	}
 
-
+/*
 	_map[0][0] = 2;
 	_map[0][2] = 1;
 	_map[0][3] = 3;
 	_map[1][0] = 1;
 	_map[1][1] = 1;
 	_map[2][0] = 3;
+
+	*/
 }
 
 /** Le destructeur <b>Carte</b> */
@@ -61,16 +63,30 @@ Carte::~Carte() {
 
 /** La méthode <b>display</b> permet d'afficher la carte sur la console */
 void Carte::display( void ) {
-	int i;		// indice parcours sur l'axe Y
+	int i,		// indice parcours sur l'axe Y
+		j;		// indice parcours sur l'axe X
+
 	cout << " ----------------- " << endl;
 	for( i = _sizeX-1 ; i >= 0 ; i-- ){
-		cout << " | " << _map[i][0] << " | " << _map[i][1] << " | "<< _map[i][2] << " | "<< _map[i][3] << " | "<< endl;
-		cout << " ----------------- " << endl;
+		for( i = _sizeX-1 ; i >= 0 ; i-- ){
+
+
+			cout << " | " << _map[i][0] << " | " << _map[i][1] << " | "<< _map[i][2] << " | "<< _map[i][3] << " | "<< endl;
+			cout << " ----------------- " << endl;
+		}
 	}
 }
 
 bool Carte::moveIsPossible( int x , int y ){
 	return (_map[x][y] == 0) ;
+}
+
+void Carte::addItem( int x , int y , Affichable a){
+	_map[ x ][ y ] = a;
+}
+
+void Carte::update( int oldX , int oldY , int newX, int newY ){
+
 }
 
 

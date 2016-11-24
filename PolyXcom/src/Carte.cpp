@@ -28,12 +28,12 @@
 
 using namespace std;
 
-/** Le constructeur <b>Carte</b> initialise le tableau contenant les entiers de l'ensemble
-	 * et le nombre courants d'éléments
-	 * @param taille - la taille de l'ensemble */
-Carte::Carte() {
-	sizeX = 4 ;
-	sizeY = 4 ;
+/** Le constructeur <b>Carte</b> initialise le tableau contenant les objets affichables
+	 * @param x - la longueur de la carte
+	 * @param y - la largeur de la carte */
+Carte::Carte( int x , int y ) {
+	sizeX = x ;
+	sizeY = y ;
 	map = new int*[sizeY];
 
 	int i,		// indice parcours sur l'axe Y
@@ -44,6 +44,7 @@ Carte::Carte() {
 			map[i][j] = 0 ;
 		}
 	}
+
 	map[0][0] = 2;
 	map[0][2] = 1;
 	map[0][3] = 3;
@@ -52,12 +53,13 @@ Carte::Carte() {
 	map[2][0] = 3;
 }
 
-// COMMENTAIRE
+/** Le destructeur <b>Carte</b> */
 Carte::~Carte() {
 
 }
 
-void Carte::display() {
+/** La méthode <b>display</b> permet d'afficher la carte sur la console */
+void Carte::display( void ) {
 	int i;		// indice parcours sur l'axe Y
 	cout << " ----------------- " << endl;
 	for( i = sizeX-1 ; i >= 0 ; i-- ){

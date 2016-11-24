@@ -44,11 +44,15 @@ int main() {
 	Carte Luminy( (int)4 , (int)4 );
 	cout << "Carte de Luminy crée" << endl;
 
-	Affichable val(0,0,2);
+	Hero val(0,0,2,10, 10,"Valentin");
 	cout << "Valentin est apparu" << endl;
 
 	Luminy.addItem(0, 0, val);
 	cout << "Valentin est sur la carte " << endl;
+
+
+
+
 
 	Luminy.display();
 

@@ -17,7 +17,7 @@ class Affichable
 
 	public:
 		Affichable();
-		Affichable(int x, int y);
+		Affichable(int,int,int);
 		int get_x(void);
 		int get_y(void);
 		void set_x(int);

@@ -22,7 +22,7 @@ class Personnage : Affichable
 
 public:
 	Personnage(void);			//constructeurs
-	Personnage(int pv,int pa);
+	Personnage(int,int,int,int,int);
 
 	int get_pvMax(void);
 	int get_paMax(void);

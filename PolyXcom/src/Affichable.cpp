@@ -7,18 +7,18 @@
 
 #include "Affichable.h"
 
-Affichable::Affichable()
+Affichable::Affichable(void)
 {
 	_coordX=0;
 	_coordY=0;
 	_ID=66;
 }
 
-Affichable::Affichable(int x, int y)
+Affichable::Affichable(int x, int y, int ID)
 {
 	_coordX=x;
 	_coordY=y;
-	_ID=66;
+	_ID=ID;
 }
 
 int Affichable::get_x(void)				//getters

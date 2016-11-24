@@ -18,9 +18,9 @@ class Carte {
 
 	// Methodes
 	public:
-		Carte();				// Constructeur
+		Carte( int x , int y );				// Constructeur
 
-		void display(void);
+		void display(void);		// Permet d'afficher la carte
 
 		virtual ~Carte();		// Destructeur
 };

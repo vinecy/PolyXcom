@@ -14,6 +14,18 @@ Hero::Hero(string nom)
 	_nom=nom;
 }
 
+Hero::Hero(int x,int y,int ID,int pv, int pa,string nom)
+{
+	_coordX=x;
+	_coordY=y;
+	_ID=ID;
+	_pvMax=pv;
+	_pvCurrent=_pvMax;
+	_pvMax=pv;
+	_paCurrent=_paMax;
+	_nom=nom;
+}
+
 string Hero::get_name(void)
 {
 	return(_nom);

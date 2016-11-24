@@ -18,6 +18,7 @@ class Hero : public Personnage
 
 	public:
 		Hero(string);
+		Hero(int,int,int,int,int,string);
 		string get_name(void);
 		void display_info();
 

@@ -30,7 +30,7 @@ Personnage::Personnage(int pv,int pa)	//construteur surchargé
 
 
 
-int Personnage::get_pvMax(void)
+int Personnage::get_pvMax(void)			//getters
 {
 	return(_pvMax);
 }
@@ -47,7 +47,7 @@ int Personnage::get_paCurrent(void)
 	return(_paCurrent);
 }
 
-void Personnage::set_pvMax(int pv)
+void Personnage::set_pvMax(int pv)		//setters
 {
 	_pvMax=pv;
 }
@@ -64,7 +64,7 @@ void Personnage::set_paCurrent(int pa)
 	_paCurrent=pa;
 }
 
-void Personnage::display_info(void)
+void Personnage::display_info(void)		//debug display
 {
 	cout<<"///////////////"<<endl;
 	cout<<"Coord( X="<<this->get_x()<<" / Y="<<this->get_y()<<" )"<<endl;
@@ -73,7 +73,7 @@ void Personnage::display_info(void)
 	cout<<"///////////////"<<endl;
 }
 
-Personnage::~Personnage()
+Personnage::~Personnage()				//destructor
 {
 
 }

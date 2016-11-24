@@ -13,7 +13,7 @@ using namespace std;
 
 class Personnage : public Affichable
 {
-	protected:					//atributs
+	protected:					//attributs
 		int _pvMax;
 		int _paMax;
 		int _pvCurrent;
@@ -24,22 +24,22 @@ public:
 	Personnage(void);			//constructeurs
 	Personnage(int,int);
 
-	int get_pvMax(void);
+	int get_pvMax(void);		//getters
 	int get_paMax(void);
 	int get_pvCurrent(void);
 	int get_paCurrent(void);
 
-	void set_x(int x);			//setter
-	void set_y(int y);
-	void set_pvMax(int pv);
+	void set_pvMax(int pv);		//setters
 	void set_paMAx(int pa);
 	void set_pvCurrent(int pv);
 	void set_paCurrent(int pa);
 
+	void move_up();				//deplacement
+
 	void display_info(void);	//afichage debug
 
 
-	virtual ~Personnage(void);			//destructeur
+	virtual ~Personnage(void);	//destructor
 
 };//Fin de la classe Personnage
 

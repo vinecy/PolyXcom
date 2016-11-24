@@ -9,14 +9,14 @@
 #include <iostream>
 using namespace std;
 
-Affichable::Affichable(void)
+Affichable::Affichable(void)			//Construteur par defaut
 {
 	_coordX=0;
 	_coordY=0;
 	_ID=66;
 }
 
-Affichable::Affichable(int x, int y, int ID)
+Affichable::Affichable(int x, int y, int ID)	//Construteur surchargé
 {
 	_coordX=x;
 	_coordY=y;
@@ -49,7 +49,7 @@ void Affichable::display_info(void)		//debug display
 	cout<<"///////////////"<<endl;
 }
 
-Affichable::~Affichable()
+Affichable::~Affichable()				//destructeur
 {
 
 }

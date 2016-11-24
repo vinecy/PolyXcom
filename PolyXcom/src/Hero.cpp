@@ -9,17 +9,34 @@
 #include"Hero.h"
 using namespace std;
 
-Hero::Hero(string nom)
+Hero::Hero(string nom)				//Constructeur par default
 {
 	_nom=nom;
 }
 
-string Hero::get_name(void)
+Hero::Hero(int x,int y,int ID,int pv, int pa,string nom)//construteur surchargé
+{
+	_coordX=x;
+	_coordY=y;
+	_ID=ID;
+	_pvMax=pv;
+	_pvCurrent=_pvMax;
+	_pvMax=pv;
+	_paCurrent=_paMax;
+	_nom=nom;
+}
+
+string Hero::get_name(void)					//getter
 {
 	return(_nom);
 }
 
-void Hero::display_info(void)
+void Hero::set_name(string nom)				//setter
+{
+	_nom=nom;
+}
+
+void Hero::display_info(void)				//debug display
 {
 	cout<<"///////////////"<<endl;
 	cout<<"Coord( X="<<this->get_x()<<" / Y="<<this->get_y()<<" )"<<endl;
@@ -29,7 +46,7 @@ void Hero::display_info(void)
 	cout<<"///////////////"<<endl;
 }
 
-Hero::~Hero()
+Hero::~Hero()								//destructor
 {
 
 }

@@ -51,7 +51,7 @@ int main() {
 	cout << &val << endl;
 
 	cout << "Ajout de val sur la carte" << endl;
-	Luminy.addItem(0, 0, &val);
+	Luminy.addItem(val);
 	cout << "Valentin est sur la carte " << endl;
 
 
@@ -59,7 +59,8 @@ int main() {
 
 	cout << "Deplacement en haut" << endl;
 	val.move_up(Luminy);
-
+	Luminy.display();
+	val.move_up(Luminy);
 	Luminy.display();
 
 	return 0;

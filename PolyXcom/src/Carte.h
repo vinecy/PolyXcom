@@ -16,7 +16,7 @@ class Carte {
 	private:
 		int _sizeX;												// Longueur MAX de la carte
 		int _sizeY;												// Largeur MAX de la carte
-		Affichable **_map;												// Matrice où sont placés les objets
+		Affichable ***_map;												// Matrice où sont placés les objets
 
 	// Methodes
 	public:
@@ -24,8 +24,8 @@ class Carte {
 
 		void display(void);										// Permet d'afficher la carte
 		bool moveIsPossible( int x , int y );					// affirme si Déplacement possible à (x,y)
-		void addItem( int x , int y , Affichable *a);			// Ajoute un objet affichable sur la carte
-		void update( int oldX , int oldY , int newX, int newY);	// déplace l"affichable de la case (x,y) à la nouvelle case
+		void addItem( Affichable &a);							// Ajoute un objet affichable sur la carte
+		void update( Affichable *a , int newX , int newY);	    // déplace l"affichable de la case (x,y) à la nouvelle case
 
 		virtual ~Carte();										// Destructeur
 };

@@ -21,6 +21,7 @@ class Affichable
 
 		int get_x(void);		//getters
 		int get_y(void);
+		int get_ID(void);
 
 		void set_x(int);		//setters
 		void set_y(int);

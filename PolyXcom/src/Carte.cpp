@@ -32,25 +32,25 @@ using namespace std;
 	 * @param x - la longueur de la carte
 	 * @param y - la largeur de la carte */
 Carte::Carte( int x , int y ) {
-	sizeX = x ;
-	sizeY = y ;
-	map = new int*[sizeY];
+	_sizeX = x ;
+	_sizeY = y ;
+	_map = new int*[_sizeY];
 
 	int i,		// indice parcours sur l'axe Y
 		j;		// indice parcours sur l'axe X
-	for( i = 0 ; i < sizeY ; i++ ){
-		map[i] = new int[sizeX];
-		for( j = 0 ; j < sizeX ; j++ ){
-			map[i][j] = 0 ;
+	for( i = 0 ; i < _sizeY ; i++ ){
+		_map[i] = new int[_sizeX];
+		for( j = 0 ; j < _sizeX ; j++ ){
+			_map[i][j] = 0 ;
 		}
 	}
 
-	map[0][0] = 2;
-	map[0][2] = 1;
-	map[0][3] = 3;
-	map[1][0] = 1;
-	map[1][1] = 1;
-	map[2][0] = 3;
+	_map[0][0] = 2;
+	_map[0][2] = 1;
+	_map[0][3] = 3;
+	_map[1][0] = 1;
+	_map[1][1] = 1;
+	_map[2][0] = 3;
 }
 
 /** Le destructeur <b>Carte</b> */
@@ -62,8 +62,8 @@ Carte::~Carte() {
 void Carte::display( void ) {
 	int i;		// indice parcours sur l'axe Y
 	cout << " ----------------- " << endl;
-	for( i = sizeX-1 ; i >= 0 ; i-- ){
-		cout << " | " << map[i][0] << " | " << map[i][1] << " | "<< map[i][2] << " | "<< map[i][3] << " | "<< endl;
+	for( i = _sizeX-1 ; i >= 0 ; i-- ){
+		cout << " | " << _map[i][0] << " | " << _map[i][1] << " | "<< _map[i][2] << " | "<< _map[i][3] << " | "<< endl;
 		cout << " ----------------- " << endl;
 	}
 }

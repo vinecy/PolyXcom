@@ -12,9 +12,9 @@ class Carte {
 
 	// Attributs
 	private:
-		int sizeX;
-		int sizeY;
-		int **map;
+		int _sizeX;
+		int _sizeY;
+		int **_map;
 
 	// Methodes
 	public:

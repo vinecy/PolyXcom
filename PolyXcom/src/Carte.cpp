@@ -25,6 +25,7 @@
 
 #include <iostream>
 #include "Carte.h"
+#include "Affichable.h"
 
 using namespace std;
 
@@ -34,8 +35,8 @@ using namespace std;
 Carte::Carte( int x , int y ) {
 	_sizeX = x ;
 	_sizeY = y ;
-	_map = new Affichable*[_sizeY];
-/*
+	_map = new int *[_sizeY];
+
 	int i,		// indice parcours sur l'axe Y
 		j;		// indice parcours sur l'axe X
 	for( i = 0 ; i < _sizeY ; i++ ){
@@ -63,15 +64,13 @@ Carte::~Carte() {
 
 /** La méthode <b>display</b> permet d'afficher la carte sur la console */
 void Carte::display( void ) {
-	int i,		// indice parcours sur l'axe Y
-		j;		// indice parcours sur l'axe X
+	int i;		// indice parcours sur l'axe Y
+		//j;		// indice parcours sur l'axe X
 
 	cout << " ----------------- " << endl;
 	for( i = _sizeX-1 ; i >= 0 ; i-- ){
-		for( j = _sizeX-1 ; j >= 0 ; j-- ){
-			cout << " | " << _map[i][j] ;
-		}
-		cout << " | " << endl << " ----------------- " << endl;
+		cout << " | " << _map[i][0] << " | " << _map[i][1] << " | " << _map[i][2] << " | " << _map[i][3] << " | "<< endl;
+		cout << " ----------------- " << endl;
 	}
 }
 

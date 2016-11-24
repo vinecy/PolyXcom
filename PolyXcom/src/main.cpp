@@ -24,10 +24,13 @@
  */
 
 #include <iostream>
+#include "Personnage.h"
 using namespace std;
 
 int main() {
 	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
+	Personnage test;
+	test.display_info();
 	return 0;
 }
 

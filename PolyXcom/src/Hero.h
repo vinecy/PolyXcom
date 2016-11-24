@@ -11,18 +11,17 @@ using namespace std;
 #include <iostream>
 #include "Personnage.h"
 
-class Hero : Personnage
+class Hero : public Personnage
 {
 	protected:
 		string _nom;
 
-
 	public:
 		Hero(string);
+		string get_name(void);
+		void display_info();
+
+		virtual ~Hero();
 };
 
-
-
-
 #endif /* HERO_H_ */
-

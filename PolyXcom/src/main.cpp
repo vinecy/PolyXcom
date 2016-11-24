@@ -24,14 +24,20 @@
  */
 
 #include <iostream>
-#include "Personnage.h"
+#include "Hero.h"
 #include "Carte.h"
 using namespace std;
 
 int main() {
 	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
-	Personnage test1;
+	Affichable test1(2,3,5);
 	test1.display_info();
+
+	Personnage test2(11,7);
+	test2.display_info();
+
+	Hero test3("sergio");
+	test3.display_info();
 
 	Carte Luminy( (int)4 , (int)4 );
 	Luminy.display();

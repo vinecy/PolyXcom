@@ -19,9 +19,8 @@ Personnage::Personnage()		//constructeur par defaut
 	_rotation=0;
 }
 
-Personnage::Personnage(int x,int y,int ID,int pv,int pa)	//construteur surchargé
+Personnage::Personnage(int pv,int pa)	//construteur surchargé
 {
-	Affichable(x,y,ID);
 	_pvMax=pv;
 	_paMax=pa;
 	_pvCurrent=_pvMax;
@@ -65,14 +64,15 @@ void Personnage::set_paCurrent(int pa)
 	_paCurrent=pa;
 }
 
-void Personnage::display_info(void)		//debug display
+void Personnage::display_info(void)
 {
-	cout<<"///////BEGIN DEBUG DISPLAY/////"<<endl;
+	cout<<"///////////////"<<endl;
 	cout<<"Coord( X="<<this->get_x()<<" / Y="<<this->get_y()<<" )"<<endl;
 	cout<<"PV( "<<this->get_pvCurrent()<<" / "<<this->get_pvMax()<<" )"<<endl;
 	cout<<"PA( "<<this->get_paCurrent()<<" / "<<this->get_paMax()<<" )"<<endl;
-	cout<<"/////// END DEBUG DISPLAY/////"<<endl;
+	cout<<"///////////////"<<endl;
 }
+
 Personnage::~Personnage()
 {
 

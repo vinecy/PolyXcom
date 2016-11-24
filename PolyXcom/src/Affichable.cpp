@@ -13,7 +13,7 @@ Affichable::Affichable(void)			//Construteur par defaut
 {
 	_coordX=0;
 	_coordY=0;
-	_ID=66;
+	_ID=00;
 }
 
 Affichable::Affichable(int x, int y, int ID)	//Construteur surchargé
@@ -55,5 +55,5 @@ void Affichable::display_info(void)		//debug display
 
 Affichable::~Affichable()				//destructeur
 {
-
+	cout << "Affichable à l'ID " << _ID << " aux cordonnees ( " << _coordX << "," << _coordY << " ) detruit" << endl;
 }

@@ -64,7 +64,7 @@ void Personnage::set_paCurrent(int pa)
 	_paCurrent=pa;
 }
 
-void Personnage::move_up(Carte map)
+void Personnage::move_up(Carte &map)
 {
 	if(map.moveIsPossible(_coordX,_coordY+1))
 	{
@@ -76,7 +76,7 @@ void Personnage::move_up(Carte map)
 		cout<<"erreur"<<endl;
 	}
 }
-void Personnage::move_down(Carte map)
+void Personnage::move_down(Carte &map)
 {
 	if(map.moveIsPossible(_coordX,_coordY-1))
 	{
@@ -88,7 +88,7 @@ void Personnage::move_down(Carte map)
 		cout<<"erreur"<<endl;
 	}
 }
-void Personnage::move_left(Carte map)
+void Personnage::move_left(Carte &map)
 {
 	if(map.moveIsPossible(_coordX-1,_coordY))
 	{
@@ -100,7 +100,7 @@ void Personnage::move_left(Carte map)
 		cout<<"erreur"<<endl;
 	}
 }
-void Personnage::move_right(Carte map)
+void Personnage::move_right(Carte &map)
 {
 	if(map.moveIsPossible(_coordX+1,_coordY))
 	{
@@ -124,5 +124,5 @@ void Personnage::display_info(void)		//debug display
 
 Personnage::~Personnage()				//destructor
 {
-
+	cout << "Personnage detruit" << endl;
 }

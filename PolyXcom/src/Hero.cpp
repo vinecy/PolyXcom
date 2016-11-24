@@ -48,5 +48,5 @@ void Hero::display_info(void)				//debug display
 
 Hero::~Hero()								//destructor
 {
-
+	cout << "Hero detruit" << endl;
 }

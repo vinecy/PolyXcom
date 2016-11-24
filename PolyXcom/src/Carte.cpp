@@ -35,56 +35,69 @@ using namespace std;
 Carte::Carte( int x , int y ) {
 	_sizeX = x ;
 	_sizeY = y ;
-	_map = new int *[_sizeY];
+	_map = new Affichable *[_sizeY];
 
+	// initialisation de la carte
 	int i,		// indice parcours sur l'axe Y
 		j;		// indice parcours sur l'axe X
 	for( i = 0 ; i < _sizeY ; i++ ){
-		_map[i] = new int[_sizeX];
+		_map[i] = new Affichable[_sizeX];
 		for( j = 0 ; j < _sizeX ; j++ ){
-			_map[i][j] = 0 ;
+			//_map[i][j] = NULL;
 		}
 	}
-
-/*
-	_map[0][0] = 2;
-	_map[0][2] = 1;
-	_map[0][3] = 3;
-	_map[1][0] = 1;
-	_map[1][1] = 1;
-	_map[2][0] = 3;
-
-	*/
-}
-
-/** Le destructeur <b>Carte</b> */
-Carte::~Carte() {
-
 }
 
 /** La méthode <b>display</b> permet d'afficher la carte sur la console */
 void Carte::display( void ) {
-	int i;		// indice parcours sur l'axe Y
-		//j;		// indice parcours sur l'axe X
+	int i,		// indice parcours sur l'axe Y
+		j;		// indice parcours sur l'axe X
 
 	cout << " ----------------- " << endl;
-	for( i = _sizeX-1 ; i >= 0 ; i-- ){
-		cout << " | " << _map[i][0] << " | " << _map[i][1] << " | " << _map[i][2] << " | " << _map[i][3] << " | "<< endl;
-		cout << " ----------------- " << endl;
+	for( i = _sizeY-1 ; i >= 0 ; i-- ){
+		for( j = 0 ; j < _sizeX ; j++ ){
+			cout << " | " << _map[i][j].get_ID() ;
+		}
+		cout << " | "<< endl << " ----------------- " << endl;
 	}
 }
 
+/** La méthode <b>moveIsPossible</b> permet de vérifier si la case (x,y) est franchissable ou pas
+ 	 * @param x,y - couple de coordonnées à verifier
+ 	 * @return - il retourne 1 et le deplacement est possible ou 0 sinon.
+ 	 * */
 bool Carte::moveIsPossible( int x , int y ){
-	return (_map[x][y] == 0) ;
+	return (_map[x][y].get_ID() == 0) ;
 }
 
-void Carte::addItem( int x , int y , Affichable a){
-	_map[ x ][ y ] = a.get_ID();
+/** La méthode <b>addItem</b> permet d'ajouter un objet affichable sur la carte
+ 	 * @param x,y - couple de coordonnées à verifier
+ 	 * @param a - objet affichable à ajouter
+ 	 */
+void Carte::addItem( int x , int y , Affichable *a){
+	_map[ x ][ y ] = *a;
 }
 
-void Carte::update( int oldX , int oldY , int newX, int newY ){
+/** La méthode <b>addItem</b> permet d'ajouter un objet affichable sur la carte
+ 	 * @param oldX,oldY - ancienne coordonnées de l'objet à déplacer
+ 	 * @param newX,newY - nouvelle coordonnées de l'objet à déplacer
+ 	 */
+void Carte::update( int oldX , int oldY , int newX, int newY){
+	cout << "màj des coordonnes" << endl;
 
+	//Affichable *ptr = &_map[ oldX ][ oldY ];
+
+	_map[ newX ][ newY ] = _map[ oldX ][ oldY ];
+
+	//delete *_map[ oldX ][ oldX ];
+	//delete _map[ oldX ][ oldX ];
+	//delete &_map[ oldX ][ oldX ];
+	//delete _map[ oldX ][ oldY ];
+	//delete &_map[ oldX ][ oldY ] ;
 }
 
-
+/** Le destructeur <b>Carte</b> */
+Carte::~Carte() {
+	cout << "Carte detruit" <<  endl;
+}
 

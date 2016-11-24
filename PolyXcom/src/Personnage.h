@@ -35,10 +35,10 @@ public:
 	void set_pvCurrent(int pv);
 	void set_paCurrent(int pa);
 
-	void move_up(Carte);		//deplacement
-	void move_down(Carte);
-	void move_left(Carte);
-	void move_right(Carte);
+	void move_up(Carte &);		//deplacement
+	void move_down(Carte &);
+	void move_left(Carte &);
+	void move_right(Carte &);
 
 	void display_info(void);	//afichage debug
 

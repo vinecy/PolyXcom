@@ -14,20 +14,20 @@ class Carte {
 
 	// Attributs
 	private:
-		int _sizeX;
-		int _sizeY;
-		int **_map;
+		int _sizeX;												// Longueur MAX de la carte
+		int _sizeY;												// Largeur MAX de la carte
+		Affichable **_map;												// Matrice où sont placés les objets
 
 	// Methodes
 	public:
-		Carte( int x , int y );						// Constructeur
+		Carte( int x , int y );									// Constructeur
 
-		void display(void);							// Permet d'afficher la carte
-		bool moveIsPossible( int x , int y );		// Déplacement possible à (x,y)
-		void update( int oldX , int oldY , int newX, int newY );
-		void addItem( int x , int y , Affichable a);// Ajoute un objet affichable sur la carte
+		void display(void);										// Permet d'afficher la carte
+		bool moveIsPossible( int x , int y );					// affirme si Déplacement possible à (x,y)
+		void addItem( int x , int y , Affichable *a);			// Ajoute un objet affichable sur la carte
+		void update( int oldX , int oldY , int newX, int newY);	// déplace l"affichable de la case (x,y) à la nouvelle case
 
-		virtual ~Carte();							// Destructeur
+		virtual ~Carte();										// Destructeur
 };
 
 #endif /* CARTE_H_ */

@@ -18,7 +18,7 @@ class Hero : Personnage
 
 
 	public:
-		Hero(int,int,int,int,int,string);
+		Hero(string);
 };
 
 

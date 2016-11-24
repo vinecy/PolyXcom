@@ -6,10 +6,8 @@
  */
 
 #include"Hero.h"
-
-Hero::Hero(int x,int y,int ID,int pa,int pv,string nom)
+using namespace std;
+Hero::Hero(string nom)
 {
-	Affichable(x,y,ID);
-	Personnage(x,y,ID,pa,pv);
 	_nom=nom;
 }

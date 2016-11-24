@@ -24,6 +24,8 @@ class Carte {
 
 		void display(void);							// Permet d'afficher la carte
 		bool moveIsPossible( int x , int y );		// Déplacement possible à (x,y)
+		void update( int oldX , int oldY , int newX, int newY );
+		void addItem( int x , int y , Affichable a);// Ajoute un objet affichable sur la carte
 
 		virtual ~Carte();							// Destructeur
 };

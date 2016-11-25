@@ -8,13 +8,20 @@
 #include<iostream>
 #include"Hero.h"
 using namespace std;
-
-Hero::Hero(string nom)				//Constructeur par default
+/** Le constructeur Hero cree un personnage avec un nom
+ *	 @param _nom - Nom du perso*/
+Hero::Hero(string nom)
 {
 	_nom=nom;
 }
 
-Hero::Hero(int x,int y,int ID,int pv, int pa,string nom)//construteur surchargé
+/** Le constructeur Hero cree un personnage et initialise ses attributs
+	 * @param _coordX - Points de Vie max du perso
+	 * @param _coordY - Points d'Action max du perso
+	 * @param _pvMax - Points de Vie max du perso
+	 * @param _paMax - Points d'Action max du perso
+	 * @param _nom - Nom du perso	*/
+Hero::Hero(int x,int y,int ID,int pv, int pa,string nom)
 {
 	_coordX=x;
 	_coordY=y;
@@ -36,6 +43,7 @@ void Hero::set_name(string nom)				//setter
 	_nom=nom;
 }
 
+/** La méthode display_info permet d'afficher les attributs de celui qui l'invoque dans la console */
 void Hero::display_info(void)				//debug display
 {
 	cout<<"///////////////"<<endl;
@@ -46,6 +54,7 @@ void Hero::display_info(void)				//debug display
 	cout<<"///////////////"<<endl;
 }
 
+/** Le destructeur Hero*/
 Hero::~Hero()								//destructor
 {
 	cout << "Hero detruit" << endl;

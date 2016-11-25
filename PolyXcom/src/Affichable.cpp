@@ -71,7 +71,7 @@ void Affichable::set_y(int y)
 	_coordY=y;
 }
 
-/** La méthode <b>display_info</b> permet d'afficher les attributs de celui qui l'invoque la console */
+/** La méthode display_info permet d'afficher les attributs de celui qui l'invoque la console */
 void Affichable::display_info(void)		//debug display
 {
 	cout<<"///////////////"<<endl;
@@ -79,7 +79,7 @@ void Affichable::display_info(void)		//debug display
 	cout<<"///////////////"<<endl;
 }
 
-/** Le destructeur <b>Carte</b> */
+/** Le destructeur Affichable */
 Affichable::~Affichable()				//destructeur
 {
 	cout << "Affichable avec les attributs " << _coordX << " " <<  _coordY << " " << _ID << " detruit " << endl;

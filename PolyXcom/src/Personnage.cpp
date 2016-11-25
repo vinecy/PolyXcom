@@ -33,6 +33,7 @@ Personnage::Personnage()		//constructeur par defaut
 	_paCurrent=_paMax;
 	_rotation=0;
 }
+
 /** Le constructeur Personnage cree un personnage et initialise ses attributs
 	 * @param _pvMax - Points de Vie max du perso
 	 * @param _paMax - Points d'Action max du perso	*/
@@ -79,6 +80,8 @@ void Personnage::set_paCurrent(int pa)
 	_paCurrent=pa;
 }
 
+/** La methode Personnage deplace un pero vers de Nord
+	 * @param map - carte sur laquelle le perso bouge*/
 void Personnage::move_up(Carte &map)
 {
 	if(map.moveIsPossible(_coordX,_coordY+1))
@@ -90,6 +93,8 @@ void Personnage::move_up(Carte &map)
 		cout<<"erreur"<<endl;
 	}
 }
+/** La methode Personnage deplace un pero vers le Sud
+	 * @param map - carte sur laquelle le perso bouge*/
 void Personnage::move_down(Carte &map)
 {
 	if(map.moveIsPossible(_coordX,_coordY-1))
@@ -102,6 +107,8 @@ void Personnage::move_down(Carte &map)
 		cout<<"erreur"<<endl;
 	}
 }
+/** La methode Personnage deplace un pero vers l'Ouest
+	 * @param map - carte sur laquelle le perso bouge*/
 void Personnage::move_left(Carte &map)
 {
 	if(map.moveIsPossible(_coordX-1,_coordY))
@@ -114,6 +121,8 @@ void Personnage::move_left(Carte &map)
 		cout<<"erreur"<<endl;
 	}
 }
+/** La methode Personnage deplace un pero vers l'Est
+	 * @param map - carte sur laquelle le perso bouge*/
 void Personnage::move_right(Carte &map)
 {
 	if(map.moveIsPossible(_coordX+1,_coordY))
@@ -127,7 +136,8 @@ void Personnage::move_right(Carte &map)
 	}
 }
 
-void Personnage::display_info(void)		//debug display
+/** La méthode display_info permet d'afficher les attributs de celui qui l'invoque dans la console */
+void Personnage::display_info(void)
 {
 	cout<<"///////////////"<<endl;
 	cout<<"Coord( X="<<this->get_x()<<" / Y="<<this->get_y()<<" )"<<endl;
@@ -136,6 +146,7 @@ void Personnage::display_info(void)		//debug display
 	cout<<"///////////////"<<endl;
 }
 
+/** Le destructeur Personnage*/
 Personnage::~Personnage()				//destructor
 {
 	cout << "Personnage detruit" << endl;

@@ -9,17 +9,14 @@
 #include <iostream>
 using namespace std;
 
-Affichable::Affichable(void)			//Construteur par defaut
-{
-	cout << "Affichable créé" << endl;
+Affichable::Affichable(void){					//Construteur par defaut
 	_coordX=0;
 	_coordY=0;
 	_ID=00;
+	cout << "Affichable créé avec les attributs " << _coordX <<  _coordY << _ID << endl;
 }
 
-Affichable::Affichable(int x, int y, int ID)	//Construteur surchargé
-{
-
+Affichable::Affichable(int x, int y, int ID){	//Construteur surchargé
 	_coordX=x;
 	_coordY=y;
 	_ID=ID;
@@ -58,5 +55,5 @@ void Affichable::display_info(void)		//debug display
 
 Affichable::~Affichable()				//destructeur
 {
-	cout << "Affichable à l'ID " << _ID << " aux cordonnees ( " << _coordX << "," << _coordY << " ) detruit" << endl;
+	cout << "Affichable avec les attributs " << _coordX << " " <<  _coordY << " " << _ID << " detruit " << endl;
 }

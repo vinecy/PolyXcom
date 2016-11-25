@@ -9,15 +9,13 @@
 #define CARTE_H_
 
 #include "Affichable.h"
-#include <cstddef>
 class Carte {
 
 	// Attributs
 	private:
 		int _sizeX;												// Longueur MAX de la carte
 		int _sizeY;												// Largeur MAX de la carte
-		Affichable ***_map;												// Matrice où sont placés les objets
-		//nullptr_t ***_map;
+		Affichable ***_map;										// Matrice de pointeur d'objets affichables
 
 
 	// Methodes
@@ -27,7 +25,7 @@ class Carte {
 		void display(void);										// Permet d'afficher la carte
 		bool moveIsPossible( int x , int y );					// affirme si Déplacement possible à (x,y)
 		void addItem( Affichable &a);							// Ajoute un objet affichable sur la carte
-		void update( Affichable *a , int newX , int newY);	    // déplace l"affichable de la case (x,y) à la nouvelle case
+		void moveItemTo( Affichable *a , int newX , int newY);	    // déplace l"affichable de la case (x,y) à la nouvelle case
 
 		virtual ~Carte();										// Destructeur
 };

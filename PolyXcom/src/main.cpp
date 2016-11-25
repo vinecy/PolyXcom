@@ -40,11 +40,11 @@ int main() {
 
 	Luminy.display();
 	*/
-
+	cout << "Création Carte de Luminy..." << endl;
 	Carte Luminy( (int)4 , (int)4 );
 	cout << "Carte de Luminy crée" << endl;
 
-	Luminy.display();
+	//Luminy.display();
 
 	Hero val(0,0,2,10, 10,"Valentin");
 	cout << "Valentin est apparu" << endl;
@@ -55,13 +55,13 @@ int main() {
 	cout << "Valentin est sur la carte " << endl;
 
 
-	Luminy.display();
+	//Luminy.display();
 
 	cout << "Deplacement en haut" << endl;
 	val.move_up(Luminy);
-	Luminy.display();
+	//Luminy.display();
 	val.move_up(Luminy);
-	Luminy.display();
+	//Luminy.display();
 
 	return 0;
 }

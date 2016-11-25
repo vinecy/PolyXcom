@@ -19,6 +19,7 @@ class Carte {
 		Affichable ***_map;												// Matrice où sont placés les objets
 		//nullptr_t ***_map;
 
+
 	// Methodes
 	public:
 		Carte( int x , int y );									// Constructeur

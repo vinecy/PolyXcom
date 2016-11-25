@@ -30,6 +30,9 @@
 
 using namespace std;
 
+static Affichable vide;
+
+
 /** Le constructeur <b>Carte</b> initialise le tableau contenant les objets affichables
 	 * @param x - la longueur de la carte
 	 * @param y - la largeur de la carte */
@@ -38,16 +41,21 @@ Carte::Carte( int x , int y ) {
 	_sizeY = y ;
 	_map = new Affichable **[_sizeY];
 
+
 	// initialisation de la carte
 	int i,		// indice parcours sur l'axe Y
 		j;		// indice parcours sur l'axe X
 	for( i = 0 ; i < _sizeY ; i++ ){
+		cout << "new dimension" << endl;
 		_map[i] = new Affichable*[_sizeX];
 		for( j = 0 ; j < _sizeX ; j++ ){
-			_map[i][j] = new Affichable();
-			//_map[i][j] = new nullptr_t;
+			//_map[i][j] = new Affichable();
+			cout << i << " " << j << " pointe sur vide ...";
+			_map[i][j] = &vide;
+			cout << " -> fait" << endl;
 		}
 	}
+	cout << "carte crée" << endl;
 }
 
 /** La méthode <b>display</b> permet d'afficher la carte sur la console */
@@ -77,6 +85,8 @@ bool Carte::moveIsPossible( int x , int y ){
  	 * @param a - objet affichable à ajouter
  	 */
 void Carte::addItem( Affichable &a){
+	//if(_map[ a.get_x() ][ a.get_y() ] != NULL) delete _map[ a.get_x() ][ a.get_y() ];
+	//_map[ a.get_x() ][ a.get_y() ] = new Affichable();
 	*_map[ a.get_x() ][ a.get_y() ] = a;
 }
 
@@ -89,8 +99,10 @@ void Carte::update( Affichable *a , int newX , int newY ){
 	int oldX = a->get_x(),
 		oldY = a->get_y();
 	*_map[ newX ][ newY ] = *_map[ oldX ][ oldY ];
-	delete _map[ oldX ][ oldY ];
-	_map[ oldX ][ oldY ] = new Affichable();
+	//delete _map[ oldX ][ oldY ];
+	//_map[ oldX ][ oldY ] = new Affichable();
+	*_map[ oldX ][ oldY ] = vide;
+
 	a->set_x(newX);
 	a->set_y(newY);
 }

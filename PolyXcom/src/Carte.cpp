@@ -24,6 +24,7 @@
  */
 
 #include <iostream>
+#include <cstddef>			// bibliothèque pour intégrer null et
 #include "Carte.h"
 #include "Affichable.h"
 
@@ -44,6 +45,7 @@ Carte::Carte( int x , int y ) {
 		_map[i] = new Affichable*[_sizeX];
 		for( j = 0 ; j < _sizeX ; j++ ){
 			_map[i][j] = new Affichable();
+			//_map[i][j] = new nullptr_t;
 		}
 	}
 }
@@ -87,6 +89,7 @@ void Carte::update( Affichable *a , int newX , int newY ){
 	int oldX = a->get_x(),
 		oldY = a->get_y();
 	*_map[ newX ][ newY ] = *_map[ oldX ][ oldY ];
+	delete _map[ oldX ][ oldY ];
 	_map[ oldX ][ oldY ] = new Affichable();
 	a->set_x(newX);
 	a->set_y(newY);
@@ -94,7 +97,11 @@ void Carte::update( Affichable *a , int newX , int newY ){
 
 /** Le destructeur <b>Carte</b> */
 Carte::~Carte() {
-	delete _map;
+	for( int i = 0 ; i < _sizeX ; i++ ){
+		for( int j = 0 ; j < _sizeY ; j++ ){
+			delete _map[i][j];
+		}
+	}
 
 	cout << "Carte detruit" <<  endl;
 }

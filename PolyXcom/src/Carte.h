@@ -9,7 +9,7 @@
 #define CARTE_H_
 
 #include "Affichable.h"
-
+#include <cstddef>
 class Carte {
 
 	// Attributs
@@ -17,6 +17,7 @@ class Carte {
 		int _sizeX;												// Longueur MAX de la carte
 		int _sizeY;												// Largeur MAX de la carte
 		Affichable ***_map;												// Matrice où sont placés les objets
+		//nullptr_t ***_map;
 
 	// Methodes
 	public:

@@ -11,6 +11,7 @@ using namespace std;
 
 Affichable::Affichable(void)			//Construteur par defaut
 {
+	cout << "Affichable créé" << endl;
 	_coordX=0;
 	_coordY=0;
 	_ID=00;
@@ -18,9 +19,11 @@ Affichable::Affichable(void)			//Construteur par defaut
 
 Affichable::Affichable(int x, int y, int ID)	//Construteur surchargé
 {
+
 	_coordX=x;
 	_coordY=y;
 	_ID=ID;
+	cout << "Affichable créé avec les attributs " << _coordX <<  _coordY << _ID << endl;
 }
 
 int Affichable::get_x(void)				//getters

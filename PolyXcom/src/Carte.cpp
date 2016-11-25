@@ -29,7 +29,7 @@ using namespace std;
 static Affichable vide;
 
 
-/** Le constructeur <b>Carte</b> initialise le tableau contenant les objets affichables
+/** Le constructeur Carte initialise le tableau contenant les objets affichables
 	 * @param x - la longueur de la carte
 	 * @param y - la largeur de la carte
 	 * */
@@ -51,7 +51,7 @@ Carte::Carte( int x , int y ) {
 	cout << "carte de taille "<< _sizeX << "*" << _sizeY << " crée" << endl;
 }
 
-/** La méthode <b>display</b> permet d'afficher la carte sur la console */
+/** La méthode display permet d'afficher la carte sur la console */
 void Carte::display( void ) {
 	int i,														// indice parcours sur l'axe Y
 		j;														// indice parcours sur l'axe X
@@ -64,7 +64,7 @@ void Carte::display( void ) {
 	}
 }
 
-/** La méthode <b>moveIsPossible</b> permet de vérifier si la case (x,y) est franchissable ou pas
+/** La méthode moveIsPossible permet de vérifier si la case (x,y) est franchissable ou pas
  	 * @param x,y - couple de coordonnées à verifier
  	 * @return - il retourne 1 et le deplacement est possible ou 0 sinon.
  	 * */
@@ -72,14 +72,14 @@ bool Carte::moveIsPossible( int x , int y ){
 	return (_map[x][y]->get_ID() == 0) ;
 }
 
-/** La méthode <b>addItem</b> permet d'ajouter un affichable sur la carte
+/** La méthode addItem permet d'ajouter un affichable sur la carte
  	 * @param &a - adresse de l'affichable à ajouter
  	 * */
 void Carte::addItem( Affichable &a ){
 	_map[ a.get_x() ][ a.get_y() ] = &a;
 }
 
-/** La méthode <b>moveItemTo</b> permet de deplacer un affichable à un point sur la carte
+/** La méthode moveItemTo permet de deplacer un affichable à un point sur la carte
  	 * @param *a - pointeur sur l'affichable à déplacer sur la carte
  	 * @param newX,newY - nouvelle coordonnées de l'objet à déplacer
  	 * */
@@ -94,7 +94,7 @@ void Carte::moveItemTo( Affichable *a , int newX , int newY ){
 	a->set_y(newY);
 }
 
-/** Le destructeur <b>Carte</b> */
+/** Le destructeur Carte */
 Carte::~Carte() {
 	delete _map;
 

@@ -14,7 +14,7 @@ using namespace std;
 
 class Personnage : public Affichable
 {
-	protected:										//attributs
+	protected:										//Attributs
 		int _pvMax;									//Points de Vie maximums
 		int _paMax;									//Points d'Action maximums
 		int _pvCurrent;								//Points de Vie actuels

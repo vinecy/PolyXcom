@@ -69,7 +69,7 @@ void Carte::display( void ) {
  	 * @return - il retourne 1 et le deplacement est possible ou 0 sinon.
  	 * */
 bool Carte::moveIsPossible( int x , int y ){
-	return (_map[x][y]->get_ID() == 0) ;
+	return _map[x][y] == &vide ;
 }
 
 /** La méthode <b>addItem</b> permet d'ajouter un affichable sur la carte

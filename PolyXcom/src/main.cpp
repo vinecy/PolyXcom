@@ -57,7 +57,17 @@ int main() {
 	cout << "Deplacement en haut" << endl;
 	val.move_up(Luminy);
 	Luminy.display();
+	cout << "Deplacement en haut" << endl;
 	val.move_up(Luminy);
+	Luminy.display();
+	cout << "Deplacement en haut" << endl;
+	val.move_up(Luminy);
+	Luminy.display();
+	cout << "Deplacement en haut" << endl;
+	val.move_up(Luminy);
+	Luminy.display();
+	cout << "Deplacement en bas" << endl;
+	val.move_down(Luminy);
 	Luminy.display();
 
 	return 0;

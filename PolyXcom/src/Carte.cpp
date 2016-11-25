@@ -13,9 +13,6 @@
  *
  * @version 0.0.1 / 24/11/2016
  *
- * @todo -
- *
- * @bug -
  */
 
 /**
@@ -24,7 +21,6 @@
  */
 
 #include <iostream>
-#include <cstddef>			// bibliothèque pour intégrer null et
 #include "Carte.h"
 #include "Affichable.h"
 
@@ -45,7 +41,6 @@ Carte::Carte( int x , int y ) {
 		_map[i] = new Affichable*[_sizeX];
 		for( j = 0 ; j < _sizeX ; j++ ){
 			_map[i][j] = new Affichable();
-			//_map[i][j] = new nullptr_t;
 		}
 	}
 }
@@ -102,7 +97,5 @@ Carte::~Carte() {
 			delete _map[i][j];
 		}
 	}
-
 	cout << "Carte detruit" <<  endl;
 }
-

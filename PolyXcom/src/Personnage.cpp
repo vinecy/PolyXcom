@@ -1,15 +1,30 @@
-/*
- * Personnage.cpp
+/**
+ * Polytech Marseille
+ * Case 925 - 163, avenue de Luminy
+ * 13288 Marseille CEDEX 9
  *
- *  Created on: 24 nov. 2016
- *      Author: Vincent
+ * Ce fichier est l'oeuvre d'élèves de Polytech Marseille. Il ne peut être
+ * reproduit, utilisé ou modifié sans l'avis express de ses auteurs.
+ */
+
+/**
+ * @author BARTHOLOMEAU Vincent <vincent.bartholomeau@etu.univ-amu.fr>
+ * @author BISSUEL Valentin <valentin.bissuel@etu.univ-amu.fr>
+ *
+ * @version 0.0.1 / 24/11/2016
+ *
+ */
+
+/**
+ * @file Personnage.cpp
+ * @brief La classe Personnage est une sous classe d'Affichable, elle sert de base pour les humanoides
  */
 
 #include "Personnage.h"
 #include <iostream>
 
 using namespace std;
-
+/** Le constructeur Personnage cree un personnage par defaut*/
 Personnage::Personnage()		//constructeur par defaut
 {
 	_pvMax=10;
@@ -18,7 +33,9 @@ Personnage::Personnage()		//constructeur par defaut
 	_paCurrent=_paMax;
 	_rotation=0;
 }
-
+/** Le constructeur Personnage cree un personnage et initialise ses attributs
+	 * @param _pvMax - Points de Vie max du perso
+	 * @param _paMax - Points d'Action max du perso	*/
 Personnage::Personnage(int pv,int pa)	//construteur surchargé
 {
 	_pvMax=pv;
@@ -27,8 +44,6 @@ Personnage::Personnage(int pv,int pa)	//construteur surchargé
 	_paCurrent=_paMax;
 	_rotation=0;
 }
-
-
 
 int Personnage::get_pvMax(void)			//getters
 {

@@ -13,9 +13,6 @@
  *
  * @version 0.0.1 / 24/11/2016
  *
- * @todo -
- *
- * @bug -
  */
 
 /**
@@ -48,6 +45,7 @@ Carte::Carte( int x , int y ) {
 		_map[i] = new Affichable*[_sizeX];
 		for( j = 0 ; j < _sizeX ; j++ ){
 			_map[i][j] = &vide;
+			_map[i][j] = new Affichable();
 		}
 	}
 	cout << "carte de taille "<< _sizeX << "*" << _sizeY << " crée" << endl;
@@ -98,9 +96,7 @@ void Carte::moveItemTo( Affichable *a , int newX , int newY ){
 
 /** Le destructeur <b>Carte</b> */
 Carte::~Carte() {
-
 	delete _map;
 
 	cout << "carte de taille "<< _sizeX << "*" << _sizeY << " detruit" << endl;
 }
-

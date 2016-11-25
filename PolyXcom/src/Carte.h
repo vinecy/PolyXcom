@@ -17,7 +17,6 @@ class Carte {
 		int _sizeY;												// Largeur MAX de la carte
 		Affichable ***_map;										// Matrice de pointeur d'objets affichables
 
-
 	// Methodes
 	public:
 		Carte( int x , int y );									// Constructeur

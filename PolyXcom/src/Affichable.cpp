@@ -25,7 +25,6 @@
 #include <iostream>
 using namespace std;
 
-Affichable::Affichable(void){					//Construteur par defaut
 /** Le constructeur Affichable construit un Affichable par defaut*/
 Affichable::Affichable(void)
 {
@@ -36,31 +35,31 @@ Affichable::Affichable(void)
 	cout << "Affichable créé avec les attributs " << _coordX <<  _coordY << _ID << endl;
 }
 
-Affichable::Affichable(int x, int y, int ID){	//Construteur surchargé
 /** Le constructeur Affichable construit un Affichable avec initialisation des attributs
 	 * @param x - abscisse de l'Affichable
 	 * @param y - Ordonnée de l'Affichable
 	 * @param ID - nombre qui identifie l'Affichable*/
-Affichable::Affichable(int x, int y, int ID)
+Affichable::Affichable(int x, int y, int ID)	//Construteur surchargé
 {
-
 	_coordX=x;
 	_coordY=y;
 	_ID=ID;
 	cout << "Affichable créé avec les attributs " << _coordX <<  _coordY << _ID << endl;
 }
 
-int Affichable::get_x(void)				//getters
+int Affichable::get_x( void )
 {
-	return(_coordX);
+	return (_coordX ) ;
 }
+
 int Affichable::get_y(void)
 {
-	return(_coordY);
+	return(_coordY );
 }
+
 int Affichable::get_ID(void)
 {
-	return(_ID);
+	return(_ID );
 }
 
 void Affichable::set_x(int x)			//setters
@@ -79,6 +78,7 @@ void Affichable::display_info(void)		//debug display
 	cout<<"Coord( X="<<this->get_x()<<" / Y="<<this->get_y()<<" )"<<endl;
 	cout<<"///////////////"<<endl;
 }
+
 /** Le destructeur <b>Carte</b> */
 Affichable::~Affichable()				//destructeur
 {

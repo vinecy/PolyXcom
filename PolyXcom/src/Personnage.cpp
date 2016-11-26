@@ -86,7 +86,7 @@ void Personnage::move_up(Carte &map)
 {
 	if(map.moveIsPossible(_coordX,_coordY+1))
 	{
-		map.moveItemTo(this, _coordX , _coordY+1);
+		map.moveItemTo( _coordX , _coordY , _coordX , _coordY+1);
 	}
 	else
 	{
@@ -99,8 +99,7 @@ void Personnage::move_down(Carte &map)
 {
 	if(map.moveIsPossible(_coordX,_coordY-1))
 	{
-		_coordY--;
-		map.moveItemTo(this, _coordX , _coordY-1);
+		map.moveItemTo(_coordX , _coordY , _coordX , _coordY-1);
 	}
 	else
 	{
@@ -113,8 +112,7 @@ void Personnage::move_left(Carte &map)
 {
 	if(map.moveIsPossible(_coordX-1,_coordY))
 	{
-		_coordX--;
-		map.moveItemTo(this, _coordX-1,_coordY);
+		map.moveItemTo(_coordX , _coordY , _coordX-1,_coordY);
 	}
 	else
 	{
@@ -127,8 +125,7 @@ void Personnage::move_right(Carte &map)
 {
 	if(map.moveIsPossible(_coordX+1,_coordY))
 	{
-		_coordX++;
-		map.moveItemTo(this, _coordX+1,_coordY);
+		map.moveItemTo(_coordX , _coordY , _coordX+1,_coordY);
 	}
 	else
 	{

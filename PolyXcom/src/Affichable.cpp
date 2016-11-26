@@ -28,11 +28,11 @@ using namespace std;
 /** Le constructeur Affichable construit un Affichable par defaut*/
 Affichable::Affichable(void)
 {
-	cout << "Affichable créé" << endl;
 	_coordX=0;
 	_coordY=0;
 	_ID=00;
-	cout << "Affichable créé avec les attributs " << _coordX <<  _coordY << _ID << endl;
+	cout << " + Affichable créé avec les attributs " << _coordX <<  _coordY << _ID << endl;
+	cout << " + adresse : "<< &_coordX  << endl;
 }
 
 /** Le constructeur Affichable construit un Affichable avec initialisation des attributs
@@ -44,7 +44,8 @@ Affichable::Affichable(int x, int y, int ID)	//Construteur surchargé
 	_coordX=x;
 	_coordY=y;
 	_ID=ID;
-	cout << "Affichable créé avec les attributs " << _coordX <<  _coordY << _ID << endl;
+	cout << " + Affichable créé avec les attributs " << _coordX <<  _coordY << _ID << endl;
+	cout << " + adresse : "<< &_coordX  << endl;
 }
 
 int Affichable::get_x( void )
@@ -82,5 +83,5 @@ void Affichable::display_info(void)		//debug display
 /** Le destructeur Affichable */
 Affichable::~Affichable()				//destructeur
 {
-	cout << "Affichable avec les attributs " << _coordX << " " <<  _coordY << " " << _ID << " detruit " << endl;
+	cout << " - Affichable avec les attributs " << _coordX << " " <<  _coordY << " " << _ID << " detruit " << endl;
 }

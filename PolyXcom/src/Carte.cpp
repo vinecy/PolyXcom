@@ -127,6 +127,24 @@ void Carte::moveItemTo( int oldX, int oldY , int newX , int newY ){
 	cout << "coordonnes de l'objet : "<< _map[ newX ][ newY ]->get_x() << " " << _map[ newX ][ newY ]->get_y() << endl;
 }
 
+void Carte::pathfinding( int xA , int yA , int xB , int yB ){
+
+
+
+}
+
+int Carte::get_sizeX(void){
+	return _sizeX;
+}
+
+int Carte::get_sizeY(void){
+	return _sizeY;
+}
+
+int Carte::get_IDin(int x, int y){
+	return _map[x][y]->get_ID();
+}
+
 /** Le destructeur Carte */
 Carte::~Carte() {
 	delete _map;

@@ -23,6 +23,7 @@
 #include <iostream>
 #include "Hero.h"
 #include "Carte.h"
+#include "Graphe.h"
 using namespace std;
 
 int main() {
@@ -38,34 +39,33 @@ int main() {
 	Luminy.display();
 	*/
 	cout << "Création Carte de Luminy..." << endl;
-	Carte Luminy( (int)4 , (int)4 );
+	Carte Luminy( (int)6 , (int)6 );
 	cout << "Carte de Luminy crée" << endl;
 
 	Luminy.display();
 
 	Hero val(0,0,2,10, 10,"Valentin");
-	cout << "Valentin est apparu" << endl;
-	cout << &val << endl;
+	Hero ennemi(4,4,3,10, 10,"Valentin");
+	Affichable mur1(2,3,1);
+	Affichable mur2(3,4,1);
+	Affichable mur3(3,3,1);
+	Affichable mur4(3,2,1);
+	Affichable mur5(3,1,1);
 
-	cout << "Ajout de val sur la carte" << endl;
 	Luminy.addItem(val);
-	cout << "Valentin est sur la carte " << endl;
+	Luminy.addItem(ennemi);
+	Luminy.addItem(mur1);
+	Luminy.addItem(mur2);
+	Luminy.addItem(mur3);
+	Luminy.addItem(mur4);
+	Luminy.addItem(mur5);
+
+	Luminy.display();
+
+	Graphe test(Luminy);
+	test.display();
 
 
-	Luminy.display();
-
-	cout << "Deplacement en haut" << endl;
-	val.move_up(Luminy);
-	Luminy.display();
-	cout << "Deplacement en bas" << endl;
-	val.move_down(Luminy);
-	Luminy.display();
-	cout << "Deplacement à droite" << endl;
-	val.move_right(Luminy);
-	Luminy.display();
-	cout << "Deplacement à gauche" << endl;
-	val.move_left(Luminy);
-	Luminy.display();
 
 	return 0;
 }

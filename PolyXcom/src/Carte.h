@@ -25,6 +25,11 @@ class Carte {
 		bool moveIsPossible( int x , int y );					// affirme si Déplacement possible à (x,y)
 		void addItem( Affichable &a);							// Ajoute un objet affichable sur la carte
 		void moveItemTo( int oldX , int oldY , int newX , int newY);  // déplace l"affichable de la case (x,y) à la nouvelle case
+		void pathfinding( int xA , int yA , int xB , int yB );
+
+		int get_sizeX(void);
+		int get_sizeY(void);
+		int get_IDin(int x, int y);
 
 		virtual ~Carte();										// Destructeur
 };

@@ -11,13 +11,13 @@
 class Ennemi : Personnage
 {
 	public:
-		Ennemi(int,int,int,int,int);
+		Ennemi(int,int,int,int,int);				//Constructeur
 
-		void display_info();
+		void display_info();						//Affichable debug
 
-		void begin_IA();
+		void begin_IA();							//fonction qui commence le choix de l'AI
 
-		virtual ~Ennemi();
+		virtual ~Ennemi();							//Destucteur
 
 };
 

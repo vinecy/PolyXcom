@@ -10,9 +10,15 @@
 #include "Affichable.h"
 class Obstacle : Affichable
 {
+	protected:										//Attributs
+		bool _destrutible;							//destructible ou pas
+
 	public:
-		Obstacle(int,int,int);
-		virtual ~Obstacle();
+		Obstacle(int,int,int);						//Constructeur
+
+		void display_info();						//Affichable debug
+
+		virtual ~Obstacle();						//Destructeur
 };
 
 

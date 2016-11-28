@@ -9,17 +9,18 @@
 #include"Hero.h"
 using namespace std;
 /** Le constructeur Hero cree un personnage avec un nom
- *	 @param _nom - Nom du perso*/
+ *	 @param nom - Nom du perso*/
 Hero::Hero(string nom)
 {
 	_nom=nom;
 }
 
 /** Le constructeur Hero cree un personnage et initialise ses attributs
-	 * @param _coordX - Points de Vie max du perso
-	 * @param _coordY - Points d'Action max du perso
-	 * @param _pvMax - Points de Vie max du perso
-	 * @param _paMax - Points d'Action max du perso
+	 * @param x - Points de Vie max du perso
+	 * @param Y - Points d'Action max du perso
+	 * @param ID - Type du hero
+	 * @param pv - Points de Vie max du perso
+	 * @param pa - Points d'Action max du perso
 	 * @param _nom - Nom du perso	*/
 Hero::Hero(int x,int y,int ID,int pv, int pa,string nom)
 {

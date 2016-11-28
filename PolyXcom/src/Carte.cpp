@@ -21,7 +21,10 @@
  */
 
 #include <iostream>
+#include <queue>
 #include "Carte.h"
+#include "Graphe.h"
+#include "Noeud.h"
 #include "Affichable.h"
 
 using namespace std;
@@ -127,10 +130,43 @@ void Carte::moveItemTo( int oldX, int oldY , int newX , int newY ){
 	cout << "coordonnes de l'objet : "<< _map[ newX ][ newY ]->get_x() << " " << _map[ newX ][ newY ]->get_y() << endl;
 }
 
-void Carte::pathfinding( int xA , int yA , int xB , int yB ){
+void Carte::pathfinding( Carte &map, int xA , int yA , int xB , int yB ){
+	/*Graphe graphDeRecherche(map);
+
+	Noeud *depart;
+	depart = &graphDeRecherche.get_Noeud(xA, yA);
+	Noeud *arrivee = new Noeud();
+	*arrivee = graphDeRecherche.get_Noeud(xB, yB);
+	cout << depart->get_X() << "," << depart->get_Y() << endl;
+	cout << arrivee->get_X() << "," << arrivee->get_Y() << endl;
+*/
 
 
+	/*
 
+	Noeud *enCours ;
+
+	// Utilisation de l'algorithme A*
+	queue <Noeud> NoeudsAtraiter;
+	queue <Noeud> NoeudsTraites;
+	NoeudsAtraiter.push(depart);
+
+	// Tant qu'il y a toujours des noeuds à traiter
+	while( !NoeudsAtraiter.empty() ){
+		// on traite le noeud avec le plus petit cout
+		*enCours = NoeudsAtraiter.front();
+		cout << "le noeud avec le cout le plus faible : " << enCours->get_costFromBegin() << endl;
+		cout << "coord : " << enCours->get_X() << "," << enCours->get_Y() << endl;
+		NoeudsAtraiter.pop();
+		NoeudsTraites.push(*enCours);
+
+		if( enCours->sameCoord(arrivee) == true ){
+
+		}
+
+
+	}
+	*/
 }
 
 int Carte::get_sizeX(void){
@@ -147,7 +183,5 @@ int Carte::get_IDin(int x, int y){
 
 /** Le destructeur Carte */
 Carte::~Carte() {
-	delete _map;
-
 	cout << " - carte de taille "<< _sizeX << "*" << _sizeY << " detruit" << endl;
 }

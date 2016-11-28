@@ -20,8 +20,10 @@ private:
 public:
 	Graphe(Carte &map);
 
-	void pathfinding( int xA, int xB, int yA, int yB);
 	void display(void);
+
+	Noeud get_Noeud(int x, int y);
+
 
 	virtual ~Graphe();
 };

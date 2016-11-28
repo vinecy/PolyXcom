@@ -61,10 +61,15 @@ int main() {
 	Luminy.addItem(mur5);
 
 	Luminy.display();
+	cout << " *** debut pathfinding " << endl;
+	Luminy.pathfinding(Luminy, 0, 0, 4, 3);
 
+/*
+ *
+ *
 	Graphe test(Luminy);
 	test.display();
-
+*/
 
 
 	return 0;

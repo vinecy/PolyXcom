@@ -10,53 +10,61 @@
 
 using namespace std;
 
+Noeud::Noeud(){
+	_x = 0;
+	_y = 0;
+	_G = 0;
+	_H = 0;
+	_F = _G + _H;
+	_isObstacle = false;
+	cout << " + noeud créé " << endl;
+}
+
 Noeud::Noeud(int x, int y, bool isObstacle) {
 	_x = x;
 	_y = y;
-	_costFromBegin = 0;
-	_costFromEnd = 0;
-	_heuristic = 0 ;
+	_G = 0;
+	_H = 0;
+	_F = _G + _H;
 	_isObstacle = isObstacle;
 	cout << " + noeud " << _x << "," << _y << " créé " << endl;
 }
 
-Noeud::Noeud(int x, int y, bool isObstacle, int F, int G, int H){
-	_x = x;
-	_y = y;
-	_costFromBegin = F;
-	_costFromEnd = G;
-	_heuristic = H ;
-	_isObstacle = isObstacle;
-	cout << " + noeud créé " << endl;
+bool Noeud::sameCoord(Noeud const&a){
+	return( this->_x == a._x && this->_y == a._y );
 }
 
+
 void Noeud::set_costFromBegin(int value){
-	_costFromBegin = value;
+	_G = value;
+	_F = _G + _H;
 }
 
 void Noeud::set_costFromEnd(int value){
-	_costFromEnd = value;
-}
-
-void Noeud::set_heuristic(int value){
-	_heuristic = value;
+	_H = value;
+	_F = _G + _H;
 }
 
 int Noeud::get_costFromBegin(void){
-	return _costFromBegin;
+	return _G;
 }
 
 int Noeud::get_costFromEnd(void){
-	return _costFromEnd;
+	return _H;
 }
 
 int Noeud::get_heuristic(void){
-	return _heuristic;
+	return _F;
 }
 
+int Noeud::get_X(void){
+	return _x;
+}
 
+int Noeud::get_Y(void){
+	return _y;
+}
 
 Noeud::~Noeud() {
-	cout << " - noeud détruit " << endl;
+	cout << " - noeud " << _x << "," <<  _y << " détruit " << endl;
 }
-

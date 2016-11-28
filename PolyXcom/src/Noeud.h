@@ -13,18 +13,22 @@ private:
 	int _x;
 	int _y;
 	int _isObstacle;
-	int _costFromBegin;
-	int _costFromEnd;
-	int _heuristic;
+	int _G;
+	int _H;
+	int _F;
 public:
+	Noeud();
 	Noeud(int x, int y, bool isObstacle);
-	Noeud(int x, int y, bool isObstacle, int F, int G, int H);
+
+	bool sameCoord(Noeud const&a);
+
 	void set_costFromBegin(int value);
 	void set_costFromEnd(int value);
-	void set_heuristic(int value);
 	int get_costFromBegin(void);
 	int get_costFromEnd(void);
 	int get_heuristic(void);
+	int get_X(void);
+	int get_Y(void);
 
 	virtual ~Noeud();
 };

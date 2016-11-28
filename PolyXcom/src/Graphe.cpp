@@ -9,6 +9,7 @@
 #include "Noeud.h"
 #include "Carte.h"
 #include <iostream>
+#include <queue>
 using namespace std;
 
 Graphe::Graphe(Carte &map) {
@@ -26,25 +27,15 @@ Graphe::Graphe(Carte &map) {
 			if( map.get_IDin(i, j) != 1 ){
 				_graphe[i][j] = new Noeud(i,j,false);
 			} else {
-				_graphe[i][j] = new Noeud(i,j,true,-1,-1,-1);
+				_graphe[i][j] = new Noeud(i,j,true);
+				_graphe[i][j]->set_costFromBegin(-1);
+				_graphe[i][j]->set_costFromEnd(-1);
 			}
 		}
 	}
 
 	cout << " + graphe de taille " << _sizeX*_sizeY << " crée" << endl;
 }
-
-void Graphe::pathfinding( int xA, int xB, int yA, int yB ){
-	Noeud *depart = _graphe[xA][yA];
-	Noeud *arrivee= _graphe[xB][yB];
-
-
-
-
-}
-
-
-
 
 void Graphe::display(){
 	int i,														// indice parcours sur l'axe Y
@@ -61,8 +52,17 @@ void Graphe::display(){
 	cout << " *** fin affichage *** " << endl;
 }
 
+Noeud Graphe::get_Noeud(int x, int y){
+	return *_graphe[x][y];
+}
+
 Graphe::~Graphe() {
-	delete _graphe;
+	int i,j;
+	for(i=0 ; i<_sizeX ; i++ ){
+		for( j=0 ; j<_sizeY ; j++ ){
+			delete _graphe[i][j];
+		}
+	}
 	cout << " + graphe détruit" << endl;
 }
 

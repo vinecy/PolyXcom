@@ -21,23 +21,59 @@
  */
 
 #include <iostream>
+#include <stdio.h>
 #include "Hero.h"
 #include "Carte.h"
 #include "Graphe.h"
 using namespace std;
 
+#define DEPLACER 1
+#define TIRER 2
+#define RECHARGER 3
+
+int choisir ( void ){
+    int reponse ;
+    do {
+		cout << "\nQue voulez-vous faire : \n " << DEPLACER << " - Se deplacer " << endl;
+		cout << " " << TIRER  << " - Tirer " << endl;
+		cout << " " << RECHARGER << " - Recharger son arme " << endl;
+		cout << " Tapez 0 pour quitter le jeu \n> ";
+
+		cin >> reponse ;
+		//clean_stdin();
+    }
+    while ( reponse < 0 || reponse > RECHARGER ) ;
+    return( reponse ) ;
+}
+
+
 int main() {
-	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
-	/*Affichable val(0,0,2);
-	Affichable e1(0,2,3);
-	Affichable e2(3,0,3);
-	Affichable m1(0,1,1);
-	Affichable m2(2,0,1);
+	int choix;
 
-	Carte Luminy( (int)4 , (int)4 );
+	//system("cls");
+	do {
+		cout << "-------------------------------------------------------------------------------- \n";
+		choix = choisir() ;
+		switch ( choix ){
+			case DEPLACER :
 
-	Luminy.display();
-	*/
+				break ;
+			case TIRER :
+
+				break ;
+			case RECHARGER :
+
+				break ;
+		}
+	} while ( choix != 0 ) ;
+	cout << "Bye ! "<< endl;
+	cout << "------------------------------------------------------------------------" << endl;
+	return( 0 ) ;
+}
+
+/*
+
+
 	cout << "Création Carte de Luminy..." << endl;
 	Carte Luminy( (int)6 , (int)6 );
 	cout << "Carte de Luminy crée" << endl;
@@ -61,16 +97,28 @@ int main() {
 	Luminy.addItem(mur5);
 
 	Luminy.display();
-	cout << " *** debut pathfinding " << endl;
-	Luminy.pathfinding(Luminy, 0, 0, 4, 3);
 
-/*
+	cout << " *** debut pathfinding " << endl;
+
+	system("cls");
+	system("cls");
+	system("cls");
+	system("cls");
+	//Luminy.pathfinding(Luminy, 0, 0, 4, 3);
+
+
  *
  *
 	Graphe test(Luminy);
 	test.display();
-*/
+
 
 
 	return 0;
 }
+*/
+
+
+
+
+

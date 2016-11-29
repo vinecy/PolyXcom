@@ -26,7 +26,7 @@ class Personnage : public Affichable
 
 
 public:
-	Personnage(int,int,int,int,int,list<Arme>);		//construteur
+	Personnage(int,int,int,int,int);		//construteur
 
 	int get_pvMax(void);							//getters
 	int get_paMax(void);

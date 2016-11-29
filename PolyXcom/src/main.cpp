@@ -48,6 +48,7 @@ int choisir ( void ){
 
 
 int main() {
+	/*
 	int choix;
 
 	//system("cls");
@@ -70,7 +71,10 @@ int main() {
 	cout << "------------------------------------------------------------------------" << endl;
 	return( 0 ) ;
 }
-
+*/
+	Personnage num2(1,2,3,10,6);
+	num2.display_info();
+}
 /*
 
 

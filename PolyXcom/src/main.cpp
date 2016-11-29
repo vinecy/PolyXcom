@@ -28,49 +28,10 @@ using namespace std;
 
 int main() {
 	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
-	/*Affichable val(0,0,2);
-	Affichable e1(0,2,3);
-	Affichable e2(3,0,3);
-	Affichable m1(0,1,1);
-	Affichable m2(2,0,1);
 
-	Carte Luminy( (int)4 , (int)4 );
+	//DEBUT DE LA SECTION SUPPRIMEE
 
-	Luminy.display();
-	*/
-	cout << "Création Carte de Luminy..." << endl;
-	Carte Luminy( (int)6 , (int)6 );
-	cout << "Carte de Luminy crée" << endl;
-
-	Luminy.display();
-
-	Hero val(0,0,2,10, 10,"Valentin");
-	Hero ennemi(4,4,3,10, 10,"Valentin");
-	Affichable mur1(2,3,1);
-	Affichable mur2(3,4,1);
-	Affichable mur3(3,3,1);
-	Affichable mur4(3,2,1);
-	Affichable mur5(3,1,1);
-
-	Luminy.addItem(val);
-	Luminy.addItem(ennemi);
-	Luminy.addItem(mur1);
-	Luminy.addItem(mur2);
-	Luminy.addItem(mur3);
-	Luminy.addItem(mur4);
-	Luminy.addItem(mur5);
-
-	Luminy.display();
-	cout << " *** debut pathfinding " << endl;
-	Luminy.pathfinding(Luminy, 0, 0, 4, 3);
-
-/*
- *
- *
-	Graphe test(Luminy);
-	test.display();
-*/
-
+	//FIN DE LA SECTION SUPPRIMEE
 
 	return 0;
 }

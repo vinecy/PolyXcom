@@ -17,8 +17,7 @@ class Hero : public Personnage
 		string _nom;									//Nom du hero
 
 	public:
-		Hero(string);									//constructeur
-		Hero(int,int,int,int,int,string);				//constructeur surchargé
+		Hero(int,int,int,int,int,list<Arme>,string);				//constructeur
 
 		string get_name(void);							//getter
 		void set_name(string);							//setter

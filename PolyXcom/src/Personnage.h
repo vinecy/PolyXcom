@@ -8,8 +8,10 @@
 #ifndef PERSONNAGE_H_
 #define PERSONNAGE_H_
 #include <iostream>
+#include <list>
 #include "Affichable.h"
 #include "Carte.h"
+#include "Arme.h"
 using namespace std;
 
 class Personnage : public Affichable
@@ -20,10 +22,11 @@ class Personnage : public Affichable
 		int _pvCurrent;								//Points de Vie actuels
 		int _paCurrent;								//Points d'Action actuels
 		int _rotation;								//position du personnage par rapport au 4 points cardinaux.
+		list<Arme> _inv_armes;						//Liste des armes du joueur
+
 
 public:
-	Personnage(void);								//constructeur par defaut
-	Personnage(int,int);							//construteur surchargé
+	Personnage(int,int,int,int,int,list<Arme>);		//construteur
 
 	int get_pvMax(void);							//getters
 	int get_paMax(void);

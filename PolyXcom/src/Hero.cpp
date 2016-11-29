@@ -8,12 +8,6 @@
 #include<iostream>
 #include"Hero.h"
 using namespace std;
-/** Le constructeur Hero cree un personnage avec un nom
- *	 @param nom - Nom du perso*/
-Hero::Hero(string nom)
-{
-	_nom=nom;
-}
 
 /** Le constructeur Hero cree un personnage et initialise ses attributs
 	 * @param x - Points de Vie max du perso
@@ -22,7 +16,8 @@ Hero::Hero(string nom)
 	 * @param pv - Points de Vie max du perso
 	 * @param pa - Points d'Action max du perso
 	 * @param _nom - Nom du perso	*/
-Hero::Hero(int x,int y,int ID,int pv, int pa,string nom)
+/*
+Hero::Hero(int x,int y,int ID,int pv, int pa,list<Arme> l,string nom)//TODO fix les constructeurs
 {
 	_coordX=x;
 	_coordY=y;
@@ -33,7 +28,7 @@ Hero::Hero(int x,int y,int ID,int pv, int pa,string nom)
 	_paCurrent=_paMax;
 	_nom=nom;
 }
-
+*/
 string Hero::get_name(void)					//getter
 {
 	return(_nom);

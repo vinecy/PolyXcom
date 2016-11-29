@@ -22,28 +22,28 @@
 
 #include "Personnage.h"
 #include <iostream>
+#include <list>
 
 using namespace std;
-/** Le constructeur Personnage cree un personnage par defaut*/
-Personnage::Personnage()		//constructeur par defaut
-{
-	_pvMax=10;
-	_paMax=6;
-	_pvCurrent=_pvMax;
-	_paCurrent=_paMax;
-	_rotation=0;
-}
 
 /** Le constructeur Personnage cree un personnage et initialise ses attributs
-	 * @param _pvMax - Points de Vie max du perso
-	 * @param _paMax - Points d'Action max du perso	*/
-Personnage::Personnage(int pv,int pa)	//construteur surchargé
+ 	 * @param x - abscisse du perso
+ 	 * @param y - ordonnée du perso
+ 	 * @param ID - identifacteur
+	 * @param pv - Points de Vie max du perso
+	 * @param pa - Points d'Action max du perso
+	 * @param arme - arme du perso*/
+Personnage::Personnage(int x,int y,int ID,int pv,int pa,list<Arme> l)	//construteur
 {
+	_coordX=x;
+	_coordY=y;
+	_ID=ID;
 	_pvMax=pv;
 	_paMax=pa;
 	_pvCurrent=_pvMax;
 	_paCurrent=_paMax;
 	_rotation=0;
+	list<Arme> _inv_armes=l;
 }
 
 int Personnage::get_pvMax(void)			//getters

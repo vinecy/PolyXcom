@@ -11,7 +11,7 @@
 class Ennemi : Personnage
 {
 	public:
-		Ennemi(int,int,int,int,int);				//Constructeur
+		Ennemi(int,int);							//Constructeur
 
 		void display_info();						//Affichable debug
 

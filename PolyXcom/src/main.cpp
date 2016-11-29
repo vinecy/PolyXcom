@@ -21,17 +21,104 @@
  */
 
 #include <iostream>
+#include <stdio.h>
 #include "Hero.h"
 #include "Carte.h"
 #include "Graphe.h"
 using namespace std;
 
+#define DEPLACER 1
+#define TIRER 2
+#define RECHARGER 3
+
+int choisir ( void ){
+    int reponse ;
+    do {
+		cout << "\nQue voulez-vous faire : \n " << DEPLACER << " - Se deplacer " << endl;
+		cout << " " << TIRER  << " - Tirer " << endl;
+		cout << " " << RECHARGER << " - Recharger son arme " << endl;
+		cout << " Tapez 0 pour quitter le jeu \n> ";
+
+		cin >> reponse ;
+		//clean_stdin();
+    }
+    while ( reponse < 0 || reponse > RECHARGER ) ;
+    return( reponse ) ;
+}
+
+
 int main() {
-	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
+	int choix;
 
-	//DEBUT DE LA SECTION SUPPRIMEE
+	//system("cls");
+	do {
+		cout << "-------------------------------------------------------------------------------- \n";
+		choix = choisir() ;
+		switch ( choix ){
+			case DEPLACER :
 
-	//FIN DE LA SECTION SUPPRIMEE
+				break ;
+			case TIRER :
+
+				break ;
+			case RECHARGER :
+
+				break ;
+		}
+	} while ( choix != 0 ) ;
+	cout << "Bye ! "<< endl;
+	cout << "------------------------------------------------------------------------" << endl;
+	return( 0 ) ;
+}
+
+/*
+
+
+	cout << "Création Carte de Luminy..." << endl;
+	Carte Luminy( (int)6 , (int)6 );
+	cout << "Carte de Luminy crée" << endl;
+
+	Luminy.display();
+
+	Hero val(0,0,2,10, 10,"Valentin");
+	Hero ennemi(4,4,3,10, 10,"Valentin");
+	Affichable mur1(2,3,1);
+	Affichable mur2(3,4,1);
+	Affichable mur3(3,3,1);
+	Affichable mur4(3,2,1);
+	Affichable mur5(3,1,1);
+
+	Luminy.addItem(val);
+	Luminy.addItem(ennemi);
+	Luminy.addItem(mur1);
+	Luminy.addItem(mur2);
+	Luminy.addItem(mur3);
+	Luminy.addItem(mur4);
+	Luminy.addItem(mur5);
+
+	Luminy.display();
+
+	cout << " *** debut pathfinding " << endl;
+
+	system("cls");
+	system("cls");
+	system("cls");
+	system("cls");
+	//Luminy.pathfinding(Luminy, 0, 0, 4, 3);
+
+
+ *
+ *
+	Graphe test(Luminy);
+	test.display();
+
+
 
 	return 0;
 }
+*/
+
+
+
+
+

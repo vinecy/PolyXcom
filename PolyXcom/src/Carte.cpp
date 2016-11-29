@@ -130,9 +130,9 @@ void Carte::moveItemTo( int oldX, int oldY , int newX , int newY ){
 	cout << "coordonnes de l'objet : "<< _map[ newX ][ newY ]->get_x() << " " << _map[ newX ][ newY ]->get_y() << endl;
 }
 
-void Carte::pathfinding( Carte &map, int xA , int yA , int xB , int yB ){
-	/*Graphe graphDeRecherche(map);
-
+void Carte::pathfinding( int xA , int yA , int xB , int yB ){
+	//Graphe graphDeRecherche(*_map);
+	/*
 	Noeud *depart;
 	depart = &graphDeRecherche.get_Noeud(xA, yA);
 	Noeud *arrivee = new Noeud();

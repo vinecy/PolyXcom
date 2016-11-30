@@ -16,17 +16,15 @@ Noeud::Noeud(){
 	_G = 0;
 	_H = 0;
 	_F = _G + _H;
-	_isObstacle = false;
 	cout << " + noeud créé " << endl;
 }
 
-Noeud::Noeud(int x, int y, bool isObstacle) {
+Noeud::Noeud(int x, int y) {
 	_x = x;
 	_y = y;
 	_G = 0;
 	_H = 0;
 	_F = _G + _H;
-	_isObstacle = isObstacle;
 	cout << " + noeud " << _x << "," << _y << " créé " << endl;
 }
 

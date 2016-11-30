@@ -8,6 +8,7 @@
 #ifndef GRAPHE_H_
 #define GRAPHE_H_
 
+#include <vector>
 #include "Noeud.h"
 #include "Carte.h"
 
@@ -15,10 +16,10 @@ class Graphe {
 private:
 	int _sizeX;
 	int _sizeY;
-	Noeud ***_graphe;
+	Noeud **_graphe;
 
 public:
-	Graphe(Carte &map);
+	Graphe(Carte *map);
 
 	void display(void);
 

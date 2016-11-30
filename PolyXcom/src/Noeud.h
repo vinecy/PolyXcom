@@ -12,13 +12,12 @@ class Noeud {
 private:
 	int _x;
 	int _y;
-	int _isObstacle;
 	int _G;
 	int _H;
 	int _F;
 public:
 	Noeud();
-	Noeud(int x, int y, bool isObstacle);
+	Noeud(int x, int y);
 
 	bool sameCoord(Noeud const&a);
 

@@ -102,10 +102,10 @@ bool Carte::moveIsPossible( int x , int y ){
  	 * @param &a - adresse de l'affichable à ajouter
  	 * */
 void Carte::addItem( Affichable &a ){
-	cout << " la case " << a.get_x() << "," << a.get_y() << " pointe sur l'adresse " << _map[ a.get_x() ][ a.get_y() ] << endl;
-	cout << " addresse de l'affichable " << &a << endl;
+	//cout << " la case " << a.get_x() << "," << a.get_y() << " pointe sur l'adresse " << _map[ a.get_x() ][ a.get_y() ] << endl;
+	//cout << " addresse de l'affichable " << &a << endl;
 	_map[ a.get_x() ][ a.get_y() ] = &a;
-	cout << " la case " << a.get_x() << "," << a.get_y() << " pointe sur l'adresse " << _map[ a.get_x() ][ a.get_y() ] << endl;
+	//cout << " la case " << a.get_x() << "," << a.get_y() << " pointe sur l'adresse " << _map[ a.get_x() ][ a.get_y() ] << endl;
 }
 
 /** La méthode moveItemTo permet de deplacer un affichable à un point sur la carte
@@ -113,11 +113,11 @@ void Carte::addItem( Affichable &a ){
  	 * @param newX,newY - nouvelle coordonnées de l'objet à déplacer
  	 * */
 void Carte::moveItemTo( int oldX, int oldY , int newX , int newY ){
-	cout << "màj des coordonnes" << endl;
+	//cout << "màj des coordonnes" << endl;
 
-	cout << "adresse de l'objet à deplacer " <<_map[ oldX ][ oldY ] << endl;
-	cout << "coordonnes de l'objet : "<< oldX << " " << oldX << endl;
-	cout << "coordonnes de l'objet : "<< _map[ oldX ][ oldY ]->get_x() << " " << _map[ oldX ][ oldY ]->get_y() << endl;
+	//cout << "adresse de l'objet à deplacer " <<_map[ oldX ][ oldY ] << endl;
+	//cout << "coordonnes de l'objet : "<< oldX << " " << oldX << endl;
+	//cout << "coordonnes de l'objet : "<< _map[ oldX ][ oldY ]->get_x() << " " << _map[ oldX ][ oldY ]->get_y() << endl;
 
 	_map[ newX ][ newY ] = _map[ oldX ][ oldY ];
 	_map[ oldX ][ oldY ] = &vide;
@@ -125,36 +125,49 @@ void Carte::moveItemTo( int oldX, int oldY , int newX , int newY ){
 	_map[ newX ][ newY ]->set_x(newX);
 	_map[ newX ][ newY ]->set_y(newY);
 
-	cout << "adresse de l'objet à la nvlle position "<< _map[ oldX ][ oldY ] << endl;
-	cout << "adresse de l'objet à l'ancienne position "<< _map[ oldX ][ oldY ] << endl;
-	cout << "coordonnes de l'objet : "<< _map[ newX ][ newY ]->get_x() << " " << _map[ newX ][ newY ]->get_y() << endl;
+	//cout << "adresse de l'objet à la nvlle position "<< _map[ oldX ][ oldY ] << endl;
+	//cout << "adresse de l'objet à l'ancienne position "<< _map[ oldX ][ oldY ] << endl;
+	//cout << "coordonnes de l'objet : "<< _map[ newX ][ newY ]->get_x() << " " << _map[ newX ][ newY ]->get_y() << endl;
 }
 
 void Carte::pathfinding( int xA , int yA , int xB , int yB ){
-	//Graphe graphDeRecherche(*_map);
-	/*
-	Noeud *depart;
-	depart = &graphDeRecherche.get_Noeud(xA, yA);
-	Noeud *arrivee = new Noeud();
-	*arrivee = graphDeRecherche.get_Noeud(xB, yB);
+	Graphe graphDeRecherche(this);
+	graphDeRecherche.display();									// initialisation du graphe
+
+	Noeud *depart = new Noeud,
+		  *enCours = new Noeud,
+		  *arrivee = new Noeud;
+	*depart = graphDeRecherche.get_Noeud(xA, yA);				// depart pointe sur la case de départ
+	*arrivee= graphDeRecherche.get_Noeud(xB, yB);				// arrivee pointe sur la case de fin
+
 	cout << depart->get_X() << "," << depart->get_Y() << endl;
 	cout << arrivee->get_X() << "," << arrivee->get_Y() << endl;
-*/
-
-
-	/*
-
-	Noeud *enCours ;
 
 	// Utilisation de l'algorithme A*
 	queue <Noeud> NoeudsAtraiter;
 	queue <Noeud> NoeudsTraites;
-	NoeudsAtraiter.push(depart);
+	NoeudsAtraiter.push(*depart);
 
 	// Tant qu'il y a toujours des noeuds à traiter
-	while( !NoeudsAtraiter.empty() ){
-		// on traite le noeud avec le plus petit cout
+	if( !NoeudsAtraiter.empty() ){
+		cout << " Liste pas encore vide " << endl;
 		*enCours = NoeudsAtraiter.front();
+		//cout << enCours->get_X()<< " " << enCours->get_Y() << endl;
+		NoeudsAtraiter.pop();
+		//cout << enCours->get_X()<< " " << enCours->get_Y() << endl;
+		NoeudsTraites.push(*enCours);
+		//graphDeRecherche.display();
+		//cout << NoeudsTraites.size() << endl;
+
+		if( enCours->get_X() == arrivee->get_X()
+			&& enCours->get_Y() == arrivee->get_Y()){
+			cout << "Chemin trouvé !!!" << endl;
+			//return 1;
+		}
+
+
+		 // on traite le noeud avec le plus petit cout
+		/**enCours = NoeudsAtraiter.front();
 		cout << "le noeud avec le cout le plus faible : " << enCours->get_costFromBegin() << endl;
 		cout << "coord : " << enCours->get_X() << "," << enCours->get_Y() << endl;
 		NoeudsAtraiter.pop();
@@ -164,9 +177,8 @@ void Carte::pathfinding( int xA , int yA , int xB , int yB ){
 
 		}
 
-
+*/
 	}
-	*/
 }
 
 int Carte::get_sizeX(void){

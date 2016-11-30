@@ -11,7 +11,7 @@
  * @author BARTHOLOMEAU Vincent <vincent.bartholomeau@etu.univ-amu.fr>
  * @author BISSUEL Valentin <valentin.bissuel@etu.univ-amu.fr>
  *
- * @version 0.0.1/ 24/11/2016
+ * @version 0.0.1 / 24/11/2016
  *
  */
 
@@ -22,6 +22,7 @@
 
 #include <iostream>
 #include <stdio.h>
+#include <stdlib.h>
 #include "Hero.h"
 #include "Carte.h"
 #include "Graphe.h"
@@ -48,8 +49,7 @@ int choisir ( void ){
 
 
 int main() {
-
-	int choix;
+	/*int choix;
 
 	//system("cls");
 	do {
@@ -58,20 +58,64 @@ int main() {
 		switch ( choix ){
 			case DEPLACER :
 
+
+
+
 				break ;
 			case TIRER :
-
+				cout << "rien à faire" << endl;
 				break ;
 			case RECHARGER :
-
+				cout << "rien à faire" << endl;
 				break ;
 		}
 	} while ( choix != 0 ) ;
 	cout << "Bye ! "<< endl;
-	cout << "------------------------------------------------------------------------" << endl;
+	cout << "------------------------------------------------------------------------" << endl;*/
+
+	cout << "Création Carte de Luminy..." << endl;
+						Carte Luminy( (int)6 , (int)6 );
+						cout << "Carte de Luminy crée" << endl;
+
+						Luminy.display();
+
+						Hero val(0,0,2,10, 10,"Valentin");
+						Hero ennemi(4,3,3,10, 10,"Prospe");
+						Affichable mur1(2,3,1);
+						Affichable mur2(3,4,1);
+						Affichable mur3(3,3,1);
+						Affichable mur4(3,2,1);
+						Affichable mur5(3,1,1);
+						Affichable mur6(3,0,1);
+
+						Luminy.addItem(val);
+						Luminy.addItem(ennemi);
+						Luminy.addItem(mur1);
+						Luminy.addItem(mur2);
+						Luminy.addItem(mur3);
+						Luminy.addItem(mur4);
+						Luminy.addItem(mur5);
+						Luminy.addItem(mur6);
+
+
+						Luminy.display();
+
+						cout << " *** debut pathfinding " << endl;
+
+
+						Luminy.pathfinding(0, 0, 4, 3);
+
+						//Graphe test(Luminy);
+						//test.display();
+
+
+
 	return( 0 ) ;
 }
+
 /*
+
+
 	cout << "Création Carte de Luminy..." << endl;
 	Carte Luminy( (int)6 , (int)6 );
 	cout << "Carte de Luminy crée" << endl;

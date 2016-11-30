@@ -12,6 +12,7 @@ class Noeud {
 private:
 	int _x;
 	int _y;
+protected:
 	int _G;
 	int _H;
 	int _F;

@@ -21,6 +21,7 @@
  */
 
 #include "Personnage.h"
+#include "Carte.h"
 #include <iostream>
 #include <list>
 

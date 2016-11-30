@@ -38,10 +38,12 @@ public:
 	void set_pvCurrent(int pv);
 	void set_paCurrent(int pa);
 
+
 	void move_up(Carte &map);						//deplacement au Nord
 	void move_down(Carte &map);						//deplacement au Sud
 	void move_left(Carte &map);						//deplacement a l'Ouest
 	void move_right(Carte &map);					//deplacement a l'Est
+
 
 	void display_info(void);						//affichage des attributs en console
 

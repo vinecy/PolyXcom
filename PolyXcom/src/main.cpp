@@ -25,7 +25,9 @@
 #include <stdlib.h>
 #include "Hero.h"
 #include "Carte.h"
+#include "Arme.h"
 #include "Graphe.h"
+#include "Ennemi.h"
 using namespace std;
 
 #define DEPLACER 1

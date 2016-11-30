@@ -8,8 +8,12 @@
 #ifndef CARTE_H_
 #define CARTE_H_
 
-#include "Affichable.h"
+
 #include <list>
+#include "Affichable.h"
+
+using namespace std;
+
 class Carte {
 
 	// Attributs

@@ -16,12 +16,15 @@ class Graphe {
 private:
 	int _sizeX;
 	int _sizeY;
+public:
 	Noeud **_graphe;
 
 public:
 	Graphe(Carte *map);
 
 	void display(void);
+
+	//Noeud** get_Voisin(Noeud &cible);
 
 	Noeud get_Noeud(int x, int y);
 

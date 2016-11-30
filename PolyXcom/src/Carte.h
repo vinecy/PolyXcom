@@ -11,13 +11,9 @@
 
 #include <list>
 #include "Affichable.h"
-<<<<<<< HEAD
 
 using namespace std;
 
-=======
-#include <list>
->>>>>>> refs/remotes/origin/PolyXcom
 class Carte {
 
 	// Attributs

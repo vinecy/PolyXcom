@@ -21,10 +21,6 @@
  */
 
 #include <iostream>
-<<<<<<< HEAD
-=======
-#include <queue>
->>>>>>> refs/remotes/origin/PolyXcom
 #include <list>
 #include "Carte.h"
 #include "Graphe.h"

@@ -11,7 +11,7 @@
  * @author BARTHOLOMEAU Vincent <vincent.bartholomeau@etu.univ-amu.fr>
  * @author BISSUEL Valentin <valentin.bissuel@etu.univ-amu.fr>
  *
- * @version 0.0.1 / 24/11/2016
+ * @version 0.0.1/ 24/11/2016
  *
  */
 

@@ -11,17 +11,24 @@
 class Arme
 {
 	private:
-		int _tier;
-		int _degats;
-		int _portee;
+		int _tier;								//"niveau" de l'arme
+		int _degats;							//degats max de l'arme
+		int _portee;							//portee de l'arme
+		int _munMax;							//nombre de munitions max de l'arme
+		int _munCurrent;						//nombre de munitions actuelle de l'arme
 
 	public:
-		Arme();
-		Arme(int,int,int);
+		Arme();									//Constructeur Arme "defaut"
+		Arme(int tier,int degats,int portee,int mun);//Constructeur d'Arme
 
-		void display_info();
+		int get_munCurrent();					//getter
+		int get_munMax();
 
-		virtual ~Arme();
+		void set_munCurrent(int i);				//setter
+
+		void display_info();					//Affichage info dans la console
+
+		virtual ~Arme();						//destructeur
 };
 
 

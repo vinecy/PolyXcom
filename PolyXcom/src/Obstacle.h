@@ -14,7 +14,7 @@ class Obstacle : Affichable
 		bool _destrutible;							//destructible ou pas
 
 	public:
-		Obstacle(int,int,int);						//Constructeur
+		Obstacle(int x,int y,int ID);				//Constructeur
 
 		void display_info();						//Affichable debug
 

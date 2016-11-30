@@ -81,8 +81,13 @@ int main() {
 
 						Luminy.display();
 
+<<<<<<< HEAD
 						Hero val(0,0,2,10,10,Arme(),"Valentin");
 						Ennemi ennemi(4,3,3,10, 10,Arme());
+=======
+						Hero val(0,0,2,10, 10,Arme(),"Valentin");
+						Hero ennemi(4,3,3,10, 10,Arme(),"Prospe");
+>>>>>>> refs/remotes/origin/PolyXcom
 						Affichable mur1(2,3,1);
 						Affichable mur2(3,4,1);
 						Affichable mur3(3,3,1);

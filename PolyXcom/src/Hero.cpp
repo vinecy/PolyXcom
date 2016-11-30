@@ -15,8 +15,8 @@ using namespace std;
 	 * @param ID - Type du hero
 	 * @param pv - Points de Vie max du perso
 	 * @param pa - Points d'Action max du perso
+	 * @param arme - Arme par defaut du hero
 	 * @param _nom - Nom du perso	*/
-
 Hero::Hero(int x,int y,int ID,int pv,int pa,Arme arme,string nom):Personnage(x,y,ID,pv,pa,arme)
 {
 	_nom=nom;

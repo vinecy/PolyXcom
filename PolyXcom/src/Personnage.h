@@ -26,7 +26,7 @@ class Personnage : public Affichable
 
 
 public:
-	Personnage(int,int,int,int,int,Arme);		//construteur
+	Personnage(int x,int y,int ID,int pv,int pa,Arme arme);//construteur
 
 	int get_pvMax(void);							//getters
 	int get_paMax(void);
@@ -38,12 +38,16 @@ public:
 	void set_pvCurrent(int pv);
 	void set_paCurrent(int pa);
 
-	void move_up(Carte &);							//deplacement au Nord
-	void move_down(Carte &);						//deplacement au Sud
-	void move_left(Carte &);						//deplacement a l'Ouest
-	void move_right(Carte &);						//deplacement a l'Est
+	void move_up(Carte &map);							//deplacement au Nord
+	void move_down(Carte &map);						//deplacement au Sud
+	void move_left(Carte &map);						//deplacement a l'Ouest
+	void move_right(Carte &map);						//deplacement a l'Est
 
 	void display_info(void);						//affichage des attributs en console
+
+	void reload();									//rechargement de l'arme
+
+	void close_combat(Carte &map);					//attaque au corps a corps
 
 	virtual ~Personnage(void);						//destructor
 

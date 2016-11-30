@@ -21,6 +21,7 @@
  */
 
 #include "Personnage.h"
+#include "Carte.h"
 #include <iostream>
 #include <list>
 
@@ -139,6 +140,17 @@ void Personnage::display_info(void)
 	cout<<"PA( "<<_paCurrent<<" / "<<_pvMax<<" )"<<endl;
 	_inv_armes.display_info();
 	cout<<"///////////////"<<endl;
+}
+
+void Personnage::reload()
+{
+	_inv_armes.set_munCurrent(_inv_armes.get_munMax());
+}
+
+void Personnage::close_combat(Carte &map)
+{
+	list<Affichable*> cibles = map.list_cc(_coordX,_coordY);
+	//cibles.front()->display_info();
 }
 
 /** Le destructeur Personnage*/

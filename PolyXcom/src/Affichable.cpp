@@ -23,6 +23,7 @@
 
 #include "Affichable.h"
 #include <iostream>
+#include <cstdlib>
 using namespace std;
 
 /** Le constructeur Affichable construit un Affichable par defaut*/
@@ -52,12 +53,10 @@ int Affichable::get_x( void )
 {
 	return (_coordX ) ;
 }
-
 int Affichable::get_y(void)
 {
 	return(_coordY );
 }
-
 int Affichable::get_ID(void)
 {
 	return(_ID );
@@ -72,12 +71,19 @@ void Affichable::set_y(int y)
 	_coordY=y;
 }
 
-/** La méthode display_info permet d'afficher les attributs de celui qui l'invoque la console */
+/** La methode display_info permet d'afficher les attributs de celui qui l'invoque la console */
 void Affichable::display_info(void)		//debug display
 {
 	cout<<"///////////////"<<endl;
 	cout<<"Coord( X="<<this->get_x()<<" / Y="<<this->get_y()<<" )"<<endl;
 	cout<<"///////////////"<<endl;
+}
+
+/** La methode distance retourne la 1-distance entre 2 Affichables
+ 	* @param A - Affichable avec la quelle la 1-distance est calculée*/
+int Affichable::distance(Affichable A)
+{
+	return(abs(this->_coordX-A._coordX)+abs(this->_coordY-A._coordY));
 }
 
 /** Le destructeur Affichable */

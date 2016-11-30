@@ -8,7 +8,7 @@
 #ifndef OBSTACLE_H_
 #define OBSTACLE_H_
 #include "Affichable.h"
-class Obstacle : Affichable
+class Obstacle : public Affichable
 {
 	protected:										//Attributs
 		bool _destrutible;							//destructible ou pas

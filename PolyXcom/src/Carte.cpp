@@ -21,7 +21,7 @@
  */
 
 #include <iostream>
-#include <queue>
+#include <list>
 #include "Carte.h"
 #include "Graphe.h"
 #include "Noeud.h"
@@ -136,49 +136,102 @@ void Carte::pathfinding( int xA , int yA , int xB , int yB ){
 
 	Noeud *depart = new Noeud,
 		  *enCours = new Noeud,
+		  //*voisin = new Noeud,
 		  *arrivee = new Noeud;
-	*depart = graphDeRecherche.get_Noeud(xA, yA);				// depart pointe sur la case de départ
-	*arrivee= graphDeRecherche.get_Noeud(xB, yB);				// arrivee pointe sur la case de fin
+	*depart = graphDeRecherche._graphe[xA][yA];				// depart pointe sur la case de départ
+	*arrivee= graphDeRecherche._graphe[xB][yB];				// arrivee pointe sur la case de fin
 
-	cout << depart->get_X() << "," << depart->get_Y() << endl;
-	cout << arrivee->get_X() << "," << arrivee->get_Y() << endl;
+	int costFromEnd = (arrivee->get_X() + arrivee->get_Y())
+					- (depart->get_X() + depart->get_Y());
+	depart->set_costFromEnd(costFromEnd);
+
+	int coordCX,coordCY;
+
+	//cout << depart->get_X() << "," << depart->get_Y() << endl;
+	//cout << arrivee->get_X() << "," << arrivee->get_Y() << endl;
 
 	// Utilisation de l'algorithme A*
-	queue <Noeud> NoeudsAtraiter;
-	queue <Noeud> NoeudsTraites;
-	NoeudsAtraiter.push(*depart);
+	list <Noeud> noeudsAtraiter;
+	list <Noeud> noeudsTraites;
+	list <Noeud> listeVoisin;
+	noeudsAtraiter.push_front(*depart);
 
 	// Tant qu'il y a toujours des noeuds à traiter
-	if( !NoeudsAtraiter.empty() ){
+	while( !noeudsAtraiter.empty() ){
 		cout << " Liste pas encore vide " << endl;
-		*enCours = NoeudsAtraiter.front();
+		*enCours = noeudsAtraiter.front();
+
 		//cout << enCours->get_X()<< " " << enCours->get_Y() << endl;
-		NoeudsAtraiter.pop();
+		noeudsAtraiter.pop_front();
 		//cout << enCours->get_X()<< " " << enCours->get_Y() << endl;
-		NoeudsTraites.push(*enCours);
+		noeudsTraites.push_front(*enCours);
 		//graphDeRecherche.display();
-		//cout << NoeudsTraites.size() << endl;
+		//cout << noeudsTraites.size() << endl;
+		coordCX = enCours->get_X();
+		coordCY = enCours->get_Y();
 
-		if( enCours->get_X() == arrivee->get_X()
-			&& enCours->get_Y() == arrivee->get_Y()){
+		// le noeud courant est-il la cible ?
+		if( coordCX == arrivee->get_X()
+			&& coordCY == arrivee->get_Y()){
 			cout << "Chemin trouvé !!!" << endl;
-			//return 1;
+			list <Affichable> Chemin;
+			/*
+			 * TODO faire le retour du chemin à partir
+			 * de ClosedList
+			 */
+			//return Chemin;
 		}
 
-
-		 // on traite le noeud avec le plus petit cout
-		/**enCours = NoeudsAtraiter.front();
-		cout << "le noeud avec le cout le plus faible : " << enCours->get_costFromBegin() << endl;
-		cout << "coord : " << enCours->get_X() << "," << enCours->get_Y() << endl;
-		NoeudsAtraiter.pop();
-		NoeudsTraites.push(*enCours);
-
-		if( enCours->sameCoord(arrivee) == true ){
-
+		// Recherche des voisins du noeud courant
+		if( coordCX != _sizeX-1 ){
+			graphDeRecherche._graphe[coordCX + 1][coordCY].set_costFromBegin(enCours->get_costFromBegin() + 1);
+			listeVoisin.push_front(graphDeRecherche._graphe[coordCX + 1][coordCY] );
+			if( coordCY != _sizeY-1 ){
+				graphDeRecherche._graphe[coordCX + 1][coordCY + 1].set_costFromBegin(enCours->get_costFromBegin() + 2);
+				listeVoisin.push_front(graphDeRecherche._graphe[coordCX + 1][coordCY+ 1] );
+			}
+			if( coordCY != 0 ){
+				graphDeRecherche._graphe[coordCX + 1][coordCY - 1].set_costFromBegin(enCours->get_costFromBegin() + 2);
+				listeVoisin.push_front(graphDeRecherche._graphe[coordCX + 1][coordCY - 1] );
+			}
+		} else if( coordCX != 0 ){
+			graphDeRecherche._graphe[coordCX - 1][coordCY].set_costFromBegin(enCours->get_costFromBegin() + 1);
+			listeVoisin.push_front(graphDeRecherche._graphe[coordCX - 1][coordCY] );
+			if( coordCY != _sizeY-1 ){
+				graphDeRecherche._graphe[coordCX - 1][coordCY + 1].set_costFromBegin(enCours->get_costFromBegin() + 2);
+				listeVoisin.push_front(graphDeRecherche._graphe[coordCX - 1][coordCY + 1] );
+			}
+			if( coordCY != 0 ){
+				graphDeRecherche._graphe[coordCX - 1][coordCY - 1].set_costFromBegin(enCours->get_costFromBegin() + 2);
+				listeVoisin.push_front(graphDeRecherche._graphe[coordCX - 1][coordCY - 1] );
+			}
+		} else {
+			if( coordCY != _sizeY-1 ){
+				graphDeRecherche._graphe[coordCX][coordCY + 1].set_costFromBegin(enCours->get_costFromBegin() + 1);
+				listeVoisin.push_front(graphDeRecherche._graphe[coordCX][coordCY + 1] );
+			}
+			if( coordCY != 0 ){
+				graphDeRecherche._graphe[coordCX][coordCY - 1].set_costFromBegin(enCours->get_costFromBegin() + 1);
+				listeVoisin.push_front(graphDeRecherche._graphe[coordCX][coordCY - 1] );
+			}
 		}
 
-*/
+		listeVoisin.begin();
+		/*while( listeVoisin.get_allocator() != listeVoisin.back() ){
+			*voisin = listeVoisin.get_allocator();
+			cout << "voisin: " << voisin->get_X()<< "'" << voisin->get_Y() << endl;
+			if( voisin->get_heuristic() < 0
+			 && noeudsTraites.sort ){
+
+			}
+
+			if( voisin->get_heuristic()<0 ){
+				listeVoisin = listeVoisin.back();
+			}
+
+		}*/
 	}
+	//return list<Affichable>;
 }
 
 int Carte::get_sizeX(void){

@@ -47,6 +47,8 @@ public:
 
 	void reload();									//rechargement de l'arme
 
+	void close_combat(Carte &map);					//attaque au corps a corps
+
 	virtual ~Personnage(void);						//destructor
 
 };//Fin de la classe Personnage

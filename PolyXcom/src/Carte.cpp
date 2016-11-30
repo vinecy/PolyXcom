@@ -22,6 +22,7 @@
 
 #include <iostream>
 #include <queue>
+#include <list>
 #include "Carte.h"
 #include "Graphe.h"
 #include "Noeud.h"
@@ -191,6 +192,40 @@ int Carte::get_sizeY(void){
 
 int Carte::get_IDin(int x, int y){
 	return _map[x][y]->get_ID();
+}
+
+std::list <Affichable*> Carte::list_cc(int x,int y)
+{
+	std::list <Affichable*> a;
+	if(x!=_sizeX)
+	{
+		if((_map[x+1][y]!=&vide) && (_map[x+1][y]->get_ID()==03))
+		{
+			a.push_front(_map[x+1][y]);
+		}
+	}
+	if(y!=_sizeY)
+	{
+		if((_map[x][y+1]!=&vide)&& (_map[x+1][y]->get_ID()==03))
+		{
+			a.push_front(_map[x][y+1]);
+		}
+	}
+	if(x!=0)
+	{
+		if((_map[x-1][y]!=&vide)&&(_map[x+1][y]->get_ID()==03))
+		{
+			a.push_front(_map[x-1][y]);
+		}
+	}
+	if(y!=0)
+	{
+		if((_map[x][y-1]!=&vide)&& (_map[x+1][y]->get_ID()==03))
+		{
+			a.push_front(_map[x][y-1]);
+		}
+	}
+	return(a);
 }
 
 /** Le destructeur Carte */

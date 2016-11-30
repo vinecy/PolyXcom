@@ -15,7 +15,7 @@ class Arme
 		int _degats;							//degats max de l'arme
 		int _portee;							//portee de l'arme
 		int _munMax;							//nombre de munitions max de l'arme
-		int _munCurrent;							//nombre de munitions actuelle de l'arme
+		int _munCurrent;						//nombre de munitions actuelle de l'arme
 
 	public:
 		Arme();									//Constructeur Arme "defaut"

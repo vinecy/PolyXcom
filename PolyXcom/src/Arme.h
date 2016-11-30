@@ -14,10 +14,17 @@ class Arme
 		int _tier;								//"niveau" de l'arme
 		int _degats;							//degats max de l'arme
 		int _portee;							//portee de l'arme
+		int _munMax;							//nombre de munitions max de l'arme
+		int _munCurrent;							//nombre de munitions actuelle de l'arme
 
 	public:
 		Arme();									//Constructeur Arme "defaut"
-		Arme(int tier,int degats,int portee);	//Constructeur d'Arme
+		Arme(int tier,int degats,int portee,int mun);//Constructeur d'Arme
+
+		int get_munCurrent();					//getter
+		int get_munMax();
+
+		void set_munCurrent(int i);				//setter
 
 		void display_info();					//Affichage info dans la console
 

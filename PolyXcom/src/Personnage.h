@@ -45,6 +45,8 @@ public:
 
 	void display_info(void);						//affichage des attributs en console
 
+	void reload();									//rechargement de l'arme
+
 	virtual ~Personnage(void);						//destructor
 
 };//Fin de la classe Personnage

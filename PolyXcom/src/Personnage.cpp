@@ -141,6 +141,11 @@ void Personnage::display_info(void)
 	cout<<"///////////////"<<endl;
 }
 
+void Personnage::reload()
+{
+	_inv_armes.set_munCurrent(_inv_armes.get_munMax());
+}
+
 /** Le destructeur Personnage*/
 Personnage::~Personnage()				//destructor
 {

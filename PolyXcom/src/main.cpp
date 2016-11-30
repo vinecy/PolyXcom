@@ -79,8 +79,8 @@ int main() {
 
 						Luminy.display();
 
-						Hero val(0,0,2,10, 10,"Valentin");
-						Hero ennemi(4,3,3,10, 10,"Prospe");
+						Hero val(0,0,2,10, 10,Arme(),"Valentin");
+						Hero ennemi(4,3,3,10, 10,Arme(),"Prospe");
 						Affichable mur1(2,3,1);
 						Affichable mur2(3,4,1);
 						Affichable mur3(3,3,1);

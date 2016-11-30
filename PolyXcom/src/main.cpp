@@ -80,26 +80,28 @@ int main() {
 						Luminy.display();
 
 						Hero val(0,0,2,10, 10,Arme(),"Valentin");
-						Hero ennemi(4,3,3,10, 10,Arme(),"Prospe");
-						Affichable mur1(2,3,1);
-						Affichable mur2(3,4,1);
-						Affichable mur3(3,3,1);
-						Affichable mur4(3,2,1);
-						Affichable mur5(3,1,1);
-						Affichable mur6(3,0,1);
+						Hero ennemi(0,1,3,10, 10,Arme(),"Prospe");
+						//Affichable mur1(2,3,1);
+						//Affichable mur2(3,4,1);
+						//Affichable mur3(3,3,1);
+						//Affichable mur4(3,2,1);
+						//Affichable mur5(3,1,1);
+						//Affichable mur6(3,0,1);
 
 						Luminy.addItem(val);
 						Luminy.addItem(ennemi);
-						Luminy.addItem(mur1);
-						Luminy.addItem(mur2);
-						Luminy.addItem(mur3);
-						Luminy.addItem(mur4);
-						Luminy.addItem(mur5);
-						Luminy.addItem(mur6);
+						//Luminy.addItem(mur1);
+						//Luminy.addItem(mur2);
+						//Luminy.addItem(mur3);
+						//Luminy.addItem(mur4);
+						//Luminy.addItem(mur5);
+						//Luminy.addItem(mur6);
 
 
 						Luminy.display();
-
+						val.close_combat(Luminy);
+}
+/*
 						cout << " *** debut pathfinding " << endl;
 
 

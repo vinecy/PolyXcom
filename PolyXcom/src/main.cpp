@@ -25,7 +25,9 @@
 #include <stdlib.h>
 #include "Hero.h"
 #include "Carte.h"
+#include "Arme.h"
 #include "Graphe.h"
+#include "Ennemi.h"
 using namespace std;
 
 #define DEPLACER 1
@@ -79,8 +81,8 @@ int main() {
 
 						Luminy.display();
 
-						Hero val(0,0,2,10, 10,"Valentin");
-						Hero ennemi(4,3,3,10, 10,"Prospe");
+						Hero val(0,0,2,10,10,Arme(),"Valentin");
+						Ennemi ennemi(4,3,3,10, 10,Arme());
 						Affichable mur1(2,3,1);
 						Affichable mur2(3,4,1);
 						Affichable mur3(3,3,1);
@@ -112,10 +114,7 @@ int main() {
 
 	return( 0 ) ;
 }
-
 /*
-
-
 	cout << "Création Carte de Luminy..." << endl;
 	Carte Luminy( (int)6 , (int)6 );
 	cout << "Carte de Luminy crée" << endl;

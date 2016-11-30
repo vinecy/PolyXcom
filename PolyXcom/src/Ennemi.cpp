@@ -12,10 +12,10 @@ using namespace std;
 /** Le constructeur Ennemi cree un ennemi et initialise ses attributs
 	 * @param x - Points de Vie max du perso
 	 * @param y - Points d'Action max du perso
-	 * * @param ID - Type de l'ennemi
+	 * @param ID - Type de l'ennemi
 	 * @param pvMax - Points de Vie max du perso
-	 * @param paMax - Points d'Action max du perso*/
-
+	 * @param paMax - Points d'Action max du perso
+	 * @param arme - Arme par defaut de l'ennemi*/
 Ennemi::Ennemi(int x,int y,int ID,int pv,int pa,Arme arme):Personnage(x,y,ID,pv,pa,arme)
 {
 }

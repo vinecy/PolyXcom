@@ -48,7 +48,7 @@ int choisir ( void ){
 
 
 int main() {
-	/*
+
 	int choix;
 
 	//system("cls");
@@ -71,13 +71,7 @@ int main() {
 	cout << "------------------------------------------------------------------------" << endl;
 	return( 0 ) ;
 }
-*/
-	Personnage num2(1,2,3,10,6);
-	num2.display_info();
-}
 /*
-
-
 	cout << "Création Carte de Luminy..." << endl;
 	Carte Luminy( (int)6 , (int)6 );
 	cout << "Carte de Luminy crée" << endl;

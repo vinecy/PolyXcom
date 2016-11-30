@@ -22,11 +22,11 @@ class Personnage : public Affichable
 		int _pvCurrent;								//Points de Vie actuels
 		int _paCurrent;								//Points d'Action actuels
 		int _rotation;								//position du personnage par rapport au 4 points cardinaux.
-		list<Arme> _inv_armes;						//Liste des armes du joueur
+		Arme _inv_armes;							//Arme du perso
 
 
 public:
-	Personnage(int,int,int,int,int);		//construteur
+	Personnage(int,int,int,int,int,Arme);		//construteur
 
 	int get_pvMax(void);							//getters
 	int get_paMax(void);

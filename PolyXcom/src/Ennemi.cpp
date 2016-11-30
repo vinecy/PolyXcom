@@ -15,15 +15,11 @@ using namespace std;
 	 * * @param ID - Type de l'ennemi
 	 * @param pvMax - Points de Vie max du perso
 	 * @param paMax - Points d'Action max du perso*/
-/*
-Ennemi::Ennemi(int pv,int pa)
+
+Ennemi::Ennemi(int x,int y,int ID,int pv,int pa,Arme arme):Personnage(x,y,ID,pv,pa,arme)
 {
-	_pvMax=pv;
-	_pvCurrent=_pvMax;
-	_pvMax=pv;
-	_paCurrent=_paMax;
 }
-*/
+
 /** La méthode display_info permet d'afficher les attributs de celui qui l'invoque dans la console */
 void Ennemi::display_info(void)
 {

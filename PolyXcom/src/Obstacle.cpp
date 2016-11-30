@@ -13,11 +13,8 @@ using namespace std;
 	 * @param x - abscisse de l'Obstacle
 	 * @param y - Ordonnée de l'Obstacle
 	 * @param ID - nombre qui identifie l'Obstacle*/
-Obstacle::Obstacle(int x,int y,int ID)
+Obstacle::Obstacle(int x,int y,int ID):Affichable(x,y,ID)
 {
-	_coordX=x;
-	_coordY=y;
-	_ID=ID;
 	_destrutible=0;
 }
 

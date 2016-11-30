@@ -33,14 +33,14 @@ using namespace std;
 	 * @param pv - Points de Vie max du perso
 	 * @param pa - Points d'Action max du perso
 	 * @param arme - arme du perso*/
-Personnage::Personnage(int x,int y,int ID,int pv,int pa):Affichable(x,y,ID)	//construteur
+Personnage::Personnage(int x,int y,int ID,int pv,int pa,Arme arme):Affichable(x,y,ID)	//construteur
 {
 	_pvMax=pv;
 	_paMax=pa;
 	_pvCurrent=_pvMax;
 	_paCurrent=_paMax;
 	_rotation=0;
-	//TODO exemple qui marche pour constructeur
+	_inv_armes=arme;
 }
 
 int Personnage::get_pvMax(void)			//getters
@@ -134,9 +134,10 @@ void Personnage::move_right(Carte &map)
 void Personnage::display_info(void)
 {
 	cout<<"///////////////"<<endl;
-	cout<<"Coord( X="<<this->get_x()<<" / Y="<<this->get_y()<<" )"<<endl;
-	cout<<"PV( "<<this->get_pvCurrent()<<" / "<<this->get_pvMax()<<" )"<<endl;
-	cout<<"PA( "<<this->get_paCurrent()<<" / "<<this->get_paMax()<<" )"<<endl;
+	cout<<"Coord( X="<<_coordX<<" / Y="<<_coordY<<" )"<<endl;
+	cout<<"PV( "<<_pvCurrent<<" / "<<_pvMax<<" )"<<endl;
+	cout<<"PA( "<<_paCurrent<<" / "<<_pvMax<<" )"<<endl;
+	_inv_armes.display_info();
 	cout<<"///////////////"<<endl;
 }
 

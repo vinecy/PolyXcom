@@ -82,8 +82,10 @@ void Personnage::set_paCurrent(int pa)
 	 * @param map - carte sur laquelle le perso bouge*/
 void Personnage::move_up(Carte &map)
 {
+
 	if(map.moveIsPossible(_coordX,_coordY+1))
 	{
+		this->set_paCurrent(_paCurrent-1);
 		map.moveItemTo( _coordX , _coordY , _coordX , _coordY+1);
 	}
 	else
@@ -95,8 +97,10 @@ void Personnage::move_up(Carte &map)
 	 * @param map - carte sur laquelle le perso bouge*/
 void Personnage::move_down(Carte &map)
 {
+
 	if(map.moveIsPossible(_coordX,_coordY-1))
 	{
+		this->set_paCurrent(_paCurrent-1);
 		map.moveItemTo(_coordX , _coordY , _coordX , _coordY-1);
 	}
 	else
@@ -108,8 +112,10 @@ void Personnage::move_down(Carte &map)
 	 * @param map - carte sur laquelle le perso bouge*/
 void Personnage::move_left(Carte &map)
 {
+
 	if(map.moveIsPossible(_coordX-1,_coordY))
 	{
+		this->set_paCurrent(_paCurrent-1);
 		map.moveItemTo(_coordX , _coordY , _coordX-1,_coordY);
 	}
 	else
@@ -123,6 +129,7 @@ void Personnage::move_right(Carte &map)
 {
 	if(map.moveIsPossible(_coordX+1,_coordY))
 	{
+		this->set_paCurrent(_paCurrent-1);
 		map.moveItemTo(_coordX , _coordY , _coordX+1,_coordY);
 	}
 	else
@@ -146,13 +153,14 @@ void Personnage::reload()
 {
 	_inv_armes.set_munCurrent(_inv_armes.get_munMax());
 }
-
+/*
+ * TODO Close combat non fini
 void Personnage::close_combat(Carte &map)
 {
 	list<Affichable*> cibles = map.list_cc(_coordX,_coordY);
 	//cibles.front()->display_info();
 }
-
+*/
 /** Le destructeur Personnage*/
 Personnage::~Personnage()				//destructor
 {

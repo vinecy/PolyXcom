@@ -12,6 +12,7 @@
 #include <list>
 #include "Affichable.h"
 
+
 using namespace std;
 
 class Carte {
@@ -31,7 +32,9 @@ class Carte {
 		void addItem( Affichable &a);							// Ajoute un objet affichable sur la carte
 		void moveItemTo( int oldX , int oldY , int newX , int newY);  // déplace l"affichable de la case (x,y) à la nouvelle case
 		void pathfinding( int xA , int yA , int xB , int yB );
-		std::list <Affichable*> list_cc(int X,int Y);
+		//list <Affichable*> list_cc(int,int);
+
+		//void get_Item(list<Affichable*>,int,int);
 
 		int get_sizeX(void);
 		int get_sizeY(void);

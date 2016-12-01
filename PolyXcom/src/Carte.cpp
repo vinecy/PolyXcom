@@ -59,7 +59,7 @@ void Carte::display( void ) {
 	int i,														// indice parcours sur l'axe Y
 		j;														// indice parcours sur l'axe X
 
-	cout << " *** affichage de la carte *** " << endl;
+	//cout << " *** affichage de la carte *** " << endl;
 	cout << " ----------------- " << endl;
 	for( i = _sizeY-1 ; i >= 0 ; i-- ){
 		for( j = 0 ; j < _sizeX ; j++ ){
@@ -67,6 +67,7 @@ void Carte::display( void ) {
 		}
 		cout << " | "<< endl << " ----------------- " << endl;
 	}
+	/*
 	cout << " *** _map avec l'adresse sur laquelle chaque case pointe *** " << endl;
 	for( i = _sizeY-1 ; i >= 0 ; i-- ){
 		for( j = 0 ; j < _sizeX ; j++ ){
@@ -74,7 +75,8 @@ void Carte::display( void ) {
 		}
 		cout << " \n "<< endl;
 	}
-	cout << " *** fin affichage *** " << endl;
+	*/
+	//cout << " *** fin affichage *** " << endl;
 }
 
 /** La méthode moveIsPossible permet de vérifier si la case (x,y) est franchissable ou pas
@@ -93,7 +95,7 @@ bool Carte::moveIsPossible( int x , int y ){
 		rep = false;
 		cout << " on sort de la carte! sur " << x << "," << y << endl;
 	} else {
-		cout << " aucun obstacle détectée" << endl;
+		//cout << " aucun obstacle détectée" << endl;
 	}
 	return rep;
 }
@@ -245,7 +247,8 @@ int Carte::get_sizeY(void){
 int Carte::get_IDin(int x, int y){
 	return _map[x][y]->get_ID();
 }
-
+/*
+ * fait parti de close combat
 std::list <Affichable*> Carte::list_cc(int x,int y)
 {
 	std::list <Affichable*> a;
@@ -253,33 +256,56 @@ std::list <Affichable*> Carte::list_cc(int x,int y)
 	{
 		if((_map[x+1][y]!=&vide) && (_map[x+1][y]->get_ID()==03))
 		{
+			_map[x+1][y]->display_info();
+			cout<<&_map[x+1][y];
 			a.push_front(_map[x+1][y]);
 		}
 	}
 	if(y!=_sizeY)
 	{
-		if((_map[x][y+1]!=&vide)&& (_map[x+1][y]->get_ID()==03))
+		if((_map[x][y+1]!=&vide)&& (_map[x][y+1]->get_ID()==03))
 		{
-			a.push_front(_map[x][y+1]);
+			_map[x][y+1]->display_info();
+			cout<<&*_map[x][y+1];
+			//a.push_front(&*_map[x][y+1]);
 		}
 	}
 	if(x!=0)
 	{
-		if((_map[x-1][y]!=&vide)&&(_map[x+1][y]->get_ID()==03))
+		if((_map[x-1][y]!=&vide)&&(_map[x-1][y]->get_ID()==03))
 		{
-			a.push_front(_map[x-1][y]);
+			_map[x-1][y]->display_info();
+			cout<<&_map[x-1][y];
+			//a.push_front(&*_map[x-1][y]);
 		}
 	}
 	if(y!=0)
 	{
-		if((_map[x][y-1]!=&vide)&& (_map[x+1][y]->get_ID()==03))
+		if((_map[x][y-1]!=&vide)&& (_map[x][y-1]->get_ID()==03))
 		{
-			a.push_front(_map[x][y-1]);
+			_map[x][y-1]->display_info();
+			cout<<&_map[x][y];
+			//a.push_front(&*_map[x][y-1]);
 		}
 	}
 	return(a);
 }
 
+
+ * Fait parti de clode_combat
+void Carte::get_Item(list<Affichable*> l,int x,int y)
+{
+	if(_map[x][y]->get_ID()==0)
+	{
+		cout<<"vide!";
+	}
+	if(_map[x][y]->get_ID()==3)
+	{
+		l.push_front(_map[x][y]);
+	}
+
+}
+*/
 /** Le destructeur Carte */
 Carte::~Carte() {
 	cout << " - carte de taille "<< _sizeX << "*" << _sizeY << " detruit" << endl;

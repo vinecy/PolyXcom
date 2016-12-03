@@ -187,21 +187,32 @@ int main() {
 					}else{
 						ite=proch.begin();
 						cout<<"\t\tplus de 1 ennemi :"<<endl;
+						int taille = proch.size();
+						int compteur=0;
 						int choix3;
 						int fini=0;
 						while(!fini)
 						{
+							compteur++;
 							cout<<"Ennemi sélectionné= "<<(*ite)->get_pvCurrent()<<"/"<<(*ite)->get_pvMax()<<endl;
 							cout<<"\t\t tapez 0 pour frapper cet ennemi"<<endl;
 							cout<<"\t\t taper 1 pour changer d'ennemi"<<endl;
 							cin>>choix3;
 							if(!choix3)
 							{
-								(*ite)->set_pvCurrent(proch.front()->get_pvCurrent()-2);
+								(*ite)->set_pvCurrent((*ite)->get_pvCurrent()-2);
 								cout<<"Ennemi touché! "<<(*ite)->get_pvCurrent()<<"/"<<(*ite)->get_pvMax()<<endl;
 								fini=1;
 							}else{
-								ite++;
+
+								if(compteur!=taille)
+								{
+									ite++;
+								}
+								else{
+									fini=1;
+								}
+
 							}//TODO bug PV second ennemi
 							//TODO warning
 						}

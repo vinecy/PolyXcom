@@ -29,7 +29,11 @@ using namespace std;
 
 Personnage::Personnage()
 {
-
+	_paMax=9;
+	_paCurrent=_paMax;
+	_pvMax=10;
+	_pvCurrent=_pvMax;
+	_rotation=0;
 }
 
 /** Le constructeur Personnage cree un personnage et initialise ses attributs

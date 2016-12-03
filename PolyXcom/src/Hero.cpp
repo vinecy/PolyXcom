@@ -43,6 +43,8 @@ void Hero::display_info(void)				//debug display
 	cout<<"///////////////"<<endl;
 }
 
+
+
 /** Le destructeur Hero*/
 Hero::~Hero()								//destructor
 {

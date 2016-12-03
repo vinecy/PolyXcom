@@ -8,6 +8,7 @@
 #include <iostream>
 #include "Noeud.h"
 
+#include <iostream>
 using namespace std;
 
 Noeud::Noeud(){
@@ -61,6 +62,24 @@ int Noeud::get_X(void){
 
 int Noeud::get_Y(void){
 	return _y;
+}
+
+void Noeud::display(ostream &flux) const {
+	flux << "("<< _x << "," << _y << ") avec _G:" << _G << ", _H:" << _H << ", _F:" << _F ;
+}
+
+void Noeud::display( void ) {
+	cout << "(" << _x
+		 << "," << _y
+		 << ") avec _G:" << _G
+		 << ", _H:" << _H
+		 << ", _F:" << _F ;
+}
+
+ostream& operator<<( ostream &flux, Noeud const& noeud )
+{
+	noeud.display(flux);
+    return flux;
 }
 
 Noeud::~Noeud() {

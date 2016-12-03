@@ -8,6 +8,9 @@
 #ifndef NOEUD_H_
 #define NOEUD_H_
 
+#include <iostream>
+using namespace std;
+
 class Noeud {
 private:
 	int _x;
@@ -29,6 +32,9 @@ public:
 	int get_heuristic(void);
 	int get_X(void);
 	int get_Y(void);
+
+	void display(ostream &flux) const;
+	void display();
 
 	virtual ~Noeud();
 };

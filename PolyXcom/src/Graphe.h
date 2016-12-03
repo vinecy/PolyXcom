@@ -22,9 +22,11 @@ public:
 public:
 	Graphe(Carte *map);
 
+	Noeud lowestNode(list<Noeud> &l);
+	bool isIn(list<Noeud> &l, Noeud &cible);
 	void display(void);
 
-	//Noeud** get_Voisin(Noeud &cible);
+	list<Noeud> find_Voisin(int xC, int yC, int xA, int yA, int xB, int yB);
 
 	Noeud get_Noeud(int x, int y);
 

@@ -9,7 +9,8 @@
 #include "Noeud.h"
 #include "Carte.h"
 #include <iostream>
-#include <queue>
+#include <cstdlib>
+#include <list>
 using namespace std;
 
 Graphe::Graphe(Carte *map) {
@@ -28,7 +29,7 @@ Graphe::Graphe(Carte *map) {
 			_graphe[i][j] = Noeud(i,j);
 			//cout << "adresse Noeud : " << &_graphe[i][j] << "\n";
 			if( map->moveIsPossible(i, j) == false 		// Si c'est une case infranchissable
-				&& map->get_IDin(i, j) == 1 ){			// c'est à dire un obstacle
+				&& map->get_IDin(i, j) != 0 ){			// c'est à dire un obstacle
 				_graphe[i][j].set_costFromBegin(-1);	// on met des couts negatifs à
 				_graphe[i][j].set_costFromEnd(-1);		// FromEnd et FromBegin (_G et _H dans le Noeud)
 			}
@@ -36,6 +37,93 @@ Graphe::Graphe(Carte *map) {
 	}
 	cout << " + graphe de taille " << _sizeX*_sizeY << " crée" << endl;
 }
+
+Noeud Graphe::lowestNode(list<Noeud> &l){
+	Noeud min;
+	/*int sizeL,i;
+	list<Noeud>::iterator lit (*l.begin()), lend(*l.end());
+	sizeL = l.size();
+
+
+	cout << " taille " << l.size() << endl ;
+	for( i = 0 ; i<sizeL ; i++){
+		lit++;
+		//cout << " on a "<< l.front().get_heuristic() << endl ;
+	}
+
+	min = l.front();
+	lit++;
+	while(lit != lend){
+		if( min.get_heuristic() >= l.front().get_heuristic() ){
+			min = l.front();
+		}
+		lit++;
+	}
+	cout << "le noeud minimal est " << min.get_X() << "," << min.get_Y() << endl;*/
+	return min;
+}
+
+bool Graphe::isIn(list<Noeud> &l, Noeud &cible){
+	bool rep = false;
+	list<Noeud>::iterator lit (l.begin()), lend(l.end());
+	while( lit !=lend && rep == false){
+		if( (*lit).get_X() == cible.get_X()
+		 && (*lit).get_Y() == cible.get_Y() ){
+			rep = true;
+			cout << "isIn: Noeud présent " << endl;
+		}
+		lit++;
+	}
+	return rep;
+}
+
+
+list<Noeud> Graphe::find_Voisin(int xC, int yC, int xA, int yA, int xB, int yB){
+	list<Noeud> l;
+
+	if( xC != _sizeX-1 ){;
+		l.push_back(this->get_Noeud(xC + 1, yC ));
+		if( yC != _sizeY-1 ){
+			l.push_back(this->get_Noeud(xC + 1, yC+ 1));
+		} else {
+			cout << "find_Voisin: y=" << _sizeY-1 << "  inaccessible car CY = " << yC << endl;
+		}
+		if( yC != 0 ){
+			l.push_back(this->get_Noeud(xC + 1, yC - 1));
+		} else {
+			cout << "find_Voisin: y=" << 0 << "  inaccessible car CY = " << yC << endl;
+		}
+	} else {
+		cout << "find_Voisin: x=" << _sizeX-1 << "  inaccessible car CX = " << xC << endl;
+	}
+	if( xC != 0 ){
+		l.push_back(this->get_Noeud(xC - 1, yC ));
+		if( yC != _sizeY-1 ){
+			l.push_back(this->get_Noeud(xC - 1, yC + 1));
+		} else {
+			cout << "find_Voisin: y=" << _sizeY-1 << "  inaccessible car CY = " << yC << endl;
+		}
+		if( yC != 0 ){
+			l.push_back(this->get_Noeud(xC - 1, yC - 1));
+		} else {
+			cout << "find_Voisin: y=" << 0 << "  inaccessible car CY = " << yC << endl;
+		}
+	} else {
+		cout << "find_Voisin: x=" << 0 << "  inaccessible car CX = " << xC << endl;
+	}
+	if( yC != _sizeY-1 ){
+		l.push_back(this->get_Noeud(xC, yC + 1));
+	} else {
+		cout << "find_Voisin: y=" << _sizeY-1 << "  inaccessible car CY = " << yC << endl;
+	}
+	if( yC != 0 ){
+		l.push_back(this->get_Noeud(xC, yC - 1));
+	} else {
+		cout << "find_Voisin: y=" << 0 << "  inaccessible car CY = " << yC << endl;
+	}
+	return l;
+}
+
 
 void Graphe::display(){
 	int i,												// indice parcours sur l'axe Y

@@ -8,6 +8,10 @@
 #include "Ennemi.h"
 
 using namespace std;
+Ennemi::Ennemi()
+{
+
+}
 
 /** Le constructeur Ennemi cree un ennemi et initialise ses attributs
 	 * @param x - Points de Vie max du perso

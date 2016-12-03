@@ -21,8 +21,8 @@
  */
 
 #include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include "Hero.h"
 #include "Carte.h"
 #include "Arme.h"
@@ -56,7 +56,7 @@ int main_switch ( void ){
 int moove_switch ( void ){
 	int reponse ;
 	do {
-		cout << "\n\t\t\t\t\tOu voullez vous allez : \n\t\t\t\t\t" << NORTH << " - au Nord " << endl;
+		cout << "\n\t\t\t\t\tOu voulez vous allez : \n\t\t\t\t\t" << NORTH << " - au Nord " << endl;
 		cout << "\t\t\t\t\t" << EAST  << " - a l'Est " << endl;
 		cout << "\t\t\t\t\t" << SOUTH << " - au Sud " << endl;
 		cout << "\t\t\t\t\t" << WEST << " - a l'Ouest " << endl;
@@ -89,6 +89,23 @@ int fin_tour(list<Hero>)
 	return(1);
 }
 
+list<Ennemi*> proche(int x,int y,list<Ennemi*> team)
+{
+	list<Ennemi*>::iterator ite;
+	list<Ennemi*> l;
+	for(ite=team.begin();ite!=team.end();ite++)
+	{
+		if(((((*ite)->get_x()+1==x)||((*ite)->get_x()-1==x))&&((*ite)->get_y()==y)))
+		{
+			l.push_front((*ite));
+		}
+		else if(((((*ite)->get_y()+1==y)||((*ite)->get_y()-1==y))&&((*ite)->get_x()==x)))
+		{
+			l.push_front((*ite));
+		}
+	}
+	return(l);
+}
 
 int main() {
 	int choix;
@@ -98,19 +115,23 @@ int main() {
 
 	Carte Luminy( (int)4 , (int)4 );			//creatin de la carte
 
-	list<Hero> team_hero;						//creation des listes d'equipes
-	list<Ennemi> team_ennemi;
+	list<Hero*> team_hero;						//creation des listes d'equipes
+	list<Ennemi*> team_ennemi;
 
 	Hero val(0,0,2,10,1,Arme(),"Valentin");		//creation des perso
-	//Hero vin(1,1,2,10,1,Arme(),"Vincent");
-	Ennemi pro(2,2,3,10,1,Arme());
+	Ennemi pro(1,0,3,10,1,Arme());
+	Ennemi gen(0,1,3,9,2,Arme());
 
-	team_hero.push_front(val);					// maj liste equipe
-	//team_hero.push_front(vin);
-	team_ennemi.push_front(pro);
+	team_hero.push_front(&val);					// maj liste equipe
+	team_ennemi.push_front(&pro);
+	team_ennemi.push_front(&gen);
+
 
 	Luminy.addItem(val);						//ajoute des perso
 	Luminy.addItem(pro);
+	Luminy.addItem(gen);
+
+	list<Ennemi*>::iterator ite;
 
 	int token;
 	token=3;
@@ -125,7 +146,6 @@ int main() {
 				//cout << "-------------------------------------------------------------------------------- \n";
 				cout<<"\t\t\t\t\tPA restants= "<<val.get_paCurrent()<<endl;
 				Luminy.display();
-				cout<<fin_tour(team_hero)<<endl;
 				choix = main_switch() ;
 				switch ( choix ){
 				case DEPLACER :
@@ -157,7 +177,36 @@ int main() {
 					cout<<"peace man!"<<endl;
 					break;
 				case CC:
-					cout<<"peace man!"<<endl;
+					list<Ennemi*> proch = proche(val.get_x(),val.get_y(),team_ennemi);
+					if(proch.size()==0)
+					{
+						cout<<"Pas d'ennemi proche"<<endl;
+					}else if(proch.size()==1){
+						proch.front()->set_pvCurrent(proch.front()->get_pvCurrent()-2);
+						proch.front()->display_info();
+					}else{
+						ite=proch.begin();
+						cout<<"\t\tplus de 1 ennemi :"<<endl;
+						int choix3;
+						int fini=0;
+						while(!fini)
+						{
+							cout<<"Ennemi sélectionné= "<<(*ite)->get_pvCurrent()<<"/"<<(*ite)->get_pvMax()<<endl;
+							cout<<"\t\t tapez 0 pour frapper cet ennemi"<<endl;
+							cout<<"\t\t taper 1 pour changer d'ennemi"<<endl;
+							cin>>choix3;
+							if(!choix3)
+							{
+								(*ite)->set_pvCurrent(proch.front()->get_pvCurrent()-2);
+								cout<<"Ennemi touché! "<<(*ite)->get_pvCurrent()<<"/"<<(*ite)->get_pvMax()<<endl;
+								fini=1;
+							}else{
+								ite++;
+							}//TODO bug PV second ennemi
+							//TODO warning
+						}
+
+					}
 					break;
 				}
 			} while ( choix != 0 ) ;
@@ -181,11 +230,12 @@ int main() {
 					}
 				}
 			}
-			 */
+			*/
 			pro.set_paCurrent(0);
 		}
 		pro.set_paCurrent(pro.get_paMax());
 	}
+
 }
 
 

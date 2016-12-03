@@ -27,6 +27,11 @@
 
 using namespace std;
 
+Personnage::Personnage()
+{
+
+}
+
 /** Le constructeur Personnage cree un personnage et initialise ses attributs
  	 * @param x - abscisse du perso
  	 * @param y - ordonnée du perso

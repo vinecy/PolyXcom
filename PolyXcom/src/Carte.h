@@ -10,6 +10,7 @@
 
 
 #include <list>
+#include <map>
 #include "Affichable.h"
 
 using namespace std;
@@ -26,12 +27,12 @@ class Carte {
 	public:
 		Carte( int x , int y );									// Constructeur
 
-		void display(void);										// Permet d'afficher la carte
-		bool moveIsPossible( int x , int y );					// affirme si Déplacement possible à (x,y)
-		void addItem( Affichable &a);							// Ajoute un objet affichable sur la carte
-		void moveItemTo( int oldX , int oldY , int newX , int newY);  // déplace l"affichable de la case (x,y) à la nouvelle case
-		void pathfinding( int xA , int yA , int xB , int yB );
-		std::list <Affichable*> list_cc(int X,int Y);
+		void display(void);											// Permet d'afficher la carte
+		bool moveIsPossible( int x , int y );						// Affirme si Déplacement possible à (x,y)
+		void addItem( Affichable &a);								// Ajoute un objet affichable sur la carte
+		void moveItemTo( int oldX , int oldY , int newX , int newY);// Déplace l'affichable de la case (x,y) à la nouvelle case
+		void pathfinding( int xA , int yA , int xB , int yB );		// Recherche le meilleur chemin vers xB,yB et renvoie le chemin à faire
+		list <Affichable*> list_cc(int X,int Y);
 
 		int get_sizeX(void);
 		int get_sizeY(void);

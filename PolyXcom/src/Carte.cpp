@@ -21,7 +21,10 @@
  */
 
 #include <iostream>
+#include <cstdlib>
+#include <assert.h>
 #include <list>
+#include <map>
 #include "Carte.h"
 #include "Graphe.h"
 #include "Noeud.h"
@@ -67,13 +70,13 @@ void Carte::display( void ) {
 		}
 		cout << " | "<< endl << " ----------------- " << endl;
 	}
-	cout << " *** _map avec l'adresse sur laquelle chaque case pointe *** " << endl;
+	/*cout << " *** _map avec l'adresse sur laquelle chaque case pointe *** " << endl;
 	for( i = _sizeY-1 ; i >= 0 ; i-- ){
 		for( j = 0 ; j < _sizeX ; j++ ){
 			cout << _map[j][i] << " ";
 		}
 		cout << " \n "<< endl;
-	}
+	}*/
 	cout << " *** fin affichage *** " << endl;
 }
 
@@ -104,6 +107,9 @@ bool Carte::moveIsPossible( int x , int y ){
 void Carte::addItem( Affichable &a ){
 	//cout << " la case " << a.get_x() << "," << a.get_y() << " pointe sur l'adresse " << _map[ a.get_x() ][ a.get_y() ] << endl;
 	//cout << " addresse de l'affichable " << &a << endl;
+	if( _map[ a.get_x() ][ a.get_y() ] != &vide ) {
+		cout << "!!! on écrase un affichable déjà present !!!" << endl ;
+	}
 	_map[ a.get_x() ][ a.get_y() ] = &a;
 	//cout << " la case " << a.get_x() << "," << a.get_y() << " pointe sur l'adresse " << _map[ a.get_x() ][ a.get_y() ] << endl;
 }
@@ -131,107 +137,235 @@ void Carte::moveItemTo( int oldX, int oldY , int newX , int newY ){
 }
 
 void Carte::pathfinding( int xA , int yA , int xB , int yB ){
+	// La cible doit être valide
+	assert( this->moveIsPossible(xB, yB) == true);
+
+	// initialisation du graphe
 	Graphe graphDeRecherche(this);
-	graphDeRecherche.display();									// initialisation du graphe
+	graphDeRecherche._graphe[xA][yA].set_costFromBegin(0);
+	graphDeRecherche._graphe[xA][xA].set_costFromEnd( abs(xA - xB) + abs(yA - yB) );
+	graphDeRecherche.display();
 
-	Noeud *depart = new Noeud,
-		  *enCours = new Noeud,
-		  //*voisin = new Noeud,
-		  *arrivee = new Noeud;
-	*depart = graphDeRecherche._graphe[xA][yA];				// depart pointe sur la case de départ
-	*arrivee= graphDeRecherche._graphe[xB][yB];				// arrivee pointe sur la case de fin
+	// Definition du Noeud Courant
+	cout << "creation du noeud courant..." << endl;
+	Noeud *enCours = new Noeud;
+	enCours = &graphDeRecherche._graphe[xA][yA];
+	int xC = enCours->get_X(),
+		yC = enCours->get_Y();
+	cout << "... verification des pointeurs ..." << endl;
+	cout << "@graphe = " << &graphDeRecherche._graphe[xA][yA] << endl;
+	cout << "encours = "<< enCours << endl;
 
-	int costFromEnd = (arrivee->get_X() + arrivee->get_Y())
-					- (depart->get_X() + depart->get_Y());
-	depart->set_costFromEnd(costFromEnd);
+	// initialisation des listes de Noeuds
+	cout << "creation des listes de Noeud..." << endl;
+	list <Noeud> openList;					// Liste contenant les noeuds à traiter
+	list <Noeud> closeList;					// Liste contenant les noeuds déjà traités
+	list <Noeud> listeVoisin;				// Liste contenant les voisins du noeud courant
+	list <Noeud> pathList;				// Liste contenant le veritable chemin
 
-	int coordCX,coordCY;
 
-	//cout << depart->get_X() << "," << depart->get_Y() << endl;
-	//cout << arrivee->get_X() << "," << arrivee->get_Y() << endl;
+	// définition des itérateurs
+	cout << "... creation des iterateurs..." << endl;
+	list<Noeud>::iterator openIt = openList.begin();
+	list<Noeud>::iterator closeIt = closeList.begin();
+	list<Noeud>::iterator voisinIt = listeVoisin.begin();
+	list<Noeud>::iterator pathIt = pathList.begin();
+	list<Noeud>::iterator nodelowestCost;
+	cout << "... verification des listes ..." << endl;
+	cout << "size openList = " << openList.size() << endl;
+	cout << "size closeList = " << closeList.size() << endl;
+	cout << "size listeVoisin = " << listeVoisin.size() << endl;
+	cout << "size pathList = " << pathList.size() << endl;
 
-	// Utilisation de l'algorithme A*
-	list <Noeud> noeudsAtraiter;
-	list <Noeud> noeudsTraites;
-	list <Noeud> listeVoisin;
-	noeudsAtraiter.push_front(*depart);
+	cout << "*** DEBUT DE L'ALGORITHME A* ***" << endl;
+
+	cout << "ajout du noeud de départ dans OpenList..." << endl;
+	openList.push_back(*enCours);
+	cout << " size openList = " << openList.size() << endl;
+	openIt = openList.begin();
+	cout << " openList contient :" << endl;
+	for(; openIt != openList.end(); openIt++){
+		cout << " * " ;
+		(*openIt).display();
+		cout << endl;
+	}
+
+	cout << " *** \n *** DEBUT DE L'ALGORITHME A* *** \n *** "<< endl;
 
 	// Tant qu'il y a toujours des noeuds à traiter
-	while( !noeudsAtraiter.empty() ){
-		cout << " Liste pas encore vide " << endl;
-		*enCours = noeudsAtraiter.front();
+	cout << " * Debut du while " << endl;
+	while( !openList.empty() ){
+		cout << " Liste non vide " << endl;
+		graphDeRecherche.display();
 
-		//cout << enCours->get_X()<< " " << enCours->get_Y() << endl;
-		noeudsAtraiter.pop_front();
-		//cout << enCours->get_X()<< " " << enCours->get_Y() << endl;
-		noeudsTraites.push_front(*enCours);
-		//graphDeRecherche.display();
-		//cout << noeudsTraites.size() << endl;
-		coordCX = enCours->get_X();
-		coordCY = enCours->get_Y();
+		cout << " * Le noeud courant pointe sur le noeud avec le f_cost le plus faible" << endl;
+		cout << "   Recherche du noeud ..." << endl;
+		openIt = openList.begin();
+		int H_cost_Min = _sizeX*_sizeY;
+		int F_cost_Min = _sizeX*_sizeY;
+		while(openIt != openList.end()){
+			if( (*openIt).get_heuristic() <= F_cost_Min ){
+				if( (*openIt).get_costFromEnd() <= H_cost_Min ){
+					nodelowestCost = openIt;
+					H_cost_Min = (*openIt).get_costFromEnd();
+					F_cost_Min = (*openIt).get_heuristic();
+				}
+			}
+			cout << "    It minimal : " ;
+			(*nodelowestCost).display();
+			cout << "\n    It actuel  : ";
+			(*openIt).display();
+			cout << endl;
+			openIt++;
+		}
+		xC = (*nodelowestCost).get_X();
+		yC = (*nodelowestCost).get_Y();
+		enCours = &graphDeRecherche._graphe[xC][yC];
+		cout << " > le noeud minimal est "<< enCours << endl;
+		cout << " > le noeud minimal est "<< xC << "," << yC << endl;
+
+		cout << " * On retire le Noeud courant de OpenList " << endl;
+		cout << "   size openLIst preced = " << openList.size() << endl;
+		openList.erase(nodelowestCost);
+		cout << "   size openLIst actuel = " << openList.size() << endl;
+
+		cout << " * Ajout du noeud Courant dans CloseList ..." << endl;
+		cout << "   size closeList = " << closeList.size() << endl;
+		closeList.push_back(*enCours);
+		cout << "   size closeList = " << closeList.size() << endl;
+		cout << "   ... verification de closeList " << endl;
+		closeIt = closeList.begin();
+		cout << "   closeList contient :" << endl;
+		for(; closeIt != closeList.end(); closeIt++){
+			cout << "  * " ;
+			(*closeIt).display();
+			cout << endl ;
+		}
+
 
 		// le noeud courant est-il la cible ?
-		if( coordCX == arrivee->get_X()
-			&& coordCY == arrivee->get_Y()){
-			cout << "Chemin trouvé !!!" << endl;
-			list <Affichable> Chemin;
-			/*
-			 * TODO faire le retour du chemin à partir
-			 * de ClosedList
-			 */
-			//return Chemin;
-		}
+		cout << " ** Debut du If \"le noeud courant est-il sur la cible\""<< endl;
+		if( xC == xB && yC == yB ){
+			cout << "  > Chemin trouvé !!!" << endl;
+			cout << "    ... reconstitution du chemin " << endl;
+			//pair<int,int> coord ;
+			//pathIt = pathList.begin();
+			//closeIt = closeList.end();
+			//pathList.insert( (*closeIt).get_X(), (*closeIt).get_Y() );
 
-		// Recherche des voisins du noeud courant
-		if( coordCX != _sizeX-1 ){
-			graphDeRecherche._graphe[coordCX + 1][coordCY].set_costFromBegin(enCours->get_costFromBegin() + 1);
-			listeVoisin.push_front(graphDeRecherche._graphe[coordCX + 1][coordCY] );
-			if( coordCY != _sizeY-1 ){
-				graphDeRecherche._graphe[coordCX + 1][coordCY + 1].set_costFromBegin(enCours->get_costFromBegin() + 2);
-				listeVoisin.push_front(graphDeRecherche._graphe[coordCX + 1][coordCY+ 1] );
-			}
-			if( coordCY != 0 ){
-				graphDeRecherche._graphe[coordCX + 1][coordCY - 1].set_costFromBegin(enCours->get_costFromBegin() + 2);
-				listeVoisin.push_front(graphDeRecherche._graphe[coordCX + 1][coordCY - 1] );
-			}
-		} else if( coordCX != 0 ){
-			graphDeRecherche._graphe[coordCX - 1][coordCY].set_costFromBegin(enCours->get_costFromBegin() + 1);
-			listeVoisin.push_front(graphDeRecherche._graphe[coordCX - 1][coordCY] );
-			if( coordCY != _sizeY-1 ){
-				graphDeRecherche._graphe[coordCX - 1][coordCY + 1].set_costFromBegin(enCours->get_costFromBegin() + 2);
-				listeVoisin.push_front(graphDeRecherche._graphe[coordCX - 1][coordCY + 1] );
-			}
-			if( coordCY != 0 ){
-				graphDeRecherche._graphe[coordCX - 1][coordCY - 1].set_costFromBegin(enCours->get_costFromBegin() + 2);
-				listeVoisin.push_front(graphDeRecherche._graphe[coordCX - 1][coordCY - 1] );
-			}
+			//return pathList;
+			exit(1);
 		} else {
-			if( coordCY != _sizeY-1 ){
-				graphDeRecherche._graphe[coordCX][coordCY + 1].set_costFromBegin(enCours->get_costFromBegin() + 1);
-				listeVoisin.push_front(graphDeRecherche._graphe[coordCX][coordCY + 1] );
-			}
-			if( coordCY != 0 ){
-				graphDeRecherche._graphe[coordCX][coordCY - 1].set_costFromBegin(enCours->get_costFromBegin() + 1);
-				listeVoisin.push_front(graphDeRecherche._graphe[coordCX][coordCY - 1] );
+			cout << "  > Chemin pas encore trouvé " << endl;
+		}
+		cout << " ** FIN du If" << endl;
+
+
+		cout << " * Recherche des voisins du Noeud Courant ..." << endl;
+		cout << "   ... Nettoyage de listeVoisin ..." << endl;
+		listeVoisin.clear();
+		cout << "   listeVoisin vide ? " << listeVoisin.empty() << endl;
+		listeVoisin.splice(voisinIt, graphDeRecherche.find_Voisin(xC,yC,xA,yA,xB,yB));
+		cout << "   size listeVoisin = " << listeVoisin.size() << endl;
+		cout << "   ... verification de listeVoisin " << endl;
+		voisinIt = listeVoisin.begin();
+		cout << "   listeVoisin contient : " << endl;
+		for( ; voisinIt != listeVoisin.end() ; voisinIt++ ){
+			cout << "   * " ;
+			(*voisinIt).display();
+			cout << endl;
+		}
+		cout << "   ... màj de _F _G _H pour chaque voisin du noeud Courant " << endl;
+		int xD,yD;
+		voisinIt = listeVoisin.begin();
+		for( ; voisinIt != listeVoisin.end() ; voisinIt++ ){
+			xD = (*voisinIt).get_X();
+			yD = (*voisinIt).get_Y();
+			cout << "   Voisin " << xD << "," << yD << endl;
+			if( graphDeRecherche._graphe[xD][yD].get_heuristic() == 0){
+				cout << "   > Ce Voisin n'a jamais été évalué" << endl;
+				// ceci marche
+				graphDeRecherche._graphe[xD][yD].set_costFromBegin( abs(xD - xA) + abs(yD - yA) );
+				graphDeRecherche._graphe[xD][yD].set_costFromEnd( abs(xD - xB) + abs(yD - yB) );
+				//(*voisinIt).set_costFromBegin(abs((xD+yD)-(xA+yA)));
+				//(*voisinIt).set_costFromEnd(abs((xD+yD)-(xB+yB)));
+				//cout << "   iT:";(*voisinIt).display();
+				cout << "\n   après modif:\n   * " ;
+				graphDeRecherche._graphe[xD][yD].display();
+				cout << endl;
+			} else if ( graphDeRecherche._graphe[xD][yD].get_heuristic() < 0 ){
+				cout << "   > Ce Voisin est infranchissable" << endl;
+			} else {
+				cout << "   > Ce Voisin a déjà été évalué" << endl;
 			}
 		}
+		graphDeRecherche.display();
 
-		listeVoisin.begin();
-		/*while( listeVoisin.get_allocator() != listeVoisin.back() ){
-			*voisin = listeVoisin.get_allocator();
-			cout << "voisin: " << voisin->get_X()<< "'" << voisin->get_Y() << endl;
-			if( voisin->get_heuristic() < 0
-			 && noeudsTraites.sort ){
+		cout << " ** Debut du traitement de chaque voisin de courant"<< endl;
+		voisinIt = listeVoisin.begin();
+		for( ; voisinIt != listeVoisin.end() ; voisinIt++ ){
+			xD = (*voisinIt).get_X();
+			yD = (*voisinIt).get_Y();
+			cout << "    Voisin " << xD << " , " << yD << endl;
+			bool rep1,rep2,rep3,rep4,rep5;
+			rep1 = (*voisinIt).get_heuristic() < 0;
+			rep2 = graphDeRecherche.isIn(closeList ,(*voisinIt));
+			rep3 = (graphDeRecherche._graphe[xD][yD].get_heuristic() <= graphDeRecherche._graphe[xC][yC].get_heuristic());
+			rep4 = graphDeRecherche.isIn(openList ,(*voisinIt));
+			rep5 = (graphDeRecherche._graphe[xD][yD].get_costFromEnd() <= graphDeRecherche._graphe[xC][yC].get_costFromEnd());
 
+			cout << "    Ce voisin est infranchissable ? " << rep1 << endl;
+			cout << "    Ce voisin est dans closeList  ? " << rep2 << endl;
+			if( rep1 || rep2 ){
+				if( rep1 ){
+					cout << "  > Oui, ce voisin est infranchissable" << endl;
+					cout << "    _F = " << (*voisinIt).get_heuristic() << endl;
+				}
+				if( rep2 ){
+					cout << "  > Oui, ce voisin déjà traité" << endl;
+				}
+				cout << "    donc voisin suivant" << endl;
+				//voisinIt++;
+			} else {
+				cout << "    le voisin est franchissable et non-traité " << endl;
+				cout << "    Ce voisin a un cout <= au noeud courant ? " << rep3 << endl;
+				cout << "    Ce voisin n'a pas été évalué ? " << !rep4 << endl;
+				if( rep3 || !rep4 ){
+					if( rep3 ){
+						cout << "  > ce voisin a un cout <= au noeud courant" << endl ;
+						if( rep5 ){
+							cout << "  > ce voisin a un coutFromEnd <= au noeud courant" << endl ;
+							xC = xD;
+							yC = yD;
+							enCours = &graphDeRecherche._graphe[xD][yD];
+						}
+					}
+					if( !rep4 ){
+						cout << "  > Ce voisin n'a pas été traité" << endl ;
+						cout << "    ajout du voisin dans OpenList..." << endl;
+						cout << "    size openList = " << openList.size() << endl;
+						openList.push_back(graphDeRecherche._graphe[xD][yD]);
+						cout << "    size openList = " << openList.size() << endl;
+						openIt = openList.begin();
+						cout << "    openList contient :" << endl;
+						for(; openIt != openList.end(); openIt++){
+							cout << "  * " ;
+							(*openIt).display();
+							cout << endl;
+						}
+					}
+				} else {
+					cout << "    Ce voisin n'est pas le plus court " << !rep4;
+				}
 			}
-
-			if( voisin->get_heuristic()<0 ){
-				listeVoisin = listeVoisin.back();
-			}
-
-		}*/
+		}
+		cout << " ** Fin du traitement" << endl;
+		cout << " size actuel de openLIst = " << openList.size() << endl;
 	}
+	cout << " * Fin du while " << endl;
+	cout << " Erreur : Impossible d'accéder à la cible " << endl;
 	//return list<Affichable>;
+	exit(0);
 }
 
 int Carte::get_sizeX(void){
@@ -246,7 +380,7 @@ int Carte::get_IDin(int x, int y){
 	return _map[x][y]->get_ID();
 }
 
-std::list <Affichable*> Carte::list_cc(int x,int y)
+list <Affichable*> Carte::list_cc(int x,int y)
 {
 	std::list <Affichable*> a;
 	if(x!=_sizeX)

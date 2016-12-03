@@ -69,11 +69,14 @@ int moove_switch ( void ){
 	return( reponse ) ;
 }
 
-int fin_tour(list<Hero> l)
+int fin_tour(list<Hero>)
 {
+	cout<<"ENTREE DANS LA FONCTION"<<endl;
 	list<Hero>::iterator ite;
-	for(ite = l.begin();ite!=l.end();ite++)
+	/*
+	for(&ite=l.begin();&ite!=l.end();ite++)
 	{
+		(*ite).display_info();
 		cout<<(*ite).get_paCurrent()<<endl;
 		if((*ite).get_paCurrent()<0)
 		{
@@ -81,6 +84,7 @@ int fin_tour(list<Hero> l)
 			return(0);
 		}
 	}
+	*/
 	cout<<"ENCORE"<<endl;
 	return(1);
 }
@@ -98,15 +102,12 @@ int main() {
 	list<Ennemi> team_ennemi;
 
 	Hero val(0,0,2,10,1,Arme(),"Valentin");		//creation des perso
-	Hero vin(1,1,2,10,1,Arme(),"Vincent");
+	//Hero vin(1,1,2,10,1,Arme(),"Vincent");
 	Ennemi pro(2,2,3,10,1,Arme());
 
 	team_hero.push_front(val);					// maj liste equipe
-	team_hero.push_front(vin);
+	//team_hero.push_front(vin);
 	team_ennemi.push_front(pro);
-
-	list<Hero>::iterator Ithero = team_hero.begin();		//cration iterateur
-	list<Ennemi>::iterator Itennemi = team_ennemi.begin();
 
 	Luminy.addItem(val);						//ajoute des perso
 	Luminy.addItem(pro);
@@ -116,15 +117,15 @@ int main() {
 	while(token>0)			//TANT QUE Ennemis detruit ou Hero detruits
 	{
 		token--;
-		cout<<"Nouveau tour!"<<endl;
-
-		while(fin_tour(team_hero))		//TANT QUE pa!=0 pour tous les hero
+		cout<<"Nouveau tour"<<endl;
+		while(val.get_paCurrent()>0)		//TANT QUE pa!=0 pour tous les hero
 		{
 			cout<<"Tour de val "<<endl;
 			do {
 				//cout << "-------------------------------------------------------------------------------- \n";
 				cout<<"\t\t\t\t\tPA restants= "<<val.get_paCurrent()<<endl;
 				Luminy.display();
+				cout<<fin_tour(team_hero)<<endl;
 				choix = main_switch() ;
 				switch ( choix ){
 				case DEPLACER :
@@ -160,12 +161,13 @@ int main() {
 					break;
 				}
 			} while ( choix != 0 ) ;
-			val.set_paCurrent(val.get_paMax());			//TANT QUE pa!=0 pour tous les ennemis
-			while(pro.get_paCurrent()>0)
-			{
-				cout<<"Tour de pro"<<endl;
-				Luminy.display();
-				/*
+		}
+		val.set_paCurrent(val.get_paMax());			//TANT QUE pa!=0 pour tous les ennemis
+		while(pro.get_paCurrent()>0)
+		{
+			cout<<"Tour de pro"<<endl;
+			Luminy.display();
+			/*
 			pro.move_up(Luminy);
 			if(pro.get_paCurrent()>0)
 			{
@@ -179,13 +181,13 @@ int main() {
 					}
 				}
 			}
-				 */
-				pro.set_paCurrent(0);
-			}
-			pro.set_paCurrent(pro.get_paMax());
+			 */
+			pro.set_paCurrent(0);
 		}
+		pro.set_paCurrent(pro.get_paMax());
 	}
 }
+
 
 
 

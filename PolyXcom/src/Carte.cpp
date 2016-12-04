@@ -24,7 +24,6 @@
 #include <cstdlib>
 #include <assert.h>
 #include <list>
-#include <map>
 #include "Carte.h"
 #include "Graphe.h"
 #include "Noeud.h"
@@ -33,7 +32,6 @@
 using namespace std;
 
 static Affichable vide;
-
 
 /** Le constructeur Carte initialise le tableau contenant les objets affichables
 	 * @param x - la longueur de la carte
@@ -61,7 +59,6 @@ Carte::Carte( int x , int y ) {
 void Carte::display( void ) {
 	int i,														// indice parcours sur l'axe Y
 		j;														// indice parcours sur l'axe X
-
 	cout << " *** affichage de la carte *** " << endl;
 	cout << " ----------------- " << endl;
 	for( i = _sizeY-1 ; i >= 0 ; i-- ){
@@ -70,13 +67,6 @@ void Carte::display( void ) {
 		}
 		cout << " | "<< endl << " ----------------- " << endl;
 	}
-	/*cout << " *** _map avec l'adresse sur laquelle chaque case pointe *** " << endl;
-	for( i = _sizeY-1 ; i >= 0 ; i-- ){
-		for( j = 0 ; j < _sizeX ; j++ ){
-			cout << _map[j][i] << " ";
-		}
-		cout << " \n "<< endl;
-	}*/
 	cout << " *** fin affichage *** " << endl;
 }
 
@@ -86,16 +76,13 @@ void Carte::display( void ) {
  	 * */
 bool Carte::moveIsPossible( int x , int y ){
 	bool rep = true ;
-
-	if( !(_map[x][y] == &vide) ){
-		// si obstacle sur la case destination
+	if( !(_map[x][y] == &vide) ){			// si obstacle sur la case destination
 		rep = false;
 		cout << " obstacle détectée sur " << x << "," << y << endl;
 	} else if( !( ( x>=0 && x<_sizeX ) && ( y>=0 && y<_sizeY ) ) ) {
-		// si case destination en dehors de la carte
-		rep = false;
+		rep = false;						// si case destination en dehors de la carte
 		cout << " on sort de la carte! sur " << x << "," << y << endl;
-	} else {
+	} else {								// si le deplacement est possible
 		cout << " aucun obstacle détectée" << endl;
 	}
 	return rep;
@@ -119,26 +106,22 @@ void Carte::addItem( Affichable &a ){
  	 * @param newX,newY - nouvelle coordonnées de l'objet à déplacer
  	 * */
 void Carte::moveItemTo( int oldX, int oldY , int newX , int newY ){
-	//cout << "màj des coordonnes" << endl;
-
-	//cout << "adresse de l'objet à deplacer " <<_map[ oldX ][ oldY ] << endl;
-	//cout << "coordonnes de l'objet : "<< oldX << " " << oldX << endl;
-	//cout << "coordonnes de l'objet : "<< _map[ oldX ][ oldY ]->get_x() << " " << _map[ oldX ][ oldY ]->get_y() << endl;
-
 	_map[ newX ][ newY ] = _map[ oldX ][ oldY ];
 	_map[ oldX ][ oldY ] = &vide;
 
 	_map[ newX ][ newY ]->set_x(newX);
 	_map[ newX ][ newY ]->set_y(newY);
-
-	//cout << "adresse de l'objet à la nvlle position "<< _map[ oldX ][ oldY ] << endl;
-	//cout << "adresse de l'objet à l'ancienne position "<< _map[ oldX ][ oldY ] << endl;
-	//cout << "coordonnes de l'objet : "<< _map[ newX ][ newY ]->get_x() << " " << _map[ newX ][ newY ]->get_y() << endl;
 }
 
-void Carte::pathfinding( int xA , int yA , int xB , int yB ){
-	// La cible doit être valide
-	assert( this->moveIsPossible(xB, yB) == true);
+/** La méthode pathfinding permet de trouver le meilleur chemin d'un point A à un point B
+ * sur la carte avec l'algorithme A*. Il retourne le chemin trouvé, c'est une liste de
+ * coordonnées à suivre
+ 	 * @param xA,yA - Point de Départ
+ 	 * @param xB,yB - Point d'arrivée
+ 	 * @return - retourne une liste de paires de coordonnées
+ 	 * */
+list <pair<int , int>> Carte::pathfinding( int xA , int yA , int xB , int yB ){
+	assert( this->moveIsPossible(xB, yB) == true);		// La cible doit être valide
 
 	// initialisation du graphe
 	Graphe graphDeRecherche(this);
@@ -161,15 +144,14 @@ void Carte::pathfinding( int xA , int yA , int xB , int yB ){
 	list <Noeud> openList;					// Liste contenant les noeuds à traiter
 	list <Noeud> closeList;					// Liste contenant les noeuds déjà traités
 	list <Noeud> listeVoisin;				// Liste contenant les voisins du noeud courant
-	list <Noeud> pathList;				// Liste contenant le veritable chemin
-
+	list <pair<int , int>> pathList;		// Liste contenant le veritable chemin
 
 	// définition des itérateurs
 	cout << "... creation des iterateurs..." << endl;
 	list<Noeud>::iterator openIt = openList.begin();
 	list<Noeud>::iterator closeIt = closeList.begin();
 	list<Noeud>::iterator voisinIt = listeVoisin.begin();
-	list<Noeud>::iterator pathIt = pathList.begin();
+	list <pair<int , int>>::iterator pathIt = pathList.begin();
 	list<Noeud>::iterator nodelowestCost;
 	cout << "... verification des listes ..." << endl;
 	cout << "size openList = " << openList.size() << endl;
@@ -204,11 +186,11 @@ void Carte::pathfinding( int xA , int yA , int xB , int yB ){
 		int H_cost_Min = _sizeX*_sizeY;
 		int F_cost_Min = _sizeX*_sizeY;
 		while(openIt != openList.end()){
-			if( (*openIt).get_heuristic() <= F_cost_Min ){
+			if( (*openIt).get_costFinal() <= F_cost_Min ){
 				if( (*openIt).get_costFromEnd() <= H_cost_Min ){
 					nodelowestCost = openIt;
 					H_cost_Min = (*openIt).get_costFromEnd();
-					F_cost_Min = (*openIt).get_heuristic();
+					F_cost_Min = (*openIt).get_costFinal();
 				}
 			}
 			cout << "    It minimal : " ;
@@ -231,7 +213,7 @@ void Carte::pathfinding( int xA , int yA , int xB , int yB ){
 
 		cout << " * Ajout du noeud Courant dans CloseList ..." << endl;
 		cout << "   size closeList = " << closeList.size() << endl;
-		closeList.push_back(*enCours);
+		closeList.push_front(*enCours);
 		cout << "   size closeList = " << closeList.size() << endl;
 		cout << "   ... verification de closeList " << endl;
 		closeIt = closeList.begin();
@@ -242,19 +224,42 @@ void Carte::pathfinding( int xA , int yA , int xB , int yB ){
 			cout << endl ;
 		}
 
-
 		// le noeud courant est-il la cible ?
 		cout << " ** Debut du If \"le noeud courant est-il sur la cible\""<< endl;
 		if( xC == xB && yC == yB ){
 			cout << "  > Chemin trouvé !!!" << endl;
 			cout << "    ... reconstitution du chemin " << endl;
-			//pair<int,int> coord ;
-			//pathIt = pathList.begin();
-			//closeIt = closeList.end();
-			//pathList.insert( (*closeIt).get_X(), (*closeIt).get_Y() );
-
-			//return pathList;
-			exit(1);
+			pair<int,int> coord;
+			int nextX,nextY;
+			pathIt = pathList.begin();
+			closeIt = closeList.begin();
+			coord.first = (*closeIt).get_X();
+			coord.second = (*closeIt).get_Y();
+			cout << "    ajout de " << coord.first << " " << coord.second << endl;
+			pathList.push_back(coord);
+			closeIt++;
+			for(; closeIt != closeList.end(); closeIt++){
+				nextX = (*closeIt).get_X();
+				nextY = (*closeIt).get_Y();
+				cout << "    verif de " << nextX << " " << nextY << endl;
+				// on verifie que la prochaine trajectoire ne sera pas une diagonale
+				//if( abs( ( nextX - coord.first) + ( nextY - coord.second) ) == 1  ){
+				if( ( (nextX - coord.first)==0 && ((nextY - coord.second)==1 ) )
+				 || ( (nextX - coord.first)==1 && ((nextY - coord.second)==0 ) )
+				 ||	( (nextX - coord.first)==0 && ((nextY - coord.second)==-1) )
+				 ||	( (nextX - coord.first)==-1 && ((nextY - coord.second)==0) ) ){
+					cout << "    le prochain est bien voisin est sur le même axe" << endl;
+					coord.first = nextX ;
+					coord.second = nextY ;
+					cout << "    ajout de " << coord.first << " " << coord.second << endl;
+					pathList.push_front(coord);
+				} else {
+					cout << (nextX - coord.first) + (nextY - coord.second) <<  endl;
+					cout << " prochain trop loin, on passe au suivant" << endl;
+				}
+				if( nextX == xA && nextY == yA ) closeIt == closeList.end();
+			}
+			return pathList;
 		} else {
 			cout << "  > Chemin pas encore trouvé " << endl;
 		}
@@ -265,7 +270,7 @@ void Carte::pathfinding( int xA , int yA , int xB , int yB ){
 		cout << "   ... Nettoyage de listeVoisin ..." << endl;
 		listeVoisin.clear();
 		cout << "   listeVoisin vide ? " << listeVoisin.empty() << endl;
-		listeVoisin.splice(voisinIt, graphDeRecherche.find_Voisin(xC,yC,xA,yA,xB,yB));
+		listeVoisin.splice(voisinIt, graphDeRecherche.find_Voisin(xC,yC));
 		cout << "   size listeVoisin = " << listeVoisin.size() << endl;
 		cout << "   ... verification de listeVoisin " << endl;
 		voisinIt = listeVoisin.begin();
@@ -282,9 +287,8 @@ void Carte::pathfinding( int xA , int yA , int xB , int yB ){
 			xD = (*voisinIt).get_X();
 			yD = (*voisinIt).get_Y();
 			cout << "   Voisin " << xD << "," << yD << endl;
-			if( graphDeRecherche._graphe[xD][yD].get_heuristic() == 0){
+			if( graphDeRecherche._graphe[xD][yD].get_costFinal() == 0){
 				cout << "   > Ce Voisin n'a jamais été évalué" << endl;
-				// ceci marche
 				graphDeRecherche._graphe[xD][yD].set_costFromBegin( abs(xD - xA) + abs(yD - yA) );
 				graphDeRecherche._graphe[xD][yD].set_costFromEnd( abs(xD - xB) + abs(yD - yB) );
 				//(*voisinIt).set_costFromBegin(abs((xD+yD)-(xA+yA)));
@@ -293,7 +297,7 @@ void Carte::pathfinding( int xA , int yA , int xB , int yB ){
 				cout << "\n   après modif:\n   * " ;
 				graphDeRecherche._graphe[xD][yD].display();
 				cout << endl;
-			} else if ( graphDeRecherche._graphe[xD][yD].get_heuristic() < 0 ){
+			} else if ( graphDeRecherche._graphe[xD][yD].get_costFinal() < 0 ){
 				cout << "   > Ce Voisin est infranchissable" << endl;
 			} else {
 				cout << "   > Ce Voisin a déjà été évalué" << endl;
@@ -308,10 +312,10 @@ void Carte::pathfinding( int xA , int yA , int xB , int yB ){
 			yD = (*voisinIt).get_Y();
 			cout << "    Voisin " << xD << " , " << yD << endl;
 			bool rep1,rep2,rep3,rep4,rep5;
-			rep1 = (*voisinIt).get_heuristic() < 0;
-			rep2 = graphDeRecherche.isIn(closeList ,(*voisinIt));
-			rep3 = (graphDeRecherche._graphe[xD][yD].get_heuristic() <= graphDeRecherche._graphe[xC][yC].get_heuristic());
-			rep4 = graphDeRecherche.isIn(openList ,(*voisinIt));
+			rep1 = (*voisinIt).get_costFinal() < 0;
+			rep2 = graphDeRecherche.isInTheList(closeList ,(*voisinIt));
+			rep3 = (graphDeRecherche._graphe[xD][yD].get_costFinal() <= graphDeRecherche._graphe[xC][yC].get_costFinal());
+			rep4 = graphDeRecherche.isInTheList(openList ,(*voisinIt));
 			rep5 = (graphDeRecherche._graphe[xD][yD].get_costFromEnd() <= graphDeRecherche._graphe[xC][yC].get_costFromEnd());
 
 			cout << "    Ce voisin est infranchissable ? " << rep1 << endl;
@@ -319,13 +323,12 @@ void Carte::pathfinding( int xA , int yA , int xB , int yB ){
 			if( rep1 || rep2 ){
 				if( rep1 ){
 					cout << "  > Oui, ce voisin est infranchissable" << endl;
-					cout << "    _F = " << (*voisinIt).get_heuristic() << endl;
+					cout << "    _F = " << (*voisinIt).get_costFinal() << endl;
 				}
 				if( rep2 ){
 					cout << "  > Oui, ce voisin déjà traité" << endl;
 				}
 				cout << "    donc voisin suivant" << endl;
-				//voisinIt++;
 			} else {
 				cout << "    le voisin est franchissable et non-traité " << endl;
 				cout << "    Ce voisin a un cout <= au noeud courant ? " << rep3 << endl;
@@ -364,21 +367,28 @@ void Carte::pathfinding( int xA , int yA , int xB , int yB ){
 	}
 	cout << " * Fin du while " << endl;
 	cout << " Erreur : Impossible d'accéder à la cible " << endl;
-	//return list<Affichable>;
-	exit(0);
+	return pathList;
 }
 
+/** Retourne la longueur de la carte
+ * */
 int Carte::get_sizeX(void){
 	return _sizeX;
 }
 
+/** Retourne la largeur de la carte
+ * */
 int Carte::get_sizeY(void){
 	return _sizeY;
 }
 
+/** Retourne l'ID de l'objet dans la carte
+ * */
 int Carte::get_IDin(int x, int y){
 	return _map[x][y]->get_ID();
 }
+
+
 
 list <Affichable*> Carte::list_cc(int x,int y)
 {
@@ -414,7 +424,8 @@ list <Affichable*> Carte::list_cc(int x,int y)
 	return(a);
 }
 
-/** Le destructeur Carte */
+/** Le destructeur de Carte
+ * */
 Carte::~Carte() {
 	cout << " - carte de taille "<< _sizeX << "*" << _sizeY << " detruit" << endl;
 }

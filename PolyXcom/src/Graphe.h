@@ -8,30 +8,26 @@
 #ifndef GRAPHE_H_
 #define GRAPHE_H_
 
-#include <vector>
+#include <list>
 #include "Noeud.h"
 #include "Carte.h"
 
 class Graphe {
-private:
-	int _sizeX;
-	int _sizeY;
+private:										// Attributs
+	int _sizeX;											// taille du graphe =
+	int _sizeY;											// taille de la carte
 public:
-	Noeud **_graphe;
+	Noeud **_graphe;									// Graphe composé de Noeud
 
+												// Constructeurs
 public:
-	Graphe(Carte *map);
+	Graphe(Carte *map);									// Constructeur avec la pointeur sur une carte en argument
 
-	Noeud lowestNode(list<Noeud> &l);
-	bool isIn(list<Noeud> &l, Noeud &cible);
-	void display(void);
+	bool isInTheList(list<Noeud> &l, Noeud &cible);		// Affirme si le Noeud cible est dans la liste l
+	list<Noeud> find_Voisin(int xC, int yC);			// Recherche la liste des voisins du noeud (xC,yC)
+	void display(void);									// Affiche le graphe
 
-	list<Noeud> find_Voisin(int xC, int yC, int xA, int yA, int xB, int yB);
-
-	Noeud get_Noeud(int x, int y);
-
-
-	virtual ~Graphe();
+	virtual ~Graphe();									// Destructeur
 };
 
 #endif /* GRAPHE_H_ */

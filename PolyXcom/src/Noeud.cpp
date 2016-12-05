@@ -8,7 +8,6 @@
 #include <iostream>
 #include "Noeud.h"
 
-#include <iostream>
 using namespace std;
 
 /** Le constructeur par défaut Noeud initialise le noeud et ses couts

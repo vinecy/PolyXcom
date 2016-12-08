@@ -21,13 +21,12 @@
  */
 
 #include <iostream>
-#include <cstdio>
-#include <cstdlib>
 #include "Hero.h"
 #include "Carte.h"
 #include "Arme.h"
 #include "Graphe.h"
 #include "Ennemi.h"
+
 using namespace std;
 
 #define DEPLACER 1
@@ -53,7 +52,7 @@ int main_switch ( void ){
 	return( reponse ) ;
 }
 
-int moove_switch ( void ){
+int move_switch ( void ){
 	int reponse ;
 	do {
 		cout << "\n\t\t\t\t\tOu voulez vous allez : \n\t\t\t\t\t" << NORTH << " - au Nord " << endl;
@@ -69,44 +68,6 @@ int moove_switch ( void ){
 	return( reponse ) ;
 }
 
-int fin_tour(list<Hero>)
-{
-	cout<<"ENTREE DANS LA FONCTION"<<endl;
-	list<Hero>::iterator ite;
-	/*
-	for(&ite=l.begin();&ite!=l.end();ite++)
-	{
-		(*ite).display_info();
-		cout<<(*ite).get_paCurrent()<<endl;
-		if((*ite).get_paCurrent()<0)
-		{
-			cout<<"FINI"<<endl;
-			return(0);
-		}
-	}
-	*/
-	cout<<"ENCORE"<<endl;
-	return(1);
-}
-
-list<Ennemi*> proche(int x,int y,list<Ennemi*> team)
-{
-	list<Ennemi*>::iterator ite;
-	list<Ennemi*> l;
-	for(ite=team.begin();ite!=team.end();ite++)
-	{
-		if(((((*ite)->get_x()+1==x)||((*ite)->get_x()-1==x))&&((*ite)->get_y()==y)))
-		{
-			l.push_front((*ite));
-		}
-		else if(((((*ite)->get_y()+1==y)||((*ite)->get_y()-1==y))&&((*ite)->get_x()==x)))
-		{
-			l.push_front((*ite));
-		}
-	}
-	return(l);
-}
-
 int main() {
 	int choix;
 	int choix2;
@@ -115,10 +76,10 @@ int main() {
 
 	Carte Luminy( (int)4 , (int)4 );			//creatin de la carte
 
-	list<Hero*> team_hero;						//creation des listes d'equipes
-	list<Ennemi*> team_ennemi;
+	list<Personnage*> team_hero;				//creation des listes d'equipes
+	list<Personnage*> team_ennemi;
 
-	Hero val(0,0,2,10,1,Arme(),"Valentin");		//creation des perso
+	Hero val(0,0,2,10,8,Arme(),"Valentin");		//creation des perso
 	Ennemi pro(1,0,3,10,1,Arme());
 	Ennemi gen(0,1,3,9,2,Arme());
 
@@ -131,7 +92,7 @@ int main() {
 	Luminy.addItem(pro);
 	Luminy.addItem(gen);
 
-	list<Ennemi*>::iterator ite;
+	list<Personnage*>::iterator ite;
 
 	int token;
 	token=3;
@@ -151,7 +112,7 @@ int main() {
 				case DEPLACER :
 					do
 					{
-						choix2 = moove_switch();
+						choix2 = move_switch();
 						switch(choix2)
 						{
 						case NORTH:
@@ -177,7 +138,7 @@ int main() {
 					cout<<"peace man!"<<endl;
 					break;
 				case CC:
-					list<Ennemi*> proch = proche(val.get_x(),val.get_y(),team_ennemi);
+					list<Personnage*> proch = val.near(Luminy,team_ennemi);
 					if(proch.size()==0)
 					{
 						cout<<"Pas d'ennemi proche"<<endl;
@@ -213,10 +174,8 @@ int main() {
 									fini=1;
 								}
 
-							}//TODO bug PV second ennemi
-							//TODO warning
+							}
 						}
-
 					}
 					break;
 				}

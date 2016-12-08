@@ -30,6 +30,15 @@ Arme::Arme(int tier,int degats,int portee,int mun)
 	_munCurrent=_munMax;
 }
 
+int Arme::get_tier(){
+	return(_tier);
+}
+int Arme::get_degats(){
+	return(_degats);
+}
+int Arme::get_portee(){
+	return(_portee);
+}
 int Arme::get_munCurrent()			//getters
 {
 	return(_munCurrent);

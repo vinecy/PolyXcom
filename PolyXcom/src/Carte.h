@@ -28,10 +28,13 @@ class Carte {
 
 		void display(void);											// Permet d'afficher la carte
 		bool moveIsPossible( int x , int y );						// Affirme si Déplacement possible à (x,y)
+
 		void addItem(Affichable &a);								// Ajoute un objet affichable sur la carte
+		void removeItem(Affichable &a);								// Enleve un objet affichable sur la carte (ne supprime pas lobjet)
 		void moveItemTo( int oldX , int oldY , int newX , int newY);// Déplace l'affichable de la case (x,y) à la nouvelle case
 
 		list <pair<int , int>> pathfinding( int xA , int yA , int xB , int yB );// Recherche le meilleur chemin vers xB,yB et renvoie le chemin à faire
+		//list <Personnage> listEnnemiInSight(Personnage &p);			// Retourne la liste des ennemis que p peut atteindre
 
 		int get_sizeX(void);			// Retourne la longueur de la carte
 		int get_sizeY(void);			// Retourne la largeur de la carte

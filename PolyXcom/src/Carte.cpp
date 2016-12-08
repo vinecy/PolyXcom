@@ -101,6 +101,14 @@ void Carte::addItem( Affichable &a ){
 	//cout << " la case " << a.get_x() << "," << a.get_y() << " pointe sur l'adresse " << _map[ a.get_x() ][ a.get_y() ] << endl;
 }
 
+void Carte::removeItem( Affichable &a ){
+	if( _map[ a.get_x() ][ a.get_y() ] == &vide ) {
+			cout << "!!! il y a déjà personne  !!!" << endl ;
+	}
+	_map[ a.get_x() ][ a.get_y() ] = &vide;
+}
+
+
 /** La méthode moveItemTo permet de deplacer un affichable à un point sur la carte
  	 * @param *a - pointeur sur l'affichable à déplacer sur la carte
  	 * @param newX,newY - nouvelle coordonnées de l'objet à déplacer
@@ -369,6 +377,25 @@ list <pair<int , int>> Carte::pathfinding( int xA , int yA , int xB , int yB ){
 	cout << " Erreur : Impossible d'accéder à la cible " << endl;
 	return pathList;
 }
+
+/** La méthode listEnnemiInSight permet de retourner la liste des personnages que le personnage p peut atteindre
+ 	 * @param p - personnage qui veut savoir quels personnes peut toucher à distance
+ 	 * @return - il retourne les personnages qu'il peut toucher.
+ 	 * */
+/*list <Personnage*> Carte::listEnnemiInSight(Personnage &p){			// Retourne la liste des ennemis que p peut atteindre
+	list<Personnage*> ennemiTouchable;
+
+
+	Arme armeP = p.get_inv_armes();
+	int porteeArmeP = armeP.get_portee();
+	int rotationP = p.get_rotation();
+
+
+
+
+
+	return ennemiTouchable;
+}*/
 
 /** Retourne la longueur de la carte
  * */

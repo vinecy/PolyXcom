@@ -21,6 +21,9 @@ class Arme
 		Arme();									//Constructeur Arme "defaut"
 		Arme(int tier,int degats,int portee,int mun);//Constructeur d'Arme
 
+		int get_tier();
+		int get_degats();
+		int get_portee();
 		int get_munCurrent();					//getter
 		int get_munMax();
 

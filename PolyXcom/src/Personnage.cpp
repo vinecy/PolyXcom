@@ -69,6 +69,14 @@ int Personnage::get_paCurrent(void)
 {
 	return(_paCurrent);
 }
+int Personnage::get_rotation(void){
+	return(_rotation);
+}
+Arme Personnage::get_inv_armes(void){
+	return(_inv_armes);
+}
+
+
 
 void Personnage::set_pvMax(int pv)		//setters
 {

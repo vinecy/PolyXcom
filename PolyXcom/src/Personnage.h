@@ -33,12 +33,13 @@ public:
 	int get_paMax(void);
 	int get_pvCurrent(void);
 	int get_paCurrent(void);
+	int get_rotation(void);
+	Arme get_inv_armes(void);
 
 	void set_pvMax(int pv);							//setters
 	void set_paMAx(int pa);
 	void set_pvCurrent(int pv);
 	void set_paCurrent(int pa);
-
 
 	void move_up(Carte &map);						//deplacement au Nord
 	void move_down(Carte &map);						//deplacement au Sud

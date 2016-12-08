@@ -39,6 +39,24 @@ void Ennemi::begin_IA()
 	cout<<"begin!"<<endl;
 }
 
+list<Personnage*> Ennemi::near(Carte &map,list<Personnage*> team)
+{
+	list<Personnage*>::iterator ite;
+	list<Personnage*> l;
+	for(ite=team.begin();ite!=team.end();ite++)
+	{
+		if(((((*ite)->get_x()+1==_coordX)||((*ite)->get_x()-1==_coordX))&&((*ite)->get_y()==_coordY)))
+		{
+			l.push_front((*ite));
+		}
+		else if(((((*ite)->get_y()+1==_coordY)||((*ite)->get_y()-1==_coordY))&&((*ite)->get_x()==_coordX)))
+		{
+			l.push_front((*ite));
+		}
+	}
+	return(l);
+}
+
 /** Le destructeur Ennemi*/
 Ennemi::~Ennemi()				//destructor
 {

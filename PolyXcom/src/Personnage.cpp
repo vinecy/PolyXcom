@@ -170,14 +170,8 @@ void Personnage::reload()
 {
 	_inv_armes.set_munCurrent(_inv_armes.get_munMax());
 }
-/*
- * TODO Close combat non fini
-void Personnage::close_combat(Carte &map)
-{
-	list<Affichable*> cibles = map.list_cc(_coordX,_coordY);
-	//cibles.front()->display_info();
-}
-*/
+
+
 /** Le destructeur Personnage*/
 Personnage::~Personnage()				//destructor
 {

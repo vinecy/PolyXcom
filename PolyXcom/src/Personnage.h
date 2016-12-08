@@ -49,9 +49,9 @@ public:
 
 	void display_info(void);						//affichage des attributs en console
 
-	void reload();									//rechargement de l'arme
+	virtual list<Personnage*> near(Carte &map, list<Personnage*> team)=0;
 
-	void close_combat(Carte &map);					//attaque au corps a corps
+	void reload();									//rechargement de l'arme
 
 	virtual ~Personnage(void);						//destructor
 

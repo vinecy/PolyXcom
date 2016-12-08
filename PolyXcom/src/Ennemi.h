@@ -16,6 +16,8 @@ class Ennemi : public Personnage
 
 		void display_info();									//Affichable debug
 
+		list<Personnage*> near(Carte &map,list<Personnage*> team);
+
 		void begin_IA();										//fonction qui commence le choix de l'AI
 
 		virtual ~Ennemi();										//Destucteur

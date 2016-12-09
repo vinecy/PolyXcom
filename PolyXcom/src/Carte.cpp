@@ -378,24 +378,226 @@ list <pair<int , int>> Carte::pathfinding( int xA , int yA , int xB , int yB ){
 	return pathList;
 }
 
-/** La méthode listEnnemiInSight permet de retourner la liste des personnages que le personnage p peut atteindre
- 	 * @param p - personnage qui veut savoir quels personnes peut toucher à distance
- 	 * @return - il retourne les personnages qu'il peut toucher.
+/** La méthode drawPath permet de tracer un segment entre deux points A et B
+ * grace à l'Algorithme de tracé de segment de Bresenham
+ 	 * @param xA,yA - Point de Départ
+ 	 * @param xB,yB - Point d'arrivée
+ 	 * @return - retourne une liste de paires de coordonnées correspondant au segment tracé
  	 * */
-/*list <Personnage*> Carte::listEnnemiInSight(Personnage &p){			// Retourne la liste des ennemis que p peut atteindre
-	list<Personnage*> ennemiTouchable;
+list <pair<int , int>> Carte::drawPath( int xA, int yA, int xB, int yB ){
+	list <pair<int , int>> path;	// liste de paire de coordonnées representant le segment tracé
+	pair<int , int> coord;			// paire de coordonnées x,y
+	int dx, dy;
+	// Utilisation de l'Algorithme de tracé de segment de Bresenham
+	dx = xB - xA;
+	if( dx != 0 ){
+		if( dx > 0 ){
+			dy = yB - yA;
+			if( dy != 0 ){
+				if( dy > 0 ){		// vecteur oblique dans le 1er quadran (x > 0 et y > 0)
+					if( dx >= dy ){ // vecteur diagonal proche de l’horizontale, dans le 1er octant
+						int e = dx;
+						dx = e * 2;
+						dy = dy * 2;
+						xA++;
+						while( xA != xB ){
+							e = e - dy;
+							if(e < 0){
+								yA++;
+								e = e + dx;
+							}
+							coord.first = xA;
+							coord.second = yA;
+							path.push_back(coord);
+							xA++;
+						}
+					} else {		// vecteur oblique proche de la verticale, dans le 2d octant
+						int e = dy;
+						dy = e * 2;
+						dx = dx * 2;
+						yA++;
+						while( yA != yB ){
+							e = e - dx;
+							if(e < 0){
+								xA++;
+								e = e + dy;
+							}
+							coord.first = xA;
+							coord.second = yA;
+							path.push_back(coord);
+							yA++;
+						}
+					}
+				} else {			// vecteur oblique dans le 4e cadran (x > 0 et y < 0)
+					if(dx >= -dy){	// vecteur diagonal proche de l’horizontale, dans le 8e octant
+						int e = dx;
+						dx = e * 2;
+						dy = dy * 2;
+						xA++;
+						while( xA != xB ){
+							e = e + dy;
+							if(e < 0){
+								yA--;
+								e = e + dx;
+							}
+							coord.first = xA;
+							coord.second = yA;
+							path.push_back(coord);
+							yA--;
+						}
+					} else {		// vecteur oblique proche de la verticale, dans le 7e octant
+						int e = dy;
+						dy = e * 2;
+						dx = dx * 2;
+						yA--;
+						while( yA != yB ){
+							e = e + dx;
+							if(e > 0){
+								xA++;
+								e = e + dy;
+							}
+							coord.first = xA;
+							coord.second = yA;
+							path.push_back(coord);
+							yA--;
+						}
+					}
+				}
+			} else {			// dy = 0 (et dx > 0)
+				xA++;			// vecteur horizontal vers la droite
+				while( xA != xB ){
+					coord.first = xA;
+					coord.second = yA;
+					path.push_back(coord);
+					xA++;
+				}
+			}
+		} else {				// dx < 0
+			dy = yB - yA;
+			if( dy != 0 ){
+				if( dy > 0 ){	// vecteur oblique dans le 2nd quadran
+					if( -dx >= dy ){ // vecteur diagonal ou oblique proche de l’horizontale, dans le 4e octant
+						int e = dx;
+						dx = e * 2;
+						dy = dy * 2;
+						xA--;
+						while( xA != xB ){
+							e = e + dy;
+							if(e >= 0){
+								yA++;
+								e = e + dx ;
+							}
+							coord.first = xA;
+							coord.second = yA;
+							path.push_back(coord);
+							xA--;
+						}
+					} else {	// vecteur oblique proche de la verticale, dans le 3e octant
+						int e = dy;
+						dy = e * 2;
+						dx = dx * 2;
+						yA++;
+						while( yA != yB ){
+							e = e + dx;
+							if(e <= 0){
+								xA--;
+								e = e + dy ;
+							}
+							coord.first = xA;
+							coord.second = yA;
+							path.push_back(coord);
+							yA++;
+						}
+					}
+				} else {			// vecteur oblique dans le 3e cadran
+					if(dx <= dy){   // vecteur diagonal ou oblique proche de l’horizontale, dans le 5e octant
+						int e = dx;
+						dx = e * 2;
+						dy = dy * 2;
+						xA--;
+						while( xA != xB ){
+							e = e - dy;
+							if(e >= 0){
+								yA--;
+								e = e + dx ;
+							}
+							coord.first = xA;
+							coord.second = yA;
+							path.push_back(coord);
+							xA--;
+						}
+					} else { // vecteur oblique proche de la verticale, dans le 6e octant
+						int e = dy;
+						dy = e * 2;
+						dx = dx * 2;
+						yA--;
+						while( yA != yB ){
+							e = e - dx;
+							if(e >= 0){
+								xA--;
+								e = e + dy ;
+							}
+							coord.first = xA;
+							coord.second = yA;
+							path.push_back(coord);
+							yA--;
+						}
+					}
+				}
+			} else { 		// vecteur horizontal vers la gauche
+				xA--;
+				while( xA != xB ){
+					coord.first = xA;
+					coord.second = yA;
+					path.push_back(coord);
+					xA--;
+				}
+			}
+		}
+	} else { // dx = 0
+		dy = yB - yA;
+		if(dy != 0){
+			if(dy > 0){ 	// vecteur vertical croissant
+				yA++;
+				while( yA != yB ){
+					coord.first = xA;
+					coord.second = yA;
+					path.push_back(coord);
+					yA++;
+				}
+			} else {		// verteur vertical decroissant
+				yA--;
+				while( yA != yB ){
+					coord.first = xA;
+					coord.second = yA;
+					path.push_back(coord);
+					yA--;
+				}
+			}
+		}
+	}
+	return path;
+}
 
+/** La méthode pathIsPossible permet de confirmer si le chemin entre deux points
+ * A et B ne presente aucun obstacle
+ 	 * @param xA,yA - Point de Départ
+ 	 * @param xB,yB - Point d'arrivée
+ 	 * @return - retourne 1 si c'est un chemin sans obstacle et 0 sinon
+ 	 * */
+bool Carte::pathIsPossible( int xA, int yA, int xB, int yB ){
+	list<pair<int,int>> path = this->drawPath(xA, yA, xB, yB);
+	list<pair<int,int>>::iterator it;
+	it = path.begin();
+	bool rep = true;
 
-	Arme armeP = p.get_inv_armes();
-	int porteeArmeP = armeP.get_portee();
-	int rotationP = p.get_rotation();
+	while( it != path.end() && rep == true ){
+		rep = moveIsPossible( (*it).first, (*it).second );
+		it++;
+	}
+	return rep;
+}
 
-
-
-
-
-	return ennemiTouchable;
-}*/
 
 /** Retourne la longueur de la carte
  * */

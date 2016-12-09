@@ -34,7 +34,10 @@ class Carte {
 		void moveItemTo( int oldX , int oldY , int newX , int newY);// Déplace l'affichable de la case (x,y) à la nouvelle case
 
 		list <pair<int , int>> pathfinding( int xA , int yA , int xB , int yB );// Recherche le meilleur chemin vers xB,yB et renvoie le chemin à faire
-		//list <Personnage> listEnnemiInSight(Personnage &p);			// Retourne la liste des ennemis que p peut atteindre
+
+		list <pair<int , int>> drawPath( int xA, int yA, int xB, int yB );
+		bool pathIsPossible( int xA, int yA, int xB, int yB );
+
 
 		int get_sizeX(void);			// Retourne la longueur de la carte
 		int get_sizeY(void);			// Retourne la largeur de la carte

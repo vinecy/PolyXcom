@@ -21,6 +21,7 @@
  */
 
 #include <iostream>
+#include <map>
 #include "Hero.h"
 #include "Carte.h"
 #include "Arme.h"
@@ -74,23 +75,36 @@ int main() {
 
 	//system("cls");
 
-	Carte Luminy( (int)4 , (int)4 );			//creatin de la carte
+	Carte Luminy( (int)4 , (int)4 );			//creation de la carte
+	Carte Luminy2( "Luminy" );
+	Luminy2.display();
 
-	list<Personnage*> team_hero;				//creation des listes d'equipes
-	list<Personnage*> team_ennemi;
+	map<int,Personnage> team_hero;
+	map<int,Personnage> team_ennemi;
+
+	//list<Personnage*> team_hero;				//creation des listes d'equipes
+	//list<Personnage*> team_ennemi;
 
 	Hero val(0,0,2,10,8,Arme(),"Valentin");		//creation des perso
 	Ennemi pro(1,0,3,2,1,Arme());
 	Ennemi gen(0,1,3,3,2,Arme());
 
-	team_hero.push_front(&val);					// maj liste equipe
+	team_hero[0] = val;
+	team_ennemi[0] = pro;
+	team_ennemi[1] = gen;
+
+	/*team_hero.push_front(&val);					// maj liste equipe
 	team_ennemi.push_front(&pro);
-	team_ennemi.push_front(&gen);
+	team_ennemi.push_front(&gen);*/
 
+	Luminy.addItem(team_hero[0]);						//ajoute des perso
+	Luminy.addItem(team_ennemi[0]);
+	Luminy.addItem(team_ennemi[1]);
 
+	/*
 	Luminy.addItem(val);						//ajoute des perso
 	Luminy.addItem(pro);
-	Luminy.addItem(gen);
+	Luminy.addItem(gen);*/
 	//Luminy.removeItem(pro);
 	list<Personnage*>::iterator ite;
 

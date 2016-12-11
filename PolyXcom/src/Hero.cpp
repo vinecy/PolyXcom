@@ -22,22 +22,67 @@ Hero::Hero(int x,int y,int ID,int pv,int pa,Arme arme,string nom):Personnage(x,y
 	_nom=nom;
 }
 
-list<Personnage*> Hero::near(Carte &map,list<Personnage*> team)
+list<Personnage*> Hero::near(Carte &map,list<Personnage*> &team)
 {
 	list<Personnage*>::iterator ite;
 	list<Personnage*> l;
 	for(ite=team.begin();ite!=team.end();ite++)
 	{
-		if(((((*ite)->get_x()+1==_coordX)||((*ite)->get_x()-1==_coordX))&&((*ite)->get_y()==_coordY)))
+		if((((((*ite)->get_x()+1==_coordX)||((*ite)->get_x()-1==_coordX))&&((*ite)->get_y()==_coordY))&((*ite)->get_pvCurrent()>0)))
 		{
 			l.push_front((*ite));
 		}
-		else if(((((*ite)->get_y()+1==_coordY)||((*ite)->get_y()-1==_coordY))&&((*ite)->get_x()==_coordX)))
+		else if((((((*ite)->get_y()+1==_coordY)||((*ite)->get_y()-1==_coordY))&&((*ite)->get_x()==_coordX))&((*ite)->get_pvCurrent()>0)))
 		{
 			l.push_front((*ite));
 		}
 	}
 	return(l);
+}
+
+void Hero::close_combat(list<Personnage*> &team)
+{
+	list<Personnage*>::iterator ite;
+	if(team.size()==0)
+	{
+		cout<<"Pas d'ennemi proche"<<endl;
+	}else if(team.size()==1){
+		team.front()->set_pvCurrent(team.front()->get_pvCurrent()-2);
+		this->set_paCurrent(this->get_paCurrent()-3);
+		cout<<"Ennemi touché! "<<team.front()->get_pvCurrent()<<"/"<<team.front()->get_pvMax()<<endl;
+	}else{
+		ite=team.begin();
+		cout<<"\t\tplus de 1 ennemi :"<<endl;
+		int taille = team.size();
+		int compteur=0;
+		int choix3;
+		int fini=0;
+		while(!fini)
+		{
+			compteur++;
+			cout<<"Ennemi sélectionné= "<<(*ite)->get_pvCurrent()<<"/"<<(*ite)->get_pvMax()<<endl;
+			cout<<"\t\t tapez 0 pour frapper cet ennemi"<<endl;
+			cout<<"\t\t taper 1 pour changer d'ennemi"<<endl;
+			cin>>choix3;
+			if(!choix3)
+			{
+				(*ite)->set_pvCurrent((*ite)->get_pvCurrent()-2);
+				cout<<"Ennemi touché! "<<(*ite)->get_pvCurrent()<<"/"<<(*ite)->get_pvMax()<<endl;
+				this->set_paCurrent(this->get_paCurrent()-3);
+				fini=1;
+			}else{
+
+				if(compteur!=taille)
+				{
+					ite++;
+				}
+				else{
+					fini=1;
+				}
+
+			}
+		}
+	}
 }
 
 string Hero::get_name(void)					//getter

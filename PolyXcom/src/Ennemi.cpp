@@ -39,17 +39,17 @@ void Ennemi::begin_IA()
 	cout<<"begin!"<<endl;
 }
 
-list<Personnage*> Ennemi::near(Carte &map,list<Personnage*> team)
+list<Personnage*> Ennemi::near(Carte &map,list<Personnage*> &team)
 {
 	list<Personnage*>::iterator ite;
 	list<Personnage*> l;
 	for(ite=team.begin();ite!=team.end();ite++)
 	{
-		if(((((*ite)->get_x()+1==_coordX)||((*ite)->get_x()-1==_coordX))&&((*ite)->get_y()==_coordY)))
+		if((((((*ite)->get_x()+1==_coordX)||((*ite)->get_x()-1==_coordX))&&((*ite)->get_y()==_coordY))&((*ite)->get_pvCurrent()>0)))
 		{
 			l.push_front((*ite));
 		}
-		else if(((((*ite)->get_y()+1==_coordY)||((*ite)->get_y()-1==_coordY))&&((*ite)->get_x()==_coordX)))
+		else if((((((*ite)->get_y()+1==_coordY)||((*ite)->get_y()-1==_coordY))&&((*ite)->get_x()==_coordX))&((*ite)->get_pvCurrent()>0)))
 		{
 			l.push_front((*ite));
 		}
@@ -57,6 +57,58 @@ list<Personnage*> Ennemi::near(Carte &map,list<Personnage*> team)
 	return(l);
 }
 
+void Ennemi::close_combat(list<Personnage*> &team)
+{
+	list<Personnage*>::iterator ite;
+	if(team.size()==0)
+	{
+		cout<<"Pas d'ennemi proche"<<endl;
+	}else if(team.size()==1){
+		team.front()->set_pvCurrent(team.front()->get_pvCurrent()-2);
+		this->set_paCurrent(this->get_paCurrent()-3);
+		team.front()->display_info();
+	}else{
+		ite=team.begin();
+		cout<<"\t\tplus de 1 ennemi :"<<endl;
+		int taille = team.size();
+		int compteur=0;
+		int choix3;
+		int fini=0;
+		while(!fini)
+		{
+			compteur++;
+			cout<<"Ennemi sélectionné= "<<(*ite)->get_pvCurrent()<<"/"<<(*ite)->get_pvMax()<<endl;
+			cout<<"\t\t tapez 0 pour frapper cet ennemi"<<endl;
+			cout<<"\t\t taper 1 pour changer d'ennemi"<<endl;
+			cin>>choix3;
+			if(!choix3)
+			{
+				if((*ite)->get_pvCurrent()>2)
+				{
+					(*ite)->set_pvCurrent((*ite)->get_pvCurrent()-2);
+					cout<<"Ennemi touché! "<<(*ite)->get_pvCurrent()<<"/"<<(*ite)->get_pvMax()<<endl;
+				}
+				else
+				{
+					(*ite)->set_pvCurrent(0);
+					cout<<"Ennemi mort!"<<endl;
+				}
+				this->set_paCurrent(this->get_paCurrent()-3);
+				fini=1;
+			}else{
+
+				if(compteur!=taille)
+				{
+					ite++;
+				}
+				else{
+					fini=1;
+				}
+
+			}
+		}
+	}
+}
 /** Le destructeur Ennemi*/
 Ennemi::~Ennemi()				//destructor
 {

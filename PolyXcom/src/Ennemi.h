@@ -18,6 +18,7 @@ class Ennemi : public Personnage
 		void display_info();									//Affichable debug
 
 		list<Personnage*> near(Carte &map,list<Personnage*> team);
+		void close_combat(list<Personnage*> list);
 
 		void begin_IA();										//fonction qui commence le choix de l'AI
 

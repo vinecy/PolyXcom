@@ -16,9 +16,7 @@
 using namespace std;
 
 class Carte {
-
-									// Attributs
-	private:
+	private:						// Attributs
 		int _sizeX;						// Longueur MAX de la carte
 		int _sizeY;						// Largeur MAX de la carte
 		Affichable ***_map;				// Matrice de pointeur d'objets affichables
@@ -45,6 +43,10 @@ class Carte {
 		int get_sizeX(void);			// Retourne la longueur de la carte
 		int get_sizeY(void);			// Retourne la largeur de la carte
 		int get_IDin(int x, int y);  	// Retourne l'ID de l'objet dans la carte
+
+		void set_sizeX(int value);			// Modifie la longueur de la carte
+		void set_sizeY(int value);			// Modifie la largeur de la carte
+
 
 		virtual ~Carte();										// Destructeur
 };

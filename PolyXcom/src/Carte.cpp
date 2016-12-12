@@ -22,7 +22,6 @@
 
 #include <iostream>			// Utilisation des flux d'entrées sorties de console
 #include <cstdlib>			// Utilisation des biblio mathematiques
-#include <fstream>			// Utilisation des flux d'entrées sorties de fichiers
 #include <assert.h>			// Utilisation des assertations
 #include <list>				// Utilisation des Listes
 
@@ -30,6 +29,7 @@
 #include "Graphe.h"			// Carte Utilise Graphe
 #include "Noeud.h"			// Graphe est composé de noeuds
 #include "Affichable.h"		// Carte pointe sur des affichables
+#include "Fichier.h"		// Carte utilise des fichiers
 
 using namespace std;
 
@@ -43,6 +43,7 @@ Carte::Carte( int x , int y ) {
 	_sizeX = x ;
 	_sizeY = y ;
 	_map = new Affichable **[_sizeY];
+
 
 	// initialisation de la carte
 	int i,														// indice parcours sur l'axe Y
@@ -64,7 +65,9 @@ Carte::Carte( int x , int y ) {
 Carte::Carte( string name ) {
 	_sizeX = 0;
 	_sizeY = 0;
-	this->loadMap(name);
+
+	Fichier file(name);
+	file.loadSizeMap( _sizeX, _sizeY );
 
 	_map = new Affichable **[_sizeY];
 
@@ -80,71 +83,6 @@ Carte::Carte( string name ) {
 	cout << " + carte de taille "<< _sizeX << "*" << _sizeY << " crée" << endl;
 	cout << " + adresse de vide "<< &vide << endl;
 }
-
-void Carte::loadMap(string const name){
-	ifstream path( "src\\" + name + ".txt");
-	string ligne,mot;
-	int sizeFile, value;
-
-	bool notEnd = false;
-	if(path){
-		path.seekg(0, ios::end);
-		sizeFile = path.tellg();
-		path.seekg(0,ios::beg);
-
-		while( (path.tellg() != sizeFile) && (!notEnd) ){
-			path >> ligne;
-			if(ligne == "Taille") notEnd = true ;
-		}
-		if(notEnd){
-			path >> value;
-			this->_sizeX = value;
-			path >> value;
-			this->_sizeY = value;
-
-			/*path.seekg(0,ios::beg);
-			notEnd = false;
-			while( (path.tellg() != sizeFile) && (!notEnd) ){
-				path >> ligne;
-				if(ligne == "Contenu{") notEnd = true ;
-			}
-			if(notEnd){
-				int i = 0,x,y,ID,PV,PA;
-				string nom;
-
-				path >> ligne;
-				while( ligne != "}"){
-
-					switch( ligne ){
-						case "ennemi":
-							path >> x;
-							path >> y;
-							path >> ID;
-							path >> PV;
-							path >> PA;
-							//e[i] = Ennemi ennemi(x,y,ID,PV,PA,Arme a());
-							i++;
-							break;
-						case "hero":
-
-							break;
-						case "mur":
-
-							break;
-						path >> ligne;
-					}
-				}
-			} else {
-				cout << "ERREUR: Atributs \"Contenu:\" non trouvé" << endl;
-			}*/
-		} else {
-			cout << "ERREUR: Atributs \"Taille:\" non trouvé" << endl;
-		}
-	} else {
-		cout << "ERREUR: Impossible d'ouvrir " << name << ".txt" << endl;
-	}
-}
-
 
 /** La méthode display permet d'afficher la carte sur la console */
 void Carte::display( void ) {
@@ -707,6 +645,15 @@ int Carte::get_sizeY(void){
 int Carte::get_IDin(int x, int y){
 	return _map[x][y]->get_ID();
 }
+
+void Carte::set_sizeX(int value){
+	_sizeX = value;
+}
+
+void Carte::set_sizeY(int value){
+	_sizeY = value;
+}
+
 
 /** Le destructeur de Carte
  * */

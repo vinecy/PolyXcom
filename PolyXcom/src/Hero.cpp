@@ -41,6 +41,51 @@ list<Personnage*> Hero::near(Carte &map,list<Personnage*> team)
 	return(l);
 }
 
+void Hero::close_combat(list<Personnage*> proch)
+{
+	if(proch.size()==0)
+	{
+		cout<<"Pas d'ennemi proche"<<endl;
+	}else if(proch.size()==1){
+		proch.front()->set_pvCurrent(proch.front()->get_pvCurrent()-2);
+		cout<<proch.front()->get_pvCurrent()<<"/"<<proch.front()->get_pvMax();
+		_paCurrent=_paCurrent-3;
+	}else{
+		list<Personnage*>::iterator ite;
+		ite=proch.begin();
+		cout<<"\t\tplus de 1 ennemi :"<<endl;
+		int taille = proch.size();
+		int compteur=0;
+		int choix3;
+		int fini=0;
+		while(!fini)
+		{
+			compteur++;
+			cout<<"Ennemi sélectionné= "<<(*ite)->get_pvCurrent()<<"/"<<(*ite)->get_pvMax()<<endl;
+			cout<<"\t\t tapez 0 pour frapper cet ennemi"<<endl;
+			cout<<"\t\t taper 1 pour changer d'ennemi"<<endl;
+			cin>>choix3;
+			if(!choix3)
+			{
+				(*ite)->set_pvCurrent((*ite)->get_pvCurrent()-2);
+				cout<<"Ennemi touché! "<<(*ite)->get_pvCurrent()<<"/"<<(*ite)->get_pvMax()<<endl;
+				_paCurrent=_paCurrent-3;
+				fini=1;
+			}else{
+
+				if(compteur!=taille)
+				{
+					ite++;
+				}
+				else{
+					fini=1;
+				}
+
+			}
+		}
+	}
+}
+
 string Hero::get_name(void)					//getter
 {
 	return(_nom);

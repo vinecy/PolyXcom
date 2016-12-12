@@ -5,6 +5,7 @@
  *      Author: Vincent
  */
 
+#include<iostream>
 #include "Ennemi.h"
 
 using namespace std;
@@ -38,11 +39,13 @@ void Ennemi::begin_IA()
 {
 	cout<<"begin!"<<endl;
 }
-
-list<Personnage*> Ennemi::near(Carte &map,list<Personnage*> &team)
+/*
+list<Personnage*> Ennemi::near(Carte &map,std::map<int,Personnage> &team)
 {
-	list<Personnage*>::iterator ite;
+	//list<Personnage*>::iterator ite;
 	list<Personnage*> l;
+
+
 	for(ite=team.begin();ite!=team.end();ite++)
 	{
 		if((((((*ite)->get_x()+1==_coordX)||((*ite)->get_x()-1==_coordX))&&((*ite)->get_y()==_coordY))&((*ite)->get_pvCurrent()>0)))
@@ -52,6 +55,19 @@ list<Personnage*> Ennemi::near(Carte &map,list<Personnage*> &team)
 		else if((((((*ite)->get_y()+1==_coordY)||((*ite)->get_y()-1==_coordY))&&((*ite)->get_x()==_coordX))&((*ite)->get_pvCurrent()>0)))
 		{
 			l.push_front((*ite));
+		}
+	}
+
+	int i = 0;
+	for( i = 0 ;i!=team.size();i++)
+	{
+		if(((((team[i].get_x()+1==_coordX)||(team[i].get_x()-1==_coordX))&&(team[i].get_y()==_coordY))&(team[i].get_pvCurrent()>0)))
+		{
+			l.push_front(&team[i]);
+		}
+		else if(((((team[i].get_y()+1==_coordY)||(team[i].get_y()-1==_coordY))&&(team[i].get_x()==_coordX))&(team[i].get_pvCurrent()>0)))
+		{
+			l.push_front(&team[i]);
 		}
 	}
 	return(l);
@@ -108,7 +124,7 @@ void Ennemi::close_combat(list<Personnage*> &team)
 			}
 		}
 	}
-}
+}*/
 /** Le destructeur Ennemi*/
 Ennemi::~Ennemi()				//destructor
 {

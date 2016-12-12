@@ -21,11 +21,12 @@ Hero::Hero(int x,int y,int ID,int pv,int pa,Arme arme,string nom):Personnage(x,y
 {
 	_nom=nom;
 }
-
-list<Personnage*> Hero::near(Carte &map,list<Personnage*> &team)
+/*
+list<Personnage*> Hero::near(Carte &map,std::map<int,Personnage> team)
 {
-	list<Personnage*>::iterator ite;
+	//list<Personnage*>::iterator ite;
 	list<Personnage*> l;
+
 	for(ite=team.begin();ite!=team.end();ite++)
 	{
 		if((((((*ite)->get_x()+1==_coordX)||((*ite)->get_x()-1==_coordX))&&((*ite)->get_y()==_coordY))&((*ite)->get_pvCurrent()>0)))
@@ -37,9 +38,26 @@ list<Personnage*> Hero::near(Carte &map,list<Personnage*> &team)
 			l.push_front((*ite));
 		}
 	}
-	return(l);
-}
 
+	int i;
+	for(i = 0; i!=team.size();i++)
+	{
+		if(((((team[i].get_x()+1==_coordX)||(team[i].get_x()-1==_coordX))&&(team[i].get_y()==_coordY))&(team[i].get_pvCurrent()>0)))
+		{
+			l.push_front(&team[i]);
+		}
+		else if(((((team[i].get_y()+1==_coordY)||(team[i].get_y()-1==_coordY))&&(team[i].get_x()==_coordX))&(team[i].get_pvCurrent()>0)))
+		{
+			l.push_front(&team[i]);
+		}
+	}
+
+
+
+
+	return(l);
+}*/
+/*
 void Hero::close_combat(list<Personnage*> &team)
 {
 	list<Personnage*>::iterator ite;
@@ -83,7 +101,7 @@ void Hero::close_combat(list<Personnage*> &team)
 			}
 		}
 	}
-}
+}*/
 
 string Hero::get_name(void)					//getter
 {

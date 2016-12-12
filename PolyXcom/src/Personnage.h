@@ -51,6 +51,7 @@ public:
 	void display_info(void);						//affichage des attributs en console
 
 	virtual list<Personnage*> near(Carte &map, list<Personnage*> team)=0;
+	virtual void close_combat(list<Personnage*> list)=0;
 
 	void reload();									//rechargement de l'arme
 

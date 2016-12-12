@@ -8,12 +8,14 @@
 #ifndef CARTE_H_
 #define CARTE_H_
 
-#include <list>				// Utilisation des listes
-#include "Affichable.h"		// Association entre Affichable et Carte
+
+#include <list>
+#include "Affichable.h"
 
 using namespace std;
 
 class Carte {
+
 									// Attributs
 	private:
 		int _sizeX;						// Longueur MAX de la carte
@@ -22,9 +24,7 @@ class Carte {
 
 	// Methodes
 	public:
-		Carte( int x , int y );									// Constructeur par taille fixé
-		Carte( string name );									// Constructeur par nom de fichier
-		void loadMap(string const name);
+		Carte( int x , int y );									// Constructeur
 
 		void display(void);											// Permet d'afficher la carte
 		bool moveIsPossible( int x , int y );						// Affirme si Déplacement possible à (x,y)

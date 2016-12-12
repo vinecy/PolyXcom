@@ -21,7 +21,6 @@
  */
 
 #include <iostream>
-#include <map>
 #include "Hero.h"
 #include "Carte.h"
 #include "Arme.h"
@@ -75,41 +74,28 @@ int main() {
 
 	//system("cls");
 
-	Carte Luminy( (int)4 , (int)4 );			//creation de la carte
-	//Carte Luminy2( "Luminy" );
-	//Luminy2.display();
+	Carte Luminy( (int)4 , (int)4 );			//creatin de la carte
 
-	map<int,Personnage> team_hero;
-	map<int,Personnage> team_ennemi;
-
-	//list<Personnage*> team_hero;				//creation des listes d'equipes
-	//list<Personnage*> team_ennemi;
+	list<Personnage*> team_hero;				//creation des listes d'equipes
+	list<Personnage*> team_ennemi;
 
 	Hero val(0,0,2,10,8,Arme(),"Valentin");		//creation des perso
-	Ennemi pro(1,0,3,2,1,Arme());
-	Ennemi gen(0,1,3,3,2,Arme());
+	Ennemi pro(1,0,3,10,1,Arme());
+	Ennemi gen(0,1,3,9,2,Arme());
 
-	team_hero[0] = val;
-	team_ennemi[0] = pro;
-	team_ennemi[1] = gen;
-
-	/*team_hero.push_front(&val);					// maj liste equipe
+	team_hero.push_front(&val);					// maj liste equipe
 	team_ennemi.push_front(&pro);
-	team_ennemi.push_front(&gen);*/
+	team_ennemi.push_front(&gen);
 
-	Luminy.addItem(team_hero[0]);						//ajoute des perso
-	Luminy.addItem(team_ennemi[0]);
-	Luminy.addItem(team_ennemi[1]);
 
-	/*
 	Luminy.addItem(val);						//ajoute des perso
 	Luminy.addItem(pro);
-	Luminy.addItem(gen);*/
-	//Luminy.removeItem(pro);
+	Luminy.addItem(gen);
+
 	list<Personnage*>::iterator ite;
 
 	int token;
-	token=10;
+	token=3;
 	while(token>0)			//TANT QUE Ennemis detruit ou Hero detruits
 	{
 		token--;
@@ -117,76 +103,104 @@ int main() {
 		while(val.get_paCurrent()>0)		//TANT QUE pa!=0 pour tous les hero
 		{
 			cout<<"Tour de val "<<endl;
-			do
-			{
+			do {
+				//cout << "-------------------------------------------------------------------------------- \n";
 				cout<<"\t\t\t\t\tPA restants= "<<val.get_paCurrent()<<endl;
 				Luminy.display();
 				choix = main_switch() ;
 				switch ( choix ){
 				case DEPLACER :
-					if(val.get_paCurrent()>=1)
+					do
 					{
-						do
+						choix2 = move_switch();
+						switch(choix2)
 						{
-							choix2 = move_switch();
-							switch(choix2)
-							{
-							case NORTH:
-								val.move_up(Luminy);
-								choix2=10;
-								break;
-							case EAST:
-								val.move_right(Luminy);
-								choix2=10;
-								break;
-							case SOUTH:
-								val.move_down(Luminy);
-								choix2=10;
-								break;
-							case WEST:
-								val.move_left(Luminy);
-								choix2=10;
-								break;
-							}
-						}while (choix2 != 10 ) ;
-					}
-					else
-					{
-						cout<<"Pas assez de PA"<<endl;;
-					}
+						case NORTH:
+							val.move_up(Luminy);
+							choix2=10;
+							break;
+						case EAST:
+							val.move_right(Luminy);
+							choix2=10;
+							break;
+						case SOUTH:
+							val.move_down(Luminy);
+							choix2=10;
+							break;
+						case WEST:
+							val.move_left(Luminy);
+							choix2=10;
+							break;
+						}
+					}while (choix2 != 10 ) ;
 					break;
 				case TIRER:
-					cout<<"tirer"<<endl;
+					cout<<"peace man!"<<endl;
 					break;
 				case CC:
-					/*if(val.get_paCurrent()>=3)
+					list<Personnage*> proch = val.near(Luminy,team_ennemi);
+					if(proch.size()==0)
 					{
-						list<Personnage*> proch = val.near(Luminy,team_ennemi);
-						val.close_combat(proch);
-						list<Personnage*>::iterator ite;
-						for(ite=proch.begin();ite!=proch.end();ite++)
+						cout<<"Pas d'ennemi proche"<<endl;
+					}else if(proch.size()==1){
+						proch.front()->set_pvCurrent(proch.front()->get_pvCurrent()-2);
+						proch.front()->display_info();
+					}else{
+						ite=proch.begin();
+						cout<<"\t\tplus de 1 ennemi :"<<endl;
+						int taille = proch.size();
+						int compteur=0;
+						int choix3;
+						int fini=0;
+						while(!fini)
 						{
-							if((*ite)->get_pvCurrent()==0)
+							compteur++;
+							cout<<"Ennemi sélectionné= "<<(*ite)->get_pvCurrent()<<"/"<<(*ite)->get_pvMax()<<endl;
+							cout<<"\t\t tapez 0 pour frapper cet ennemi"<<endl;
+							cout<<"\t\t taper 1 pour changer d'ennemi"<<endl;
+							cin>>choix3;
+							if(!choix3)
 							{
-								Luminy.removeItem(*(*ite));//TODO tout seul
+								(*ite)->set_pvCurrent((*ite)->get_pvCurrent()-2);
+								cout<<"Ennemi touché! "<<(*ite)->get_pvCurrent()<<"/"<<(*ite)->get_pvMax()<<endl;
+								fini=1;
+							}else{
+
+								if(compteur!=taille)
+								{
+									ite++;
+								}
+								else{
+									fini=1;
+								}
+
 							}
 						}
-						break;
 					}
-					else
-					{
-						cout<<"Pas assez de PA"<<endl;
-					}*/
 					break;
 				}
-			}while ( choix != 0 ) ;
-			val.set_paCurrent(0);
+			} while ( choix != 0 ) ;
 		}
 		val.set_paCurrent(val.get_paMax());			//TANT QUE pa!=0 pour tous les ennemis
 		while(pro.get_paCurrent()>0)
 		{
 			cout<<"Tour de pro"<<endl;
 			Luminy.display();
+			/*
+			pro.move_up(Luminy);
+			if(pro.get_paCurrent()>0)
+			{
+				pro.move_left(Luminy);
+				if(pro.get_paCurrent()>0)
+				{
+					pro.move_right(Luminy);
+					if(pro.get_paCurrent()>0)
+					{
+						pro.move_down(Luminy);
+					}
+				}
+			}
+			*/
 			pro.set_paCurrent(0);
 		}
 		pro.set_paCurrent(pro.get_paMax());

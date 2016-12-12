@@ -87,11 +87,11 @@ int main() {
 
 	Hero val(0,0,2,10,8,Arme(),"Valentin");		//creation des perso
 	Ennemi pro(1,0,3,2,1,Arme());
-	Ennemi gen(0,1,3,3,2,Arme());
+	//Ennemi gen(0,1,3,3,2,Arme());
 
 	team_hero[0] = val;
 	team_ennemi[0] = pro;
-	team_ennemi[1] = gen;
+	//team_ennemi[1] = gen;
 
 	/*team_hero.push_front(&val);					// maj liste equipe
 	team_ennemi.push_front(&pro);
@@ -175,7 +175,7 @@ int main() {
 					}
 					else
 					{
-						cout<<"Pas assez de PA"<<endl;;
+						cout<<"Pas assez de PA"<<endl;
 					}
 
 				}

@@ -18,6 +18,7 @@
 /**
  * @file Affichable.cpp
  * @brief La classe Affichable est la classe mere de tous les objets affichables
+ *
  */
 
 

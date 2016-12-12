@@ -29,6 +29,7 @@
 #include "Arme.h"
 #include "Graphe.h"
 #include "Ennemi.h"
+#include "Fichier.h"
 
 using namespace std;
 
@@ -77,9 +78,9 @@ int main() {
 
 	//system("cls");
 
-	Carte Luminy( (int)4 , (int)4 );			//creatin de la carte
+	//Carte Luminy( (int)4 , (int)4 );			//creatin de la carte
 
-	list<Ennemi> 		tank_ennemi;			//
+	list<Ennemi> 		tank_ennemi;
 	list<Hero>			tank_hero;
 	list<Obstacle>  	tank_obstacle;
 
@@ -92,9 +93,14 @@ int main() {
 	list<Obstacle>::iterator ite_o;
 
 //////////////////job de chargement a partir d'un fichier
-	tank_hero.push_front(Hero(0,0,2,10,8,Arme(),"Vincent"));
+	Fichier pathMap("Luminy");
+	Carte Luminy("Luminy");
+
+	pathMap.loadMap(Luminy,tank_ennemi,tank_hero,tank_obstacle);
+
+	/*tank_hero.push_front(Hero(0,0,2,10,8,Arme(),"Vincent"));
 	tank_ennemi.push_front(Ennemi(1,0,3,10,1,Arme()));
-	tank_ennemi.push_front(Ennemi(0,1,3,9,2,Arme()));
+	tank_ennemi.push_front(Ennemi(0,1,3,9,2,Arme()));*/
 /////////////////
 
 	for(ite_e=tank_ennemi.begin();ite_e!=tank_ennemi.end();ite_e++)

@@ -417,6 +417,7 @@ list <pair<int , int>> Carte::drawPath( int xA, int yA, int xB, int yB ){
 	list <pair<int , int>> path;	// liste de paire de coordonnées representant le segment tracé
 	pair<int , int> coord;			// paire de coordonnées x,y
 	int dx, dy;
+	cout<<"test en cour de "<<xA<<"/"<<yA<<" avec "<<xB<<"/"<<yB<<endl;
 	// Utilisation de l'Algorithme de tracé de segment de Bresenham
 	dx = xB - xA;
 	if( dx != 0 ){

@@ -41,53 +41,24 @@ using namespace std;
 #define SOUTH 13
 #define WEST 14
 
-int main_switch ( void ){
-	int reponse ;
-	do {
-		cout << "\nQue voulez-vous faire : \n " << DEPLACER << " - Se deplacer " << endl;
-		cout << " " << TIRER  << " - Tirer " << endl;
-		cout << " " << CC << " - Corps à Corps " << endl;
-		cout << " Tapez 0 pour passer votre tour \n> ";
-
-		cin >> reponse ;
-		//clean_stdin();
-	}
-	while ( reponse < 0 || reponse > CC ) ;
-	return( reponse ) ;
-}
-
-int move_switch ( void ){
-	int reponse ;
-	do {
-		cout << "\n\t\t\t\t\tOu voulez vous allez : \n\t\t\t\t\t" << NORTH << " - au Nord " << endl;
-		cout << "\t\t\t\t\t" << EAST  << " - a l'Est " << endl;
-		cout << "\t\t\t\t\t" << SOUTH << " - au Sud " << endl;
-		cout << "\t\t\t\t\t" << WEST << " - a l'Ouest " << endl;
-		cout << "\t\t\t\t\tTapez 10 pour quitter le jeu \n> ";
-
-		cin >> reponse ;
-		//clean_stdin();
-	}
-	while ( reponse < 10 || reponse > WEST ) ;
-	return( reponse ) ;
-}
+int main_switch();
+int move_switch();
+bool end_team(list<Personnage*>team);
 
 int main() {
 	int choix;
 	int choix2;
 
-	//system("cls");
 
-	//Carte Luminy( (int)4 , (int)4 );			//creatin de la carte
-
-	list<Ennemi> 		tank_ennemi;			//
+	list<Ennemi> 		tank_ennemi;
 	list<Hero>			tank_hero;
 	list<Obstacle>  	tank_obstacle;
 
-	list<Personnage*>	team_hero;				//creation des listes d'equipes
+	list<Personnage*>	team_hero;
 	list<Personnage*>	team_ennemi;
 
 	list<Personnage*>::iterator ite_l;
+	list<Personnage*>::iterator ite;
 	list<Ennemi>::iterator ite_e;
 	list<Hero>::iterator ite_h;
 	list<Obstacle>::iterator ite_o;
@@ -112,23 +83,24 @@ int main() {
 		Luminy.addItem((*ite_o));
 	}
 
-
+	//bool cont=1;
 	int token;
 	token=3;
 	while(token>0)			//TANT QUE Ennemis detruit ou Hero detruits
-	{
+	{						//TODO modification de cont a la fin des phases
 		token--;
 		cout<<"Nouveau tour"<<endl;
 		ite_l=team_hero.begin();
-		while((*ite_l)->get_paCurrent()>0)		//TANT QUE pa!=0 pour tous les hero
+		while(end_team(team_hero))		//TANT QUE pa!=0 pour tous les hero
 		{
-			cout<<"Tour de val "<<endl;
-			do {
-				//cout << "-------------------------------------------------------------------------------- \n";
+			cout<<"Tour de "<<(*ite_l)->get_x()<<"/"<<(*ite_l)->get_y()<<endl;
+			do
+			{
 				cout<<"\t\t\t\t\tPA restants= "<<(*ite_l)->get_paCurrent()<<endl;
 				Luminy.display();
 				choix = main_switch() ;
-				switch ( choix ){
+				switch (choix)
+				{
 				case DEPLACER :
 					do
 					{
@@ -152,72 +124,109 @@ int main() {
 							choix2=10;
 							break;
 						}
-					}while (choix2 != 10 ) ;
+					}while (choix2!=10);
 					break;
 				case TIRER:
 					cout<<"peace man!"<<endl;
-					break;
-				case CC:
-					list<Personnage*> proch = (*ite_l)->near(Luminy,team_ennemi);
-					if(proch.size()==0)
+					if((*ite_l)->get_paCurrent()>=4)
 					{
-						cout<<"Pas d'ennemi proche"<<endl;
-					}else if(proch.size()==1){
-						proch.front()->set_pvCurrent(proch.front()->get_pvCurrent()-2);
-						proch.front()->display_info();
-					}else{
-						list<Personnage*>::iterator ite;
-						ite=proch.begin();
-						cout<<"\t\tplus de 1 ennemi :"<<endl;
-						int taille = proch.size();
-						int compteur=0;
-						int choix3;
-						int fini=0;
-						while(!fini)
+						list<Personnage*> in_range;
+						for(ite=team_ennemi.begin();ite!=team_ennemi.end();ite++)
 						{
-							compteur++;
-							cout<<"Ennemi sélectionné= "<<(*ite)->get_pvCurrent()<<"/"<<(*ite)->get_pvMax()<<endl;
-							cout<<"\t\t tapez 0 pour frapper cet ennemi"<<endl;
-							cout<<"\t\t taper 1 pour changer d'ennemi"<<endl;
-							cin>>choix3;
-							if(!choix3)
+							if(Luminy.pathIsPossible((*ite_l)->get_x(),(*ite_l)->get_y(),(*ite)->get_x(), (*ite)->get_y()))
 							{
-								(*ite)->set_pvCurrent((*ite)->get_pvCurrent()-2);
-								cout<<"Ennemi touché! "<<(*ite)->get_pvCurrent()<<"/"<<(*ite)->get_pvMax()<<endl;
-								fini=1;
-							}else{
+								in_range.push_front((*ite));
+							}
+						}
 
-								if(compteur!=taille)
-								{
-									ite++;
-								}
-								else{
-									fini=1;
-								}
-
+						for(ite=team_ennemi.begin();ite!=team_ennemi.end();ite++)
+						{
+							if((*ite)->get_pvCurrent()<0)
+							{
+								Luminy.removeItem(*(*ite));
 							}
 						}
 					}
-					break;
-				}
-			} while ( choix != 0 ) ;
-		}
-		(*ite_l)->set_paCurrent((*ite_l)->get_paMax());			//TANT QUE pa!=0 pour tous les ennemis
-		list<Personnage*>::iterator ite_l;
-		ite_l=team_ennemi.begin();
-		while((*ite_l)->get_paCurrent()>0)
-		{
-			cout<<"Tour de pro"<<endl;
-			Luminy.display();
-			(*ite_l)->set_paCurrent(0);
-		}
-		(*ite_l)->set_paCurrent((*ite_l)->get_paMax());
-	}
+				case CC:
+					if((*ite_l)->get_paCurrent()>=3)
+					{
+						list<Personnage*> proch = (*ite_l)->near(Luminy,team_ennemi);
+						(*ite_l)->close_combat(proch);
 
+						for(ite=team_ennemi.begin();ite!=team_ennemi.end();ite++)
+						{
+							if((*ite)->get_pvCurrent()<0)
+							{
+								Luminy.removeItem(*(*ite));
+							}
+						}
+					}
+					else
+					{
+						cout<<"Pas assez de PA!"<<endl;
+					}
+				}
+			}while(choix!=0);
+			(*ite_l)->set_paCurrent((*ite_l)->get_paMax());			//TANT QUE pa!=0 pour tous les ennemis
+			list<Personnage*>::iterator ite_l;
+			ite_l=team_ennemi.begin();
+			while(end_team(team_ennemi))
+			{
+				cout<<"Tour de pro"<<endl;
+				Luminy.display();
+				for(ite=team_ennemi.begin();ite!=team_ennemi.end();ite++)
+				{
+					(*ite)->set_paCurrent(0);
+				}
+			}
+			for(ite=team_ennemi.begin();ite!=team_ennemi.end();ite++)
+			{
+				(*ite)->set_paCurrent((*ite)->get_paMax());
+			}
+		}
+	}
 }
 
+int main_switch ( void ){
+	int reponse ;
+	do {
+		cout << "\nQue voulez-vous faire : \n " << DEPLACER << " - Se deplacer " << endl;
+		cout << " " << TIRER  << " - Tirer " << endl;
+		cout << " " << CC << " - Corps à Corps " << endl;
+		cout << " Tapez 0 pour passer votre tour \n> ";
 
+		cin >> reponse ;
 
+	}
+	while ( reponse < 0 || reponse > CC ) ;
+	return( reponse ) ;
+}
 
+int move_switch ( void ){
+	int reponse ;
+	do {
+		cout << "\n\t\t\t\t\tOu voulez vous allez : \n\t\t\t\t\t" << NORTH << " - au Nord " << endl;
+		cout << "\t\t\t\t\t" << EAST  << " - a l'Est " << endl;
+		cout << "\t\t\t\t\t" << SOUTH << " - au Sud " << endl;
+		cout << "\t\t\t\t\t" << WEST << " - a l'Ouest " << endl;
+		cout << "\t\t\t\t\tTapez 10 pour quitter le jeu \n> ";
 
+		cin >> reponse ;
 
+	}
+	while ( reponse < 10 || reponse > WEST ) ;
+	return( reponse ) ;
+}
+
+bool end_team(list<Personnage*> team)
+{
+	list<Personnage*>::iterator ite;
+	for(ite=team.begin();ite!=team.end();ite++)
+	{
+		if((*ite)->get_paCurrent()==0)
+		{
+			return(0);
+		}
+	}
+	return(1);
+}

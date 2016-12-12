@@ -19,6 +19,7 @@ class Ennemi : public Personnage
 
 		list<Personnage*> near(Carte &map,list<Personnage*> team);
 		void close_combat(list<Personnage*> list);
+		void shoot(list<Personnage*> list);
 
 		void begin_IA();										//fonction qui commence le choix de l'AI
 

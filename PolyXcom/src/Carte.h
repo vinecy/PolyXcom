@@ -26,7 +26,9 @@ class Carte {
 	// Methodes
 	public:
 		Carte( int x , int y );									// Constructeur
+		Carte( string name );
 
+		void loadMap(string const name);
 		void display(void);											// Permet d'afficher la carte
 		bool moveIsPossible( int x , int y );						// Affirme si Déplacement possible à (x,y)
 

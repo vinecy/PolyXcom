@@ -1,6 +1,7 @@
 /*
  * Hero.h
  *
+ *
  *  Created on: 24 nov. 2016
  *      Author: Vincent
  */
@@ -22,9 +23,8 @@ class Hero : public Personnage
 		string get_name(void);							//getter
 		void set_name(string);							//setter
 
-		/*list<Personnage*> near(Carte &map,std::map<int,Personnage> team);
-		void close_combat(list<Personnage*> &team);
-*/
+		list<Personnage*> near(Carte &map,list<Personnage*> team);
+
 		void display_info();							//Affiche les attributs en console
 
 		virtual ~Hero();								//destructor

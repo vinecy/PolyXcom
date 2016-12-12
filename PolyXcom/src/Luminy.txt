@@ -1,4 +1,4 @@
-Taille 10 10
+Taille 4 4
 
 Contenu{
 	Ennemi 0 3 3 10 5

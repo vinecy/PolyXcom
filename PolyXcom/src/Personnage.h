@@ -8,7 +8,7 @@
 #ifndef PERSONNAGE_H_
 #define PERSONNAGE_H_
 #include <iostream>
-#include <map>
+#include <list>
 #include "Affichable.h"
 #include "Carte.h"
 #include "Arme.h"
@@ -49,9 +49,7 @@ public:
 
 	void display_info(void);						//affichage des attributs en console
 
-	//virtual list<Personnage*> near(Carte &map, std::map<int,Personnage> &team)=0;
-
-	//virtual void close_combat(list<Personnage*> &team)=0;
+	virtual list<Personnage*> near(Carte &map, list<Personnage*> team)=0;
 
 	void reload();									//rechargement de l'arme
 

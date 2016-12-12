@@ -23,6 +23,7 @@
  */
 
 #include <iostream>
+#include "Obstacle.h"
 #include "Hero.h"
 #include "Carte.h"
 #include "Arme.h"
@@ -78,23 +79,39 @@ int main() {
 
 	Carte Luminy( (int)4 , (int)4 );			//creatin de la carte
 
-	list<Personnage*> team_hero;				//creation des listes d'equipes
-	list<Personnage*> team_ennemi;
+	list<Ennemi> 		tank_ennemi;			//
+	list<Hero>			tank_hero;
+	list<Obstacle>  	tank_obstacle;
 
-	Hero val(0,0,2,10,8,Arme(),"Valentin");		//creation des perso
-	Ennemi pro(1,0,3,10,1,Arme());
-	Ennemi gen(0,1,3,9,2,Arme());
+	list<Personnage*>	team_hero;				//creation des listes d'equipes
+	list<Personnage*>	team_ennemi;
 
-	team_hero.push_front(&val);					// maj liste equipe
-	team_ennemi.push_front(&pro);
-	team_ennemi.push_front(&gen);
+	list<Personnage*>::iterator ite_l;
+	list<Ennemi>::iterator ite_e;
+	list<Hero>::iterator ite_h;
+	list<Obstacle>::iterator ite_o;
 
+//////////////////job de chargement a partir d'un fichier
+	tank_hero.push_front(Hero(0,0,2,10,8,Arme(),"Vincent"));
+	tank_ennemi.push_front(Ennemi(1,0,3,10,1,Arme()));
+	tank_ennemi.push_front(Ennemi(0,1,3,9,2,Arme()));
+/////////////////
 
-	Luminy.addItem(val);						//ajoute des perso
-	Luminy.addItem(pro);
-	Luminy.addItem(gen);
+	for(ite_e=tank_ennemi.begin();ite_e!=tank_ennemi.end();ite_e++)
+	{
+		Luminy.addItem((*ite_e));
+		team_ennemi.push_front(&(*ite_e));
+	}
+	for(ite_h=tank_hero.begin();ite_h!=tank_hero.end();ite_h++)
+	{
+		Luminy.addItem((*ite_h));
+		team_hero.push_front(&(*ite_h));
+	}
+	for(ite_o=tank_obstacle.begin();ite_o!=tank_obstacle.end();ite_o++)
+	{
+		Luminy.addItem((*ite_o));
+	}
 
-	list<Personnage*>::iterator ite;
 
 	int token;
 	token=3;
@@ -102,12 +119,13 @@ int main() {
 	{
 		token--;
 		cout<<"Nouveau tour"<<endl;
-		while(val.get_paCurrent()>0)		//TANT QUE pa!=0 pour tous les hero
+		ite_l=team_hero.begin();
+		while((*ite_l)->get_paCurrent()>0)		//TANT QUE pa!=0 pour tous les hero
 		{
 			cout<<"Tour de val "<<endl;
 			do {
 				//cout << "-------------------------------------------------------------------------------- \n";
-				cout<<"\t\t\t\t\tPA restants= "<<val.get_paCurrent()<<endl;
+				cout<<"\t\t\t\t\tPA restants= "<<(*ite_l)->get_paCurrent()<<endl;
 				Luminy.display();
 				choix = main_switch() ;
 				switch ( choix ){
@@ -118,19 +136,19 @@ int main() {
 						switch(choix2)
 						{
 						case NORTH:
-							val.move_up(Luminy);
+							(*ite_l)->move_up(Luminy);
 							choix2=10;
 							break;
 						case EAST:
-							val.move_right(Luminy);
+							(*ite_l)->move_right(Luminy);
 							choix2=10;
 							break;
 						case SOUTH:
-							val.move_down(Luminy);
+							(*ite_l)->move_down(Luminy);
 							choix2=10;
 							break;
 						case WEST:
-							val.move_left(Luminy);
+							(*ite_l)->move_left(Luminy);
 							choix2=10;
 							break;
 						}
@@ -140,7 +158,7 @@ int main() {
 					cout<<"peace man!"<<endl;
 					break;
 				case CC:
-					list<Personnage*> proch = val.near(Luminy,team_ennemi);
+					list<Personnage*> proch = (*ite_l)->near(Luminy,team_ennemi);
 					if(proch.size()==0)
 					{
 						cout<<"Pas d'ennemi proche"<<endl;
@@ -148,6 +166,7 @@ int main() {
 						proch.front()->set_pvCurrent(proch.front()->get_pvCurrent()-2);
 						proch.front()->display_info();
 					}else{
+						list<Personnage*>::iterator ite;
 						ite=proch.begin();
 						cout<<"\t\tplus de 1 ennemi :"<<endl;
 						int taille = proch.size();
@@ -183,29 +202,16 @@ int main() {
 				}
 			} while ( choix != 0 ) ;
 		}
-		val.set_paCurrent(val.get_paMax());			//TANT QUE pa!=0 pour tous les ennemis
-		while(pro.get_paCurrent()>0)
+		(*ite_l)->set_paCurrent((*ite_l)->get_paMax());			//TANT QUE pa!=0 pour tous les ennemis
+		list<Personnage*>::iterator ite_l;
+		ite_l=team_ennemi.begin();
+		while((*ite_l)->get_paCurrent()>0)
 		{
 			cout<<"Tour de pro"<<endl;
 			Luminy.display();
-			/*
-			pro.move_up(Luminy);
-			if(pro.get_paCurrent()>0)
-			{
-				pro.move_left(Luminy);
-				if(pro.get_paCurrent()>0)
-				{
-					pro.move_right(Luminy);
-					if(pro.get_paCurrent()>0)
-					{
-						pro.move_down(Luminy);
-					}
-				}
-			}
-			*/
-			pro.set_paCurrent(0);
+			(*ite_l)->set_paCurrent(0);
 		}
-		pro.set_paCurrent(pro.get_paMax());
+		(*ite_l)->set_paCurrent((*ite_l)->get_paMax());
 	}
 
 }

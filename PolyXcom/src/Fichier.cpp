@@ -5,14 +5,19 @@
  *      Author: Valentin BISSUEL
  */
 
+#include <iostream>
+#include <fstream>			// Utilisation des flux d'entrées sorties de fichiers
+#include <cstdlib>
 #include "Fichier.h"
 #include "Arme.h"
-#include <fstream>
-#include <iostream>
-#include <cstdlib>
+
 
 using namespace std;
 
+/** Le constructeur Fichier initialise ouvre le fichier "name".txt
+  * pour l'initialisation des niveaux du jeu
+	 * @param name - nom du fichier à ouvrir
+	 * */
 Fichier::Fichier(string name) {
 	this->name = name;
 	pathCarte = ifstream( "src\\" + name + ".txt");
@@ -20,6 +25,10 @@ Fichier::Fichier(string name) {
 	cout << " + Creation du fichier " << name << endl;
 }
 
+/** La méthode loadSizeMap permet de charger la taille de la carte
+ * mis en référence pour l'initialisation des niveaux du jeu
+	 * @param &x, &y - nom du fichier à ouvrir
+	 * */
 void Fichier::loadSizeMap(int &x, int &y){
 	int sizeFile;
 	string ligne,mot;
@@ -44,8 +53,14 @@ void Fichier::loadSizeMap(int &x, int &y){
 	}
 }
 
+/** La méthode loadMap permet de charger le contenu de la carte
+  * mis en référence pour l'initialisation des niveaux du jeu
+	 * @param &map - carte à initialisaer
+	 * @param &listEnnemi - conteneur de Ennemi à initialiser
+	 * @param &listHero - conteneur de Hero à initialiser
+	 * @param &listObstacle - conteneur de Obstacle à initialiser
+	 * */
 void Fichier::loadMap(Carte &map, list<Ennemi> &listEnnemi, list<Hero> &listHero, list<Obstacle> &listObstacle){
-
 	string ligne,mot;
 	int sizeFile;
 
@@ -101,6 +116,9 @@ void Fichier::loadMap(Carte &map, list<Ennemi> &listEnnemi, list<Hero> &listHero
 	}
 }
 
+/** Le destructeur de Fichier
+ * */
 Fichier::~Fichier() {
+	pathCarte.close();
 	cout << " - Destruction du fichier " << name << endl;
 }

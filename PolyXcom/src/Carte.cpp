@@ -27,7 +27,6 @@
 
 #include "Carte.h"
 #include "Graphe.h"			// Carte Utilise Graphe
-#include "Noeud.h"			// Graphe est composé de noeuds
 #include "Affichable.h"		// Carte pointe sur des affichables
 #include "Fichier.h"		// Carte utilise des fichiers
 
@@ -44,7 +43,6 @@ Carte::Carte( int x , int y ) {
 	_sizeY = y ;
 	_map = new Affichable **[_sizeY];
 
-
 	// initialisation de la carte
 	int i,														// indice parcours sur l'axe Y
 		j;														// indice parcours sur l'axe X
@@ -59,8 +57,8 @@ Carte::Carte( int x , int y ) {
 }
 
 /** Le constructeur Carte initialise le tableau contenant les objets affichables
-	 * @param x - la longueur de la carte
-	 * @param y - la largeur de la carte
+  * en fonction du fichier name.txt
+	 * @param name - nom du fichier à partir duquel on charge la taille de la carte
 	 * */
 Carte::Carte( string name ) {
 	_sizeX = 0;
@@ -80,6 +78,7 @@ Carte::Carte( string name ) {
 			_map[i][j] = &vide;
 		}
 	}
+
 	cout << " + carte de taille "<< _sizeX << "*" << _sizeY << " crée" << endl;
 	cout << " + adresse de vide "<< &vide << endl;
 }

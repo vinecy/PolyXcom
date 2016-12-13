@@ -12,6 +12,7 @@
 #include "Ennemi.h"
 #include "Hero.h"
 #include "Obstacle.h"
+#include "Carte.h"
 
 using namespace std;
 
@@ -22,8 +23,10 @@ private:
 
 public:
 	Fichier(string name);
+
 	void loadMap(Carte&, list<Ennemi>&, list<Hero>&, list<Obstacle>&);
 	void loadSizeMap(int&,int&);
+
 	virtual ~Fichier();
 };
 

@@ -10,16 +10,16 @@
 #define CARTE_H_
 
 
-#include <list>
-#include "Affichable.h"
+#include <list>					// Carte utilise des listes
+#include "Affichable.h"			// Carte pointe sur des affichables
 
 using namespace std;
 
 class Carte {
-	private:						// Attributs
-		int _sizeX;						// Longueur MAX de la carte
-		int _sizeY;						// Largeur MAX de la carte
-		Affichable ***_map;				// Matrice de pointeur d'objets affichables
+	private:					// Attributs
+		int _sizeX;					// Longueur MAX de la carte
+		int _sizeY;					// Largeur MAX de la carte
+		Affichable ***_map;			// Matrice de pointeur d'objets affichables
 
 	// Methodes
 	public:
@@ -39,14 +39,12 @@ class Carte {
 		list <pair<int , int>> drawPath( int xA, int yA, int xB, int yB );
 		bool pathIsPossible( int xA, int yA, int xB, int yB );
 
-
 		int get_sizeX(void);			// Retourne la longueur de la carte
 		int get_sizeY(void);			// Retourne la largeur de la carte
 		int get_IDin(int x, int y);  	// Retourne l'ID de l'objet dans la carte
 
 		void set_sizeX(int value);			// Modifie la longueur de la carte
 		void set_sizeY(int value);			// Modifie la largeur de la carte
-
 
 		virtual ~Carte();										// Destructeur
 };

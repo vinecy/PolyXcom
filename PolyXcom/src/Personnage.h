@@ -11,7 +11,6 @@
 #include <iostream>
 #include <list>
 #include "Affichable.h"
-#include "Carte.h"
 #include "Arme.h"
 using namespace std;
 
@@ -44,7 +43,7 @@ public:
 
 	void display_info(void);						//affichage des attributs en console
 
-	virtual list<Personnage*> near(Carte &map, list<Personnage*> team)=0;
+	virtual list<Personnage*> near(list<Personnage*> team)=0;
 	virtual void close_combat(list<Personnage*> list)=0;
 	virtual void shoot(list<Personnage*> list)=0;
 

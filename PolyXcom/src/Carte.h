@@ -11,7 +11,8 @@
 
 
 #include <list>					// Carte utilise des listes
-#include "Affichable.h"			// Carte pointe sur des affichables
+//#include "Affichable.h"			// Carte pointe sur des affichables
+#include "Personnage.h"			// Carte pointe sur des affichables
 
 using namespace std;
 
@@ -41,6 +42,9 @@ class Carte {
 		list <pair<int , int>> pathfinding( int xA , int yA , int xB , int yB );// Recherche le meilleur chemin vers xB,yB et renvoie le chemin à faire
 		list <pair<int , int>> drawPath( int xA, int yA, int xB, int yB );
 		bool pathIsPossible( int xA, int yA, int xB, int yB );
+
+		//list<Personnage*> near(list<Personnage*> team);
+
 		void display(void);					// Permet d'afficher la carte
 
 		int get_sizeX(void);				// Retourne la longueur de la carte

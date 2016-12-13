@@ -145,7 +145,9 @@ int main() {
 								Luminy.removeItem(*(*ite));
 							}
 						}
+
 					}
+					break;
 				case CC:
 					if((*ite_l)->get_paCurrent()>=3)
 					{

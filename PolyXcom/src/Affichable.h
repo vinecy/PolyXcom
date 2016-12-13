@@ -20,16 +20,14 @@ class Affichable
 		Affichable();						//Construteur par defaut
 		Affichable(int x,int y,int ID);		//Constructeur surchagé
 
+		int distance(Affichable);			//retourne le distance entre 2 Affichables
+		void display_info(void);				//Affiche les attributs en console
+
 		int get_x(void);					//getters
 		int get_y(void);
 		int get_ID(void);
-
 		void set_x(int);					//setters
 		void set_y(int);
-
-		void display_info();				//Affiche les attributs en console
-
-		int distance(Affichable);			//retourne le distance entre 2 Affichables
 
 		virtual ~Affichable();				//Destructor
 };

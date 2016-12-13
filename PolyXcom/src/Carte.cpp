@@ -83,21 +83,6 @@ Carte::Carte( string name ) {
 	cout << " + adresse de vide "<< &vide << endl;
 }
 
-/** La méthode display permet d'afficher la carte sur la console */
-void Carte::display( void ) {
-	int i,														// indice parcours sur l'axe Y
-		j;														// indice parcours sur l'axe X
-	cout << " *** affichage de la carte *** " << endl;
-	cout << " ----------------- " << endl;
-	for( i = _sizeY-1 ; i >= 0 ; i-- ){
-		for( j = 0 ; j < _sizeX ; j++ ){
-			cout << " | " << _map[j][i]->get_ID() ;
-		}
-		cout << " | "<< endl << " ----------------- " << endl;
-	}
-	cout << " *** fin affichage *** " << endl;
-}
-
 /** La méthode moveIsPossible permet de vérifier si la case (x,y) est franchissable ou pas
  	 * @param x,y - couple de coordonnées à verifier
  	 * @return - il retourne 1 et le deplacement est possible ou 0 sinon.
@@ -115,6 +100,79 @@ bool Carte::moveIsPossible( int x , int y ){
 	}
 	return rep;
 }
+
+
+
+
+
+/** La methode Personnage deplace un pero vers de Nord
+	 * @param map - carte sur laquelle le perso bouge*/
+void Carte::move_up(Personnage &perso)
+{
+	int x = perso.get_x(),
+		y = perso.get_y();
+	if(this->moveIsPossible(x, y+1 ))
+	{
+		perso.set_paCurrent(perso.get_paCurrent() - 1);
+		this->moveItemTo( x , y , x , y+1);
+	}
+	else
+	{
+		cout<<"erreur"<<endl;
+	}
+}
+/** La methode Personnage deplace un pero vers le Sud
+	 * @param map - carte sur laquelle le perso bouge*/
+void Carte::move_down(Personnage &perso)
+{
+	int x = perso.get_x(),
+		y = perso.get_y();
+	if( this->moveIsPossible(x, y) )
+	{
+		perso.set_paCurrent( perso.get_paCurrent() - 1 );
+		this->moveItemTo(x , y , x , y - 1);
+	}
+	else
+	{
+		cout<<"erreur"<<endl;
+	}
+}
+/** La methode Personnage deplace un pero vers l'Ouest
+	 * @param map - carte sur laquelle le perso bouge*/
+void Carte::move_left(Personnage &perso)
+{
+	int x = perso.get_x(),
+		y = perso.get_y();
+	if( this->moveIsPossible(x - 1, y) )
+	{
+		perso.set_paCurrent( perso.get_paCurrent() - 1 );
+		this->moveItemTo(x , y , x - 1, y);
+	}
+	else
+	{
+		cout<<"erreur"<<endl;
+	}
+}
+/** La methode Personnage deplace un pero vers l'Est
+	 * @param map - carte sur laquelle le perso bouge*/
+void Carte::move_right(Personnage &perso)
+{
+	int x = perso.get_x(),
+		y = perso.get_y();
+	if( this->moveIsPossible(x + 1, y) )
+	{
+		perso.set_paCurrent( perso.get_paCurrent() - 1 );
+		this->moveItemTo(x , y , x + 1 , y);
+	}
+	else
+	{
+		cout<<"erreur"<<endl;
+	}
+}
+
+
+
+
 
 /** La méthode addItem permet d'ajouter un affichable sur la carte
  	 * @param &a - adresse de l'affichable à ajouter
@@ -626,6 +684,20 @@ bool Carte::pathIsPossible( int xA, int yA, int xB, int yB ){
 	return rep;
 }
 
+/** La méthode display permet d'afficher la carte sur la console */
+void Carte::display( void ) {
+	int i,														// indice parcours sur l'axe Y
+		j;														// indice parcours sur l'axe X
+	cout << " *** affichage de la carte *** " << endl;
+	cout << " ----------------- " << endl;
+	for( i = _sizeY-1 ; i >= 0 ; i-- ){
+		for( j = 0 ; j < _sizeX ; j++ ){
+			cout << " | " << _map[j][i]->get_ID() ;
+		}
+		cout << " | "<< endl << " ----------------- " << endl;
+	}
+	cout << " *** fin affichage *** " << endl;
+}
 
 /** Retourne la longueur de la carte
  * */

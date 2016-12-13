@@ -96,66 +96,6 @@ void Personnage::set_paCurrent(int pa)
 	_paCurrent=pa;
 }
 
-/** La methode Personnage deplace un pero vers de Nord
-	 * @param map - carte sur laquelle le perso bouge*/
-void Personnage::move_up(Carte &map)
-{
-
-	if(map.moveIsPossible(_coordX,_coordY+1))
-	{
-		this->set_paCurrent(_paCurrent-1);
-		map.moveItemTo( _coordX , _coordY , _coordX , _coordY+1);
-	}
-	else
-	{
-		cout<<"erreur"<<endl;
-	}
-}
-/** La methode Personnage deplace un pero vers le Sud
-	 * @param map - carte sur laquelle le perso bouge*/
-void Personnage::move_down(Carte &map)
-{
-
-	if(map.moveIsPossible(_coordX,_coordY-1))
-	{
-		this->set_paCurrent(_paCurrent-1);
-		map.moveItemTo(_coordX , _coordY , _coordX , _coordY-1);
-	}
-	else
-	{
-		cout<<"erreur"<<endl;
-	}
-}
-/** La methode Personnage deplace un pero vers l'Ouest
-	 * @param map - carte sur laquelle le perso bouge*/
-void Personnage::move_left(Carte &map)
-{
-
-	if(map.moveIsPossible(_coordX-1,_coordY))
-	{
-		this->set_paCurrent(_paCurrent-1);
-		map.moveItemTo(_coordX , _coordY , _coordX-1,_coordY);
-	}
-	else
-	{
-		cout<<"erreur"<<endl;
-	}
-}
-/** La methode Personnage deplace un pero vers l'Est
-	 * @param map - carte sur laquelle le perso bouge*/
-void Personnage::move_right(Carte &map)
-{
-	if(map.moveIsPossible(_coordX+1,_coordY))
-	{
-		this->set_paCurrent(_paCurrent-1);
-		map.moveItemTo(_coordX , _coordY , _coordX+1,_coordY);
-	}
-	else
-	{
-		cout<<"erreur"<<endl;
-	}
-}
-
 /** La méthode display_info permet d'afficher les attributs de celui qui l'invoque dans la console */
 void Personnage::display_info(void)
 {

@@ -17,9 +17,9 @@ class Ennemi : public Personnage
 
 		void display_info();									//Affichable debug
 
-		list<Personnage*> near(Carte &map,list<Personnage*> team);
-		void close_combat(list<Personnage*> list);
-		void shoot(list<Personnage*> list);
+		list<Personnage*> near(Carte &map,list<Personnage*> team);	//retourne une liste d'ennemi sur laquelle taper
+		void close_combat(list<Personnage*> list);					//taper sur des ennemis
+		void shoot(list<Personnage*> list);							//tirer sur des ennemis
 
 		void begin_IA();										//fonction qui commence le choix de l'AI
 

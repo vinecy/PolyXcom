@@ -62,6 +62,7 @@ void Hero::close_combat(list<Personnage*> proch)
 		{
 			compteur++;
 			cout<<"Ennemi sélectionné= "<<(*ite)->get_pvCurrent()<<"/"<<(*ite)->get_pvMax()<<endl;
+			cout<<"Ennemi sélectionné= "<<(*ite)->get_paCurrent()<<"/"<<(*ite)->get_paMax()<<endl;
 			cout<<"\t\t tapez 0 pour frapper cet ennemi"<<endl;
 			cout<<"\t\t taper 1 pour changer d'ennemi"<<endl;
 			cin>>choix3;

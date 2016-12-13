@@ -83,12 +83,9 @@ int main() {
 		Luminy.addItem((*ite_o));
 	}
 
-	//bool cont=1;
-	int token;
-	token=3;
-	while(token>0)			//TANT QUE Ennemis detruit ou Hero detruits
-	{						//TODO modification de cont a la fin des phases
-		token--;
+	bool cont=1;
+	while(cont)
+	{
 		cout<<"Nouveau tour"<<endl;
 		ite_l=team_hero.begin();
 		while(end_team(team_hero))		//TANT QUE pa!=0 pour tous les hero
@@ -132,7 +129,7 @@ int main() {
 						list<Personnage*> in_range;
 						for(ite=team_ennemi.begin();ite!=team_ennemi.end();ite++)
 						{
-							if(Luminy.pathIsPossible((*ite_l)->get_x(),(*ite_l)->get_y(),(*ite)->get_x(), (*ite)->get_y()))
+							if(Luminy.pathIsPossible((*ite_l)->get_x(),(*ite_l)->get_y(),(*ite)->get_x(),(*ite)->get_y()))
 							{
 								in_range.push_front((*ite));
 							}
@@ -140,12 +137,23 @@ int main() {
 						(*ite_l)->shoot(in_range);
 						for(ite=team_ennemi.begin();ite!=team_ennemi.end();ite++)
 						{
-							if((*ite)->get_pvCurrent()<0)
+							if((*ite)->get_pvCurrent()<=0)
 							{
+								cout<<"On eleve "<<endl;
+								(*ite)->display_info();
+
 								Luminy.removeItem(*(*ite));
+								team_ennemi.remove((*ite));
+
+
+								cout<<"il reste "<<team_ennemi.size()<<"ennemis"<<endl;
+
 							}
 						}
-
+						if(team_ennemi.size()==0)
+						{
+							cont=0;
+						}
 					}
 					break;
 				case CC:
@@ -159,6 +167,10 @@ int main() {
 							if((*ite)->get_pvCurrent()<0)
 							{
 								Luminy.removeItem(*(*ite));
+							}
+							if(team_ennemi.size()==0)
+							{
+								cont=0;
 							}
 						}
 					}

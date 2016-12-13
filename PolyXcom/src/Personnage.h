@@ -50,9 +50,9 @@ public:
 
 	void display_info(void);						//affichage des attributs en console
 
-	virtual list<Personnage*> near(Carte &map, list<Personnage*> team)=0;
-	virtual void close_combat(list<Personnage*> list)=0;
-	virtual void shoot(list<Personnage*> list)=0;
+	virtual list<Personnage*> near(Carte &map, list<Personnage*> team)=0; //revoit une liste d'ennemi sur laquelle taper
+	virtual void close_combat(list<Personnage*> list)=0;				  //taper sur des ennemis
+	virtual void shoot(list<Personnage*> list)=0;						  //tirer sur des ennemis
 
 	void reload();									//rechargement de l'arme
 

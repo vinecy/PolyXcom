@@ -1,8 +1,8 @@
-Taille 10 10
+Taille 4 4
 
 Contenu{
-	Ennemi 0 3 3 10 5
-	Ennemi 1 2 3 20 5
+	Ennemi 0 3 3 2 10
+	Ennemi 1 2 3 1 5
  	Hero 0 0 2 10 10 Alexis
  	Mur 3 0 1 
  	Mur 3 1 1 

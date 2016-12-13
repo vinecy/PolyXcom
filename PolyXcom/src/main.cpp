@@ -105,19 +105,19 @@ int main() {
 						switch(choix2)
 						{
 						case NORTH:
-							(*ite_l)->move_up(Luminy);
+							Luminy.move_down(*(*ite_l));
 							choix2=10;
 							break;
 						case EAST:
-							(*ite_l)->move_right(Luminy);
+							Luminy.move_down(*(*ite_l));
 							choix2=10;
 							break;
 						case SOUTH:
-							(*ite_l)->move_down(Luminy);
+							Luminy.move_down(*(*ite_l));
 							choix2=10;
 							break;
 						case WEST:
-							(*ite_l)->move_left(Luminy);
+							Luminy.move_down(*(*ite_l));
 							choix2=10;
 							break;
 						}

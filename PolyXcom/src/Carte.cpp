@@ -107,7 +107,7 @@ bool Carte::moveIsPossible( int x , int y ){
 
 /** La methode Personnage deplace un pero vers de Nord
 	 * @param map - carte sur laquelle le perso bouge*/
-void Carte::move_up(Personnage &perso)
+void Carte::move_up(Affichable &perso)
 {
 	int x = perso.get_x(),
 		y = perso.get_y();

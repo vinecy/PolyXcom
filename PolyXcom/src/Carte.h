@@ -30,7 +30,7 @@ class Carte {
 
 		bool moveIsPossible(int x , int y);	// Affirme si Déplacement possible à (x,y)
 
-		void move_up(Personnage &perso);						//deplacement au Nord
+		void move_up(Affichable &perso);						//deplacement au Nord
 		void move_down(Personnage &perso);						//deplacement au Sud
 		void move_left(Personnage &perso);						//deplacement a l'Ouest
 		void move_right(Personnage &perso);					//deplacement a l'Est

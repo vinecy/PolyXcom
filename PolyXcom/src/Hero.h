@@ -25,6 +25,7 @@ class Hero : public Personnage
 
 		list<Personnage*> near(Carte &map,list<Personnage*> team);
 		void close_combat(list<Personnage*> list);
+		void shoot(list<Personnage*> list);
 
 		void display_info();							//Affiche les attributs en console
 

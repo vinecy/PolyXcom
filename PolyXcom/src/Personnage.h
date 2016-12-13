@@ -52,6 +52,7 @@ public:
 
 	virtual list<Personnage*> near(Carte &map, list<Personnage*> team)=0;
 	virtual void close_combat(list<Personnage*> list)=0;
+	virtual void shoot(list<Personnage*> list)=0;
 
 	void reload();									//rechargement de l'arme
 

@@ -127,7 +127,6 @@ int main() {
 					}while (choix2!=10);
 					break;
 				case TIRER:
-					cout<<"peace man!"<<endl;
 					if((*ite_l)->get_paCurrent()>=4)
 					{
 						list<Personnage*> in_range;
@@ -138,7 +137,7 @@ int main() {
 								in_range.push_front((*ite));
 							}
 						}
-
+						(*ite_l)->shoot(in_range);
 						for(ite=team_ennemi.begin();ite!=team_ennemi.end();ite++)
 						{
 							if((*ite)->get_pvCurrent()<0)

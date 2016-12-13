@@ -105,11 +105,11 @@ int main() {
 						switch(choix2)
 						{
 						case NORTH:
-							Luminy.move_down(*(*ite_l));
+							Luminy.move_up(*(*ite_l));
 							choix2=10;
 							break;
 						case EAST:
-							Luminy.move_down(*(*ite_l));
+							Luminy.move_right(*(*ite_l));
 							choix2=10;
 							break;
 						case SOUTH:
@@ -117,7 +117,7 @@ int main() {
 							choix2=10;
 							break;
 						case WEST:
-							Luminy.move_down(*(*ite_l));
+							Luminy.move_left(*(*ite_l));
 							choix2=10;
 							break;
 						}
@@ -159,7 +159,7 @@ int main() {
 				case CC:
 					if((*ite_l)->get_paCurrent()>=3)
 					{
-						list<Personnage*> proch = (*ite_l)->near(Luminy,team_ennemi);
+						list<Personnage*> proch = (*ite_l)->near(team_ennemi);
 						(*ite_l)->close_combat(proch);
 
 						for(ite=team_ennemi.begin();ite!=team_ennemi.end();ite++)

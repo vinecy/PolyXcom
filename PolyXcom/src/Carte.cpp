@@ -107,7 +107,7 @@ bool Carte::moveIsPossible( int x , int y ){
 
 /** La methode Personnage deplace un pero vers de Nord
 	 * @param map - carte sur laquelle le perso bouge*/
-void Carte::move_up(Affichable &perso)
+void Carte::move_up(Personnage &perso)
 {
 	int x = perso.get_x(),
 		y = perso.get_y();
@@ -170,8 +170,24 @@ void Carte::move_right(Personnage &perso)
 	}
 }
 
-
-
+/*
+list<Personnage*> Carte::near(Personnage &cible, list<Personnage*> team)
+{
+	list<Personnage*>::iterator ite;
+	list<Personnage*> l;
+	for(ite=team.begin();ite!=team.end();ite++)
+	{
+		if(((((*ite)->get_x()+1==cible.get_x())||((*ite)->get_x()-1==cible.get_x()))&&((*ite)->get_y()==cible.get_y())))
+		{
+			l.push_front((*ite));
+		}
+		else if(((((*ite)->get_y()+1==cible.get_y())||((*ite)->get_y()-1==cible.get_y()))&&((*ite)->get_x()==cible.get_x())))
+		{
+			l.push_front((*ite));
+		}
+	}
+	return(l);
+}*/
 
 
 /** La méthode addItem permet d'ajouter un affichable sur la carte

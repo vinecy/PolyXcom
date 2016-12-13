@@ -40,7 +40,7 @@ void Ennemi::begin_IA()
 	cout<<"begin!"<<endl;
 }
 
-list<Personnage*> Ennemi::near(Carte &map,list<Personnage*> team)
+list<Personnage*> Ennemi::near(list<Personnage*> team)
 {
 	list<Personnage*>::iterator ite;
 	list<Personnage*> l;

@@ -23,7 +23,7 @@ Hero::Hero(int x,int y,int ID,int pv,int pa,Arme arme,string nom):Personnage(x,y
 	_nom=nom;
 }
 
-list<Personnage*> Hero::near(Carte &map,list<Personnage*> team)
+list<Personnage*> Hero::near(list<Personnage*> team)
 {
 	list<Personnage*>::iterator ite;
 	list<Personnage*> l;

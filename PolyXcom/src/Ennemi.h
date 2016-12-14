@@ -13,7 +13,7 @@ class Ennemi : public Personnage
 {
 	public:
 		Ennemi();
-		Ennemi(int x,int y ,int ID ,int pv,int pa,Arme arme);	//Constructeur
+		Ennemi(int x,int y,int ID,int lev,int str,int acc,int agi,int end,int luck,Arme arme);	//Constructeur
 
 		void display_info();									//Affichable debug
 

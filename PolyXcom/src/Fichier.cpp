@@ -75,7 +75,7 @@ void Fichier::loadMap(Carte &map, list<Ennemi> &listEnnemi, list<Hero> &listHero
 			if(ligne == "Contenu{") notEnd = true ;
 		}
 		if(notEnd){
-			int x,y,ID,PV,PA;
+			int x,y,ID,lev,str,acc,agi,end,luck;
 			string nom;
 
 			pathCarte >> ligne;
@@ -84,18 +84,26 @@ void Fichier::loadMap(Carte &map, list<Ennemi> &listEnnemi, list<Hero> &listHero
 					pathCarte >> x;
 					pathCarte >> y;
 					pathCarte >> ID;
-					pathCarte >> PV;
-					pathCarte >> PA;
-					listEnnemi.push_front(Ennemi(x,y,ID,PV,PA,Arme()));
+					pathCarte >> lev;
+					pathCarte >> str;
+					pathCarte >> acc;
+					pathCarte >> agi;
+					pathCarte >> end;
+					pathCarte >> luck;
+					listEnnemi.push_front(Ennemi(x,y,ID,lev,str,acc,agi,end,luck,Arme()));
 					cout << "ceci est un ennemi" << endl;
 				} else if( ligne == "Hero" ){
 					pathCarte >> x;
 					pathCarte >> y;
 					pathCarte >> ID;
-					pathCarte >> PV;
-					pathCarte >> PA;
+					pathCarte >> lev;
+					pathCarte >> str;
+					pathCarte >> acc;
+					pathCarte >> agi;
+					pathCarte >> end;
+					pathCarte >> luck;
 					pathCarte >> nom;
-					listHero.push_front(Hero(x,y,ID,PV,PA,Arme(),nom));
+					listHero.push_front(Hero(x,y,ID,lev,str,acc,agi,end,luck,Arme(),nom));
 					cout << "ceci est un heros" << endl;
 				} else if( ligne == "Mur" ){
 					pathCarte >> x;

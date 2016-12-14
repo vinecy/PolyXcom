@@ -30,11 +30,18 @@ using namespace std;
 
 Personnage::Personnage()
 {
-	_paMax=9;
-	_paCurrent=_paMax;
+	_level=0;
 	_pvMax=10;
-	_pvCurrent=_pvMax;
-	_rotation=0;
+	_paMax=10;
+	_pvCurrent=10;
+	_paCurrent=10;
+	_strength=10;
+	_accuracy=10;
+	_agility=10;
+	_endurance=10;
+	_luck=10;
+	_rotation=10;
+	_inv_armes=Arme();
 }
 
 /** Le constructeur Personnage cree un personnage et initialise ses attributs
@@ -44,10 +51,18 @@ Personnage::Personnage()
 	 * @param pv - Points de Vie max du perso
 	 * @param pa - Points d'Action max du perso
 	 * @param arme - arme du perso*/
-Personnage::Personnage(int x,int y,int ID,int pv,int pa,Arme arme):Affichable(x,y,ID)	//construteur
+Personnage::Personnage(int x,int y,int ID,int lev,int str,int acc,int agi,int end,int luck,Arme arme):Affichable(x,y,ID)//construteur
 {
-	_pvMax=pv;
-	_paMax=pa;
+	_level=lev;
+	_pvCurrent=10;
+	_paCurrent=10;
+	_strength=str;
+	_accuracy=acc;
+	_agility=agi;
+	_endurance=end;
+	_luck=luck;
+	_pvMax=str;
+	_paMax=acc;
 	_pvCurrent=_pvMax;
 	_paCurrent=_paMax;
 	_rotation=0;

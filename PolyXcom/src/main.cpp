@@ -23,6 +23,7 @@
  */
 
 #include <iostream>
+#include <cstdlib>
 #include "Obstacle.h"
 #include "Hero.h"
 #include "Carte.h"
@@ -45,40 +46,41 @@ int main_switch();
 int move_switch();
 bool end_team(list<Personnage*>team);
 
-int main() {
-	int choix;
+int main()
+{
+
+	int choix;							//variables pour les switch
 	int choix2;
 
-
-	list<Ennemi> 		tank_ennemi;
-	list<Hero>			tank_hero;
+	list<Ennemi> 		tank_ennemi;	//conteneurs pour
+	list<Hero>			tank_hero;		//le chargement a partir d'un fichier
 	list<Obstacle>  	tank_obstacle;
 
-	list<Personnage*>	team_hero;
+	list<Personnage*>	team_hero;		//equipes de personnages
 	list<Personnage*>	team_ennemi;
 
-	list<Personnage*>::iterator ite_l;
-	list<Personnage*>::iterator ite;
-	list<Ennemi>::iterator ite_e;
-	list<Hero>::iterator ite_h;
-	list<Obstacle>::iterator ite_o;
+	list<Personnage*>::iterator ite_l;	//itérateur de personnage qui agit
+	list<Personnage*>::iterator ite;	//iterateur divers
+	list<Ennemi>::iterator ite_e;		//iterateur ennemi
+	list<Hero>::iterator ite_h;			//iterateur hero
+	list<Obstacle>::iterator ite_o;		//iterateur obstacle
 
 	Fichier pathMap("Luminy");
 	Carte Luminy("Luminy");
 	pathMap.loadMap(Luminy,tank_ennemi,tank_hero,tank_obstacle);
 
 
-	for(ite_e=tank_ennemi.begin();ite_e!=tank_ennemi.end();ite_e++)
+	for(ite_e=tank_ennemi.begin();ite_e!=tank_ennemi.end();ite_e++)	//chargement ennemis
 	{
 		Luminy.addItem((*ite_e));
 		team_ennemi.push_front(&(*ite_e));
 	}
-	for(ite_h=tank_hero.begin();ite_h!=tank_hero.end();ite_h++)
+	for(ite_h=tank_hero.begin();ite_h!=tank_hero.end();ite_h++)		//chargement heros
 	{
 		Luminy.addItem((*ite_h));
 		team_hero.push_front(&(*ite_h));
 	}
-	for(ite_o=tank_obstacle.begin();ite_o!=tank_obstacle.end();ite_o++)
+	for(ite_o=tank_obstacle.begin();ite_o!=tank_obstacle.end();ite_o++)	//chargement obstacles
 	{
 		Luminy.addItem((*ite_o));
 	}
@@ -86,14 +88,15 @@ int main() {
 	bool cont=1;
 	while(cont)
 	{
-		cout<<"Nouveau tour"<<endl;
+		cout<<"\t\t\t\t\t\t\t\tNouveau tour"<<endl;
 		ite_l=team_hero.begin();
 		while(end_team(team_hero))		//TANT QUE pa!=0 pour tous les hero
 		{
-			cout<<"Tour de "<<(*ite_l)->get_x()<<"/"<<(*ite_l)->get_y()<<endl;
+			cout<<"\t\t\t\t\t\t\t\tTour allié"<<endl;
+			cout<<"\t\t\t\t\t\t\t\tTour de "<<(*ite_l)->get_x()<<"/"<<(*ite_l)->get_y()<<endl;
 			do
 			{
-				cout<<"\t\t\t\t\tPA restants= "<<(*ite_l)->get_paCurrent()<<endl;
+				cout<<"\t\t\t\t\t\t\t\tPA restants= "<<(*ite_l)->get_paCurrent()<<endl;
 				Luminy.display();
 				choix = main_switch() ;
 				switch (choix)
@@ -135,21 +138,19 @@ int main() {
 							}
 						}
 						(*ite_l)->shoot(in_range);
+						list<Personnage*> temp;
 						for(ite=team_ennemi.begin();ite!=team_ennemi.end();ite++)
 						{
-							if((*ite)->get_pvCurrent()<=0)
+							if((*ite)->get_pvCurrent()>=1)
 							{
-								cout<<"On eleve "<<endl;
-								(*ite)->display_info();
-
+								temp.push_front(*ite);
+							}
+							else
+							{
 								Luminy.removeItem(*(*ite));
-								team_ennemi.remove((*ite));
-
-
-								cout<<"il reste "<<team_ennemi.size()<<"ennemis"<<endl;
-
 							}
 						}
+						team_ennemi=temp;
 						if(team_ennemi.size()==0)
 						{
 							cont=0;
@@ -161,17 +162,22 @@ int main() {
 					{
 						list<Personnage*> proch = (*ite_l)->near(team_ennemi);
 						(*ite_l)->close_combat(proch);
-
+						list<Personnage*> temp;
 						for(ite=team_ennemi.begin();ite!=team_ennemi.end();ite++)
 						{
-							if((*ite)->get_pvCurrent()<0)
+							if((*ite)->get_pvCurrent()>=1)
+							{
+								temp.push_front(*ite);
+							}
+							else
 							{
 								Luminy.removeItem(*(*ite));
 							}
-							if(team_ennemi.size()==0)
-							{
-								cont=0;
-							}
+						}
+						team_ennemi=temp;
+						if(team_ennemi.size()==0)
+						{
+							cont=0;
 						}
 					}
 					else
@@ -185,8 +191,8 @@ int main() {
 			ite_l=team_ennemi.begin();
 			while(end_team(team_ennemi))
 			{
-				cout<<"Tour de pro"<<endl;
-				Luminy.display();
+				cout<<"\t\t\t\t\t\t\t\tTour ennemi"<<endl;
+				//Luminy.display();
 				for(ite=team_ennemi.begin();ite!=team_ennemi.end();ite++)
 				{
 					(*ite)->set_paCurrent(0);
@@ -233,6 +239,10 @@ int move_switch ( void ){
 
 bool end_team(list<Personnage*> team)
 {
+	if(team.size()==0)
+	{
+		return(0);
+	}
 	list<Personnage*>::iterator ite;
 	for(ite=team.begin();ite!=team.end();ite++)
 	{

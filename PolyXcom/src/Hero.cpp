@@ -7,6 +7,7 @@
  */
 
 #include<iostream>
+#include<cstdlib>
 #include"Hero.h"
 using namespace std;
 
@@ -114,7 +115,14 @@ void Hero::shoot(list<Personnage*> in_range)
 			if(!choix)
 			{
 				(*ite)->set_pvCurrent((*ite)->get_pvCurrent()-4);
-				cout<<"Ennemi touché! "<<(*ite)->get_pvCurrent()<<"/"<<(*ite)->get_pvMax()<<endl;
+				if((*ite)->get_pvCurrent()<1)
+				{
+					cout<<"Ennemi tué! "<<endl;
+				}
+				else
+				{
+					cout<<"Ennemi touché! "<<(*ite)->get_pvCurrent()<<"/"<<(*ite)->get_pvMax()<<endl;
+				}
 				_paCurrent=_paCurrent-4;
 				fini=1;
 			}else{

@@ -37,6 +37,7 @@ using namespace std;
 #define DEPLACER 1
 #define TIRER 2
 #define CC 3
+#define CHANGER 4
 #define NORTH 11
 #define EAST 12
 #define SOUTH 13
@@ -93,9 +94,9 @@ int main()
 		while(end_team(team_hero))		//TANT QUE pa!=0 pour tous les hero
 		{
 			cout<<"\t\t\t\t\t\t\t\tTour allié"<<endl;
-			cout<<"\t\t\t\t\t\t\t\tTour de "<<(*ite_l)->get_x()<<"/"<<(*ite_l)->get_y()<<endl;
 			do
 			{
+				cout<<"\t\t\t\t\t\t\t\tPerso "<<(*ite_l)->get_x()<<"/"<<(*ite_l)->get_y()<<endl;
 				cout<<"\t\t\t\t\t\t\t\tPA restants= "<<(*ite_l)->get_paCurrent()<<endl;
 				Luminy.display();
 				choix = main_switch() ;
@@ -184,25 +185,45 @@ int main()
 					{
 						cout<<"Pas assez de PA!"<<endl;
 					}
+				case CHANGER:
+					if(team_hero.size()==1)
+					{
+						cout<<"Vous n'avez qu'un seul perso!";
+					}
+					else if((*ite_l)==team_hero.back())
+					{
+						ite_l=team_hero.begin();
+					}
+					else
+					{
+						ite_l++;
+					}
 				}
 			}while(choix!=0);
-			(*ite_l)->set_paCurrent((*ite_l)->get_paMax());			//TANT QUE pa!=0 pour tous les ennemis
-			list<Personnage*>::iterator ite_l;
-			ite_l=team_ennemi.begin();
-			while(end_team(team_ennemi))
+			for(ite=team_hero.begin();ite!=team_hero.end();ite++)
 			{
-				cout<<"\t\t\t\t\t\t\t\tTour ennemi"<<endl;
-				//Luminy.display();
-				for(ite=team_ennemi.begin();ite!=team_ennemi.end();ite++)
-				{
-					(*ite)->set_paCurrent(0);
-				}
-			}
-			for(ite=team_ennemi.begin();ite!=team_ennemi.end();ite++)
-			{
-				(*ite)->set_paCurrent((*ite)->get_paMax());
+				(*ite)->set_paCurrent(0);
 			}
 		}
+		for(ite=team_hero.begin();ite!=team_hero.end();ite++)
+		{
+			(*ite)->set_paCurrent((*ite)->get_paMax());
+		}
+		ite_l=team_ennemi.begin();
+		while(end_team(team_ennemi))
+		{
+			cout<<"\t\t\t\t\t\t\t\tTour ennemi"<<endl;
+			//Luminy.display();
+			for(ite=team_ennemi.begin();ite!=team_ennemi.end();ite++)
+			{
+				(*ite)->set_paCurrent(0);
+			}
+		}
+		for(ite=team_ennemi.begin();ite!=team_ennemi.end();ite++)
+		{
+			(*ite)->set_paCurrent((*ite)->get_paMax());
+		}
+
 	}
 }
 
@@ -212,12 +233,13 @@ int main_switch ( void ){
 		cout << "\nQue voulez-vous faire : \n " << DEPLACER << " - Se deplacer " << endl;
 		cout << " " << TIRER  << " - Tirer " << endl;
 		cout << " " << CC << " - Corps à Corps " << endl;
+		cout << " " << CHANGER << " - Changer de Personnage " << endl;
 		cout << " Tapez 0 pour passer votre tour \n> ";
 
 		cin >> reponse ;
 
 	}
-	while ( reponse < 0 || reponse > CC ) ;
+	while ( reponse < 0 || reponse > CHANGER ) ;
 	return( reponse ) ;
 }
 

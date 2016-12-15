@@ -49,6 +49,7 @@ class Carte {
 
 		int get_sizeX(void);				// Retourne la longueur de la carte
 		int get_sizeY(void);				// Retourne la largeur de la carte
+		string get_nameMap(void);
 		int get_IDin(int x, int y);  		// Retourne l'ID de l'objet dans la carte
 		void set_sizeX(int value);			// Modifie la longueur de la carte
 		void set_sizeY(int value);			// Modifie la largeur de la carte

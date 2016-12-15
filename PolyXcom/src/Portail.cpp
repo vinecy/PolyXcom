@@ -14,10 +14,11 @@ using namespace std;
 Portail::Portail(int coordX,int coordY,int ID,int newX,int newY, string nextMap) : Affichable(coordX, coordY, ID){
 	_newX = newX ;
 	_newY = newY ;
-	string _nextNameMap = nextMap ;
+	_nameNextMap = nextMap ;
+	cout << " + portail de " << coordX << "," << coordY << " à "<< _newX << "," << _newY << "dans" << _nameNextMap << " construit" << endl;
 }
 
 Portail::~Portail() {
-	// TODO Auto-generated destructor stub
+	cout << " - portail de " << _newX << "," << _newY << "dans" << _nameNextMap << " detruit" << endl;
 }
 

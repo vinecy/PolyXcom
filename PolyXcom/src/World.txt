@@ -1,6 +1,6 @@
 
-Luminy{
-	Taille 5 5
+name: Luminy
+	Taille: 5 5
 
 	Contenu{
 		Ennemi 0 3 3 0 10 10 10 10 10
@@ -12,9 +12,33 @@ Luminy{
 		Mur 3 2 1 
 		Mur 3 3 1 
 	}
-	
 	Portail{
 		4 4 
+		0 4
 	}
 }
 
+name: L1
+	Taille: 4 4
+
+	Contenu{
+	 	Hero 0 0 2 0 10 10 10 10 10 Alexis
+	 	Hero 2 2 2 0 10 10 10 10 10 Vincent
+	}
+	Portail{
+		3 3
+	}
+}
+
+name: L2
+	Taille: 6 2
+
+	Contenu{
+	 	Mur 3 1
+	}
+	Portail{
+		3 3
+	}
+}
+
+END

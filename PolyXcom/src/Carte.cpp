@@ -97,7 +97,7 @@ Carte::Carte( string name, int x , int y ){
 		}
 	}
 
-	cout << " + carte "<< _nameMap << "de taille" << _sizeX <<"*"<< _sizeY <<" crée" << endl;
+	cout << " + carte "<< _nameMap << " de taille " << _sizeX <<"*"<< _sizeY <<" crée" << endl;
 	cout << " + adresse de vide "<< &vide << endl;
 }
 
@@ -105,11 +105,13 @@ Carte::Carte( string name, int x , int y ){
  	 * @param x,y - couple de coordonnées à verifier
  	 * @return - il retourne 1 et le deplacement est possible ou 0 sinon.
  	 * */
-bool Carte::moveIsPossible( int x , int y ){
+bool Carte::moveIsPossible( int x , int y){
 	bool rep = true ;
 	if( !(_map[x][y] == &vide) ){			// si obstacle sur la case destination
 		rep = false;
 		cout << " obstacle détectée sur " << x << "," << y << endl;
+	} else if( _map[x][y]->get_ID() == 4 ){								// si le deplacement est possible
+		cout << " on change de carte" << endl;
 	} else if( !( ( x>=0 && x<_sizeX ) && ( y>=0 && y<_sizeY ) ) ) {
 		rep = false;						// si case destination en dehors de la carte
 		cout << " on sort de la carte! sur " << x << "," << y << endl;
@@ -743,6 +745,10 @@ int Carte::get_sizeX(void){
  * */
 int Carte::get_sizeY(void){
 	return _sizeY;
+}
+
+string Carte::get_nameMap(void){
+	return _nameMap;
 }
 
 /** Retourne l'ID de l'objet dans la carte

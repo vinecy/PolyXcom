@@ -13,6 +13,7 @@
 #include "Hero.h"
 #include "Obstacle.h"
 #include "Carte.h"
+#include "Portail.h"
 
 using namespace std;
 
@@ -24,7 +25,8 @@ private:
 public:
 	Fichier(string nameFile);
 
-	void loadMap(string nameMap,list<Carte>&,list<Ennemi>&, list<Hero>&, list<Obstacle>&);
+	void seekMap(list<string>&);
+	void loadMap(string nameMap,list<Carte>&,list<Ennemi>&, list<Hero>&, list<Obstacle>&, list<Portail>&);
 	void loadSizeMap(string nameMap,int&,int&);
 
 	virtual ~Fichier();

@@ -31,6 +31,7 @@
 #include "Graphe.h"
 #include "Ennemi.h"
 #include "Fichier.h"
+#include "Portail.h"
 
 using namespace std;
 
@@ -55,7 +56,9 @@ int main()
 	list<Ennemi> 		tank_ennemi;	//conteneurs pour
 	list<Hero>			tank_hero;		//le chargement a partir d'un fichier
 	list<Obstacle>  	tank_obstacle;
-	list<Carte>  		collec_carte;
+	list<Carte>  		tank_carte;		// conteneur de cartes (l'actuel + les suivantes)
+	list<string>  		collec_carte;	// liste de toutes les cartes du jeu
+	list<Portail>  		tank_portail;		// conteneur de cartes (l'actuel + les suivantes)
 
 	list<Hero*>	team_hero;		//equipes de personnages//TODO refonte main
 	list<Personnage*>	team_ennemi;
@@ -66,13 +69,16 @@ int main()
 	list<Hero>::iterator ite_h;			//iterateur hero
 	list<Obstacle>::iterator ite_o;		//iterateur obstacle
 	list<Carte>::iterator ite_c;		//iterateur carte11
+	list<string>::iterator ite_nm;		//iterateur carte11
+	// Chargment de la Map
 
-	Fichier pathMap("World");
+	Fichier pathMap("World");					// Ouverture du fichier contenant les cartes en lecture
 	//collec_carte.push_back(Carte("Luminy"));
-	Carte Luminy("Luminy",5,5);
-
-	pathMap.loadMap("Luminy",collec_carte,tank_ennemi,tank_hero,tank_obstacle);
-
+	//Carte Luminy("Luminy",5,5);
+	pathMap.seekMap(collec_carte);
+	ite_nm = collec_carte.begin();
+	pathMap.loadMap((*ite_nm),tank_carte,tank_ennemi,tank_hero,tank_obstacle,tank_portail);
+/*
 	for(ite_e=tank_ennemi.begin();ite_e!=tank_ennemi.end();ite_e++)	//chargement ennemis
 	{
 		Luminy.addItem((*ite_e));
@@ -86,6 +92,20 @@ int main()
 	for(ite_o=tank_obstacle.begin();ite_o!=tank_obstacle.end();ite_o++)	//chargement obstacles
 	{
 		Luminy.addItem((*ite_o));
+	}*/
+
+	for(ite_e=tank_ennemi.begin();ite_e!=tank_ennemi.end();ite_e++)	//chargement ennemis
+	{
+		team_ennemi.push_front(&(*ite_e));
+	}
+	for(ite_h=tank_hero.begin();ite_h!=tank_hero.end();ite_h++)		//chargement heros
+	{
+		team_hero.push_front(&(*ite_h));
+	}
+
+	ite_c = tank_carte.begin();
+	while( ((*ite_c).get_nameMap() != "Luminy") && (ite_c != tank_carte.end()) ){
+		ite_c++;
 	}
 	list<Hero*>::iterator ite_el;
 	ite_el=team_hero.begin();
@@ -96,7 +116,7 @@ int main()
 	bool cont=1;
 	while(cont)
 	{
-		cout<<"\t\t\t\t\t\t\t\tNouveau tour"<<endl;
+		cout << "\t\t\t\t\t\t\t\tNouveau tour"<<endl;
 		ite_l=team_hero.begin();
 		while(end_team(team_hero))		//TANT QUE pa!=0 pour tous les hero
 		{
@@ -105,7 +125,7 @@ int main()
 			{
 				cout<<"\t\t\t\t\t\t\t\tPerso "<<(*ite_l)->get_x()<<"/"<<(*ite_l)->get_y()<<endl;
 				cout<<"\t\t\t\t\t\t\t\tPA restants= "<<(*ite_l)->get_paCurrent()<<endl;
-				Luminy.display();
+				(*ite_c).display();
 				choix = main_switch() ;
 				switch (choix)
 				{
@@ -116,23 +136,24 @@ int main()
 						switch(choix2)
 						{
 						case NORTH:
-							Luminy.move_up(*(*ite_l));
+							(*ite_c).move_up(*(*ite_l));
 							choix2=10;
 							break;
 						case EAST:
-							Luminy.move_right(*(*ite_l));
+							(*ite_c).move_right(*(*ite_l));
 							choix2=10;
 							break;
 						case SOUTH:
-							Luminy.move_down(*(*ite_l));
+							(*ite_c).move_down(*(*ite_l));
 							choix2=10;
 							break;
 						case WEST:
-							Luminy.move_left(*(*ite_l));
+							(*ite_c).move_left(*(*ite_l));
 							choix2=10;
 							break;
 						}
 					}while (choix2!=10);
+
 					break;
 				case TIRER:
 					if((*ite_l)->get_paCurrent()>=4)
@@ -140,7 +161,7 @@ int main()
 						list<Personnage*> in_range;
 						for(ite=team_ennemi.begin();ite!=team_ennemi.end();ite++)
 						{
-							if(Luminy.pathIsPossible((*ite_l)->get_x(),(*ite_l)->get_y(),(*ite)->get_x(),(*ite)->get_y()))
+							if((*ite_c).pathIsPossible((*ite_l)->get_x(),(*ite_l)->get_y(),(*ite)->get_x(),(*ite)->get_y()))
 							{
 								in_range.push_front((*ite));
 							}
@@ -155,7 +176,7 @@ int main()
 							}
 							else
 							{
-								Luminy.removeItem(*(*ite));
+								(*ite_c).removeItem(*(*ite));
 							}
 						}
 						team_ennemi=temp;
@@ -179,7 +200,7 @@ int main()
 							}
 							else
 							{
-								Luminy.removeItem(*(*ite));
+								(*ite_c).removeItem(*(*ite));
 							}
 						}
 						team_ennemi=temp;

@@ -21,7 +21,7 @@ Ennemi::Ennemi()
 	 * @param pvMax - Points de Vie max du perso
 	 * @param paMax - Points d'Action max du perso
 	 * @param arme - Arme par defaut de l'ennemi*/
-Ennemi::Ennemi(int x,int y,int ID,int lev,int str,int acc,int agi,int end,int luck,Arme arme):Personnage(x,y,ID,lev,str,acc,agi,end,luck,arme)
+Ennemi::Ennemi(int x,int y,int ID,int lev,int str,int acc,int agi,int end,int luck,Inventaire inv):Personnage(x,y,ID,lev,str,acc,agi,end,luck,inv)
 {
 	cout << " + Personnage ennemi crée" << endl;
 }

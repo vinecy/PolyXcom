@@ -14,11 +14,11 @@ using namespace std;
 
 class Hero : public Personnage
 {
-	protected:											//Attribut
+	private:											//Attribut
 		string _nom;									//Nom du hero
 
 	public:
-		Hero(int x,int y,int ID,int lev,int str,int acc,int agi,int end,int luck,Arme arme,string nom);//constructeur
+		Hero(int x,int y,int ID,int lev,int str,int acc,int agi,int end,int luck,Inventaire inv,string nom);//constructeur
 
 		string get_name(void);							//getter
 		void set_name(string);							//setter

@@ -41,7 +41,7 @@ Personnage::Personnage()
 	_endurance=10;
 	_luck=10;
 	_rotation=10;
-	_inv_armes=Arme();
+	_inv=Inventaire();
 }
 
 /** Le constructeur Personnage cree un personnage et initialise ses attributs
@@ -51,7 +51,7 @@ Personnage::Personnage()
 	 * @param pv - Points de Vie max du perso
 	 * @param pa - Points d'Action max du perso
 	 * @param arme - arme du perso*/
-Personnage::Personnage(int x,int y,int ID,int lev,int str,int acc,int agi,int end,int luck,Arme arme):Affichable(x,y,ID)//construteur
+Personnage::Personnage(int x,int y,int ID,int lev,int str,int acc,int agi,int end,int luck,Inventaire inventaire):Affichable(x,y,ID)//construteur
 {
 	_level=lev;
 	_pvCurrent=10;
@@ -66,7 +66,7 @@ Personnage::Personnage(int x,int y,int ID,int lev,int str,int acc,int agi,int en
 	_pvCurrent=_pvMax;
 	_paCurrent=_paMax;
 	_rotation=0;
-	_inv_armes=arme;
+	_inv=inventaire;
 }
 
 int Personnage::get_pvMax(void)			//getters
@@ -88,8 +88,13 @@ int Personnage::get_paCurrent(void)
 int Personnage::get_rotation(void){
 	return(_rotation);
 }
-Arme Personnage::get_inv_armes(void){
-	return(_inv_armes);
+
+Inventaire Personnage::get_inv(void){
+	return(_inv);
+}
+
+Arme Personnage::get_w(void){
+	return(_inv.get_weapons().front());
 }
 
 
@@ -118,13 +123,13 @@ void Personnage::display_info(void)
 	cout<<"Coord( X="<<_coordX<<" / Y="<<_coordY<<" )"<<endl;
 	cout<<"PV( "<<_pvCurrent<<" / "<<_pvMax<<" )"<<endl;
 	cout<<"PA( "<<_paCurrent<<" / "<<_pvMax<<" )"<<endl;
-	_inv_armes.display_info();
+	//_inv_armes.display_info();
 	cout<<"///////////////"<<endl;
 }
 
 void Personnage::reload()
 {
-	_inv_armes.set_munCurrent(_inv_armes.get_munMax());
+	//_inv_armes.set_munCurrent(_inv_armes.get_munMax());
 }
 
 

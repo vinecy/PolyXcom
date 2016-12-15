@@ -102,7 +102,7 @@ void Fichier::loadMap(string nameMap,list<Carte> &listCarte,list<Ennemi> &listEn
 						_path >> agi;
 						_path >> end;
 						_path >> luck;
-						listEnnemi.push_front(Ennemi(x,y,ID,lev,str,acc,agi,end,luck,Arme()));
+						listEnnemi.push_front(Ennemi(x,y,ID,lev,str,acc,agi,end,luck,Inventaire()));
 						cout << "ceci est un ennemi" << endl;
 					} else if( mot == "Hero" ){
 						_path >> x;
@@ -115,7 +115,7 @@ void Fichier::loadMap(string nameMap,list<Carte> &listCarte,list<Ennemi> &listEn
 						_path >> end;
 						_path >> luck;
 						_path >> nom;
-						listHero.push_front(Hero(x,y,ID,lev,str,acc,agi,end,luck,Arme(),nom));
+						listHero.push_front(Hero(x,y,ID,lev,str,acc,agi,end,luck,Inventaire(),nom));
 						cout << "ceci est un heros" << endl;
 					} else if( mot == "Mur" ){
 						_path >> x;

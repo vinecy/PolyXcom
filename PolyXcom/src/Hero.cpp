@@ -19,9 +19,9 @@ using namespace std;
 	 * @param pa - Points d'Action max du perso
 	 * @param arme - Arme par defaut du hero
 	 * @param _nom - Nom du perso	*/
-Hero::Hero(int x,int y,int ID,int lev,int str,int acc,int agi,int end,int luck,Arme arme,string nom):Personnage(x,y,ID,lev,str,acc,agi,end,luck,arme)
+Hero::Hero(int x,int y,int ID,int lev,int str,int acc,int agi,int end,int luck,Inventaire inv,string nom):Personnage(x,y,ID,lev,str,acc,agi,end,luck,inv)
 {
-	_nom=nom;
+	_nom=nom;//TODO cont ref string
 	cout << " + Personnage hero crée" << endl;
 }
 

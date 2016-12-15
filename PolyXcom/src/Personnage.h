@@ -11,7 +11,7 @@
 #include <iostream>
 #include <list>
 #include "Affichable.h"
-#include "Arme.h"
+#include "Inventaire.h"
 using namespace std;
 
 class Personnage : public Affichable
@@ -28,19 +28,20 @@ class Personnage : public Affichable
 		int _endurance;								//Endurance
 		int _luck;									//Chance
 		int _rotation;								//position du personnage par rapport au 4 points cardinaux.
-		Arme _inv_armes;							//Arme du perso
+		Inventaire _inv;							//Inventaire du perso
 
 
 public:
 	Personnage();
-	Personnage(int x,int y,int ID,int lev,int str,int acc,int agi,int end,int luck,Arme arme);//construteur
+	Personnage(int x,int y,int ID,int lev,int str,int acc,int agi,int end,int luck,Inventaire inventaire);//construteur
 
 	int get_pvMax(void);							//getters
 	int get_paMax(void);
 	int get_pvCurrent(void);
 	int get_paCurrent(void);
 	int get_rotation(void);
-	Arme get_inv_armes(void);
+	Inventaire get_inv(void);
+	Arme get_w(void);
 
 	void set_pvMax(int pv);							//setters
 	void set_paMAx(int pa);

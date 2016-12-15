@@ -27,7 +27,7 @@
 #include "Obstacle.h"
 #include "Hero.h"
 #include "Carte.h"
-#include "Arme.h"
+#include "Inventaire.h"
 #include "Graphe.h"
 #include "Ennemi.h"
 #include "Fichier.h"
@@ -49,15 +49,15 @@ bool end_team(list<Personnage*>team);
 
 int main()
 {
-	int choix;							//variables pour les switch
-	int choix2;
+	//int choix;							//variables pour les switch
+	//int choix2;
 
 	list<Ennemi> 		tank_ennemi;	//conteneurs pour
 	list<Hero>			tank_hero;		//le chargement a partir d'un fichier
 	list<Obstacle>  	tank_obstacle;
 	list<Carte>  		collec_carte;
 
-	list<Personnage*>	team_hero;		//equipes de personnages
+	list<Hero*>	team_hero;		//equipes de personnages//TODO refonte main
 	list<Personnage*>	team_ennemi;
 
 	list<Personnage*>::iterator ite_l;	//itérateur de personnage qui agit
@@ -87,7 +87,12 @@ int main()
 	{
 		Luminy.addItem((*ite_o));
 	}
+	list<Hero*>::iterator ite_el;
+	ite_el=team_hero.begin();
+	(*ite_el)->display_info();
+	(*ite_el)->get_w().display_info();
 
+/*
 	bool cont=1;
 	while(cont)
 	{
@@ -227,6 +232,7 @@ int main()
 		}
 
 	}
+*/
 }
 
 int main_switch ( void ){

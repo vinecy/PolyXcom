@@ -22,6 +22,7 @@ using namespace std;
 Hero::Hero(int x,int y,int ID,int lev,int str,int acc,int agi,int end,int luck,Arme arme,string nom):Personnage(x,y,ID,lev,str,acc,agi,end,luck,arme)
 {
 	_nom=nom;
+	cout << " + Personnage hero crée" << endl;
 }
 
 list<Personnage*> Hero::near(list<Personnage*> team)
@@ -166,5 +167,5 @@ void Hero::display_info(void)				//debug display
 /** Le destructeur Hero*/
 Hero::~Hero()								//destructor
 {
-	cout << "Hero detruit" << endl;
+	cout << " - Hero detruit" << endl;
 }

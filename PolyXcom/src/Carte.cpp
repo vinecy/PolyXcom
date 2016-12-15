@@ -28,11 +28,30 @@
 #include "Carte.h"
 #include "Graphe.h"			// Carte Utilise Graphe
 #include "Affichable.h"		// Carte pointe sur des affichables
-#include "Fichier.h"		// Carte utilise des fichiers
 
 using namespace std;
 
 static Affichable vide;
+
+/** Le constructeur Carte initialise le tableau contenant les objets affichables
+  * */
+Carte::Carte() {
+	_sizeX = 4 ;
+	_sizeY = 4 ;
+	_map = new Affichable **[_sizeY];
+	_nameMap = "Map par défaut";
+	// initialisation de la carte
+	int i,														// indice parcours sur l'axe Y
+		j;														// indice parcours sur l'axe X
+	for( i = 0 ; i < _sizeY ; i++ ){
+		_map[i] = new Affichable*[_sizeX];
+		for( j = 0 ; j < _sizeX ; j++ ){
+			_map[i][j] = &vide;
+		}
+	}
+	cout << " + carte "<< _nameMap << " crée" << endl;
+	cout << " + adresse de vide "<< &vide << endl;
+}
 
 /** Le constructeur Carte initialise le tableau contenant les objets affichables
 	 * @param x - la longueur de la carte
@@ -41,6 +60,7 @@ static Affichable vide;
 Carte::Carte( int x , int y ) {
 	_sizeX = x ;
 	_sizeY = y ;
+	_nameMap = "Map de taille fixé";
 	_map = new Affichable **[_sizeY];
 
 	// initialisation de la carte
@@ -52,7 +72,7 @@ Carte::Carte( int x , int y ) {
 			_map[i][j] = &vide;
 		}
 	}
-	cout << " + carte de taille "<< _sizeX << "*" << _sizeY << " crée" << endl;
+	cout << " + carte "<< _nameMap << " crée" << endl;
 	cout << " + adresse de vide "<< &vide << endl;
 }
 
@@ -60,12 +80,10 @@ Carte::Carte( int x , int y ) {
   * en fonction du fichier name.txt
 	 * @param name - nom du fichier à partir duquel on charge la taille de la carte
 	 * */
-Carte::Carte( string name ) {
-	_sizeX = 0;
-	_sizeY = 0;
-
-	Fichier file(name);
-	file.loadSizeMap( _sizeX, _sizeY );
+Carte::Carte( string name, int x , int y ){
+	_sizeX = x;
+	_sizeY = y;
+	_nameMap = name;
 
 	_map = new Affichable **[_sizeY];
 
@@ -79,7 +97,7 @@ Carte::Carte( string name ) {
 		}
 	}
 
-	cout << " + carte de taille "<< _sizeX << "*" << _sizeY << " crée" << endl;
+	cout << " + carte "<< _nameMap << "de taille" << _sizeX <<"*"<< _sizeY <<" crée" << endl;
 	cout << " + adresse de vide "<< &vide << endl;
 }
 
@@ -704,7 +722,7 @@ bool Carte::pathIsPossible( int xA, int yA, int xB, int yB ){
 void Carte::display( void ) {
 	int i,														// indice parcours sur l'axe Y
 		j;														// indice parcours sur l'axe X
-	cout << " *** affichage de la carte *** " << endl;
+	cout << " *** affichage de " << _nameMap << " *** " << endl;
 	cout << " ----------------- " << endl;
 	for( i = _sizeY-1 ; i >= 0 ; i-- ){
 		for( j = 0 ; j < _sizeX ; j++ ){

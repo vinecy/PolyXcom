@@ -18,14 +18,14 @@ using namespace std;
 
 class Fichier {
 private:
-	string name;
-	ifstream pathCarte;
+	string _nameFile;
+	ifstream _path;
 
 public:
-	Fichier(string name);
+	Fichier(string nameFile);
 
-	void loadMap(Carte&, list<Ennemi>&, list<Hero>&, list<Obstacle>&);
-	void loadSizeMap(int&,int&);
+	void loadMap(string nameMap,list<Carte>&,list<Ennemi>&, list<Hero>&, list<Obstacle>&);
+	void loadSizeMap(string nameMap,int&,int&);
 
 	virtual ~Fichier();
 };

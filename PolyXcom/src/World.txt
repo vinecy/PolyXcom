@@ -1,0 +1,20 @@
+
+Luminy{
+	Taille 5 5
+
+	Contenu{
+		Ennemi 0 3 3 0 10 10 10 10 10
+		Ennemi 1 2 3 0 10 10 10 10 10 
+	 	Hero 0 0 2 0 10 10 10 10 10 Alexis
+	 	Hero 2 2 2 0 10 10 10 10 10 Vincent
+	 	Mur 3 0 1 
+	 	Mur 3 1 1 
+		Mur 3 2 1 
+		Mur 3 3 1 
+	}
+	
+	Portail{
+		4 4 
+	}
+}
+

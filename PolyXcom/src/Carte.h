@@ -11,7 +11,6 @@
 
 
 #include <list>					// Carte utilise des listes
-//#include "Affichable.h"			// Carte pointe sur des affichables
 #include "Personnage.h"			// Carte pointe sur des affichables
 
 using namespace std;
@@ -21,11 +20,12 @@ class Carte {
 		int _sizeX;					// Longueur MAX de la carte
 		int _sizeY;					// Largeur MAX de la carte
 		Affichable ***_map;			// Matrice de pointeur d'objets affichables
-
+		string _nameMap;
 	// Methodes
 	public:
+		Carte();
 		Carte( int x , int y );									// Constructeur
-		Carte( string name );
+		Carte( string name , int x , int y );
 
 		void loadMap(string const name);
 

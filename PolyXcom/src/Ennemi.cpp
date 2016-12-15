@@ -23,6 +23,7 @@ Ennemi::Ennemi()
 	 * @param arme - Arme par defaut de l'ennemi*/
 Ennemi::Ennemi(int x,int y,int ID,int lev,int str,int acc,int agi,int end,int luck,Arme arme):Personnage(x,y,ID,lev,str,acc,agi,end,luck,arme)
 {
+	cout << " + Personnage ennemi crée" << endl;
 }
 
 /** La méthode display_info permet d'afficher les attributs de celui qui l'invoque dans la console */
@@ -151,6 +152,6 @@ void Ennemi::shoot(list<Personnage*> in_range)
 /** Le destructeur Ennemi*/
 Ennemi::~Ennemi()				//destructor
 {
-	cout << "Personnage ennemi" << endl;
+	cout << " - Personnage ennemi detruit" << endl;
 }
 

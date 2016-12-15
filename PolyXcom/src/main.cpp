@@ -49,13 +49,13 @@ bool end_team(list<Personnage*>team);
 
 int main()
 {
-
 	int choix;							//variables pour les switch
 	int choix2;
 
 	list<Ennemi> 		tank_ennemi;	//conteneurs pour
 	list<Hero>			tank_hero;		//le chargement a partir d'un fichier
 	list<Obstacle>  	tank_obstacle;
+	list<Carte>  		collec_carte;
 
 	list<Personnage*>	team_hero;		//equipes de personnages
 	list<Personnage*>	team_ennemi;
@@ -65,11 +65,13 @@ int main()
 	list<Ennemi>::iterator ite_e;		//iterateur ennemi
 	list<Hero>::iterator ite_h;			//iterateur hero
 	list<Obstacle>::iterator ite_o;		//iterateur obstacle
+	list<Carte>::iterator ite_c;		//iterateur carte11
 
-	Fichier pathMap("Luminy");
-	Carte Luminy("Luminy");
-	pathMap.loadMap(Luminy,tank_ennemi,tank_hero,tank_obstacle);
+	Fichier pathMap("World");
+	//collec_carte.push_back(Carte("Luminy"));
+	Carte Luminy("Luminy",5,5);
 
+	pathMap.loadMap("Luminy",collec_carte,tank_ennemi,tank_hero,tank_obstacle);
 
 	for(ite_e=tank_ennemi.begin();ite_e!=tank_ennemi.end();ite_e++)	//chargement ennemis
 	{

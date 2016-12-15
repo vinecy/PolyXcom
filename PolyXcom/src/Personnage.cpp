@@ -131,5 +131,5 @@ void Personnage::reload()
 /** Le destructeur Personnage*/
 Personnage::~Personnage()				//destructor
 {
-	cout << "Personnage detruit" << endl;
+	cout << " - Personnage detruit" << endl;
 }

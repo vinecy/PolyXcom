@@ -17,6 +17,7 @@ using namespace std;
 Obstacle::Obstacle(int x,int y,int ID):Affichable(x,y,ID)
 {
 	_destrutible=0;
+	cout << " + Obstacle crée" << endl;
 }
 
 /** La méthode display_info permet d'afficher les attributs de celui qui l'invoque la console */
@@ -30,5 +31,5 @@ void Obstacle::display_info(void)		//debug display
 /** Le destructeur Obstacle */
 Obstacle::~Obstacle()				//destructor
 {
-	cout << "Obstacle detruit" << endl;
+	cout << " - Obstacle detruit" << endl;
 }

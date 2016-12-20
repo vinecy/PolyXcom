@@ -8,16 +8,26 @@
 #ifndef SOIN_H_
 #define SOIN_H_
 
-#include"Bonus.h"
 
-class Soin : public Bonus
+class Soin
 {
-	public:
-		Soin();
-		void use();
-		~Soin();
-};
+private:
 
+	int _heal;//TODO pourcentage de vie du hero ?
+	int _uses;
+
+public:
+	Soin();
+
+	int get_heal();
+	int get_uses();
+
+	void display_info();
+
+	void add_uses(int quantity);
+
+	~Soin();
+};
 
 
 #endif /* SOIN_H_ */

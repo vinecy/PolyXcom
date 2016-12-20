@@ -10,22 +10,25 @@
 
 #include<list>
 #include"Arme.h"
-#include"Bonus.h"
+#include"Soin.h"
+#include"Grenade.h"
 #include"Armure.h"
 using namespace std;
 
 class Inventaire
 {
 	private:
-		list<Arme> 	_inv_weapons;
-		list<Bonus>	_inv_bonus;
+		list<Arme>	_inv_weapons;
 		list<Armure>_inv_armors;
+		Soin		_inv_medkit;
+		Grenade		_inv_grenade;
 	public:
 		Inventaire();
 
-		list<Arme>		get_weapons();
-		list<Bonus>		get_bonus();
-		list<Armure>	get_armors();
+		list<Arme>	get_weapons();
+		list<Armure>get_armors();
+		Soin		get_medkit();
+		Grenade		get_grenade();
 
 		~Inventaire();
 };

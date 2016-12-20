@@ -38,7 +38,8 @@ using namespace std;
 #define DEPLACER 1
 #define TIRER 2
 #define CC 3
-#define CHANGER 4
+#define BONUS 4
+#define CHANGER 5
 #define NORTH 11
 #define EAST 12
 #define SOUTH 13
@@ -50,8 +51,9 @@ bool end_team(list<Personnage*>team);
 
 int main()
 {
-	//int choix;							//variables pour les switch
-	//int choix2;
+	int choix;							//variables pour les switch
+	int choix2;
+	int choix4;
 
 	list<Ennemi> 		tank_ennemi;	//conteneurs pour
 	list<Hero>			tank_hero;		//le chargement a partir d'un fichier
@@ -60,7 +62,7 @@ int main()
 	list<string>  		collec_carte;	// liste de toutes les cartes du jeu
 	list<Portail>  		tank_portail;		// conteneur de cartes (l'actuel + les suivantes)
 
-	list<Hero*>	team_hero;		//equipes de personnages//TODO refonte main
+	list<Personnage*>	team_hero;		//equipes de personnages//TODO refonte main
 	list<Personnage*>	team_ennemi;
 
 	list<Personnage*>::iterator ite_l;	//itérateur de personnage qui agit
@@ -68,9 +70,9 @@ int main()
 	list<Ennemi>::iterator ite_e;		//iterateur ennemi
 	list<Hero>::iterator ite_h;			//iterateur hero
 	list<Obstacle>::iterator ite_o;		//iterateur obstacle
-	list<Carte>::iterator ite_c;		//iterateur carte11
-	list<string>::iterator ite_nm;		//iterateur carte11
-	// Chargment de la Map
+	list<Carte>::iterator ite_c;		//iterateur carte
+	list<string>::iterator ite_nm;		//iterateur string
+	// Chargement de la Map
 
 	Fichier pathMap("World");					// Ouverture du fichier contenant les cartes en lecture
 	//collec_carte.push_back(Carte("Luminy"));
@@ -107,12 +109,9 @@ int main()
 	while( ((*ite_c).get_nameMap() != "Luminy") && (ite_c != tank_carte.end()) ){
 		ite_c++;
 	}
-	list<Hero*>::iterator ite_el;
-	ite_el=team_hero.begin();
-	(*ite_el)->display_info();
-	(*ite_el)->get_w().display_info();
 
-/*
+
+
 	bool cont=1;
 	while(cont)
 	{
@@ -213,6 +212,44 @@ int main()
 					{
 						cout<<"Pas assez de PA!"<<endl;
 					}
+					break;
+				case BONUS:
+					if((*ite_l)->get_paCurrent()>=2)
+					{
+						cout<<"Ce personnage a "<<(*ite_l)->get_grenade().get_number()<<" grenades ";
+						cout<<"et "<<(*ite_l)->get_medkit().get_uses()<<" medkit"<<endl;
+						cout<<"\t\t tapez 1 pour utiliser une grenade"<<endl;
+						cout<<"\t\t tapez 2 pour utiliser un medkit"<<endl;
+						cout<<"\t\t tapez 0 pour annuler"<<endl;
+						cin>>choix4;
+						if(choix4==1)
+						{
+							if((*ite_l)->get_grenade().get_number()>0)
+							{
+								//TODO implementation grenade
+							}
+							else
+							{
+								cout<<"Vous n'avez pas de Grenade!"<<endl;
+							}
+						}
+						else if(choix4==2)
+						{
+							if((*ite_l)->get_medkit().get_uses()>0)
+							{
+								(*ite_l)->use_medkit();
+							}
+							else
+							{
+								cout<<"Vous n'avez pas de Medkit!"<<endl;
+							}
+						}
+					}
+					else
+					{
+						cout<<"Pas assez de PA!"<<endl;
+					}
+					break;
 				case CHANGER:
 					if(team_hero.size()==1)
 					{
@@ -253,7 +290,7 @@ int main()
 		}
 
 	}
-*/
+
 }
 
 int main_switch ( void ){
@@ -262,6 +299,7 @@ int main_switch ( void ){
 		cout << "\nQue voulez-vous faire : \n " << DEPLACER << " - Se deplacer " << endl;
 		cout << " " << TIRER  << " - Tirer " << endl;
 		cout << " " << CC << " - Corps à Corps " << endl;
+		cout << " " << BONUS << " - Utiliser un Bonus  " << endl;
 		cout << " " << CHANGER << " - Changer de Personnage " << endl;
 		cout << " Tapez 0 pour passer votre tour \n> ";
 

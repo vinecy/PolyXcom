@@ -6,18 +6,34 @@
  */
 
 #include"Soin.h"
+#include<iostream>
 using namespace std;
-Soin::Soin():Bonus()
-{
 
+Soin::Soin()
+{
+	_uses=1;
+	_heal=4;
 }
 
-
-void Soin::use()
+void Soin::add_uses(int q)
 {
-
+	_uses=_uses+q;
 }
 
+int Soin::get_heal()
+{
+	return(_heal);
+}
+
+void Soin::display_info()
+{
+	cout<<"Medkit( heal= "<<_heal<<" , uses= "<<_uses<<" )"<<endl;
+}
+
+int Soin::get_uses()
+{
+	return(_uses);
+}
 Soin::~Soin()
 {
 

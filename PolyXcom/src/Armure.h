@@ -17,6 +17,10 @@ class Armure
 		Armure();
 		Armure(int tier);
 		Armure(int tier,int protection);
+
+		int get_protection();
+		void display_info();
+
 		~Armure();
 };
 

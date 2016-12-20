@@ -61,7 +61,7 @@ Personnage::Personnage(int x,int y,int ID,int lev,int str,int acc,int agi,int en
 	_agility=agi;
 	_endurance=end;
 	_luck=luck;
-	_pvMax=str;
+	_pvMax=str+inventaire.get_armors().front().get_protection();
 	_paMax=acc;
 	_pvCurrent=_pvMax;
 	_paCurrent=_paMax;
@@ -93,10 +93,21 @@ Inventaire Personnage::get_inv(void){
 	return(_inv);
 }
 
-Arme Personnage::get_w(void){
+Arme Personnage::get_weapon(void){
 	return(_inv.get_weapons().front());
 }
 
+Armure Personnage::get_armor(void){
+	return(_inv.get_armors().front());
+}
+
+Soin Personnage::get_medkit(void){
+	return(_inv.get_medkit());
+}
+
+Grenade Personnage::get_grenade(void){
+	return(_inv.get_grenade());
+}
 
 
 void Personnage::set_pvMax(int pv)		//setters
@@ -122,9 +133,16 @@ void Personnage::display_info(void)
 	cout<<"///////////////"<<endl;
 	cout<<"Coord( X="<<_coordX<<" / Y="<<_coordY<<" )"<<endl;
 	cout<<"PV( "<<_pvCurrent<<" / "<<_pvMax<<" )"<<endl;
-	cout<<"PA( "<<_paCurrent<<" / "<<_pvMax<<" )"<<endl;
+	cout<<"PA( "<<_paCurrent<<" / "<<_paMax<<" )"<<endl;
 	//_inv_armes.display_info();
 	cout<<"///////////////"<<endl;
+}
+
+void Personnage::use_medkit()
+{
+	_pvCurrent=_pvCurrent+_inv.get_medkit().get_heal();
+	_inv.get_medkit().add_uses(-1);
+	_paCurrent=_paCurrent-2;
 }
 
 void Personnage::reload()

@@ -7,15 +7,14 @@
 
 #include "Inventaire.h"
 #include"Soin.h"
+#include"Grenade.h"
 
 Inventaire::Inventaire()
 {
-	Arme arme = Arme();
-	_inv_weapons.push_front(arme);
-	Armure arm = Armure();
-	_inv_armors.push_front(arm);
-	Soin bon = Soin();
-	_inv_bonus.push_front(bon);
+	_inv_weapons.push_front(Arme());
+	_inv_armors.push_front(Armure());
+	_inv_medkit=Soin();
+	_inv_grenade=Grenade();
 }
 
 list<Armure> Inventaire::get_armors()
@@ -23,16 +22,20 @@ list<Armure> Inventaire::get_armors()
 	return(_inv_armors);
 }
 
-list<Bonus> Inventaire::get_bonus()
-{
-	return(_inv_bonus);
-}
-
 list<Arme> Inventaire::get_weapons()
 {
 	return(_inv_weapons);
 }
 
+Soin Inventaire::get_medkit()
+{
+	return(_inv_medkit);
+}
+
+Grenade Inventaire::get_grenade()
+{
+	return(_inv_grenade);
+}
 Inventaire::~Inventaire()
 {
 

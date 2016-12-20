@@ -8,16 +8,23 @@
 #ifndef GRENADE_H_
 #define GRENADE_H_
 
-#include"Bonus.h"
-
-class Grenade : public Bonus
+class Grenade
 {
-	private:
-		int _range;
-	public:
-		Grenade(int pwr, int range);
-		void use();
-		~Grenade();
+private:
+	int _dammage;
+	int _number;
+	int _range;
+public:
+	Grenade();
+
+	int get_dammage();
+	int get_number();
+
+	void display_info();
+
+	void add_number(int quantity);
+
+	~Grenade();
 };
 
 

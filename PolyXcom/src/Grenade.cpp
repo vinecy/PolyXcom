@@ -6,17 +6,35 @@
  */
 
 #include"Grenade.h"
+#include<iostream>
 using namespace std;
 
 
-Grenade::Grenade(int power,int range):Bonus(power)
+Grenade::Grenade()
 {
-	_range=range;
+	_range=4;
+	_number=0;
+	_dammage=4;
 }
 
-void Grenade::use()
+void Grenade::add_number(int q)
 {
+	_number=_number+q;
+}
 
+int Grenade::get_dammage()
+{
+	return(_dammage);
+}
+
+void Grenade::display_info()
+{
+	cout<<"Grenade( damage= "<<_dammage<<" , range= "<<_range<<" , number= "<<_number<<" )"<<endl;
+}
+
+int Grenade::get_number()
+{
+	return(_number);
 }
 
 Grenade::~Grenade()

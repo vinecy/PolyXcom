@@ -21,20 +21,21 @@ class Carte {
 		int _sizeY;					// Largeur MAX de la carte
 		Affichable ***_map;			// Matrice de pointeur d'objets affichables
 		string _nameMap;
+		bool _dangerZone;
 	// Methodes
 	public:
 		Carte();
 		Carte( int x , int y );									// Constructeur
-		Carte( string name , int x , int y );
+		Carte( string name , int x , int y , bool dZ);
 
 		void loadMap(string const name);
 
 		bool moveIsPossible(int x , int y);	// Affirme si Déplacement possible à (x,y)
 
-		void move_up(Personnage &perso);						//deplacement au Nord
-		void move_down(Personnage &perso);						//deplacement au Sud
-		void move_left(Personnage &perso);						//deplacement a l'Ouest
-		void move_right(Personnage &perso);					//deplacement a l'Est
+		void move_up(Personnage &perso, bool withUsePA);						//deplacement au Nord
+		void move_down(Personnage &perso, bool withUsePA);						//deplacement au Sud
+		void move_left(Personnage &perso, bool withUsePA);						//deplacement a l'Ouest
+		void move_right(Personnage &perso, bool withUsePA);					//deplacement a l'Est
 
 		void addItem(Affichable &a);		// Ajoute un objet affichable sur la carte
 		void removeItem(Affichable &a);		// Enleve un objet affichable sur la carte (ne supprime pas lobjet)
@@ -47,9 +48,10 @@ class Carte {
 
 		void display(void);					// Permet d'afficher la carte
 
+		string get_nameMap(void);
 		int get_sizeX(void);				// Retourne la longueur de la carte
 		int get_sizeY(void);				// Retourne la largeur de la carte
-		string get_nameMap(void);
+		bool get_dangerZone(void);
 		int get_IDin(int x, int y);  		// Retourne l'ID de l'objet dans la carte
 		void set_sizeX(int value);			// Modifie la longueur de la carte
 		void set_sizeY(int value);			// Modifie la largeur de la carte

@@ -22,7 +22,6 @@
  * @brief Le main permet de lancer le jeu.
  */
 
-#include <iostream>
 #include <cstdlib>
 #include "Obstacle.h"
 #include "Hero.h"
@@ -32,6 +31,7 @@
 #include "Ennemi.h"
 #include "Fichier.h"
 #include "Portail.h"
+
 
 using namespace std;
 
@@ -44,12 +44,71 @@ using namespace std;
 #define EAST 12
 #define SOUTH 13
 #define WEST 14
-
+/*
 int main_switch();
 int move_switch();
 bool end_team(list<Personnage*>team);
+*/
+/**********NOUVEAU*******************************************/
 
-int main()
+#define NEWGAME 1
+#define LOADGAME 2
+#define EXIT 3
+
+#include <iostream>			// Bibliothèque pour ka console
+#include <fstream>			// Bibliothèque pour les fichiers
+#include "Partie.h"
+
+int chooseMain();
+
+int main(){
+	cout << " lancement de PolyXcom " << endl;
+
+	Partie game;
+	bool endPolyXcom = 0;
+	int choix;
+
+	while(!endPolyXcom){
+		do{
+			//choix = chooseMain();
+			choix = LOADGAME;
+			switch(choix){
+				case NEWGAME:
+					cout << " * Nouvelle Partie " << endl;
+					game.newPartie();
+					game.loadPartie();
+					game.launchPartie();
+					choix = 0;
+				break;
+				case LOADGAME:
+					cout << " * Charger Partie " << endl;
+					game.loadPartie();
+					game.launchPartie();
+				break;
+				case EXIT:
+					cout << " * Bye " << endl;
+					endPolyXcom = 1;
+				break;
+			}
+		} while( choix != EXIT );
+	}
+}
+
+
+int chooseMain ( void ){
+	int reponse ;
+	do {
+		cout << "\n PolyXcom \n " << NEWGAME << " - Nouvelle Partie " << endl;
+		cout << " " << LOADGAME  << " - Charger Partie " << endl;
+		cout << " " << EXIT << " - Quitter \n  > ";
+		cin >> reponse ;
+	} while ( reponse < 0 || reponse > EXIT ) ;
+	return( reponse ) ;
+}
+
+/********ANCIEN***********************/
+
+/*int main()
 {
 	int choix;							//variables pour les switch
 	int choix2;
@@ -74,44 +133,35 @@ int main()
 	list<string>::iterator ite_nm;		//iterateur string
 	// Chargement de la Map
 
+	// *** Chargment de la Map
 	Fichier pathMap("World");					// Ouverture du fichier contenant les cartes en lecture
-	//collec_carte.push_back(Carte("Luminy"));
-	//Carte Luminy("Luminy",5,5);
-	pathMap.seekMap(collec_carte);
-	ite_nm = collec_carte.begin();
+	pathMap.seekMap(collec_carte);				// Recherche de tous les noms de Map dans le fichier
+	ite_nm = collec_carte.begin();				// Chargement du monde dit "exploration"
 	pathMap.loadMap((*ite_nm),tank_carte,tank_ennemi,tank_hero,tank_obstacle,tank_portail);
-/*
-	for(ite_e=tank_ennemi.begin();ite_e!=tank_ennemi.end();ite_e++)	//chargement ennemis
-	{
-		Luminy.addItem((*ite_e));
-		team_ennemi.push_front(&(*ite_e));
-	}
-	for(ite_h=tank_hero.begin();ite_h!=tank_hero.end();ite_h++)		//chargement heros
-	{
-		Luminy.addItem((*ite_h));
-		team_hero.push_front(&(*ite_h));
-	}
-	for(ite_o=tank_obstacle.begin();ite_o!=tank_obstacle.end();ite_o++)	//chargement obstacles
-	{
-		Luminy.addItem((*ite_o));
-	}*/
 
-	for(ite_e=tank_ennemi.begin();ite_e!=tank_ennemi.end();ite_e++)	//chargement ennemis
-	{
+	// Chargement de Team
+	for(ite_e=tank_ennemi.begin();ite_e!=tank_ennemi.end();ite_e++){	//chargement ennemis
 		team_ennemi.push_front(&(*ite_e));
 	}
-	for(ite_h=tank_hero.begin();ite_h!=tank_hero.end();ite_h++)		//chargement heros
-	{
+	for(ite_h=tank_hero.begin();ite_h!=tank_hero.end();ite_h++){		//chargement heros
 		team_hero.push_front(&(*ite_h));
 	}
 
+	// Notre Carte actuel est la première
 	ite_c = tank_carte.begin();
 	while( ((*ite_c).get_nameMap() != "Luminy") && (ite_c != tank_carte.end()) ){
 		ite_c++;
 	}
 
+	// ????
 
+	list<Hero*>::iterator ite_el;
+	ite_el = team_hero.begin();
+	(*ite_el)->display_info();
+	(*ite_el)->get_w().display_info();
+*/
 
+/*
 	bool cont=1;
 	while(cont)
 	{
@@ -288,7 +338,6 @@ int main()
 		{
 			(*ite)->set_paCurrent((*ite)->get_paMax());
 		}
-
 	}
 
 }
@@ -342,3 +391,4 @@ bool end_team(list<Personnage*> team)
 	}
 	return(1);
 }
+*/

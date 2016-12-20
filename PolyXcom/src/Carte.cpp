@@ -40,6 +40,7 @@ Carte::Carte() {
 	_sizeY = 4 ;
 	_map = new Affichable **[_sizeY];
 	_nameMap = "Map par défaut";
+	_dangerZone = true;
 	// initialisation de la carte
 	int i,														// indice parcours sur l'axe Y
 		j;														// indice parcours sur l'axe X
@@ -62,6 +63,7 @@ Carte::Carte( int x , int y ) {
 	_sizeY = y ;
 	_nameMap = "Map de taille fixé";
 	_map = new Affichable **[_sizeY];
+	_dangerZone = true;
 
 	// initialisation de la carte
 	int i,														// indice parcours sur l'axe Y
@@ -80,10 +82,12 @@ Carte::Carte( int x , int y ) {
   * en fonction du fichier name.txt
 	 * @param name - nom du fichier à partir duquel on charge la taille de la carte
 	 * */
-Carte::Carte( string name, int x , int y ){
+Carte::Carte( string name, int x , int y , bool dZ){
 	_sizeX = x;
 	_sizeY = y;
 	_nameMap = name;
+	_dangerZone = dZ;
+
 
 	_map = new Affichable **[_sizeY];
 
@@ -114,7 +118,7 @@ bool Carte::moveIsPossible( int x , int y){
 		cout << " on change de carte" << endl;
 	} else if( !( ( x>=0 && x<_sizeX ) && ( y>=0 && y<_sizeY ) ) ) {
 		rep = false;						// si case destination en dehors de la carte
-		cout << " on sort de la carte! sur " << x << "," << y << endl;
+		cout << " c'est un portail vers une autre carte" << endl;
 	} else {								// si le deplacement est possible
 		cout << " aucun obstacle détectée" << endl;
 	}
@@ -127,61 +131,52 @@ bool Carte::moveIsPossible( int x , int y){
 
 /** La methode Personnage deplace un pero vers de Nord
 	 * @param map - carte sur laquelle le perso bouge*/
-void Carte::move_up(Personnage &perso)
+void Carte::move_up(Personnage &perso, bool withUsePA)
 {
 	int x = perso.get_x(),
 		y = perso.get_y();
-	if(this->moveIsPossible(x, y+1 ))
-	{
-		perso.set_paCurrent(perso.get_paCurrent() - 1);
+	if(this->moveIsPossible(x, y+1 )){
+		if(withUsePA) perso.set_paCurrent(perso.get_paCurrent() - 1);
 		this->moveItemTo( x , y , x , y+1);
-	}
-	else
-	{
-		cout<<"erreur"<<endl;
+	} else {
+		cout << "erreur" << endl;
 	}
 }
 /** La methode Personnage deplace un pero vers le Sud
 	 * @param map - carte sur laquelle le perso bouge*/
-void Carte::move_down(Personnage &perso)
+void Carte::move_down(Personnage &perso, bool withUsePA)
 {
 	int x = perso.get_x(),
 		y = perso.get_y();
-	if( this->moveIsPossible(x, y) )
-	{
-		perso.set_paCurrent( perso.get_paCurrent() - 1 );
+	if( this->moveIsPossible(x, y) ){
+		if(withUsePA) perso.set_paCurrent( perso.get_paCurrent() - 1 );
 		this->moveItemTo(x , y , x , y - 1);
-	}
-	else
-	{
-		cout<<"erreur"<<endl;
+	} else {
+		cout << "erreur" << endl;
 	}
 }
 /** La methode Personnage deplace un pero vers l'Ouest
 	 * @param map - carte sur laquelle le perso bouge*/
-void Carte::move_left(Personnage &perso)
+void Carte::move_left(Personnage &perso, bool withUsePA)
 {
 	int x = perso.get_x(),
 		y = perso.get_y();
-	if( this->moveIsPossible(x - 1, y) )
-	{
-		perso.set_paCurrent( perso.get_paCurrent() - 1 );
+	if( this->moveIsPossible(x - 1, y) ){
+		if(withUsePA) perso.set_paCurrent( perso.get_paCurrent() - 1 );
 		this->moveItemTo(x , y , x - 1, y);
-	}
-	else
-	{
-		cout<<"erreur"<<endl;
+	} else {
+		cout << "erreur" << endl;
 	}
 }
 /** La methode Personnage deplace un pero vers l'Est
 	 * @param map - carte sur laquelle le perso bouge*/
-void Carte::move_right(Personnage &perso)
+void Carte::move_right(Personnage &perso, bool withUsePA)
 {
 	int x = perso.get_x(),
 		y = perso.get_y();
 	if( this->moveIsPossible(x + 1, y) )
 	{
-		perso.set_paCurrent( perso.get_paCurrent() - 1 );
+		if(withUsePA) perso.set_paCurrent( perso.get_paCurrent() - 1 );
 		this->moveItemTo(x , y , x + 1 , y);
 	}
 	else
@@ -749,6 +744,10 @@ int Carte::get_sizeY(void){
 
 string Carte::get_nameMap(void){
 	return _nameMap;
+}
+
+bool Carte::get_dangerZone(void){
+	return _dangerZone;
 }
 
 /** Retourne l'ID de l'objet dans la carte

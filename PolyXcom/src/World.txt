@@ -1,6 +1,6 @@
 
 name: Luminy
-	Taille: 5 5
+	Taille: 5 5 0
 
 	Contenu{
 		Ennemi 0 3 3 0 10 10 10 10 10
@@ -22,8 +22,7 @@ name: L1
 	Taille: 4 4
 
 	Contenu{
-	 	Hero 0 0 2 0 10 10 10 10 10 Alexis
-	 	Hero 2 2 2 0 10 10 10 10 10 Vincent
+	 	
 	}
 	Portail{
 		3 3

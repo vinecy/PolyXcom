@@ -54,6 +54,7 @@ public:
 	void allieTour( bool & );				// définit le tour du joueur
 	int main_switch ( void );				// invite le joueur au choix de l'action à faire
 	bool move_choice( bool withUsePA );		// gère le déplacement du personnage selon le mode
+	bool bonus_choice( void );
 	int move_switch ( void );				// invite le joueur au choix du mouvement à faire
 	bool shoot_choice( void );				// gère le choix de la cible à attaquer à distance
 	bool close_combat_choice( void );		// gère le choix de la cible à attaquer au corps à corps

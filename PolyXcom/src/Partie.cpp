@@ -215,7 +215,8 @@ void Partie::fightMode(void){
 #define DEPLACER 1
 #define TIRER 2
 #define CC 3
-#define CHANGER 4
+#define BONUS 4
+#define CHANGER 5
 /** La méthode allieTour définit le tour de l'allié et indique si c'est la fin du tour
  	 * @param &endTour - adresse du booléen qui indique si c'est la fin du tour ou pas
  	 * */
@@ -237,6 +238,9 @@ void Partie::allieTour(bool &endTour){
 				break;
 			case CC :
 				endTour = this->close_combat_choice();
+				break;
+			case BONUS :
+				endTour = this->close_combat_choice();//TODO what?
 				break;
 			case CHANGER :
 				if( _team_hero.size() == 1 ){
@@ -264,6 +268,7 @@ int Partie::main_switch ( void ){
 		cout << "\nQue voulez-vous faire : \n " << DEPLACER << " - Se deplacer " << endl;
 		cout << " " << TIRER  << " - Tirer " << endl;
 		cout << " " << CC << " - Corps à Corps " << endl;
+		cout << " " << BONUS << " - Utiliser un Bonus " << endl;
 		cout << " " << CHANGER << " - Changer de Personnage " << endl;
 		cout << " Tapez 0 pour passer votre tour \n> ";
 		cin >> reponse ;
@@ -376,6 +381,31 @@ bool Partie::close_combat_choice( void ){
 		cout<<"Pas assez de PA!"<<endl;
 	}
 	return false;
+}
+
+bool Partie::bonus_choice( void ){
+	if((*_ite_l)->get_paCurrent()>=2){
+			list<Personnage*> in_range;
+			for(_ite=_team_ennemi.begin();_ite!=_team_ennemi.end();_ite++){
+				if((*_ite_c).pathIsPossible((*_ite_l)->get_x(),(*_ite_l)->get_y(),(*_ite)->get_x(),(*_ite)->get_y())){
+					in_range.push_front((*_ite));
+				}
+			}
+			(*_ite_l)->shoot(in_range);
+			list<Personnage*> temp;
+			for(_ite=_team_ennemi.begin();_ite!=_team_ennemi.end();_ite++){
+				if((*_ite)->get_pvCurrent()>=1){
+					temp.push_front(*_ite);
+				} else {
+					(*_ite_c).removeItem(*(*_ite));
+				}
+			}
+			_team_ennemi=temp;
+			if(_team_ennemi.size()==0){
+				return true;
+			}
+		}
+		return false;
 }
 
 /** La méthode end_team indique si la team à fini son tour

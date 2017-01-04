@@ -27,7 +27,7 @@ private:
 	list<string>  		_collec_carte;	// liste de toutes les cartes du jeu
 	list<Portail>  		_tank_portail;	// conteneur de cartes (l'actuel + les suivantes)
 
-	list<Personnage*>	_team_hero;		// equipes de personnages//TODO refonte main
+	list<Personnage*>	_team_hero;		// equipes de personnages
 	list<Personnage*>	_team_ennemi;
 
 
@@ -56,6 +56,7 @@ public:
 	void move_choice( bool withUsePA );
 	int move_switch ( void );
 	bool shoot_choice( void );
+	bool bonus_choice( void );
 	bool close_combat_choice( void );
 	bool end_team(list<Personnage*> team);
 

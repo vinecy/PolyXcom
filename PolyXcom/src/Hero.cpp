@@ -25,6 +25,8 @@ Hero::Hero(int x,int y,int ID,int lev,int str,int acc,int agi,int end,int luck,I
 	cout << " + Personnage hero crée" << endl;
 }
 
+/** La méthode near renvoie la liste d'ennemis proches
+ * @param team - liste de tous les ennemis*/
 list<Personnage*> Hero::near(list<Personnage*> team)
 {
 	list<Personnage*>::iterator ite;
@@ -43,6 +45,8 @@ list<Personnage*> Hero::near(list<Personnage*> team)
 	return(l);
 }
 
+/** La méthode close_combat permet de taper des ennemis au corps a corps
+ * @param proch - liste ennemis valides*/
 void Hero::close_combat(list<Personnage*> proch)
 {
 	if(proch.size()==0)
@@ -89,6 +93,8 @@ void Hero::close_combat(list<Personnage*> proch)
 	}
 }
 
+/** La méthode shoot permet de tirer sur des ennemis
+ * @param in_range - liste ennemis valides*/
 void Hero::shoot(list<Personnage*> in_range)
 {
 	if(in_range.size()==0)

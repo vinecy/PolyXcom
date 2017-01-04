@@ -29,7 +29,7 @@ class Hero : public Personnage
 
 		void display_info();							//Affiche les attributs en console
 
-		virtual ~Hero();								//destructor
+		virtual ~Hero();								//destructeur
 };
 
 #endif /* HERO_H_ */

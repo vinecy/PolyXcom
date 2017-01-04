@@ -138,6 +138,7 @@ void Personnage::display_info(void)
 	cout<<"///////////////"<<endl;
 }
 
+/** la methode use_medkit permet a un personnage de reganer de la vie en utilisant un medkit*/
 void Personnage::use_medkit()
 {
 	_pvCurrent=_pvCurrent+_inv.get_medkit().get_heal();

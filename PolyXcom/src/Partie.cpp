@@ -109,7 +109,9 @@ void Partie::fightMode(void){
 #define DEPLACER 1
 #define TIRER 2
 #define CC 3
-#define CHANGER 4
+#define BONUS 4
+#define CHANGER 5
+
 void Partie::allieTour(bool &endTour){
 	int choix;
 	cout<<"\t\t\t\t\t\t\t\tTour allié"<<endl;
@@ -127,6 +129,9 @@ void Partie::allieTour(bool &endTour){
 			endTour = this->shoot_choice();
 			break;
 		case CC :
+			endTour = this->close_combat_choice();
+			break;
+		case BONUS :
 			endTour = this->close_combat_choice();
 			break;
 		case CHANGER :
@@ -245,6 +250,31 @@ bool Partie::close_combat_choice( void ){
 		cout<<"Pas assez de PA!"<<endl;
 	}
 	return false;
+}
+
+bool Partie::bonus_choice( void ){
+	if((*_ite_l)->get_paCurrent()>=2){
+			list<Personnage*> in_range;
+			for(_ite=_team_ennemi.begin();_ite!=_team_ennemi.end();_ite++){
+				if((*_ite_c).pathIsPossible((*_ite_l)->get_x(),(*_ite_l)->get_y(),(*_ite)->get_x(),(*_ite)->get_y())){
+					in_range.push_front((*_ite));
+				}
+			}
+			(*_ite_l)->shoot(in_range);
+			list<Personnage*> temp;
+			for(_ite=_team_ennemi.begin();_ite!=_team_ennemi.end();_ite++){
+				if((*_ite)->get_pvCurrent()>=1){
+					temp.push_front(*_ite);
+				} else {
+					(*_ite_c).removeItem(*(*_ite));
+				}
+			}
+			_team_ennemi=temp;
+			if(_team_ennemi.size()==0){
+				return true;
+			}
+		}
+		return false;
 }
 
 bool Partie::end_team(list<Personnage*> team)

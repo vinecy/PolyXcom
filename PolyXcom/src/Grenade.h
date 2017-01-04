@@ -8,21 +8,24 @@
 #ifndef GRENADE_H_
 #define GRENADE_H_
 
+
+using namespace std;
+
 class Grenade
 {
 private:
-	int _dammage;
-	int _number;
-	int _range;
+	int _dammage;			//dommages de la grenade
+	int _number;			//nombre de grenade restantes
+	int _range;				//portee de la grenade
 public:
-	Grenade();
+	Grenade();				//constructeur
 
 	int get_dammage();
 	int get_number();
 
 	void display_info();
 
-	void add_number(int quantity);
+	void add_number(int quantity);	//modifie le nombre de grenades disponible
 
 	~Grenade();
 };

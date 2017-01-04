@@ -11,17 +11,18 @@
 class Armure
 {
 	private:
-		int _tier;
-		int _protection;
+		int _tier;			//nombre representatif du niveau de l armure
+		int _protection;	//nombre de degat que protege l armure
+
 	public:
-		Armure();
+		Armure();			//construteur par defaut
 		Armure(int tier);
 		Armure(int tier,int protection);
 
 		int get_protection();
 		void display_info();
 
-		~Armure();
+		~Armure();			//destructeur
 };
 
 

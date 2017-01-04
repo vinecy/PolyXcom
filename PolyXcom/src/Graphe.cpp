@@ -28,7 +28,7 @@ Graphe::Graphe(Carte *map) {
 		_graphe[i] = new Noeud [_sizeY];				//
 		for( j = 0 ; j < _sizeY ; j++ ){
 			_graphe[i][j] = Noeud(i,j);
-			if( map->moveIsPossible(i, j) == false 		// Si c'est une case infranchissable
+			if( map->moveIsPossible(i, j, false) == false 		// Si c'est une case infranchissable
 				&& map->get_IDin(i, j) != 0 ){			// c'est à dire un obstacle
 				_graphe[i][j].set_costFromBegin(-1);	// on met des couts negatifs à
 				_graphe[i][j].set_costFromEnd(-1);		// FromEnd et FromBegin (_G et _H dans le Noeud)

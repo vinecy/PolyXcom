@@ -25,11 +25,11 @@ private:
 public:
 	Fichier(string nameFile, bool readWrite);
 
-	void loadFile(string &nameCurrentMap);
+	void seekMapCurrent(string &nameCurrentMap);
 	void cleanFile(void);
 	void writeFile(string s);
 
-	void seekMap(list<string>&);
+	void seekAllMap(list<string>&);
 	void loadMap(string nameMap,list<Carte>&,list<Ennemi>&, list<Hero>&, list<Obstacle>&, list<Portail>&);
 	void loadSizeMap(string nameMap,int&,int&,bool&);
 

@@ -1,6 +1,6 @@
 
 name: Luminy
-	Taille: 5 5 0
+	Taille: 5 5 1
 
 	Contenu{
 		Ennemi 0 3 3 0 10 10 10 10 10
@@ -11,10 +11,8 @@ name: Luminy
 	 	Mur 3 1 1 
 		Mur 3 2 1 
 		Mur 3 3 1 
-	}
-	Portail{
-		4 4 
-		0 4
+		Portail 4 4 4 0 0 L1
+		Portail 0 4 4 0 0 L2
 	}
 }
 

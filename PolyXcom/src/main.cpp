@@ -16,11 +16,7 @@
  * @version 0.0.1 / 24/11/2016
  *
  */
-
-/**
- * @file main.c
- * @brief Le main permet de lancer le jeu.
- */
+/*********** A SUPPRIMER *****************
 
 #include <cstdlib>
 #include "Obstacle.h"
@@ -43,7 +39,7 @@ using namespace std;
 #define NORTH 11
 #define EAST 12
 #define SOUTH 13
-#define WEST 14
+#define WEST 14*/
 /*
 int main_switch();
 int move_switch();
@@ -51,50 +47,56 @@ bool end_team(list<Personnage*>team);
 */
 /**********NOUVEAU*******************************************/
 
+/**
+ * @file main.c
+ * @brief Le main permet de lancer le jeu, charger une partie, la reinitialiser ou quitter le jeu.
+ */
+
 #define NEWGAME 1
 #define LOADGAME 2
 #define EXIT 3
 
 #include <iostream>			// Bibliothèque pour ka console
 #include <fstream>			// Bibliothèque pour les fichiers
-#include "Partie.h"
+#include "Partie.h"			// Main utilise la classe Partie pour le chargement du jeu.
 
-int chooseMain();
+int chooseMain();			// gère le choix de l'action à faire par le joueur
 
 int main(){
 	cout << " lancement de PolyXcom " << endl;
 
-	Partie game;
-	bool endPolyXcom = 0;
-	int choix;
+	Partie game;					// Partie contenant le jeu à l'etat actuel
+	bool endPolyXcom = 0;			// booléan indiquant si le jeu est fini ou non (initialement faux)
+	int choix;						// variable indiquant le n° de choix du joueur
 
 	while(!endPolyXcom){
 		do{
-			//choix = chooseMain();
-			choix = LOADGAME;
+			choix = chooseMain();	// appel au choix de l'action à faire
 			switch(choix){
 				case NEWGAME:
 					cout << " * Nouvelle Partie " << endl;
-					game.newPartie();
-					game.loadPartie();
-					game.launchPartie();
+					game.newPartie();		// reinitialisation de la sauvegarde
+					game.loadPartie();		// chargement du jeu
+					game.launchPartie();	// lancement du jeu
 					choix = 0;
 				break;
 				case LOADGAME:
 					cout << " * Charger Partie " << endl;
-					game.loadPartie();
-					game.launchPartie();
+					game.loadPartie();		// chargement du jeu
+					game.launchPartie();	// lancement du jeu
 				break;
 				case EXIT:
 					cout << " * Bye " << endl;
-					endPolyXcom = 1;
+					endPolyXcom = 1;		// fin
 				break;
 			}
 		} while( choix != EXIT );
 	}
 }
 
-
+/* La fonction chooseMain permet de gérer le choix de l'action à faire par le joueur.
+ 	 * @return elle retourne le choix saisie par le joueur parmi les choix disponibles
+ 	 * */
 int chooseMain ( void ){
 	int reponse ;
 	do {

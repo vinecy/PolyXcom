@@ -123,7 +123,7 @@ int chooseMain ( void ){
 	list<string>  		collec_carte;	// liste de toutes les cartes du jeu
 	list<Portail>  		tank_portail;		// conteneur de cartes (l'actuel + les suivantes)
 
-	list<Personnage*>	team_hero;		//equipes de personnages//TODO refonte main
+	list<Personnage*>	team_hero;		//equipes de personnages
 	list<Personnage*>	team_ennemi;
 
 	list<Personnage*>::iterator ite_l;	//itérateur de personnage qui agit

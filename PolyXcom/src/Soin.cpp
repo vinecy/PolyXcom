@@ -9,12 +9,15 @@
 #include<iostream>
 using namespace std;
 
+/** Constucteur de medkit*/
 Soin::Soin()
 {
 	_uses=1;
 	_heal=4;
 }
 
+/** change le nombre de medkit disponibles
+ * @param q - quantité de medkit a ajouter */
 void Soin::add_uses(int q)
 {
 	_uses=_uses+q;
@@ -34,6 +37,8 @@ int Soin::get_uses()
 {
 	return(_uses);
 }
+
+/** destructeur de Soin*/
 Soin::~Soin()
 {
 

@@ -9,6 +9,7 @@
 #include"Arme.h"
 #include <iostream>
 using namespace std;
+
 /** Constructeur par defaut de Arme qui construit l'Arme de tier 0*/
 Arme::Arme()
 {
@@ -31,7 +32,7 @@ Arme::Arme(int tier,int degats,int portee,int mun)
 	_munCurrent=_munMax;
 }
 
-int Arme::get_tier(){
+int Arme::get_tier(){		//getters
 	return(_tier);
 }
 int Arme::get_degats(){
@@ -40,7 +41,7 @@ int Arme::get_degats(){
 int Arme::get_portee(){
 	return(_portee);
 }
-int Arme::get_munCurrent()			//getters
+int Arme::get_munCurrent()
 {
 	return(_munCurrent);
 }

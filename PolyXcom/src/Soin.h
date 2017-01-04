@@ -12,21 +12,21 @@
 class Soin
 {
 private:
-
-	int _heal;//TODO pourcentage de vie du hero ?
-	int _uses;
+	//TODO pourcentage de vie du hero ?
+	int _heal;	//nombre de point de vie soigne par un medkit
+	int _uses;	// utilisation de medkit restants
 
 public:
-	Soin();
+	Soin();		//constructeur
 
 	int get_heal();
 	int get_uses();
 
 	void display_info();
 
-	void add_uses(int quantity);
+	void add_uses(int quantity);	//modifie la quantite de medkit disponible
 
-	~Soin();
+	~Soin();	//destructeur
 };
 
 

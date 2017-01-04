@@ -9,6 +9,7 @@
 #include"Soin.h"
 #include"Grenade.h"
 
+/** Le constructeur Inventaire construit un Inventaire avec initialisation des attributs*/
 Inventaire::Inventaire()
 {
 	_inv_weapons.push_front(Arme());
@@ -36,6 +37,8 @@ Grenade Inventaire::get_grenade()
 {
 	return(_inv_grenade);
 }
+
+/**Destucteur Inventaire*/
 Inventaire::~Inventaire()
 {
 

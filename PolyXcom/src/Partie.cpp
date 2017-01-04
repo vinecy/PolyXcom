@@ -95,7 +95,7 @@ void Partie::loadPartie(void){
   * */
 void Partie::launchPartie(void){
 	bool exitGame = 0,									// boolean indiquant si on quitte le jeu
-		 isDangerZone = (*_ite_c).get_dangerZone();		// boolean indiquant si on est en zone de combat ou non
+		 isDangerZone = (*_ite_c).get_dangerZone();	// boolean indiquant si on est en zone de combat ou non
 	while(!exitGame){
 		if( isDangerZone == true ){ 					// mode Combat
 			cout << " Alerte! Ennemi en vue! " << endl;

@@ -18,19 +18,20 @@ using namespace std;
 class Inventaire
 {
 	private:
-		list<Arme>	_inv_weapons;
-		list<Armure>_inv_armors;
-		Soin		_inv_medkit;
-		Grenade		_inv_grenade;
+		list<Arme>	_inv_weapons;		//liste d'arme possedee par le personnage
+		list<Armure>_inv_armors;		//liste d'armure possedee par le personnage
+		Soin		_inv_medkit;		//medkit possedes par le personnage
+		Grenade		_inv_grenade;		//grenades possedees par le personnage
+
 	public:
-		Inventaire();
+		Inventaire();					//constructeur
 
 		list<Arme>	get_weapons();
 		list<Armure>get_armors();
 		Soin		get_medkit();
 		Grenade		get_grenade();
 
-		~Inventaire();
+		~Inventaire();					//destructeur
 };
 
 

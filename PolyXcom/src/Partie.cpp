@@ -55,12 +55,9 @@ void Partie::loadPartie(void){
 
 	pathFile.seekMapCurrent(nameCurrentMap);// recherche de la carte actuel dans la sauvegarde
 	pathMap.seekAllMap(_collec_carte);		// recherche de toutes les autres cartes
-	pathMap.loadMap(nameCurrentMap,
-					_tank_carte,
-					_tank_ennemi,
-					_tank_hero,
-					_tank_obstacle,
-					_tank_portail);			// chargement de la carte actuel
+	// chargement de la carte actuel
+	pathMap.loadMap(nameCurrentMap, _tank_carte, _tank_ennemi, _tank_hero, _tank_obstacle, _tank_portail);
+
 	// itérateur sur la carte actuel
 	_ite_c = _tank_carte.begin();
 	while( ( (*_ite_c).get_nameMap() != nameCurrentMap )
@@ -98,7 +95,7 @@ void Partie::loadPartie(void){
   * */
 void Partie::launchPartie(void){
 	bool exitGame = 0,									// boolean indiquant si on quitte le jeu
-		 isDangerZone = (*_ite_c).get_dangerZone();	// boolean indiquant si on est en zone de combat ou non
+		 isDangerZone = (*_ite_c).get_dangerZone();		// boolean indiquant si on est en zone de combat ou non
 	while(!exitGame){
 		if( isDangerZone == true ){ 					// mode Combat
 			cout << " Alerte! Ennemi en vue! " << endl;

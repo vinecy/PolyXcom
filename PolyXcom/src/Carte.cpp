@@ -124,10 +124,10 @@ int Carte::moveIsPossible( int x , int y , bool canCrossMap){
 		if( !(_map[x][y] == &vide) ){		// si obstacle sur la case destination
 			rep = 0;
 			cout << " obstacle détectée sur " << x << "," << y << endl;
-			if( _map[x][y]->get_ID() == 2 ){// si compagnon sur la case destination
+			/*if( _map[x][y]->get_ID() == 2 ){// si compagnon sur la case destination
 				cout << " mon compagnon bloque la route " << endl;
-				//rep = 2; //TODO decommenter
-			}
+				//rep = 2; // decommenter
+			}*/
 		} else if( _map[x][y]->get_ID() == 4 && canCrossMap){		// si portail sur la case destination
 			cout << " on change de carte" << endl;
 			rep = 0;	//TODO remplacer par 3

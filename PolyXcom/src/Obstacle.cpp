@@ -6,6 +6,12 @@
  *      Author: Vincent
  */
 
+/**
+ * @file Obstacle.cpp
+ * @brief La classe Obstacle est la classe qui gere les murs
+ *
+ */
+
 #include "Obstacle.h"
 #include <iostream>
 using namespace std;

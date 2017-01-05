@@ -5,6 +5,12 @@
  *      Author: Vincent
  */
 
+/**
+ * @file Inventaire.cpp
+ * @brief La classe Inventaire regroupe arme, armure, medkit et grenade du personnage
+ *
+ */
+
 #include "Inventaire.h"
 #include"Soin.h"
 #include"Grenade.h"

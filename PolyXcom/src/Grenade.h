@@ -20,7 +20,7 @@ private:
 public:
 	Grenade();				//constructeur
 
-	int get_dammage();
+	int get_dammage();		//getter
 	int get_number();
 
 	void display_info();

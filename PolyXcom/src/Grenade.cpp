@@ -5,6 +5,12 @@
  *      Author: Vincent
  */
 
+/**
+ * @file Grenade.cpp
+ * @brief La classe Grenade est utilisee pour la portee, les degats et le nombre de grenades disponibles
+ *
+ */
+
 #include"Grenade.h"
 #include<iostream>
 using namespace std;

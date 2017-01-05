@@ -1,1 +1,9 @@
 mapCurrent: Luminy
+
+
+
+// tank_hero les stats et l'inventaire de tous les heros (ceux dans l'équipe) 
+
+// liste des portails fermés (sur la Map Luminy) 
+
+

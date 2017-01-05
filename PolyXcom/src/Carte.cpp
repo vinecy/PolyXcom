@@ -111,101 +111,134 @@ Carte::Carte( string name, int x , int y , bool dZ){
 /** La méthode moveIsPossible permet de vérifier si la case (x,y) est franchissable ou pas
  	 * @param x,y - couple de coordonnées à verifier
  	 * @return - il retourne 1 si le deplacement est possible
- 	 *						 2 si le deplacement est possible mais un compagnon bloque le passage
- 	 *						 3 si le deplacement est possible mais on franchit une nouvelle map
+ 	 *						 2 si le deplacement est possible mais on franchit une nouvelle map
  	 * 					     0 si les autres cas sont faux.
  	 * */
 int Carte::moveIsPossible( int x , int y , bool canCrossMap){
-	int rep = 1 ;
-	if( (x < 0) || (x >= _sizeX) || (y < 0) || (y >= _sizeY)) {
-		rep = 0;							// si case destination en dehors de la carte
-		cout << " on sort de la carte" << endl;
+	int rep;
+	if( (x < 0) || (x >= _sizeX) || (y < 0) || (y >= _sizeY)) {	// si case destination en dehors de la carte,
+		rep = 0;												// déplacement impossible
 	} else {
-		if( !(_map[x][y] == &vide) ){		// si obstacle sur la case destination
-			rep = 0;
-			cout << " obstacle détectée sur " << x << "," << y << endl;
-			/*if( _map[x][y]->get_ID() == 2 ){// si compagnon sur la case destination
-				cout << " mon compagnon bloque la route " << endl;
-				//rep = 2; // decommenter
-			}*/
-		} else if( _map[x][y]->get_ID() == 4 && canCrossMap){		// si portail sur la case destination
-			cout << " on change de carte" << endl;
-			rep = 0;	//TODO remplacer par 3
-		} else {
-			cout << " aucun obstacle détectée" << endl;
+		if( !(_map[x][y] == &vide) ){							// si obstacle sur la case destination,
+			rep = 0;											// déplacement impossible
+			if( _map[x][y]->get_ID() == 4 && canCrossMap){		// sauf si portail sur la case destination,
+				rep = 2;										// deplacement possible mais on franchit une nouvelle map
+			}
+		} else {												// en dehors de tous les autres cas,
+			rep = 1;											// on peut se déplacer
 		}
 	}
 	return rep;
 }
 
-/** La methode Personnage deplace un perso vers de Nord
-	 * @param map - carte sur laquelle le perso bouge*/
-void Carte::move_up(Personnage &perso, bool withUsePA)
+/** La methode move_up deplace un perso vers le Nord
+	 * @param &perso - adresse du perso à déplacer
+	 * @param withUsePas - booléen indiquant le déplacement utilise des PAs
+	 * @param rep - adresse du portail qui va nous faire changer de Map qu'on retourne
+	 * @return elle retourne 2 si on change de map,
+	 * 						 1 si le déplacement a marché et
+	 * 						 0 sinon
+	 * */
+int Carte::move_up(Personnage &perso, bool isDangerZone)
 {
-	int rep,
+	int repMove,
 		x = perso.get_x(),
 		y = perso.get_y();
-	rep = this->moveIsPossible( x , y + 1 , true);
+	repMove = this->moveIsPossible( x , y + 1 , true);
+	if( repMove == 1 ){
+		if(isDangerZone) {
+			perso.set_paCurrent( perso.get_paCurrent() - 1 );	// si zone de combat alors on consomme des PA
+		}
+		moveItemTo( x , y , x , y + 1 );
+	} else if( repMove == 2 && !isDangerZone ){ 				// si mode exploration, on peut changer de Map
+		moveItemTo( x , y , x , y + 1 );
+	} else {
+		repMove = 0;
+		cout << "erreur" << endl;
+	}
+	return repMove;
+}
+/** La methode move_down deplace un perso vers le Sud
+	 * @param &perso - adresse du perso à déplacer
+	 * @param withUsePas - booléen indiquant le déplacement utilise des PAs
+	 * @param rep - adresse du portail qui va nous faire changer de Map qu'on retourne
+	 * @return elle retourne 2 si on change de map,
+	 * 						 1 si le déplacement a marché et
+	 * 						 0 sinon
+	 * */
+int Carte::move_down(Personnage &perso, bool isDangerZone)
+{
+	int repMove,
+		x = perso.get_x(),
+		y = perso.get_y();
+	repMove = this->moveIsPossible( x , y - 1 , true);
+	if( repMove == 1 ){
+		if(isDangerZone){
+			perso.set_paCurrent( perso.get_paCurrent() - 1 );	// si zone de combat alors on consomme des PA
+		}
+		moveItemTo( x , y , x , y - 1 );
+	} else if( repMove == 2 && !isDangerZone ){ 				// si mode exploration, on peut changer de Map
+		moveItemTo( x , y , x , y - 1 );
+	} else {
+		repMove = 0;
+		cout << "erreur" << endl;
+	}
+	return repMove;
+}
+/** La methode move_left deplace un peros vers l'Ouest
+	 * @param &perso - adresse du perso à déplacer
+	 * @param withUsePas - booléen indiquant le déplacement utilise des PAs
+	 * @param rep - adresse du portail qui va nous faire changer de Map qu'on retourne
+	 * @return elle retourne 2 si on change de map,
+	 * 						 1 si le déplacement a marché et
+	 * 						 0 sinon
+	 * */
+int Carte::move_left(Personnage &perso, bool isDangerZone)
+{
+	int repMove,
+		x = perso.get_x(),
+		y = perso.get_y();
+	repMove = this->moveIsPossible( x - 1 , y , true);
+	if( repMove == 1 ){
+		if(isDangerZone){
+			perso.set_paCurrent( perso.get_paCurrent() - 1 );	// si zone de combat alors on consomme des PA
+		}
+		moveItemTo( x , y , x - 1 , y  );
+	} else if( repMove == 2 && !isDangerZone ){ 				// si mode exploration, on peut changer de Map
+		moveItemTo( x , y , x - 1 , y );
+	} else {
+		repMove = 0;
+		cout << "erreur" << endl;
+	}
+	return repMove;
+}
 
-	if( rep != 0){
-		if(withUsePA) perso.set_paCurrent(perso.get_paCurrent() - 1);
-		this->moveItemTo( x , y , x , y + 1 );
-	} else if( rep == 3 ){
-		//TODO switchmap
-	} else {
-		cout << "erreur" << endl;
-	}
-}
-/** La methode Personnage deplace un perso vers le Sud
-	 * @param map - carte sur laquelle le perso bouge*/
-void Carte::move_down(Personnage &perso, bool withUsePA)
+/** La methode move_right deplace un perso vers l'Est
+	 * @param &perso - adresse du perso à déplacer
+	 * @param withUsePas - booléen indiquant le déplacement utilise des PAs
+	 * @param rep - adresse du portail qui va nous faire changer de Map qu'on retourne
+	 * @return elle retourne 2 si on change de map,
+	 * 						 1 si le déplacement a marché et
+	 * 						 0 sinon
+	 * */
+int Carte::move_right(Personnage &perso, bool isDangerZone)
 {
-	int rep,
+	int repMove,
 		x = perso.get_x(),
 		y = perso.get_y();
-	rep = this->moveIsPossible( x , y - 1 , true);
-	if( rep != 0){
-		if(withUsePA) perso.set_paCurrent( perso.get_paCurrent() - 1 );
-		this->moveItemTo( x , y , x , y - 1 );
-	} else if( rep == 3 ){
-		//TODO switchmap
+	repMove = this->moveIsPossible( x + 1 , y , true);
+	if( repMove == 1 ){
+		if(isDangerZone){
+			perso.set_paCurrent( perso.get_paCurrent() - 1 );	// si zone de combat alors on consomme des PA
+		}
+		moveItemTo( x , y , x + 1 , y  );
+	} else if( repMove == 2 && !isDangerZone ){ 				// si mode exploration, on peut changer de Map
+		moveItemTo( x , y , x + 1 , y );
 	} else {
+		repMove = 0;
 		cout << "erreur" << endl;
 	}
-}
-/** La methode Personnage deplace un peros vers l'Ouest
-	 * @param map - carte sur laquelle le perso bouge*/
-void Carte::move_left(Personnage &perso, bool withUsePA)
-{
-	int rep,
-		x = perso.get_x(),
-		y = perso.get_y();
-	rep = this->moveIsPossible( x - 1 , y , true);
-	if( rep != 0){
-		if(withUsePA) perso.set_paCurrent( perso.get_paCurrent() - 1 );
-		this->moveItemTo(x , y , x - 1 , y);
-	} else if( rep == 3 ){
-		//TODO switchmap
-	} else {
-		cout << "erreur" << endl;
-	}
-}
-/** La methode Personnage deplace un perso vers l'Est
-	 * @param map - carte sur laquelle le perso bouge*/
-void Carte::move_right(Personnage &perso, bool withUsePA)
-{
-	int rep,
-		x = perso.get_x(),
-		y = perso.get_y();
-	rep = this->moveIsPossible( x + 1, y , true);
-	if( rep != 0){
-		if(withUsePA) perso.set_paCurrent( perso.get_paCurrent() - 1 );
-		this->moveItemTo(x , y , x + 1 , y);
-	} else if( rep == 3 ){
-		//TODO switchmap
-	} else {
-		cout << "erreur" << endl;
-	}
+	return repMove;
 }
 
 /*
@@ -241,11 +274,24 @@ void Carte::addItem( Affichable &a ){
 	//cout << " la case " << a.get_x() << "," << a.get_y() << " pointe sur l'adresse " << _map[ a.get_x() ][ a.get_y() ] << endl;
 }
 
+/** La méthode removeAllItem permet un affichable en argument dans la carte
+  * @param &a - addresse de l'affichable à retirer*/
 void Carte::removeItem( Affichable &a ){
 	if( _map[ a.get_x() ][ a.get_y() ] == &vide ) {
 		cout << "!!! il y a déjà personne  !!!" << endl ;
 	}
 	_map[ a.get_x() ][ a.get_y() ] = &vide;
+}
+
+/** La méthode removeAllItem permet d'enlever tous les objets de la carte
+  * */
+void Carte::removeAllItem(){
+	int i,j;
+	for( j = 0 ; j < _sizeY ; j++ ){
+		for( i = 0 ; i < _sizeX ; i++ ){
+			_map[i][j] = &vide;
+		}
+	}
 }
 
 /** La méthode moveItemTo permet de deplacer un affichable à un point sur la carte
@@ -759,6 +805,32 @@ bool Carte::pathIsPossible( int xA, int yA, int xB, int yB ){
 	}
 	return rep;
 }
+
+//TODO Commentaires
+list <pair<int , int>> Carte::seekSpawnPoint(int xA, int yA, int nb){
+	list <pair<int , int>> rep;
+	pair<int , int> tmp;
+	int i,j,		//
+		minX = xA - nb, maxX = xA + nb,	//
+		minY = yA - nb, maxY = yA + nb,	//
+		cont = nb;		//
+	cout << "début recherche" << endl;
+	for(i = minY ; i < maxY && cont!=0 ; i++){
+		for(j = minX ; j < maxX && cont!=0 ; j++){
+			if( !(i==yA && j==xA)
+			 && ( (abs(j - xA) + abs(i - yA)) <= nb )
+			 && ( moveIsPossible(j, i, false) == 1) ){
+				tmp.first = j; tmp.second = i;
+				rep.push_back(tmp);
+				cout << j << " " << i << endl;
+				cont--;
+				cout << cont << endl;
+			}
+		}
+	}
+	return rep;
+}
+
 
 /** La méthode display permet d'afficher la carte sur la console */
 void Carte::display( void ) {

@@ -103,11 +103,14 @@ void Fichier::loadSizeMap(string nameMap, int &x, int &y, bool &dZ){
 			&& (ligne != nameMap) ){	// et qu'on a pas trouvé la carte suivi de {
 			_path >> ligne;					// on verifie chaque mot du fichier
 		}
+		cout << "map trouvé :" << ligne;
+
 		if(_path.tellg() != sizeFile){		// Si carte trouvé
 			while( (ligne != "}")			// Tant qu'on n'arrive pas à }
 				&& (ligne != "Taille:") ){  // et qu'on a pas trouvé l'element Taille
 				_path >> ligne;				// on continue de chercher
 			}
+			cout << "size trouvé :" << ligne;
 			if(_path.tellg() != sizeFile){  // Si taille trouvé
 				_path >> x;
 				_path >> y;
@@ -142,17 +145,28 @@ void Fichier::loadMap(string nameMap,list<Carte> &listCarte,list<Ennemi> &listEn
 	if(_path){
 		_path.seekg(0,ios::beg);			// Retour au debut du fichier
 		while( (mot != "END") && (mot != nameMap) ){
-			_path >> mot;					// on verifie chaque mot du fichier
+			while( (mot != "END") && (mot != "name:") ){
+				_path >> mot;					// on verifie chaque mot du fichier
+			}
+			_path >> mot;
 		}
+		cout << mot << endl;
 		if( mot == (nameMap) ){		// on est bien sur la carte
 			int x,y;
-			this->loadSizeMap(nameMap, x, y, dZ);
+			// this->loadSizeMap(nameMap, x, y, dZ);
+			_path >> mot;
+			cout << mot << endl;
+			_path >> x;
+			_path >> y;
+			_path >> dZ;
 			listCarte.push_back(Carte(nameMap, x , y, dZ));
-
-			while( (mot != "}")	&& (mot != "Contenu{") && (mot != "END") ){
-				_path >> mot;
-			}
+			listEnnemi.clear();
+			listObstacle.clear();
+			listPortail.clear();
+			cout << "fin reinitialisation des tanks" << endl;
+			_path >> mot;
 			if(mot == "Contenu{"){			// on est bien dans la partie contenu
+				cout << "recherche du contenu "<< endl;
 				int x,y,nX,nY,ID,lev,str,acc,agi,end,luck;
 				string nom,nextMap;
 				_path >> mot;

@@ -49,8 +49,8 @@ void Partie::newPartie(void){
 void Partie::loadPartie(void){
 	Fichier pathMap("World",0); 	// ouverture en lecture de la carte
 	Fichier pathFile("Save",1); 	// ouverture en lecture et ecriture de la sauvegarde
-	list<Ennemi>::iterator ite_e;	// itérateur d'ennemi
-	list<Hero>::iterator   ite_h;	// itérateur de héros
+	//list<Ennemi>::iterator ite_e;	// itérateur d'ennemi
+	//list<Hero>::iterator   ite_h;	// itérateur de héros
 	string nameCurrentMap;			// nom de la carte actuel
 
 	pathFile.seekMapCurrent(nameCurrentMap);// recherche de la carte actuel dans la sauvegarde
@@ -82,12 +82,14 @@ void Partie::loadPartie(void){
 		(*_ite_c).addItem((*_ite_p));
 	}
 	// initialisation de la team d'ennemis sur la carte actuel
-	for(ite_e = _tank_ennemi.begin() ; ite_e != _tank_ennemi.end() ; ite_e++){
-		_team_ennemi.push_front( &(*ite_e) );
+	_team_ennemi.clear();
+	for(_ite_e = _tank_ennemi.begin() ; _ite_e != _tank_ennemi.end() ; _ite_e++){
+		_team_ennemi.push_front( &(*_ite_e) );
 	}
 	// initialisation de la team de héros sur la carte actuel
-	for(ite_h = _tank_hero.begin() ; ite_h != _tank_hero.end() ; ite_h++){
-		_team_hero.push_front( &(*ite_h) );
+	_team_hero.clear();
+	for(_ite_h = _tank_hero.begin() ; _ite_h != _tank_hero.end() ; _ite_h++){
+		_team_hero.push_front( &(*_ite_h) );
 	}
 }
 
@@ -105,7 +107,7 @@ void Partie::launchPartie(void){
 		} else {										// mode Exploration
 			cout << " RAS " << endl;
 			this->explorationMode();
-			isDangerZone = true;
+			isDangerZone = (*_ite_c).get_dangerZone();
 		}
 		//exitGame = true;
 	}
@@ -116,68 +118,111 @@ void Partie::savePartie(void){
 }
 // TODO
 void Partie::switchMap( int x , int y , string nextMap ){
-	Fichier pathMap("World",0);
-	//list<Hero> tank_hero;
-	//list<Hero>::iterator ite_h;
-
+	(*_ite_c).removeAllItem();							// on retire tous le monde de la carte sans toucher au conteneur
+	Fichier pathMap("World",0);							// chargement de la prochaine map
+	cout << "chargement de la map" << endl;
 	pathMap.loadMap(nextMap, _tank_carte, _tank_ennemi, _tank_hero, _tank_obstacle, _tank_portail);
-
-	// recherche de la Map
-	_ite_c = _tank_carte.begin();
-	while( ( (*_ite_c).get_nameMap() != nextMap ) && ( _ite_c != _tank_carte.end()) ){
+	cout << "iterateur sur la map" << endl;
+	_ite_c = _tank_carte.begin();						// itérateur sur la nouvelle carte
+	while( ( (*_ite_c).get_nameMap() != nextMap )
+		&& ( _ite_c != _tank_carte.end()) ){
 		_ite_c++;
 	}
+	(*_ite_c).display();
 
-	//TODO trouver algorithme qui place les héros sur la map vers le portail
-
-
-
-	/*// maj de la coord du héro
-	_ite_h = _tank_hero.begin();
-	(*_ite_h).set_x(x); (*_ite_h).set_y(y);
-
-
-	for( _ite_h = _tank_hero.begin(); _ite_h != _tank_hero.end(); _ite_h++ ){
-		tank_hero.push_front(*_ite_h);
-		_tank_hero.pop_front();
+	// ajout des ennemis sur la carte
+	for(_ite_e = _tank_ennemi.begin();_ite_e!=_tank_ennemi.end();_ite_e++){
+		(*_ite_c).addItem((*_ite_e));
 	}
-	pathMap.loadMap(nextMap, _tank_carte, _tank_ennemi, _tank_hero, _tank_obstacle, _tank_portail);
 
-	ite_h = tank_hero.begin();
-	ite_h++;
+	// ajout des obstacles sur la carte
+	for(_ite_o=_tank_obstacle.begin();_ite_o!=_tank_obstacle.end();_ite_o++){
+		(*_ite_c).addItem((*_ite_o));
+	}
+	// ajout des portail sur la carte
+	for(_ite_p=_tank_portail.begin();_ite_p!=_tank_portail.end();_ite_p++){
+		(*_ite_c).addItem((*_ite_p));
+	}
 
+	(*_ite_c).display();
+	// recherche des points de spawn disponibles sur la carte
+	cout << "recherche des spawn des héros" << endl;
+	list<pair<int,int>> spawnList = (*_ite_c).seekSpawnPoint(x,y,3);
+	list<pair<int,int>>::iterator ite;
+	ite = spawnList.begin();
+	for( ; ite != spawnList.end() ; ite++ ){
+		cout << (*ite).first << "," << (*ite).second << endl;
+	}
 
-	for( ; ite_h != tank_hero.end(); ite_h++ ){
-
-		(*ite_h).set_x(x);
-		(*ite_h).set_y(y);
-		_tank_hero.push_back(*ite_h);
-	}*/
+	// màj des coordonnées des héros sur la nouvelle carte
+	ite = spawnList.begin();
+	for(_ite_h = _tank_hero.begin();_ite_h!=_tank_hero.end();_ite_h++){
+		(*_ite_h).set_x((*ite).first); (*_ite_h).set_y((*ite).second);
+		ite++;
+	}
+	// ajout des héros sur la carte
+	for(_ite_h = _tank_hero.begin();_ite_h!=_tank_hero.end();_ite_h++){
+		(*_ite_c).addItem((*_ite_h));
+	}
+	(*_ite_c).display();
+	// initialisation de la team d'ennemis sur la carte actuel
+	_team_ennemi.clear();
+	for(_ite_e = _tank_ennemi.begin() ; _ite_e != _tank_ennemi.end() ; _ite_e++){
+		_team_ennemi.push_front( &(*_ite_e) );
+	}
+	// initialisation de la team de héros sur la carte actuel
+	_team_hero.clear();
+	for(_ite_h = _tank_hero.begin() ; _ite_h != _tank_hero.end() ; _ite_h++){
+		_team_hero.push_front( &(*_ite_h) );
+	}
 }
 
 /** La méthode explorationMode définit le mode exploration du jeu
   * */
 void Partie::explorationMode(void){
 	cout << " Mode exploration " << endl;
-	bool endGame = false,					// booléen indiquant la fin du jeu
-		 acrossNewMap = 0;					// booléen indiquant si on franchit une nouvelle carte
+	int rep;
+	bool endGame = 0,						// booléen indiquant si on quitte le jeu ou non
+		 acrossNewMap = 0;					// booléen indiquant si on franchit une nouvelle carte ou non
 	//int heroX,heroY;						// coordonnées du héro
 
+	_ite_l = _team_hero.begin();		// itérateur sur le héros principal car il est le seul à se déplacer
+	_ite_l++;							// on retire les compagnons de la carte
+	while( _ite_l != _team_hero.end()){
+		(*_ite_c).removeItem(*(*_ite_l));  //TODO removeItem doit utiliser X et Y
+		_ite_l++;
+	}
+	_ite_h = _tank_hero.end();
+	_ite_l = _team_hero.begin();
+
 	while(!acrossNewMap && !endGame){
-		_ite_l = _team_hero.begin();		// itérateur sur le héros principal
 		(*_ite_c).display();				// affichage de la carte
-		endGame = this->move_choice(0);				// choix du mouvement à faire
-		/*
-
-
-		// TODO les compagnons suivent le héros principal
-		heroX = (*_ite_l)->get_x();
-		heroY = (*_ite_l)->get_y();
-		_ite_l++; 							// c'est un compagnon à partir du deuxième élément de la liste
-		while(_ite_l != _team_hero.end()){
-			(*_ite_c).moveItemToWithMoveAnim( (*_ite_l)->get_x(), (*_ite_l)->get_y(), heroX, heroY);
-			_ite_l++;						// heros suivant
-		}*/
+		rep = this->move_choice(0);			// choix du mouvement à faire
+		if( rep == -1 ){					// si le joueur décide de quitter la partie
+			cout << "Si vous quittez maintenant sans avoir sauvegarder la partie,";
+			cout << "vous risquez de perdre votre progression. Quitter ? (Y/N)";
+			string ans;
+			cin >> ans;
+			if(ans == "Y") endGame = true;
+		} else if( rep == 2 ){									// si on franchit une nouvelle Map,
+			acrossNewMap = true;
+			cout << "on franchit une nouvelle map " << endl;
+			(*_ite_c).display();
+			cout << "recherche du portail" << endl;
+			_ite_p = _tank_portail.begin();						// recherche du portail correspondant
+			while( ( (*_ite_p).get_x() != (*_ite_l)->get_x() )
+				&& ( (*_ite_p).get_y() != (*_ite_l)->get_y() )
+				&& ( _ite_p != _tank_portail.end() )
+			){
+				_ite_p++;
+			}
+			cout << "position du portail : " << (*_ite_p).get_x() << "," << (*_ite_p).get_y() << endl;
+			int newX = (*_ite_p).get_newX(),					// on extrait les infos de ce portail
+				newY = (*_ite_p).get_newX();
+			string nameNextMap = (*_ite_p).get_nameNextMap();
+			cout << "début du switch" << endl;
+			switchMap(newX, newY, nameNextMap);
+		}
 	}
 }
 
@@ -222,7 +267,7 @@ void Partie::fightMode(void){
  	 * */
 void Partie::allieTour(bool &endTour){
 	int choix;
-	bool endGame; 						// booléen indiquant la fin du jeu
+	//int rep; 						// booléen indiquant la fin du jeu
 	cout<<"\t\t\t\t\t\t\t\tTour allié"<<endl;
 	do{
 		cout<<"\t\t\t\t\t\t\t\tPerso ("<<(*_ite_l)->get_x()<<","<<(*_ite_l)->get_y()<<")"<<endl;
@@ -231,7 +276,7 @@ void Partie::allieTour(bool &endTour){
 		choix = main_switch();								// choix de l'action à faire
 		switch (choix){
 			case DEPLACER :
-				endGame = this->move_choice(1);
+				this->move_choice(1);
 				break;
 			case TIRER :
 				endTour = this->shoot_choice();
@@ -252,7 +297,7 @@ void Partie::allieTour(bool &endTour){
 				}
 				break;
 		}
-	} while( choix != 0 && !endGame );
+	} while( choix != 0 );
 	// reinitialisation des PA de la team Hero
 	for(_ite=_team_hero.begin();_ite!=_team_hero.end();_ite++){
 		(*_ite)->set_paCurrent(0);
@@ -283,35 +328,38 @@ int Partie::main_switch ( void ){
 #define EXIT 10
 /** La méthode move_choice gère le déplacement du héros en action dans le tour.
  	 * @param withUsePA - boolean qui indique si le mouvement consomme des PA.
- 	 * @return elle retourne 1 si on quitte le jeu ou 0 sinon
+ 	 * @return elle retourne -1 si on annule l'action
+	 * 						  0 si le déplacement est impossible
+	 * 						  1 si le déplacement a fonctionné
+	 * 						  2 si le déplacement engendre un changement de carte
  	 * */
-bool Partie::move_choice(bool withUsePA){
-	int choix;
+int Partie::move_choice(bool withUsePA){
+	int choix,rep;
 	do{
 		choix = move_switch();
 		switch(choix){
 		case NORTH:
-			(*_ite_c).move_up(*(*_ite_l), withUsePA);
+			rep = (*_ite_c).move_up(*(*_ite_l), withUsePA);
 			choix=10;
 			break;
 		case EAST:
-			(*_ite_c).move_right(*(*_ite_l), withUsePA);
+			rep = (*_ite_c).move_right(*(*_ite_l), withUsePA);
 			choix=10;
 			break;
 		case SOUTH:
-			(*_ite_c).move_down(*(*_ite_l), withUsePA);
+			rep = (*_ite_c).move_down(*(*_ite_l), withUsePA);
 			choix=10;
 			break;
 		case WEST:
-			(*_ite_c).move_left(*(*_ite_l), withUsePA);
+			rep = (*_ite_c).move_left(*(*_ite_l), withUsePA);
 			choix=10;
 			break;
 		case EXIT:
-			return 1;
+			rep = -1;
 			break;
 		}
 	} while (choix != 10);
-	return 0;
+	return rep;
 }
 
 /** La méthode move_switch invite le joueur à choisir le déplacement à faire
@@ -324,7 +372,7 @@ int Partie::move_switch ( void ){
 		cout << "\t\t\t\t\t" << EAST  << " - a l'Est " << endl;
 		cout << "\t\t\t\t\t" << SOUTH << " - au Sud " << endl;
 		cout << "\t\t\t\t\t" << WEST << " - a l'Ouest " << endl;
-		cout << "\t\t\t\t\tTapez 10 pour quitter le jeu \n> ";
+		cout << "\t\t\t\t\tTapez 10 pour annuler \n> ";
 		cin >> reponse ;
 	} while ( reponse < 10 || reponse > WEST ) ;
 	return( reponse ) ;

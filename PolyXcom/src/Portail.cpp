@@ -15,7 +15,20 @@ Portail::Portail(int coordX,int coordY,int ID,int newX,int newY, string nextMap)
 	_newX = newX ;
 	_newY = newY ;
 	_nameNextMap = nextMap ;
+
 	cout << " + portail de " << coordX << "," << coordY << " à "<< _newX << "," << _newY << "dans" << _nameNextMap << " construit" << endl;
+}
+
+int Portail::get_newX( void ){
+	return _newX;
+}
+
+int Portail::get_newY( void ){
+	return _newY;
+}
+
+string Portail::get_nameNextMap( void ){
+	return _nameNextMap;
 }
 
 Portail::~Portail() {

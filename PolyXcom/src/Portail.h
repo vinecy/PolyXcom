@@ -17,10 +17,14 @@ class Portail : public Affichable{
 private:
 	int _newX;
 	int _newY;
+	// TODO ouver ou fermé
 	string _nameNextMap;
 public:
 	Portail(int coordX, int coordY, int ID, int newX, int newY, string nextMap);
 
+	int get_newX( void );
+	int get_newY( void );
+	string get_nameNextMap( void );
 
 	virtual ~Portail();
 };

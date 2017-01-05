@@ -64,7 +64,6 @@ Carte::Carte( int x , int y ) {
 	_nameMap = "Map de taille fixé";
 	_map = new Affichable **[_sizeY];
 	_dangerZone = true;
-
 	// initialisation de la carte
 	int i,														// indice parcours sur l'axe Y
 		j;														// indice parcours sur l'axe X
@@ -90,10 +89,7 @@ Carte::Carte( string name, int x , int y , bool dZ){
 	_sizeY = y;
 	_nameMap = name;
 	_dangerZone = dZ;
-
-
 	_map = new Affichable **[_sizeY];
-
 	// initialisation de la carte
 	int i,														// indice parcours sur l'axe Y
 		j;														// indice parcours sur l'axe X
@@ -103,7 +99,6 @@ Carte::Carte( string name, int x , int y , bool dZ){
 			_map[i][j] = &vide;
 		}
 	}
-
 	cout << " + carte "<< _nameMap << " de taille " << _sizeX <<"*"<< _sizeY <<" crée" << endl;
 	cout << " + adresse de vide "<< &vide << endl;
 }
@@ -275,7 +270,8 @@ void Carte::addItem( Affichable &a ){
 }
 
 /** La méthode removeAllItem permet un affichable en argument dans la carte
-  * @param &a - addresse de l'affichable à retirer*/
+ 	 * @param &a - addresse de l'affichable à retirer
+ 	 * */
 void Carte::removeItem( Affichable &a ){
 	if( _map[ a.get_x() ][ a.get_y() ] == &vide ) {
 		cout << "!!! il y a déjà personne  !!!" << endl ;
@@ -294,7 +290,8 @@ void Carte::removeAllItem(){
 	}
 }
 
-/** La méthode moveItemTo permet de deplacer un affichable à un point sur la carte
+/** La méthode moveItemTo permet de deplacer un affichable
+  * d'un point oldX,oldY à un point newX,newY sur la carte
  	 * @param *a - pointeur sur l'affichable à déplacer sur la carte
  	 * @param newX,newY - nouvelle coordonnées de l'objet à déplacer
  	 * */
@@ -306,6 +303,12 @@ void Carte::moveItemTo( int oldX, int oldY , int newX , int newY ){
 	_map[ newX ][ newY ]->set_y(newY);
 }
 
+/** La méthode moveItemToWithMoveAnim permet de deplacer un affichable
+  * d'un point oldX,oldY à un point newX,newY sur la carte avec actualisation de la carte
+  * case par case
+ 	 * @param oldX,oldY- pointeur sur l'affichable à déplacer sur la carte
+ 	 * @param newX,newY - nouvelle coordonnées de l'objet à déplacer
+ 	 * */
 void Carte::moveItemToWithMoveAnim( int oldX, int oldY , int newX , int newY ){
 	list<pair<int,int>> path;
 	list<pair<int,int>>::iterator ite_p;
@@ -326,8 +329,8 @@ void Carte::moveItemToWithMoveAnim( int oldX, int oldY , int newX , int newY ){
 
 
 /** La méthode pathfinding permet de trouver le meilleur chemin d'un point A à un point B
- * sur la carte avec l'algorithme A*. Il retourne le chemin trouvé, c'est une liste de
- * coordonnées à suivre
+  * sur la carte avec l'algorithme A*. Il retourne le chemin trouvé, c'est une liste de
+  * coordonnées à suivre
  	 * @param xA,yA - Point de Départ
  	 * @param xB,yB - Point d'arrivée
  	 * @return - retourne une liste de paires de coordonnées
@@ -587,7 +590,7 @@ list <pair<int , int>> Carte::pathfinding( int xA , int yA , int xB , int yB ){
 }
 
 /** La méthode drawPath permet de tracer un segment entre deux points A et B
- * grace à l'Algorithme de tracé de segment de Bresenham
+  * grace à l'Algorithme de tracé de segment de Bresenham
  	 * @param xA,yA - Point de Départ
  	 * @param xB,yB - Point d'arrivée
  	 * @return - retourne une liste de paires de coordonnées correspondant au segment tracé
@@ -791,7 +794,8 @@ list <pair<int , int>> Carte::drawPath( int xA, int yA, int xB, int yB ){
  * A et B ne presente aucun obstacle
  	 * @param xA,yA - Point de Départ
  	 * @param xB,yB - Point d'arrivée
- 	 * @return - retourne 1 si c'est un chemin sans obstacle et 0 sinon
+ 	 * @return - retourne 1 si c'est un chemin sans obstacle et
+ 	 * 					  0 sinon
  	 * */
 bool Carte::pathIsPossible( int xA, int yA, int xB, int yB ){
 	list<pair<int,int>> path = this->drawPath(xA, yA, xB, yB);
@@ -806,7 +810,13 @@ bool Carte::pathIsPossible( int xA, int yA, int xB, int yB ){
 	return rep;
 }
 
-//TODO Commentaires
+/** La méthode seekSpawnPoint permet de retourner les cases où on peut placer des
+  * personnages autour d'un point xA,yA.
+ 	 * @param xA,yA - Point de Départ
+ 	 * @param xB,yB - Point d'arrivée
+ 	 * @param nb - nombre de personnages à placer
+ 	 * @return - retourne une liste de paire de coordonnées où on peut placer des personnages
+ 	 * */
 list <pair<int , int>> Carte::seekSpawnPoint(int xA, int yA, int nb){
 	list <pair<int , int>> rep;
 	pair<int , int> tmp;
@@ -816,34 +826,31 @@ list <pair<int , int>> Carte::seekSpawnPoint(int xA, int yA, int nb){
 	i = (xA + 1);
 	j = yA;
 	if ( (moveIsPossible(i, j, false) == 1) && (cont>0) ){
-		tmp.first = j; tmp.second = i;
+		tmp.first = i; tmp.second = j;
 		rep.push_back(tmp);
 		cont--;
 	}
 	i = (xA - 1) ;
 	j = yA ;
 	if ( (moveIsPossible(i, j, false) == 1) && (cont>0)){
-		tmp.first = j; tmp.second = i;
+		tmp.first = i; tmp.second = j;
 		rep.push_back(tmp);
 		cont--;
 	}
+	i = xA;
 	j = (yA + 1);
-	i = xA;
 	if ( (moveIsPossible(i, j, false) == 1) && (cont>0)){
-		tmp.first = j; tmp.second = i;
+		tmp.first = i; tmp.second = j;
 		rep.push_back(tmp);
 		cont--;
 	}
+	i = xA;
 	j = (yA - 1);
-	i = xA;
 	if ( (moveIsPossible(i, j, false) == 1) && (cont>0)){
-		tmp.first = j; tmp.second = i;
+		tmp.first = i; tmp.second = j;
 		rep.push_back(tmp);
 		cont--;
 	}
-
-
-
 	return rep;
 }
 

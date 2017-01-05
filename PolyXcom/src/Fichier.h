@@ -29,9 +29,7 @@ public:
 	void cleanFile(void);
 	void writeFile(string s);
 
-	void seekAllMap(list<string>&);
-	void loadMap(string nameMap,list<Carte>&,list<Ennemi>&, list<Hero>&, list<Obstacle>&, list<Portail>&);
-	void loadSizeMap(string nameMap,int&,int&,bool&);
+	void loadMap(string nameMap,Carte&,list<Ennemi>&, list<Hero>&, list<Obstacle>&, list<Portail>&);
 
 	virtual ~Fichier();
 };

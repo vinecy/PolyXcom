@@ -388,10 +388,10 @@ bool Partie::shoot_choice( void ){
 				in_range.push_front((*_ite));
 			}
 		}
-		(*_ite_l)->shoot(in_range);// declanchement de l'action de tir
+		(*_ite_l)->shoot(in_range);			//declanchement de l'action de tir
 		list<Personnage*> temp;
 		for(_ite=_team_ennemi.begin();_ite!=_team_ennemi.end();_ite++){
-			if((*_ite)->get_pvCurrent()>=1){ // si des ennemis sont morts, il sont supprimes de team ennemi
+			if((*_ite)->get_pvCurrent()>=1){ //si des ennemis sont morts, il sont supprimes de team ennemi
 				temp.push_front(*_ite);
 			} else {
 				(*_ite_c).removeItem(*(*_ite));
@@ -446,7 +446,7 @@ bool Partie::bonus_choice( void ){
 		{
 			int x;
 			int y;
-			cout<<" Entrer X puis Y\n>";//demande au joueur ou il veux lancer la grenade
+			cout<<" Entrer X puis Y\n>";		//demande au joueur ou il veux lancer la grenade
 			cin >> x;
 			cout<<" >";
 			cin >> y;

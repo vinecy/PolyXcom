@@ -12,7 +12,7 @@ using namespace std;
 /** Le constructeur de Grenade cree un nombre de grenade, leur portee et les degats associes*/
 Grenade::Grenade()
 {
-	_range=4;
+	_range=1;
 	_number=0;
 	_dammage=4;
 }
@@ -21,7 +21,9 @@ Grenade::Grenade()
  * @param q - quantité a ajouter ou retirer de grenade*/
 void Grenade::add_number(int q)
 {
-	_number=_number+q;
+	cout << _number << endl;
+	_number=_number+q;//TODO NON FCT
+	cout << _number << endl;
 }
 
 int Grenade::get_dammage()

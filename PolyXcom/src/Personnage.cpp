@@ -127,6 +127,7 @@ void Personnage::set_paCurrent(int pa)
 	_paCurrent=pa;
 }
 
+
 /** La méthode display_info permet d'afficher les attributs de celui qui l'invoque dans la console */
 void Personnage::display_info(void)
 {

@@ -34,7 +34,7 @@ void Obstacle::display_info(void)		//debug display
 	cout<<"///////////////"<<endl;
 }
 
-void Obstacle::set_destructuble()
+void Obstacle::set_destructible()
 {
 	_destrutible=1;
 }

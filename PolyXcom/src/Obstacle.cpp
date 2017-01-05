@@ -28,6 +28,11 @@ void Obstacle::display_info(void)		//debug display
 	cout<<"///////////////"<<endl;
 }
 
+void Obstacle::set_destructuble()
+{
+	_destrutible=1;
+}
+
 /** Le destructeur Obstacle */
 Obstacle::~Obstacle()				//destructor
 {

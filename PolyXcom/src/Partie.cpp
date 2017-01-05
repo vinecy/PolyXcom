@@ -240,7 +240,7 @@ void Partie::allieTour(bool &endTour){
 				endTour = this->close_combat_choice();
 				break;
 			case BONUS :
-				endTour = this->close_combat_choice();//TODO what?
+				endTour = this->bonus_choice();
 				break;
 			case CHANGER :
 				if( _team_hero.size() == 1 ){
@@ -384,28 +384,69 @@ bool Partie::close_combat_choice( void ){
 }
 
 bool Partie::bonus_choice( void ){
-	if((*_ite_l)->get_paCurrent()>=2){
-			list<Personnage*> in_range;
-			for(_ite=_team_ennemi.begin();_ite!=_team_ennemi.end();_ite++){
-				if((*_ite_c).pathIsPossible((*_ite_l)->get_x(),(*_ite_l)->get_y(),(*_ite)->get_x(),(*_ite)->get_y())){
-					in_range.push_front((*_ite));
+	int choice;
+	cout<<" Taper 1 pour utiliser un medkit\n Tapez 2 pour utiliser une grenade\n Taper 0 pour quiter\n>"<<endl;
+	cin >> choice;
+	if(choice==1)
+	{
+		(*_ite_l)->use_medkit();
+		return false;
+	}
+	else if(choice==2)
+	{
+		(*_ite_l)->get_inv().get_grenade().display_info();
+		if((*_ite_l)->get_grenade().get_number()>=0)
+		{
+			int x;
+			int y;
+			cout<<" Entrer X puis Y\n>";
+			cin >> x;
+			cout<<" >";
+			cin >> y;
+			if((*_ite_c).moveIsPossible(x,y,0))
+			{
+				cout<<"possible!";
+				list<Personnage*>::iterator p;
+				int xcompt;
+				int ycompt;
+				for(xcompt=x-1;xcompt<x+1;xcompt++)
+				{
+					for(ycompt=y-1;ycompt<y+1;ycompt++)
+					{
+						if((*_ite_c).get_IDin(xcompt, ycompt)==1)
+						{
+							for(_ite_o=_tank_obstacle.begin();_ite_o!=_tank_obstacle.end();_ite_o++)
+							{
+								if(((*_ite_o).get_x()==x)||((*_ite_o).get_y()==y))
+								{
+									(*_ite_o).set_destructuble();
+								}
+							}
+						}
+						else if((*_ite_c).get_IDin(xcompt, ycompt)==2)
+						{
+							for(p = _team_hero.begin() ; p != _team_hero.end() ; p++)
+							{
+								if((*p)->get_x()==x||(*p)->get_y()==y)
+								{
+									(*p)->set_pvCurrent((*p)->get_pvCurrent()-(*_ite_l)->get_grenade().get_dammage());
+								}
+							}
+						}
+					}
 				}
-			}
-			(*_ite_l)->shoot(in_range);
-			list<Personnage*> temp;
-			for(_ite=_team_ennemi.begin();_ite!=_team_ennemi.end();_ite++){
-				if((*_ite)->get_pvCurrent()>=1){
-					temp.push_front(*_ite);
-				} else {
-					(*_ite_c).removeItem(*(*_ite));
+				if(_team_ennemi.size()==0){
+					return true;
 				}
-			}
-			_team_ennemi=temp;
-			if(_team_ennemi.size()==0){
-				return true;
+				return false;//TODO cas suicide
 			}
 		}
 		return false;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 /** La méthode end_team indique si la team à fini son tour

@@ -23,9 +23,9 @@ class Hero : public Personnage
 		string get_name(void);							//getter
 		void set_name(string);							//setter
 
-		list<Personnage*> near(list<Personnage*> team);
-		void close_combat(list<Personnage*> list);
-		void shoot(list<Personnage*> list);
+		list<Personnage*> near(list<Personnage*> team);	//revoie la liste des ennemis adjacents
+		void close_combat(list<Personnage*> list);		//combat au corps a corps
+		void shoot(list<Personnage*> list);				//combat a distance
 
 		void display_info();							//Affiche les attributs en console
 

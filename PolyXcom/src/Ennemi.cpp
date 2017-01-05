@@ -6,21 +6,34 @@
  *      Author: Vincent
  */
 
+
+/**
+ * @file Ennemi.cpp
+ * @brief La classe Ennemi est la sous-classe de personnage que les hero doivent battre
+ *
+ */
+
 #include "Ennemi.h"
 
 using namespace std;
+
+
 Ennemi::Ennemi()
 {
 
 }
 
 /** Le constructeur Ennemi cree un ennemi et initialise ses attributs
-	 * @param x - Points de Vie max du perso
-	 * @param y - Points d'Action max du perso
+	 * @param x - Abcisse de l'ennemi
+	 * @param y - Ordonnee de l'ennemi
 	 * @param ID - Type de l'ennemi
-	 * @param pvMax - Points de Vie max du perso
-	 * @param paMax - Points d'Action max du perso
-	 * @param arme - Arme par defaut de l'ennemi*/
+	 * @param lev - Niveau de l'ennemi
+	 * @param str -	Force de l'ennemi
+	 * @param acc - Precition de l'ennemi
+	 * @param agi - Agilite de l'ennemi
+	 * @param end - Endurance de l'ennemi
+	 * @param luck - Chance de l'ennemi
+	 * @param inv  Inventaire de l'ennemi-*/
 Ennemi::Ennemi(int x,int y,int ID,int lev,int str,int acc,int agi,int end,int luck,Inventaire inv):Personnage(x,y,ID,lev,str,acc,agi,end,luck,inv)
 {
 	cout << " + Personnage ennemi crée" << endl;
@@ -46,7 +59,7 @@ list<Personnage*> Ennemi::near(list<Personnage*> team)
 {
 	list<Personnage*>::iterator ite;
 	list<Personnage*> l;
-	for(ite=team.begin();ite!=team.end();ite++)
+	for(ite=team.begin();ite!=team.end();ite++)//recherche des héros adjacents
 	{
 		if(((((*ite)->get_x()+1==_coordX)||((*ite)->get_x()-1==_coordX))&&((*ite)->get_y()==_coordY)))
 		{
@@ -60,8 +73,8 @@ list<Personnage*> Ennemi::near(list<Personnage*> team)
 	return(l);
 }
 
-/** La méthode close_combat permet de taper des ennemis au corps a corps
- * @param proch - liste ennemis valides*/
+/** La méthode close_combat permet de taper des Heros au corps a corps
+ * @param proch - liste Heros valides*/
 void Ennemi::close_combat(list<Personnage*> proch)
 {
 	if(proch.size()==0)
@@ -107,8 +120,8 @@ void Ennemi::close_combat(list<Personnage*> proch)
 	}
 }
 
-/** La méthode shoot permet de tirer sur des ennemis
- * @param in_range - liste ennemis valides*/
+/** La méthode shoot permet de tirer sur des Heros
+ * @param in_range - liste Heros valides*/
 void Ennemi::shoot(list<Personnage*> in_range)
 {
 	if(in_range.size()==0)

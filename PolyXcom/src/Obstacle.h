@@ -19,7 +19,7 @@ class Obstacle : public Affichable
 
 		void display_info();						//Affichable debug
 
-		void set_destructuble(void);
+		void set_destructible(void);
 
 		virtual ~Obstacle();						//Destructeur
 };

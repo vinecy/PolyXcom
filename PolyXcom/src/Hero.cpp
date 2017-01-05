@@ -6,19 +6,29 @@
  *      Author: Vincent
  */
 
+/**
+ * @file Hero.cpp
+ * @brief La classe Hero est la sous-classe de personnage que le joueur controle
+ *
+ */
+
 #include<iostream>
 #include<cstdlib>
 #include"Hero.h"
 using namespace std;
 
-/** Le constructeur Hero cree un personnage et initialise ses attributs
-	 * @param x - Points de Vie max du perso
-	 * @param Y - Points d'Action max du perso
-	 * @param ID - Type du hero
-	 * @param pv - Points de Vie max du perso
-	 * @param pa - Points d'Action max du perso
-	 * @param arme - Arme par defaut du hero
-	 * @param _nom - Nom du perso	*/
+/** Le constructeur Hero cree un Hero et initialise ses attributs
+	 * @param x - Abcisse du Hero
+	 * @param y - Ordonnee du Hero
+	 * @param ID - Type du Hero
+	 * @param lev - Niveau du Hero
+	 * @param str -	Force du Hero
+	 * @param acc - Precition du Hero
+	 * @param agi - Agilite du Hero
+	 * @param end - Endurance du Hero
+	 * @param luck - Chance du Hero
+	 * @param inv - Inventaire du Hero
+	 * @param nom - Nom du Hero*/
 Hero::Hero(int x,int y,int ID,int lev,int str,int acc,int agi,int end,int luck,Inventaire inv,string nom):Personnage(x,y,ID,lev,str,acc,agi,end,luck,inv)
 {
 	_nom=nom;//TODO cont ref string
@@ -49,14 +59,18 @@ list<Personnage*> Hero::near(list<Personnage*> team)
  * @param proch - liste ennemis valides*/
 void Hero::close_combat(list<Personnage*> proch)
 {
-	if(proch.size()==0)
+	if(proch.size()==0)		//pas d'ennemis adjacents
 	{
 		cout<<"Pas d'ennemi proche"<<endl;
-	}else if(proch.size()==1){
+	}
+	else if(proch.size()==1)//1 ennemi adjacent, attaque au cac
+	{
 		proch.front()->set_pvCurrent(proch.front()->get_pvCurrent()-2);
 		cout<<proch.front()->get_pvCurrent()<<"/"<<proch.front()->get_pvMax();
 		_paCurrent=_paCurrent-3;
-	}else{
+	}
+	else// + de 1 ennemis, selection de la cible
+	{
 		list<Personnage*>::iterator ite;
 		ite=proch.begin();
 		cout<<"\t\tplus de 1 ennemi :"<<endl;
@@ -75,7 +89,7 @@ void Hero::close_combat(list<Personnage*> proch)
 			if(!choix3)
 			{
 				(*ite)->set_pvCurrent((*ite)->get_pvCurrent()-2);
-				cout<<"Ennemi touché! "<<(*ite)->get_pvCurrent()<<"/"<<(*ite)->get_pvMax()<<endl;
+				cout<<"Ennemi touché! "<<(*ite)->get_pvCurrent()<<"/"<<(*ite)->get_pvMax()<<endl; // affichage des PV restants
 				_paCurrent=_paCurrent-3;
 				fini=1;
 			}else{
@@ -99,12 +113,16 @@ void Hero::shoot(list<Personnage*> in_range)
 {
 	if(in_range.size()==0)
 	{
-		cout<<"Pas d'ennemi proche"<<endl;
-	}else if(in_range.size()==1){
+		cout<<"Pas d'ennemi a portée"<<endl;
+	}
+	else if(in_range.size()==1)// un seul ennemi, tir
+	{
 		in_range.front()->set_pvCurrent(in_range.front()->get_pvCurrent()-4);
 		cout<<in_range.front()->get_pvCurrent()<<"/"<<in_range.front()->get_pvMax();
 		_paCurrent=_paCurrent-4;
-	}else{
+	}
+	else
+	{
 		list<Personnage*>::iterator ite;
 		ite=in_range.begin();
 		cout<<"\t\tplus de 1 ennemi :"<<endl;
@@ -112,7 +130,7 @@ void Hero::shoot(list<Personnage*> in_range)
 		int compteur=0;
 		int choix;
 		int fini=0;
-		while(!fini)
+		while(!fini)//choix de l'ennemi
 		{
 			compteur++;
 			cout<<"Ennemi sélectionné= "<<(*ite)->get_pvCurrent()<<"/"<<(*ite)->get_pvMax()<<endl;
@@ -128,7 +146,7 @@ void Hero::shoot(list<Personnage*> in_range)
 				}
 				else
 				{
-					cout<<"Ennemi touché! "<<(*ite)->get_pvCurrent()<<"/"<<(*ite)->get_pvMax()<<endl;
+					cout<<"Ennemi touché! "<<(*ite)->get_pvCurrent()<<"/"<<(*ite)->get_pvMax()<<endl;//Affichage des PV restants
 				}
 				_paCurrent=_paCurrent-4;
 				fini=1;

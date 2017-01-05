@@ -240,24 +240,23 @@ void Partie::fightMode(void){
 
 	while(!endFight){
 		cout << "\t\t\t\t\t\t\t\tNouveau tour"<<endl;
-		_ite_l = _team_hero.begin();
-		while(end_team(_team_hero)){
+		_ite_l = _team_hero.begin();		//_ite_l est le personnage actuel
+		while(end_team(_team_hero)){		//tour des heros
 			this->allieTour(endFight);
 		}
-		for(_ite=_team_hero.begin();_ite!=_team_hero.end();_ite++){
+		for(_ite=_team_hero.begin();_ite!=_team_hero.end();_ite++){//fin du tour: reinitialisation des PA
 			(*_ite)->set_paCurrent((*_ite)->get_paMax());
 		}
-		_ite_l=_team_ennemi.begin();
-		while(end_team(_team_ennemi)){
+		_ite_l=_team_ennemi.begin();		//_ite_l est l'ennemi actuel
+		while(end_team(_team_ennemi)){		//tour des ennemis
 			cout<<"\t\t\t\t\t\t\t\tTour ennemi"<<endl;
-			//Luminy.display();
 			for(_ite=_team_ennemi.begin();_ite!=_team_ennemi.end();_ite++)
 			{
-				(*_ite)->set_paCurrent(0);
+				(*_ite)->set_paCurrent(0);	//mise a 0 des PA des ennemis (passe le tour) TODO IA
 			}
 		}
 		for(_ite=_team_ennemi.begin();_ite!=_team_ennemi.end();_ite++){
-			(*_ite)->set_paCurrent((*_ite)->get_paMax());
+			(*_ite)->set_paCurrent((*_ite)->get_paMax());//fin du tour: reinitialisation des PA
 		}
 	}
 	cout << " Combat Fini, tout le monde est mort " << endl;
@@ -321,7 +320,7 @@ void Partie::allieTour(bool &endTour){
 				break;
 		}
 	} while( choix != 0 );
-	// reinitialisation des PA de la team Hero
+	// reinitialisation des PA de la team Hero (force la fin du tour)
 	for(_ite=_team_hero.begin();_ite!=_team_hero.end();_ite++){
 		(*_ite)->set_paCurrent(0);
 	}
@@ -406,16 +405,16 @@ int Partie::move_switch ( void ){
  	 * */
 bool Partie::shoot_choice( void ){
 	if((*_ite_l)->get_paCurrent()>=4){
-		list<Personnage*> in_range;
+		list<Personnage*> in_range;	//creation de liste qui contiendra les ennemis a porte de tir
 		for(_ite=_team_ennemi.begin();_ite!=_team_ennemi.end();_ite++){
 			if((*_ite_c).pathIsPossible((*_ite_l)->get_x(),(*_ite_l)->get_y(),(*_ite)->get_x(),(*_ite)->get_y())){
 				in_range.push_front((*_ite));
 			}
 		}
-		(*_ite_l)->shoot(in_range);
+		(*_ite_l)->shoot(in_range);			//declanchement de l'action de tir
 		list<Personnage*> temp;
 		for(_ite=_team_ennemi.begin();_ite!=_team_ennemi.end();_ite++){
-			if((*_ite)->get_pvCurrent()>=1){
+			if((*_ite)->get_pvCurrent()>=1){ //si des ennemis sont morts, il sont supprimes de team ennemi
 				temp.push_front(*_ite);
 			} else {
 				(*_ite_c).removeItem(*(*_ite));
@@ -434,11 +433,11 @@ bool Partie::shoot_choice( void ){
  	 * */
 bool Partie::close_combat_choice( void ){
 	if((*_ite_l)->get_paCurrent()>=3){
-		list<Personnage*> proch = (*_ite_l)->near(_team_ennemi);
-		(*_ite_l)->close_combat(proch);
+		list<Personnage*> proch = (*_ite_l)->near(_team_ennemi); 	//proch est la liste des ennemi adjacents
+		(*_ite_l)->close_combat(proch);								//declanchement de l'action cac
 		list<Personnage*> temp;
 		for(_ite=_team_ennemi.begin();_ite!=_team_ennemi.end();_ite++){
-			if((*_ite)->get_pvCurrent()>=1){
+			if((*_ite)->get_pvCurrent()>=1){						//si des ennemis sont morts, ils sont supprimes
 				temp.push_front(*_ite);
 			} else {
 				(*_ite_c).removeItem(*(*_ite));
@@ -465,16 +464,16 @@ bool Partie::bonus_choice( void ){
 	}
 	else if(choice==2)
 	{
-		(*_ite_l)->get_inv().get_grenade().display_info();
+		//(*_ite_l)->get_inv().get_grenade().display_info();
 		if((*_ite_l)->get_grenade().get_number()>=0)
 		{
 			int x;
 			int y;
-			cout<<" Entrer X puis Y\n>";
+			cout<<" Entrer X puis Y\n>";		//demande au joueur ou il veux lancer la grenade
 			cin >> x;
 			cout<<" >";
 			cin >> y;
-			if((*_ite_c).moveIsPossible(x,y,0))
+			if((*_ite_c).moveIsPossible(x,y,0)) //si il peux lancer la grenade
 			{
 				cout<<"possible!";
 				list<Personnage*>::iterator p;
@@ -490,7 +489,7 @@ bool Partie::bonus_choice( void ){
 							{
 								if(((*_ite_o).get_x()==x)||((*_ite_o).get_y()==y))
 								{
-									(*_ite_o).set_destructuble();
+									(*_ite_o).set_destructuble();//degats sur les obstacles
 								}
 							}
 						}
@@ -499,7 +498,7 @@ bool Partie::bonus_choice( void ){
 							for(p = _team_hero.begin() ; p != _team_hero.end() ; p++)
 							{
 								if((*p)->get_x()==x||(*p)->get_y()==y)
-								{
+								{								//degats sur les personnages
 									(*p)->set_pvCurrent((*p)->get_pvCurrent()-(*_ite_l)->get_grenade().get_dammage());
 								}
 							}
@@ -530,7 +529,7 @@ bool Partie::end_team(list<Personnage*> team)
 	}
 	list<Personnage*>::iterator ite;
 	for(ite=team.begin();ite!=team.end();ite++){
-		if((*ite)->get_paCurrent()==0){
+		if((*ite)->get_paCurrent()==0){//si tout les perso de la team ont 0 PA
 			return(0);
 		}
 	}

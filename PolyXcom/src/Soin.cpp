@@ -5,6 +5,12 @@
  *      Author: Vincent
  */
 
+
+/**
+ * @file Soin.cpp
+ * @brief La classe Soin contient le nombre de medkit et leur efficacite
+ *
+ */
 #include"Soin.h"
 #include<iostream>
 using namespace std;

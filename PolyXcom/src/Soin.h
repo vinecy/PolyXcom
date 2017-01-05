@@ -22,7 +22,7 @@ public:
 	int get_heal();
 	int get_uses();
 
-	void display_info();
+	void display_info();			//affichage d'info dans la console
 
 	void add_uses(int quantity);	//modifie la quantite de medkit disponible
 

@@ -57,7 +57,7 @@ public:
 	virtual list<Personnage*> near(list<Personnage*> team)=0;	//revoie la liste des ennemis au cc
 	virtual void close_combat(list<Personnage*> list)=0;		//permet de frapper des ennemis au cc
 	virtual void shoot(list<Personnage*> list)=0;				//permet de tirer sur des ennemis
-	void use_medkit();		//permet de se soigner
+	void use_medkit();											//permet de se soigner
 	void use_grenade(list<Personnage*> list);					//permet de lancer une grenade
 
 

@@ -6,6 +6,12 @@
  *      Author: Vincent
  */
 
+/**
+ * @file Arme.cpp
+ * @brief La classe Arme est la qui contient les informations pour pouvoir faire des degats a distance
+ *
+ */
+
 #include"Arme.h"
 #include <iostream>
 using namespace std;
@@ -17,7 +23,7 @@ Arme::Arme()
 	_degats=3;
 	_portee=4;
 	_munMax=4;
-	_munCurrent=_munMax;
+	_munCurrent=_munMax;//TODO rechargement
 }
 /** Constructeur de Arme qui cree une arme selon differents parametres
  	 * @param tier - "niveau" de l'arme

@@ -5,6 +5,13 @@
  *      Author: Vincent
  */
 
+
+/**
+ * @file Armure.cpp
+ * @brief La classe Armure assure la réduction aux degats infliges a un personnage
+ *
+ */
+
 #include"Armure.h"
 #include<iostream>
 using namespace std;

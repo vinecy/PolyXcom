@@ -26,7 +26,7 @@ class Inventaire
 	public:
 		Inventaire();					//constructeur
 
-		list<Arme>	get_weapons();
+		list<Arme>	get_weapons();		//getters
 		list<Armure>get_armors();
 		Soin		get_medkit();
 		Grenade		get_grenade();

@@ -26,6 +26,8 @@ public:
 	int get_newY( void );
 	string get_nameNextMap( void );
 
+	void display( void );
+
 	virtual ~Portail();
 };
 

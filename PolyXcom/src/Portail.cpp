@@ -31,6 +31,10 @@ string Portail::get_nameNextMap( void ){
 	return _nameNextMap;
 }
 
+void Portail::display( void ){
+	cout << "portail sur " << _nameNextMap << " au coord " << _newX << "," << _newY << endl;
+}
+
 Portail::~Portail() {
 	cout << " - portail de " << _newX << "," << _newY << "dans" << _nameNextMap << " detruit" << endl;
 }

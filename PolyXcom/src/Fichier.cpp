@@ -137,10 +137,6 @@ void Fichier::loadSizeMap(string nameMap, int &x, int &y, bool &dZ){
 void Fichier::loadMap(string nameMap,list<Carte> &listCarte,list<Ennemi> &listEnnemi, list<Hero> &listHero, list<Obstacle> &listObstacle, list<Portail> &listPortail){
 	bool dZ;
 	string mot;
-	list<Ennemi>::iterator ite_e;		//iterateur ennemi
-	list<Hero>::iterator ite_h;			//iterateur hero
-	list<Obstacle>::iterator ite_o;		//iterateur obstacle
-	list<Portail>::iterator ite_p;		//iterateur obstacle
 
 	if(_path){
 		_path.seekg(0,ios::beg);			// Retour au debut du fichier

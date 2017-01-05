@@ -3,8 +3,6 @@ name: Luminy
 	Taille: 5 5 0
 
 	Contenu{
-	 	Hero 0 0 2 0 10 10 10 10 10 Alexis
-	 	Hero 2 2 2 0 10 10 10 10 10 Vincent
 	 	Mur 2 2 1 
 	 	Mur 2 3 1 
 		Mur 3 2 1 
@@ -21,6 +19,7 @@ name: L1
 		Ennemi 2 2 3 0 5 10 10 10 10
 		Mur 0 3 1 
 	 	Mur 2 3 1 
+	 	Portail 0 0 4 0 4 Luminy
 	}
 }
 
@@ -33,6 +32,7 @@ name: L2
 	 	Mur 2 3 1
 	 	Mur 3 3 1
 	 	Mur 4 3 1 
+	 	Portail 3 1 4 4 4 Luminy
 	}
 }
 

@@ -49,8 +49,6 @@ void Partie::newPartie(void){
 void Partie::loadPartie(void){
 	Fichier pathMap("World",0); 	// ouverture en lecture de la carte
 	Fichier pathFile("Save",1); 	// ouverture en lecture et ecriture de la sauvegarde
-	//list<Ennemi>::iterator ite_e;	// itérateur d'ennemi
-	//list<Hero>::iterator   ite_h;	// itérateur de héros
 	string nameCurrentMap;			// nom de la carte actuel
 
 	pathFile.seekMapCurrent(nameCurrentMap);// recherche de la carte actuel dans la sauvegarde
@@ -70,9 +68,13 @@ void Partie::loadPartie(void){
 		(*_ite_c).addItem((*_ite_e));
 	}
 	// ajout des héros sur la carte
-	for(_ite_h = _tank_hero.begin();_ite_h!=_tank_hero.end();_ite_h++){
+	// TODO Hero codé en dur temporairement
+	_tank_hero.push_front(Hero(0,0,2,0,10,11,12,13,14,Inventaire(),"Vincent"));
+	_tank_hero.push_front(Hero(0,1,2,0,9,10,11,12,13,Inventaire(),"Alexis"));
+	for(_ite_h = _tank_hero.begin(); _ite_h!=_tank_hero.end(); _ite_h++){
 		(*_ite_c).addItem((*_ite_h));
 	}
+
 	// ajout des obstacles sur la carte
 	for(_ite_o=_tank_obstacle.begin();_ite_o!=_tank_obstacle.end();_ite_o++){
 		(*_ite_c).addItem((*_ite_o));
@@ -80,6 +82,7 @@ void Partie::loadPartie(void){
 	// ajout des portail sur la carte
 	for(_ite_p=_tank_portail.begin();_ite_p!=_tank_portail.end();_ite_p++){
 		(*_ite_c).addItem((*_ite_p));
+		(*_ite_p).display();
 	}
 	// initialisation de la team d'ennemis sur la carte actuel
 	_team_ennemi.clear();
@@ -102,13 +105,13 @@ void Partie::launchPartie(void){
 		if( isDangerZone == true ){ 					// mode Combat
 			cout << " Alerte! Ennemi en vue! " << endl;
 			this->fightMode();
-			isDangerZone = false;
+			//isDangerZone = false;
 			cout << "gain de niveau " << endl;
 		} else {										// mode Exploration
 			cout << " RAS " << endl;
 			this->explorationMode();
-			isDangerZone = (*_ite_c).get_dangerZone();
 		}
+		isDangerZone = (*_ite_c).get_dangerZone();
 		//exitGame = true;
 	}
 }
@@ -117,14 +120,14 @@ void Partie::savePartie(void){
 
 }
 // TODO
-void Partie::switchMap( int x , int y , string nextMap ){
+void Partie::switchMap( Portail p ){
 	(*_ite_c).removeAllItem();							// on retire tous le monde de la carte sans toucher au conteneur
 	Fichier pathMap("World",0);							// chargement de la prochaine map
 	cout << "chargement de la map" << endl;
-	pathMap.loadMap(nextMap, _tank_carte, _tank_ennemi, _tank_hero, _tank_obstacle, _tank_portail);
+	pathMap.loadMap(p.get_nameNextMap(), _tank_carte, _tank_ennemi, _tank_hero, _tank_obstacle, _tank_portail);
 	cout << "iterateur sur la map" << endl;
 	_ite_c = _tank_carte.begin();						// itérateur sur la nouvelle carte
-	while( ( (*_ite_c).get_nameMap() != nextMap )
+	while( ( (*_ite_c).get_nameMap() != p.get_nameNextMap() )
 		&& ( _ite_c != _tank_carte.end()) ){
 		_ite_c++;
 	}
@@ -142,14 +145,14 @@ void Partie::switchMap( int x , int y , string nextMap ){
 	// ajout des portail sur la carte
 	for(_ite_p=_tank_portail.begin();_ite_p!=_tank_portail.end();_ite_p++){
 		(*_ite_c).addItem((*_ite_p));
+		(*_ite_p).display();
 	}
 
 	(*_ite_c).display();
 	// recherche des points de spawn disponibles sur la carte
-	cout << "recherche des spawn des héros" << endl;
-	list<pair<int,int>> spawnList = (*_ite_c).seekSpawnPoint(x,y,3);
-	list<pair<int,int>>::iterator ite;
-	ite = spawnList.begin();
+	cout << "recherche des spawn pour héros sur "<< p.get_newX() << "," << p.get_newY() << endl;
+	list<pair<int,int>> spawnList = (*_ite_c).seekSpawnPoint(p.get_newX(),p.get_newY(),3);
+	list<pair<int,int>>::iterator ite = spawnList.begin();
 	for( ; ite != spawnList.end() ; ite++ ){
 		cout << (*ite).first << "," << (*ite).second << endl;
 	}
@@ -210,8 +213,9 @@ void Partie::explorationMode(void){
 			(*_ite_c).display();
 			cout << "recherche du portail" << endl;
 			_ite_p = _tank_portail.begin();						// recherche du portail correspondant
-			while( ( (*_ite_p).get_x() != (*_ite_l)->get_x() )
-				&& ( (*_ite_p).get_y() != (*_ite_l)->get_y() )
+			cout << "position du portail : " << (*_ite_p).get_x() << "," << (*_ite_p).get_y() << endl;
+			cout << "position du heros : " <<   (*_ite_l)->get_x() << "," << (*_ite_l)->get_y() << endl;
+			while( ( !( (*_ite_p).get_x() == (*_ite_l)->get_x() )&&( (*_ite_p).get_y() == (*_ite_l)->get_y()) )
 				&& ( _ite_p != _tank_portail.end() )
 			){
 				_ite_p++;
@@ -220,8 +224,10 @@ void Partie::explorationMode(void){
 			int newX = (*_ite_p).get_newX(),					// on extrait les infos de ce portail
 				newY = (*_ite_p).get_newX();
 			string nameNextMap = (*_ite_p).get_nameNextMap();
+			cout << "ce portail pointe vers " << newX << "," << newY << "dans" << nameNextMap << endl;
 			cout << "début du switch" << endl;
-			switchMap(newX, newY, nameNextMap);
+
+			switchMap((*_ite_p));
 		}
 	}
 }
@@ -254,6 +260,24 @@ void Partie::fightMode(void){
 		}
 	}
 	cout << " Combat Fini, tout le monde est mort " << endl;
+
+	for(_ite_p=_tank_portail.begin();_ite_p!=_tank_portail.end();_ite_p++){
+		(*_ite_p).display();
+	}
+
+
+	cout << "recherche du portail" << endl;
+	_ite_p = _tank_portail.begin();						// recherche du portail correspondant
+	(*_ite_p).display();
+	(*_ite_p).display_info();
+	cout << "position du portail : " << (*_ite_p).get_x() << "," << (*_ite_p).get_y() << endl;
+	int newX = (*_ite_p).get_newX(),					// on extrait les infos de ce portail
+		newY = (*_ite_p).get_newX();
+	string nameNextMap = (*_ite_p).get_nameNextMap();
+	cout << "ce portail pointe vers " << newX << "," << newY << "dans" << nameNextMap << endl;
+	cout << "début du switch" << endl;
+
+	switchMap((*_ite_p));
 }
 
 #define DEPLACER 1
@@ -266,7 +290,6 @@ void Partie::fightMode(void){
  	 * */
 void Partie::allieTour(bool &endTour){
 	int choix;
-	//int rep; 						// booléen indiquant la fin du jeu
 	cout<<"\t\t\t\t\t\t\t\tTour allié"<<endl;
 	do{
 		cout<<"\t\t\t\t\t\t\t\tPerso ("<<(*_ite_l)->get_x()<<","<<(*_ite_l)->get_y()<<")"<<endl;

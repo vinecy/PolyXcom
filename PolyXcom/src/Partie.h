@@ -47,7 +47,7 @@ public:
 	void launchPartie( void );				// lance le jeu à partir de la sauvegarde chargé
 	void savePartie( void );				// sauvegarde la partie
 
-	void switchMap( int x , int y , string nextMap );// change de carte actuel
+	void switchMap( Portail p );// change de carte actuel
 	void explorationMode( void );			// définit le mode exploration
 
 	void fightMode( void );					// définit le mode combat

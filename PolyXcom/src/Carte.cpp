@@ -810,24 +810,40 @@ bool Carte::pathIsPossible( int xA, int yA, int xB, int yB ){
 list <pair<int , int>> Carte::seekSpawnPoint(int xA, int yA, int nb){
 	list <pair<int , int>> rep;
 	pair<int , int> tmp;
-	int i,j,		//
-		minX = xA - nb, maxX = xA + nb,	//
-		minY = yA - nb, maxY = yA + nb,	//
-		cont = nb;		//
-	cout << "début recherche" << endl;
-	for(i = minY ; i < maxY && cont!=0 ; i++){
-		for(j = minX ; j < maxX && cont!=0 ; j++){
-			if( !(i==yA && j==xA)
-			 && ( (abs(j - xA) + abs(i - yA)) <= nb )
-			 && ( moveIsPossible(j, i, false) == 1) ){
-				tmp.first = j; tmp.second = i;
-				rep.push_back(tmp);
-				cout << j << " " << i << endl;
-				cont--;
-				cout << cont << endl;
-			}
-		}
+	int i,j,
+		cont;
+	cont = nb;
+	i = (xA + 1);
+	j = yA;
+	if ( (moveIsPossible(i, j, false) == 1) && (cont>0) ){
+		tmp.first = j; tmp.second = i;
+		rep.push_back(tmp);
+		cont--;
 	}
+	i = (xA - 1) ;
+	j = yA ;
+	if ( (moveIsPossible(i, j, false) == 1) && (cont>0)){
+		tmp.first = j; tmp.second = i;
+		rep.push_back(tmp);
+		cont--;
+	}
+	j = (yA + 1);
+	i = xA;
+	if ( (moveIsPossible(i, j, false) == 1) && (cont>0)){
+		tmp.first = j; tmp.second = i;
+		rep.push_back(tmp);
+		cont--;
+	}
+	j = (yA - 1);
+	i = xA;
+	if ( (moveIsPossible(i, j, false) == 1) && (cont>0)){
+		tmp.first = j; tmp.second = i;
+		rep.push_back(tmp);
+		cont--;
+	}
+
+
+
 	return rep;
 }
 

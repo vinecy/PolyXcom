@@ -25,7 +25,7 @@ public:
 
 	void display_info();
 
-	void add_number(int quantity);	//modifie le nombre de grenades disponible
+	void add_number(int quantity);	//modifie le nombre de grenades disponibles
 
 	~Grenade();
 };

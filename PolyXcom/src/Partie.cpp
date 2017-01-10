@@ -466,7 +466,7 @@ bool Partie::bonus_choice( void ){
 							{
 								if(((*_ite_o).get_x()==x)||((*_ite_o).get_y()==y))
 								{
-									(*_ite_o).set_destructuble();//degats sur les obstacles
+									(*_ite_o).set_destructible();//degats sur les obstacles
 								}
 							}
 						}

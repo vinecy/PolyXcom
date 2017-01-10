@@ -23,7 +23,6 @@ private:								// ATTRIBUTS
 	list<Ennemi> 		_tank_ennemi;		// conteneurs pour
 	list<Hero>			_tank_hero;			// le chargement a partir d'un fichier
 	list<Obstacle>  	_tank_obstacle;
-	list<string>  		_collec_carte;		// liste de toutes les cartes du jeu
 	list<Portail>  		_tank_portail;
 
 	list<Personnage*>	_team_hero;			// equipe de heros
@@ -36,7 +35,6 @@ private:								// ATTRIBUTS
 	list<Ennemi>::iterator 		_ite_e;		// iterateur ennemi
 	list<Hero>::iterator 		_ite_h;		// iterateur hero
 	list<Obstacle>::iterator 	_ite_o;		// iterateur obstacle
-	list<string>::iterator 		_ite_nm;	// iterateur nom de carte
 	list<Portail>::iterator		_ite_p;		// iterateur de portail
 public:
 	Partie();							// CONSTRUCTEUR

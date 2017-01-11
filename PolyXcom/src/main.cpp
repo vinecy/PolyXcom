@@ -23,6 +23,7 @@
 #define LOADGAME 2
 #define EXIT 3
 
+
 #include <iostream>			// Bibliothèque pour ka console
 #include <fstream>			// Bibliothèque pour les fichiers
 #include "Partie.h"			// Main utilise la classe Partie pour le chargement du jeu.
@@ -35,6 +36,8 @@ int main(){
 	Partie game;					// Partie contenant le jeu à l'etat actuel
 	bool endPolyXcom = 0;			// booléan indiquant si le jeu est fini ou non (initialement faux)
 	int choix;						// variable indiquant le n° de choix du joueur
+
+
 
 	while(!endPolyXcom){
 		do{

@@ -65,67 +65,6 @@ void Fichier::writeFile(string s){
 	_path << s << endl;
 }
 
-/** La méthode seekAllMap permet de retourner la liste de toutes les cartes du jeu
-	 * @param &listNameMap - addrese de la liste des cartes du jeu où on les stockes
-	 * */
-void Fichier::seekAllMap(list<string> &listNameMap){
-	string mot;
-	if(_path){
-		_path.seekg(0,ios::beg);
-		while( mot != "END" ){				// on verifie chaque mot du fichier
-			_path >> mot;
-			if(mot == "name:"){
-				_path >> mot;
-				listNameMap.push_back(mot);
-			}
-			//cout << mot << endl;
-		}
-	} else {
-		cout << "ERREUR seekMap: Impossible d'ouvrir " << _nameFile << ".txt" << endl;
-	}
-}
-
-/** La méthode loadSizeMap permet de charger la taille de la carte
- * mis en référence pour l'initialisation des niveaux du jeu
-	 * @param nameMap - nom de la carte à initialiser
-	 * @param &x, &y - taille à modifier (dimmension x et y)
-	 * */
-void Fichier::loadSizeMap(string nameMap, int &x, int &y, bool &dZ){
-	int sizeFile;
-	string ligne;
-
-	// Recherche de la Map en question
-	if(_path){
-		_path.seekg(0, ios::end);			// Recherche de la taille du fichier
-		sizeFile = _path.tellg();
-		_path.seekg(0,ios::beg);			// Retour au debut du fichier
-		while( (_path.tellg() != sizeFile)	// Tant qu'on n'arrive pas à la fin du fichier
-			&& (ligne != nameMap) ){	// et qu'on a pas trouvé la carte suivi de {
-			_path >> ligne;					// on verifie chaque mot du fichier
-		}
-		cout << "map trouvé :" << ligne;
-
-		if(_path.tellg() != sizeFile){		// Si carte trouvé
-			while( (ligne != "}")			// Tant qu'on n'arrive pas à }
-				&& (ligne != "Taille:") ){  // et qu'on a pas trouvé l'element Taille
-				_path >> ligne;				// on continue de chercher
-			}
-			cout << "size trouvé :" << ligne;
-			if(_path.tellg() != sizeFile){  // Si taille trouvé
-				_path >> x;
-				_path >> y;
-				_path >> dZ;
-			} else {
-				cout << "ERREUR loadSizeMap: Element \"Taille\" non trouvé" << endl;
-			}
-		} else {
-			cout << "ERREUR loadSizeMap: Carte \""<< nameMap <<"\" non trouvé" << endl;
-		}
-	} else {
-		cout << "ERREUR loadSizeMap: Impossible d'ouvrir " << _nameFile << ".txt" << endl;
-	}
-}
-
 /** La méthode loadMap permet de charger le contenu de la carte
   * mis en référence pour l'initialisation des niveaux du jeu
   	 * @param nameMap - nom de la map à charger
@@ -134,45 +73,37 @@ void Fichier::loadSizeMap(string nameMap, int &x, int &y, bool &dZ){
 	 * @param &listHero - conteneur de Hero à initialiser
 	 * @param &listObstacle - conteneur de Obstacle à initialiser
 	 * */
-void Fichier::loadMap(string nameMap,list<Carte> &listCarte,list<Ennemi> &listEnnemi, list<Hero> &listHero, list<Obstacle> &listObstacle, list<Portail> &listPortail){
+void Fichier::loadMap(string nameMap,Carte &carteActuel,list<Ennemi> &listEnnemi, list<Hero> &listHero, list<Obstacle> &listObstacle, list<Portail> &listPortail){
 	bool dZ;
 	string mot;
-	list<Ennemi>::iterator ite_e;		//iterateur ennemi
-	list<Hero>::iterator ite_h;			//iterateur hero
-	list<Obstacle>::iterator ite_o;		//iterateur obstacle
-	list<Portail>::iterator ite_p;		//iterateur obstacle
 
 	if(_path){
-		_path.seekg(0,ios::beg);			// Retour au debut du fichier
-		while( (mot != "END") && (mot != nameMap) ){
-			while( (mot != "END") && (mot != "name:") ){
-				_path >> mot;					// on verifie chaque mot du fichier
+		_path.seekg(0,ios::beg);							// Retour au debut du fichier
+		while( (mot != "END") && (mot != nameMap) ){		// Curseur du fichier texte sur la ligne
+			while( (mot != "END") && (mot != "name:") ){	// où on a le contenu de la carte ayant le
+				_path >> mot;								// nom nameMap
 			}
 			_path >> mot;
 		}
-		cout << mot << endl;
-		if( mot == (nameMap) ){		// on est bien sur la carte
-			int x,y;
-			// this->loadSizeMap(nameMap, x, y, dZ);
-			_path >> mot;
-			cout << mot << endl;
-			_path >> x;
+		if( mot == (nameMap) ){								// si on est bien sur la carte
+			int x,y;										// on récupere la taille
+			_path >> mot;									// et le booléen indiquant
+			_path >> x;										// si on est dans une zone de danger
 			_path >> y;
 			_path >> dZ;
-			listCarte.push_back(Carte(nameMap, x , y, dZ));
-			listEnnemi.clear();
-			listObstacle.clear();
-			listPortail.clear();
-			cout << "fin reinitialisation des tanks" << endl;
+			carteActuel = (Carte(nameMap, x , y, dZ));		// création de l'objet Carte correspondant
+			listEnnemi.clear();								// init du conteneur d'ennemi
+			listObstacle.clear();							// init du conteneur d'obstacle
+			listPortail.clear();							// init du conteneur de Portail
 			_path >> mot;
-			if(mot == "Contenu{"){			// on est bien dans la partie contenu
-				cout << "recherche du contenu "<< endl;
+			if(mot == "Contenu{"){							// si on est bien dans la partie contenu
+				cout << "recherche du contenu "<< endl;		// rajout du contenu dans les conteneurs
 				int x,y,nX,nY,ID,lev,str,acc,agi,end,luck;
 				string nom,nextMap;
 				_path >> mot;
 				while( mot != "}"){
 					if( mot == "Ennemi" ){
-						_path >> x;
+						_path >> x;							// ajout d'un ennemi
 						_path >> y;
 						_path >> ID;
 						_path >> lev;
@@ -184,7 +115,7 @@ void Fichier::loadMap(string nameMap,list<Carte> &listCarte,list<Ennemi> &listEn
 						listEnnemi.push_front(Ennemi(x,y,ID,lev,str,acc,agi,end,luck,Inventaire()));
 						cout << "ceci est un ennemi" << endl;
 					} else if( mot == "Hero" ){
-						_path >> x;
+						_path >> x;							// ajout d'un héro
 						_path >> y;
 						_path >> ID;
 						_path >> lev;
@@ -197,13 +128,13 @@ void Fichier::loadMap(string nameMap,list<Carte> &listCarte,list<Ennemi> &listEn
 						listHero.push_front(Hero(x,y,ID,lev,str,acc,agi,end,luck,Inventaire(),nom));
 						cout << "ceci est un heros" << endl;
 					} else if( mot == "Mur" ){
-						_path >> x;
+						_path >> x;							// ajout d'un obstacle
 						_path >> y;
 						_path >> ID;
 						listObstacle.push_front(Obstacle(x,y,ID));
 						cout << "ceci est un mur" << endl;
 					} else if( mot == "Portail" ){
-						_path >> x;
+						_path >> x;							// ajout d'un portail
 						_path >> y;
 						_path >> ID;
 						_path >> nX;
@@ -215,7 +146,7 @@ void Fichier::loadMap(string nameMap,list<Carte> &listCarte,list<Ennemi> &listEn
 						cout << "ERREUR loadMap: Element \""<< mot << "\" inconnu" << endl;
 					}
 					_path >> mot;
-				}									// fin de l'analyse de contenu
+				}											// fin de l'analyse de contenu
 				cout << "fin de l'analyse" << endl;
 			} else {
 				cout << "ERREUR loadMap: Atributs \"Contenu{\" non trouvé" << endl;

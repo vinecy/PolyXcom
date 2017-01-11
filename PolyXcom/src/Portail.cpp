@@ -10,7 +10,9 @@
 
 using namespace std;
 
-
+/** Le constructeur Portail initialise le portail qui contient les données pour le changement de map
+  * en cas de franchissement
+  * */
 Portail::Portail(int coordX,int coordY,int ID,int newX,int newY, string nextMap) : Affichable(coordX, coordY, ID){
 	_newX = newX ;
 	_newY = newY ;
@@ -29,6 +31,10 @@ int Portail::get_newY( void ){
 
 string Portail::get_nameNextMap( void ){
 	return _nameNextMap;
+}
+
+void Portail::display( void ){
+	cout << "portail sur " << _nameNextMap << " au coord " << _newX << "," << _newY << endl;
 }
 
 Portail::~Portail() {

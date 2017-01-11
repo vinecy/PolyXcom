@@ -14,19 +14,20 @@
 using namespace std;
 
 class Portail : public Affichable{
-private:
+private:							// ATTRIBUTS
 	int _newX;
 	int _newY;
-	// TODO ouver ou fermé
 	string _nameNextMap;
-public:
+public:								// CONSTRUCTEUR
 	Portail(int coordX, int coordY, int ID, int newX, int newY, string nextMap);
 
-	int get_newX( void );
+	int get_newX( void );			// GETTER
 	int get_newY( void );
 	string get_nameNextMap( void );
 
-	virtual ~Portail();
+	void display( void );
+
+	virtual ~Portail();				// DESTRUCTEUR
 };
 
 #endif /* PORTAIL_H_ */

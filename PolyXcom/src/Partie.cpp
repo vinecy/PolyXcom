@@ -153,8 +153,8 @@ void Partie::switchMap( Portail p ){
 	_mapCurrent.display();
 	// recherche des points de spawn disponibles sur la carte
 	cout << "recherche des spawn pour héros sur "<< p.get_newX() << "," << p.get_newY() << endl;
-	list<pair<int,int>> spawnList = _mapCurrent.seekSpawnPoint(p.get_newX(), p.get_newY(), 3);
-	list<pair<int,int>>::iterator ite = spawnList.begin();
+	list<pair<int,int> > spawnList = _mapCurrent.seekSpawnPoint(p.get_newX(), p.get_newY(), 3);
+	list<pair<int,int> >::iterator ite = spawnList.begin();
 	for( ; ite != spawnList.end() ; ite++ ){
 		cout << (*ite).first << "," << (*ite).second << endl;
 	}

@@ -123,7 +123,7 @@ int Carte::moveIsPossible( int x , int y , bool canCrossMap){
 			rep = 1;											// on peut se déplacer
 		}
 	}
-	return rep;
+	return (rep);
 }
 
 /** La methode move_up deplace un perso vers le Nord
@@ -151,7 +151,7 @@ int Carte::move_up(Personnage &perso, bool isDangerZone)
 		repMove = 0;
 		cout << "erreur" << endl;
 	}
-	return repMove;
+	return (repMove);
 }
 /** La methode move_down deplace un perso vers le Sud
 	 * @param &perso - adresse du perso à déplacer
@@ -178,7 +178,7 @@ int Carte::move_down(Personnage &perso, bool isDangerZone)
 		repMove = 0;
 		cout << "erreur" << endl;
 	}
-	return repMove;
+	return (repMove);
 }
 /** La methode move_left deplace un peros vers l'Ouest
 	 * @param &perso - adresse du perso à déplacer
@@ -205,7 +205,7 @@ int Carte::move_left(Personnage &perso, bool isDangerZone)
 		repMove = 0;
 		cout << "erreur" << endl;
 	}
-	return repMove;
+	return (repMove);
 }
 
 /** La methode move_right deplace un perso vers l'Est
@@ -233,7 +233,7 @@ int Carte::move_right(Personnage &perso, bool isDangerZone)
 		repMove = 0;
 		cout << "erreur" << endl;
 	}
-	return repMove;
+	return (repMove);
 }
 
 /*
@@ -478,7 +478,7 @@ list <pair<int , int> > Carte::pathfinding( int xA , int yA , int xB , int yB ){
 				}
 				if( nextX == xA && nextY == yA ) closeIt == closeList.end();
 			}
-			return pathList;
+			return (pathList);
 		} else {
 		//	cout << "  > Chemin pas encore trouvé " << endl;
 		}
@@ -586,7 +586,7 @@ list <pair<int , int> > Carte::pathfinding( int xA , int yA , int xB , int yB ){
 	}
 	//cout << " * Fin du while " << endl;
 	cout << " Erreur : Impossible d'accéder à la cible " << endl;
-	return pathList;
+	return (pathList);
 }
 
 /** La méthode drawPath permet de tracer un segment entre deux points A et B
@@ -787,7 +787,7 @@ list <pair<int , int> > Carte::drawPath( int xA, int yA, int xB, int yB ){
 			}
 		}
 	}
-	return path;
+	return (path);
 }
 
 /** La méthode pathIsPossible permet de confirmer si le chemin entre deux points
@@ -807,7 +807,7 @@ bool Carte::pathIsPossible( int xA, int yA, int xB, int yB ){
 		rep = (moveIsPossible( (*it).first, (*it).second , false) != 0) ;
 		it++;
 	}
-	return rep;
+	return (rep);
 }
 
 /** La méthode seekSpawnPoint permet de retourner les cases où on peut placer des
@@ -851,7 +851,7 @@ list <pair<int , int> > Carte::seekSpawnPoint(int xA, int yA, int nb){
 		rep.push_back(tmp);
 		cont--;
 	}
-	return rep;
+	return (rep);
 }
 
 
@@ -873,27 +873,27 @@ void Carte::display( void ) {
 /** Retourne la longueur de la carte
  * */
 int Carte::get_sizeX(void){
-	return _sizeX;
+	return (_sizeX);
 }
 
 /** Retourne la largeur de la carte
  * */
 int Carte::get_sizeY(void){
-	return _sizeY;
+	return (_sizeY);
 }
 
 string Carte::get_nameMap(void){
-	return _nameMap;
+	return (_nameMap);
 }
 
 bool Carte::get_dangerZone(void){
-	return _dangerZone;
+	return (_dangerZone);
 }
 
 /** Retourne l'ID de l'objet dans la carte
  * */
 int Carte::get_IDin(int x, int y){
-	return _map[x][y]->get_ID();
+	return (_map[x][y]->get_ID());
 }
 
 void Carte::set_sizeX(int value){

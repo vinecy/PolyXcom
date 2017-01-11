@@ -26,12 +26,12 @@
 #include <iostream>			// Bibliothèque pour ka console
 #include <fstream>			// Bibliothèque pour les fichiers
 #include "Partie.h"			// Main utilise la classe Partie pour le chargement du jeu.
-
+#include <SFML/Graphics.hpp>
 int chooseMain();			// gère le choix de l'action à faire par le joueur
 
 int main(){
 	cout << " lancement de PolyXcom " << endl;
-
+	//sf::RenderWindow app(sf::VideoMode(800,600,32),"cc");
 	Partie game;					// Partie contenant le jeu à l'etat actuel
 	bool endPolyXcom = 0;			// booléan indiquant si le jeu est fini ou non (initialement faux)
 	int choix;						// variable indiquant le n° de choix du joueur

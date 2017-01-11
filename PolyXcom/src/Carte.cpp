@@ -595,7 +595,7 @@ list <pair<int , int> > Carte::pathfinding( int xA , int yA , int xB , int yB ){
  	 * @param xB,yB - Point d'arrivée
  	 * @return - retourne une liste de paires de coordonnées correspondant au segment tracé
  	 * */
-list <pair<int , int>> Carte::drawPath( int xA, int yA, int xB, int yB ){
+list <pair<int , int> > Carte::drawPath( int xA, int yA, int xB, int yB ){
 	list <pair<int , int> > path;	// liste de paire de coordonnées representant le segment tracé
 	pair<int , int> coord;			// paire de coordonnées x,y
 	int dx, dy;

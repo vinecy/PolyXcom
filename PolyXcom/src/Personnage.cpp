@@ -89,26 +89,9 @@ int Personnage::get_rotation(void){
 	return(_rotation);
 }
 
-Inventaire Personnage::get_inv(void){
-	return(_inv);
+Inventaire* Personnage::get_inv(void){
+	return(&_inv);
 }
-
-Arme Personnage::get_weapon(void){
-	return(_inv.get_weapons().front());
-}
-
-Armure Personnage::get_armor(void){
-	return(_inv.get_armors().front());
-}
-
-Soin Personnage::get_medkit(void){
-	return(_inv.get_medkit());
-}
-
-Grenade Personnage::get_grenade(void){
-	return(_inv.get_grenade());
-}
-
 
 void Personnage::set_pvMax(int pv)		//setters
 {
@@ -142,14 +125,19 @@ void Personnage::display_info(void)
 /** la methode use_medkit permet a un personnage de regagner de la vie en utilisant un medkit*/
 void Personnage::use_medkit()
 {
-	_pvCurrent=_pvCurrent+_inv.get_medkit().get_heal();
-	_inv.get_medkit().add_uses(-1);
+	_pvCurrent=_pvCurrent+_inv.get_medkit()->get_heal();
+	if(_pvCurrent>_pvMax)
+	{
+		_pvCurrent=_pvMax;
+	}
+	_inv.get_medkit()->add_uses(-1);
 	_paCurrent=_paCurrent-2;
 }
 
 void Personnage::reload()
 {
-	//_inv_armes.set_munCurrent(_inv_armes.get_munMax());
+	this->_inv.get_weapon_c()->set_munCurrent(_inv.get_weapon_c()->get_munMax());
+	_paCurrent=_paCurrent-4;
 }
 
 

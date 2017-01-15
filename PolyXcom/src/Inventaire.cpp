@@ -18,6 +18,8 @@
 /** Le constructeur Inventaire construit un Inventaire avec initialisation des attributs*/
 Inventaire::Inventaire()
 {
+	_inv_armor_c=Armure();
+	_inv_weapon_c=Arme();
 	_inv_weapons.push_front(Arme());
 	_inv_armors.push_front(Armure());
 	_inv_medkit=Soin();
@@ -34,14 +36,24 @@ list<Arme> Inventaire::get_weapons()
 	return(_inv_weapons);
 }
 
-Soin Inventaire::get_medkit()
+Arme* Inventaire::get_weapon_c()
 {
-	return(_inv_medkit);
+	return(&_inv_weapon_c);
 }
 
-Grenade Inventaire::get_grenade()
+Armure* Inventaire::get_armor_c()
 {
-	return(_inv_grenade);
+	return(&_inv_armor_c);
+}
+
+Soin* Inventaire::get_medkit()
+{
+	return(&_inv_medkit);
+}
+
+Grenade* Inventaire::get_grenade()
+{
+	return(&(_inv_grenade));
 }
 
 /**Destucteur Inventaire*/

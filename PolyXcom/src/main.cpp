@@ -38,7 +38,6 @@ int main(){
 	int choix;						// variable indiquant le n° de choix du joueur
 
 
-
 	while(!endPolyXcom){
 		do{
 			choix = chooseMain();	// appel au choix de l'action à faire

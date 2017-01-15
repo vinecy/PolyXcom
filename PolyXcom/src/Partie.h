@@ -44,7 +44,7 @@ public:
 	void launchPartie( void );				// lance le jeu à partir de la sauvegarde chargé
 	void savePartie( void );				// sauvegarde la partie
 
-	void switchMap( Portail p );// change de carte actuel
+	void switchMap( Portail p );			// change de carte actuel
 	void explorationMode( void );			// définit le mode exploration
 
 	void fightMode( void );					// définit le mode combat
@@ -52,6 +52,7 @@ public:
 	int main_switch ( void );				// invite le joueur au choix de l'action à faire
 	int move_choice( bool withUsePA );		// gère le déplacement du personnage selon le mode
 	bool bonus_choice( void );
+	bool reload( void );
 	int move_switch ( void );				// invite le joueur au choix du mouvement à faire
 	bool shoot_choice( void );				// gère le choix de la cible à attaquer à distance
 	bool close_combat_choice( void );		// gère le choix de la cible à attaquer au corps à corps

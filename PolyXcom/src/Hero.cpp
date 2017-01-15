@@ -31,7 +31,7 @@ using namespace std;
 	 * @param nom - Nom du Hero*/
 Hero::Hero(int x,int y,int ID,int lev,int str,int acc,int agi,int end,int luck,Inventaire inv,string nom):Personnage(x,y,ID,lev,str,acc,agi,end,luck,inv)
 {
-	_nom=nom;//TODO cont ref string
+	_nom=nom;
 	cout << " + Personnage hero crée" << endl;
 }
 
@@ -63,17 +63,11 @@ void Hero::close_combat(list<Personnage*> proch)
 	{
 		cout<<"Pas d'ennemi proche"<<endl;
 	}
-	else if(proch.size()==1)//1 ennemi adjacent, attaque au cac
-	{
-		proch.front()->set_pvCurrent(proch.front()->get_pvCurrent()-2);
-		cout<<proch.front()->get_pvCurrent()<<"/"<<proch.front()->get_pvMax();
-		_paCurrent=_paCurrent-3;
-	}
-	else// + de 1 ennemis, selection de la cible
+	else// ennemis, selection de la cible
 	{
 		list<Personnage*>::iterator ite;
 		ite=proch.begin();
-		cout<<"\t\tplus de 1 ennemi :"<<endl;
+		cout<<"\t\tplus  ennemis valides :"<<endl;
 		int taille = proch.size();
 		int compteur=0;
 		int choix3;
@@ -82,13 +76,17 @@ void Hero::close_combat(list<Personnage*> proch)
 		{
 			compteur++;
 			cout<<"Ennemi sélectionné= "<<(*ite)->get_pvCurrent()<<"/"<<(*ite)->get_pvMax()<<endl;
-			cout<<"Ennemi sélectionné= "<<(*ite)->get_paCurrent()<<"/"<<(*ite)->get_paMax()<<endl;
+			cout<<"Coord= "<<(*ite)->get_x()<<"/"<<(*ite)->get_y()<<endl;
 			cout<<"\t\t tapez 0 pour frapper cet ennemi"<<endl;
 			cout<<"\t\t taper 1 pour changer d'ennemi"<<endl;
 			cin>>choix3;
 			if(!choix3)
 			{
-				(*ite)->set_pvCurrent((*ite)->get_pvCurrent()-2);
+				(*ite)->set_pvCurrent((*ite)->get_pvCurrent()-3);
+				if((*ite)->get_pvCurrent()<0)
+				{
+					(*ite)->set_pvCurrent(0);
+				}
 				cout<<"Ennemi touché! "<<(*ite)->get_pvCurrent()<<"/"<<(*ite)->get_pvMax()<<endl; // affichage des PV restants
 				_paCurrent=_paCurrent-3;
 				fini=1;
@@ -100,6 +98,7 @@ void Hero::close_combat(list<Personnage*> proch)
 				}
 				else{
 					fini=1;
+					cout<<"\t\t Annulation"<<endl;
 				}
 
 			}
@@ -115,17 +114,11 @@ void Hero::shoot(list<Personnage*> in_range)
 	{
 		cout<<"Pas d'ennemi a portée"<<endl;
 	}
-	else if(in_range.size()==1)// un seul ennemi, tir
-	{
-		in_range.front()->set_pvCurrent(in_range.front()->get_pvCurrent()-4);
-		cout<<in_range.front()->get_pvCurrent()<<"/"<<in_range.front()->get_pvMax();
-		_paCurrent=_paCurrent-4;
-	}
 	else
 	{
 		list<Personnage*>::iterator ite;
 		ite=in_range.begin();
-		cout<<"\t\tplus de 1 ennemi :"<<endl;
+		cout<<"\t\t ennemis valides :"<<endl;
 		int taille = in_range.size();
 		int compteur=0;
 		int choix;
@@ -134,21 +127,21 @@ void Hero::shoot(list<Personnage*> in_range)
 		{
 			compteur++;
 			cout<<"Ennemi sélectionné= "<<(*ite)->get_pvCurrent()<<"/"<<(*ite)->get_pvMax()<<endl;
-			cout<<"\t\t tapez 0 pour frapper cet ennemi"<<endl;
+			cout<<"Coord= "<<(*ite)->get_x()<<"/"<<(*ite)->get_y()<<endl;
+			cout<<"\t\t tapez 0 pour tirer sur cet ennemi"<<endl;
 			cout<<"\t\t taper 1 pour changer d'ennemi"<<endl;
 			cin>>choix;
 			if(!choix)
 			{
 				(*ite)->set_pvCurrent((*ite)->get_pvCurrent()-4);
-				if((*ite)->get_pvCurrent()<1)
+				if((*ite)->get_pvCurrent()<0)
 				{
-					cout<<"Ennemi tué! "<<endl;
+					(*ite)->set_pvCurrent(0);
 				}
-				else
-				{
-					cout<<"Ennemi touché! "<<(*ite)->get_pvCurrent()<<"/"<<(*ite)->get_pvMax()<<endl;//Affichage des PV restants
-				}
+				cout<<"Ennemi touché! "<<(*ite)->get_pvCurrent()<<"/"<<(*ite)->get_pvMax()<<endl; // affichage des PV restants
 				_paCurrent=_paCurrent-4;
+				(*ite)->get_inv()->get_weapon_c()->set_munCurrent((*ite)->get_inv()->get_weapon_c()->get_munCurrent()-1);
+				(*ite)->get_inv()->get_weapon_c()->display_info();
 				fini=1;
 			}else{
 
@@ -158,6 +151,7 @@ void Hero::shoot(list<Personnage*> in_range)
 				}
 				else{
 					fini=1;
+					cout<<"\t\t Annulation"<<endl;
 				}
 
 			}

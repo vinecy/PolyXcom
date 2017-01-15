@@ -28,9 +28,55 @@ using namespace std;
 
 /** Le constructeur Partie crée la partie en cours
   * */
-Partie::Partie() {
+Partie::Partie(int choix) {
 	cout << " + Partie construite " << endl;
+	if( choix == 1 ){
+		newPartie();		// reinitialisation de la sauvegarde
+		loadPartie();		// chargement du jeu
+		launchPartie();		// lancement du jeu
+	} else if( choix == 2 ){
+		loadPartie();		// chargement du jeu
+		launchPartie();		// lancement du jeu
+	} else {
+		cout << "ERREUR: choix erroné" << endl;
+	}
 }
+
+/*** ******************************************************************************************************** ***/
+/*** *********************** METHODES HERITES DE IHMstate *************************************************** ***/
+/*** ******************************************************************************************************** ***/
+
+void Partie::Init(){
+
+}
+/*
+void Cleanup(){
+	cout << " ... Fermeture du Menu " << endl;
+}*/
+
+void Partie::Pause(){
+
+}
+
+void Partie::Resume(){
+	Init();
+}
+
+void Partie::HandleEvents(IHMmanager* game){
+
+
+}
+void Partie::Update(IHMmanager* game){
+
+}
+
+void Partie::Draw(IHMmanager* game){
+
+}
+
+/*** ******************************************************************************************************** ***/
+/*** ******************************************************************************************************** ***/
+/*** ******************************************************************************************************** ***/
 
 /** La méthode newPartie permet d'initialiser le fichier contenant la sauvegarde
   * du joueur

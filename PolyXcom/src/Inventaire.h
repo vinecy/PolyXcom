@@ -20,6 +20,8 @@ class Inventaire
 	private:
 		list<Arme>	_inv_weapons;		//liste d'arme possedee par le personnage
 		list<Armure>_inv_armors;		//liste d'armure possedee par le personnage
+		Arme 		_inv_weapon_c;		//Arme actuelle
+		Armure		_inv_armor_c;		//Armure actuelle
 		Soin		_inv_medkit;		//medkit possedes par le personnage
 		Grenade		_inv_grenade;		//grenades possedees par le personnage
 
@@ -28,8 +30,10 @@ class Inventaire
 
 		list<Arme>	get_weapons();		//getters
 		list<Armure>get_armors();
-		Soin		get_medkit();
-		Grenade		get_grenade();
+		Arme* 		get_weapon_c();
+		Armure* 	get_armor_c();
+		Soin*		get_medkit();
+		Grenade*	get_grenade();
 
 		~Inventaire();					//destructeur
 };

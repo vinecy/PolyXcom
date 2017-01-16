@@ -337,9 +337,36 @@ void Partie::fightMode(void){
 		_ite_l=_team_ennemi.begin();		//_ite_l est l'ennemi actuel
 		while(end_team(_team_ennemi)){		//tour des ennemis
 			cout<<"\t\t\t\t\t\t\t\tTour ennemi"<<endl;
-			for(_ite=_team_ennemi.begin();_ite!=_team_ennemi.end();_ite++)
+			for(_ite_l=_team_ennemi.begin();_ite_l!=_team_ennemi.end();_ite_l++)
 			{
-				(*_ite)->set_paCurrent(0);	//mise a 0 des PA des ennemis (passe le tour) TODO IA
+				//(*_ite)->set_paCurrent(0);	//mise a 0 des PA des ennemis (passe le tour)
+				list<Personnage*> in_range;	//creation de liste qui contiendra les ennemis a porte de tir
+				for(_ite=_team_hero.begin();_ite!=_team_hero.end();_ite++){//TODO fonction?
+					if(_mapCurrent.pathIsPossible((*_ite_l)->get_x(),(*_ite_l)->get_y(),(*_ite)->get_x(),(*_ite)->get_y())){
+						in_range.push_front((*_ite));
+					}
+				}
+				if((*_ite_l)->get_inv()->get_weapon_c()->get_munCurrent()==0 && (*_ite_l)->get_paCurrent()>4)
+				{
+					cout<<"je recharge"<<endl;
+					(*_ite_l)->reload();
+				}
+				else if(((*_ite_l)->near(_team_hero)).size()!=0 && (*_ite_l)->get_paCurrent()>2)
+				{
+					cout<<"je tape"<<endl;
+					list <Personnage*> temp = (*_ite_l)->near(_team_hero);
+					(*_ite_l)->close_combat(temp);
+				}
+				else if(in_range.size()!=0 && (*_ite_l)->get_paCurrent()>4)
+				{
+					cout<<"je tire!"<<endl;
+					(*_ite_l)->shoot(in_range);
+				}
+				else
+				{
+					cout<<"me deplacer"<<endl;//TODO deplacement
+				}
+				(*_ite_l)->set_paCurrent(0);
 			}
 		}
 		for(_ite=_team_ennemi.begin();_ite!=_team_ennemi.end();_ite++){
@@ -369,9 +396,10 @@ void Partie::fightMode(void){
 
 #define DEPLACER 1
 #define TIRER 2
-#define CC 3
-#define BONUS 4
-#define CHANGER 5
+#define RECHARGER 3
+#define CC 4
+#define BONUS 5
+#define CHANGER 6
 /** La méthode allieTour définit le tour de l'allié et indique si c'est la fin du tour
  	 * @param &endTour - adresse du booléen qui indique si c'est la fin du tour ou pas
  	 * */
@@ -389,6 +417,9 @@ void Partie::allieTour(bool &endTour){
 				break;
 			case TIRER :
 				endTour = this->shoot_choice();
+				break;
+			case RECHARGER :
+				endTour = this->reload();
 				break;
 			case CC :
 				endTour = this->close_combat_choice();
@@ -421,6 +452,7 @@ int Partie::main_switch ( void ){
 	do {
 		cout << "\nQue voulez-vous faire : \n " << DEPLACER << " - Se deplacer " << endl;
 		cout << " " << TIRER  << " - Tirer " << endl;
+		cout << " " << RECHARGER  << " - Recharger " << endl;
 		cout << " " << CC << " - Corps à Corps " << endl;
 		cout << " " << BONUS << " - Utiliser un Bonus " << endl;
 		cout << " " << CHANGER << " - Changer de Personnage " << endl;
@@ -491,7 +523,7 @@ int Partie::move_switch ( void ){
  	 * @return elle retourne "vrai" si il n'y a plus d'ennemis et "false" sinon
  	 * */
 bool Partie::shoot_choice( void ){
-	if((*_ite_l)->get_paCurrent()>=4){
+	if((*_ite_l)->get_paCurrent()>=4 && (*_ite_l)->get_inv()->get_weapon_c()->get_munCurrent()>0){
 		list<Personnage*> in_range;	//creation de liste qui contiendra les ennemis a porte de tir
 		for(_ite=_team_ennemi.begin();_ite!=_team_ennemi.end();_ite++){
 			if(_mapCurrent.pathIsPossible((*_ite_l)->get_x(),(*_ite_l)->get_y(),(*_ite)->get_x(),(*_ite)->get_y())){
@@ -513,6 +545,14 @@ bool Partie::shoot_choice( void ){
 		}
 	}
 	return false;
+}
+
+bool Partie::reload()
+{
+	if((*_ite_l)->get_paCurrent()>=4){
+		(*_ite_l)->reload();
+	}
+	return(false);
 }
 
 /** La méthode close_combat_choice gère le système de tir au càc du héros en action dans le tour.
@@ -543,6 +583,8 @@ bool Partie::close_combat_choice( void ){
 bool Partie::bonus_choice( void ){
 	int choice;
 	cout<<" Taper 1 pour utiliser un medkit\n Tapez 2 pour utiliser une grenade\n Taper 0 pour quiter\n>"<<endl;
+	(*_ite_l)->get_inv()->get_grenade()->add_number(1);
+	cout<<(*_ite_l)->get_inv()->get_grenade()->get_number()<<" grenades et "<<(*_ite_l)->get_inv()->get_medkit()->get_uses()<<" medkit"<<endl;
 	cin >> choice;
 	if(choice==1)
 	{
@@ -551,8 +593,7 @@ bool Partie::bonus_choice( void ){
 	}
 	else if(choice==2)
 	{
-		//(*_ite_l)->get_inv().get_grenade().display_info();
-		if((*_ite_l)->get_grenade().get_number()>=0)
+		if((*_ite_l)->get_inv()->get_grenade()->get_number()>0)
 		{
 			int x;
 			int y;
@@ -560,38 +601,62 @@ bool Partie::bonus_choice( void ){
 			cin >> x;
 			cout<<" >";
 			cin >> y;
+			cout<< "\nX= "<<x<<" Y= "<<y<<endl;
 			if(_mapCurrent.moveIsPossible(x,y,0)) //si il peux lancer la grenade
 			{
 				cout<<"possible!";
 				list<Personnage*>::iterator p;
 				int xcompt;
 				int ycompt;
-				for(xcompt=x-1;xcompt<x+1;xcompt++)
+				for(xcompt=x-(*_ite_l)->get_inv()->get_grenade()->get_range();xcompt<=x+(*_ite_l)->get_inv()->get_grenade()->get_range();xcompt++)
 				{
-					for(ycompt=y-1;ycompt<y+1;ycompt++)
+					for(ycompt=y-(*_ite_l)->get_inv()->get_grenade()->get_range();ycompt<=y+(*_ite_l)->get_inv()->get_grenade()->get_range();ycompt++)
 					{
-						if(_mapCurrent.get_IDin(xcompt, ycompt)==1)
+						if( !((xcompt < 0) || (xcompt >= _mapCurrent.get_sizeX()) || (ycompt < 0) || (ycompt >= _mapCurrent.get_sizeY())))
 						{
-							for(_ite_o=_tank_obstacle.begin();_ite_o!=_tank_obstacle.end();_ite_o++)
+							cout<<"\n\tX= "<<xcompt<<" Y= "<<ycompt<<endl;
+							if(_mapCurrent.get_IDin(xcompt, ycompt)==1)
 							{
-								if(((*_ite_o).get_x()==x)||((*_ite_o).get_y()==y))
+								for(_ite_o=_tank_obstacle.begin();_ite_o!=_tank_obstacle.end();_ite_o++)
 								{
-									(*_ite_o).set_destructible();//degats sur les obstacles
+
+									if(((*_ite_o).get_x()==x)||((*_ite_o).get_y()==y))
+									{
+										cout<<"Cet obstacle est modifié X= "<<(*_ite_o).get_x()<<" Y= "<<(*_ite_o).get_y()<<endl;
+										(*_ite_o).set_destructible();//degats sur les obstacles
+										(*_ite_o).display_info();
+									}
 								}
 							}
-						}
-						else if(_mapCurrent.get_IDin(xcompt, ycompt)==2)
-						{
-							for(p = _team_hero.begin() ; p != _team_hero.end() ; p++)
+							else if(_mapCurrent.get_IDin(xcompt, ycompt)==2)
 							{
-								if((*p)->get_x()==x||(*p)->get_y()==y)
-								{								//degats sur les personnages
-									(*p)->set_pvCurrent((*p)->get_pvCurrent()-(*_ite_l)->get_grenade().get_dammage());
+								for(p = _team_hero.begin() ; p != _team_hero.end() ; p++)
+								{
+									if((*p)->get_x()==x||(*p)->get_y()==y)
+									{								//degats sur les heros
+										cout<<"Ce hero est touché X= "<<(*p)->get_x()<<" Y= "<<(*p)->get_y()<<endl;
+										(*p)->set_pvCurrent((*p)->get_pvCurrent()-(*_ite_l)->get_inv()->get_grenade()->get_dammage());
+										(*p)->display_info();
+									}
+								}
+							}
+							else if(_mapCurrent.get_IDin(xcompt, ycompt)==3)
+							{
+								for(p = _team_ennemi.begin() ; p != _team_ennemi.end() ; p++)
+								{
+									if((*p)->get_x()==x||(*p)->get_y()==y)
+									{								//degats sur les ennemis
+										cout<<"Cet ennemis est touché X= "<<(*p)->get_x()<<" Y= "<<(*p)->get_y()<<endl;
+										(*p)->set_pvCurrent((*p)->get_pvCurrent()-(*_ite_l)->get_inv()->get_grenade()->get_dammage());
+										(*p)->display_info();
+									}
 								}
 							}
 						}
+						else{cout<<"Pas traitéX= "<<xcompt<<" Y= "<<ycompt<<endl;}
 					}
 				}
+				(*_ite_l)->get_inv()->get_grenade()->add_number(-1);
 				if(_team_ennemi.size()==0){
 					return true;
 				}

@@ -28,7 +28,7 @@ Grenade::Grenade()
 void Grenade::add_number(int q)
 {
 	cout << _number << endl;
-	_number=_number+q;//TODO NON FCT
+	_number=_number+q;
 	cout << _number << endl;
 }
 
@@ -40,6 +40,11 @@ int Grenade::get_dammage()
 int Grenade::get_number()
 {
 	return(_number);
+}
+
+int Grenade::get_range()
+{
+	return(_range);
 }
 
 /** La méthode display_info permet d'afficher les attributs de celui qui l'invoque dans la console */

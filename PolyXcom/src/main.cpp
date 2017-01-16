@@ -30,7 +30,6 @@
 #include "IHMmanager.h"
 #include "Menu.h"
 
-int chooseMain();			// gère le choix de l'action à faire par le joueur
 
 int main(){
 	cout << " lancement de PolyXcom " << endl;
@@ -50,9 +49,11 @@ int main(){
 		ihm.Draw();
 	}
 /*
+>>>>>>> refs/remotes/origin/master
 	Partie game;					// Partie contenant le jeu à l'etat actuel
 	bool endPolyXcom = 0;			// booléan indiquant si le jeu est fini ou non (initialement faux)
 	int choix;						// variable indiquant le n° de choix du joueur
+
 
 	while(!endPolyXcom){
 		do{

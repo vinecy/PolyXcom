@@ -22,6 +22,7 @@ public:
 
 	int get_dammage();		//getter
 	int get_number();
+	int get_range();
 
 	void display_info();
 

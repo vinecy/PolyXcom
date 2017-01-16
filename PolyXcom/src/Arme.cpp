@@ -23,7 +23,7 @@ Arme::Arme()
 	_degats=3;
 	_portee=4;
 	_munMax=4;
-	_munCurrent=_munMax;//TODO rechargement
+	_munCurrent=_munMax;
 }
 /** Constructeur de Arme qui cree une arme selon differents parametres
  	 * @param tier - "niveau" de l'arme
@@ -64,7 +64,7 @@ void Arme::set_munCurrent(int i)			//setter
 /** La méthode display_info permet d'afficher les attributs de celui qui l'invoque dans la console */
 void Arme::display_info(void)
 {
-	cout<<"Arme(Tier= "<<_tier<<" Degats= "<<_degats<<" Portee= "<<_portee<<")"<<endl;
+	cout<<"Arme(Tier= "<<_tier<<" Degats= "<<_degats<<" Portee= "<<_portee<<" mun "<<_munCurrent<<" )"<<endl;
 }
 
 /** Le destructeur Arme*/

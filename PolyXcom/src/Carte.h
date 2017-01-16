@@ -42,10 +42,10 @@ class Carte {
 		void removeAllItem( void );								// Enlève tous les objets de la carte
 		void moveItemTo(int oldX,int oldY,int newX,int newY);	// Déplace l'affichable de la case (x,y) à la nouvelle case
 		void moveItemToWithMoveAnim(int oldX,int oldY,int newX,int newY);// Comme précedement mais l'animation du déplacement
-		list<pair<int,int>> pathfinding(int xA,int yA,int xB,int yB );	 // Recherche le meilleur chemin vers xB,yB et renvoie le chemin à faire
-		list<pair<int,int>> drawPath(int xA,int yA,int xB,int yB );		 // trace la trajectoire entre le point xA,yA et le point xB,yB
+		list<pair<int,int> > pathfinding(int xA,int yA,int xB,int yB );	 // Recherche le meilleur chemin vers xB,yB et renvoie le chemin à faire
+		list<pair<int,int> > drawPath(int xA,int yA,int xB,int yB );		 // trace la trajectoire entre le point xA,yA et le point xB,yB
 		bool pathIsPossible( int xA, int yA, int xB, int yB );	// determine si le segment entre le point xA,yA et le point xB,yB ne présente pas d'obstacle
-		list<pair<int,int>> seekSpawnPoint(int x,int y,int nb);	// determine les cases où les personnages peuvent se déplacer en x,y
+		list<pair<int,int> > seekSpawnPoint(int x,int y,int nb);	// determine les cases où les personnages peuvent se déplacer en x,y
 		//list<Personnage*> near(list<Personnage*> team);
 
 		void display(void);										// Permet d'afficher la carte

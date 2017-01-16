@@ -14,11 +14,13 @@
 #include "Carte.h"
 #include "Portail.h"
 #include "Fichier.h"
+#include "IHMstate.h"
+#include <SFML/Graphics.hpp>
 
 using namespace std;
 
 
-class Partie {
+class Partie : public IHMstate {
 private:								// ATTRIBUTS
 	list<Ennemi> 		_tank_ennemi;		// conteneurs pour
 	list<Hero>			_tank_hero;			// le chargement a partir d'un fichier
@@ -37,7 +39,17 @@ private:								// ATTRIBUTS
 	list<Obstacle>::iterator 	_ite_o;		// iterateur obstacle
 	list<Portail>::iterator		_ite_p;		// iterateur de portail
 public:
-	Partie();							// CONSTRUCTEUR
+	Partie(int);							// CONSTRUCTEUR
+										// METHODES Hérités
+	void Init();
+	void CleanUp();
+
+	void Pause();
+	void Resume();
+
+	void HandleEvents(IHMmanager* game);
+	void Update(IHMmanager* game);
+	void Draw(IHMmanager* game);
 										// METHODES
 	void newPartie( void );					// réinitialise la sauvegarde
 	void loadPartie( void );				// charge la sauvegarde

@@ -25,14 +25,38 @@
 
 
 #include <iostream>			// Bibliothèque pour ka console
-#include <fstream>			// Bibliothèque pour les fichiers
 #include "Partie.h"			// Main utilise la classe Partie pour le chargement du jeu.
 #include <SFML/Graphics.hpp>
+<<<<<<< HEAD
+=======
+#include "IHMmanager.h"
+#include "Menu.h"
+
+>>>>>>> refs/remotes/origin/master
 int chooseMain();			// gère le choix de l'action à faire par le joueur
 
 int main(){
 	cout << " lancement de PolyXcom " << endl;
+<<<<<<< HEAD
 	//sf::RenderWindow app(sf::VideoMode(800,600,32),"cc");
+=======
+
+	RenderWindow window( VideoMode(VideoMode::getDesktopMode().width
+								  ,VideoMode::getDesktopMode().height
+								  ,VideoMode::getDesktopMode().bitsPerPixel)
+						, "PolyXcom"
+						, Style::Close | Style::Titlebar );
+	IHMmanager ihm(window);
+	ihm.PushState( new Menu() );
+
+	while(ihm.isRunning())
+	{
+		ihm.HandleEvents();
+		ihm.Update();
+		ihm.Draw();
+	}
+/*
+>>>>>>> refs/remotes/origin/master
 	Partie game;					// Partie contenant le jeu à l'etat actuel
 	bool endPolyXcom = 0;			// booléan indiquant si le jeu est fini ou non (initialement faux)
 	int choix;						// variable indiquant le n° de choix du joueur
@@ -60,7 +84,7 @@ int main(){
 				break;
 			}
 		} while( choix != EXIT );
-	}
+	}*/
 }
 
 /* La fonction chooseMain permet de gérer le choix de l'action à faire par le joueur.

@@ -1,12 +1,5 @@
+<<<<<<< HEAD
 mapCurrent: Luminy
-
-ListHero: 
-
-WarpClosed: 
-
-// tank_hero les stats et l'inventaire de tous les heros (ceux dans l'équipe) 
-
-// liste des portails fermés (sur la Map Luminy) 
-
-
-// téléport direct après combat -> pas d'exploration après le combat
+=======
+mapCurrent: Luminy
+>>>>>>> refs/remotes/origin/master

@@ -40,11 +40,7 @@ public:
 	int get_pvCurrent(void);
 	int get_paCurrent(void);
 	int get_rotation(void);
-	Inventaire get_inv(void);
-	Arme get_weapon(void);
-	Armure get_armor(void);
-	Soin get_medkit(void);
-	Grenade get_grenade(void);
+	Inventaire* get_inv(void);
 
 
 	void set_pvMax(int pv);	//setters

@@ -12,7 +12,6 @@
 class Soin
 {
 private:
-	//TODO pourcentage de vie du hero ?
 	int _heal;	//nombre de point de vie soigne par un medkit
 	int _uses;	// utilisation de medkit restants
 

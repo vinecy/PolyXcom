@@ -14,11 +14,13 @@
 #include "Carte.h"
 #include "Portail.h"
 #include "Fichier.h"
+#include "IHMstate.h"
+#include <SFML/Graphics.hpp>
 
 using namespace std;
 
 
-class Partie {
+class Partie : public IHMstate {
 private:								// ATTRIBUTS
 	list<Ennemi> 		_tank_ennemi;		// conteneurs pour
 	list<Hero>			_tank_hero;			// le chargement a partir d'un fichier
@@ -37,14 +39,24 @@ private:								// ATTRIBUTS
 	list<Obstacle>::iterator 	_ite_o;		// iterateur obstacle
 	list<Portail>::iterator		_ite_p;		// iterateur de portail
 public:
-	Partie();							// CONSTRUCTEUR
+	Partie(int);							// CONSTRUCTEUR
+										// METHODES Hérités
+	void Init();
+	void CleanUp();
+
+	void Pause();
+	void Resume();
+
+	void HandleEvents(IHMmanager* game);
+	void Update(IHMmanager* game);
+	void Draw(IHMmanager* game);
 										// METHODES
 	void newPartie( void );					// réinitialise la sauvegarde
 	void loadPartie( void );				// charge la sauvegarde
 	void launchPartie( void );				// lance le jeu à partir de la sauvegarde chargé
 	void savePartie( void );				// sauvegarde la partie
 
-	void switchMap( Portail p );// change de carte actuel
+	void switchMap( Portail p );			// change de carte actuel
 	void explorationMode( void );			// définit le mode exploration
 
 	void fightMode( void );					// définit le mode combat
@@ -52,6 +64,7 @@ public:
 	int main_switch ( void );				// invite le joueur au choix de l'action à faire
 	int move_choice( bool withUsePA );		// gère le déplacement du personnage selon le mode
 	bool bonus_choice( void );
+	bool reload( void );
 	int move_switch ( void );				// invite le joueur au choix du mouvement à faire
 	bool shoot_choice( void );				// gère le choix de la cible à attaquer à distance
 	bool close_combat_choice( void );		// gère le choix de la cible à attaquer au corps à corps

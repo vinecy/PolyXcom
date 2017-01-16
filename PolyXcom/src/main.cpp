@@ -34,6 +34,7 @@
 int main(){
 	cout << " lancement de PolyXcom " << endl;
 
+
 	RenderWindow window( VideoMode(VideoMode::getDesktopMode().width
 								  ,VideoMode::getDesktopMode().height
 								  ,VideoMode::getDesktopMode().bitsPerPixel)

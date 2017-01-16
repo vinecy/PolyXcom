@@ -27,19 +27,13 @@
 #include <iostream>			// Bibliothèque pour ka console
 #include "Partie.h"			// Main utilise la classe Partie pour le chargement du jeu.
 #include <SFML/Graphics.hpp>
-<<<<<<< HEAD
-=======
 #include "IHMmanager.h"
 #include "Menu.h"
 
->>>>>>> refs/remotes/origin/master
-int chooseMain();			// gère le choix de l'action à faire par le joueur
 
 int main(){
 	cout << " lancement de PolyXcom " << endl;
-<<<<<<< HEAD
-	//sf::RenderWindow app(sf::VideoMode(800,600,32),"cc");
-=======
+
 
 	RenderWindow window( VideoMode(VideoMode::getDesktopMode().width
 								  ,VideoMode::getDesktopMode().height

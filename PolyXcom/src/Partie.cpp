@@ -34,9 +34,11 @@ Partie::Partie(int choix) {
 		newPartie();		// reinitialisation de la sauvegarde
 		loadPartie();		// chargement du jeu
 		launchPartie();		// lancement du jeu
+		Init();
 	} else if( choix == 2 ){
 		loadPartie();		// chargement du jeu
 		launchPartie();		// lancement du jeu
+		Init();
 	} else {
 		cout << "ERREUR: choix erroné" << endl;
 	}
@@ -49,10 +51,10 @@ Partie::Partie(int choix) {
 void Partie::Init(){
 
 }
-/*
-void Cleanup(){
+
+void Partie::CleanUp(){
 	cout << " ... Fermeture du Menu " << endl;
-}*/
+}
 
 void Partie::Pause(){
 
@@ -63,15 +65,52 @@ void Partie::Resume(){
 }
 
 void Partie::HandleEvents(IHMmanager* game){
+	Event event;
+	Window *window = game->get_myWindow();
+	int x,y;
 
-
+	while(window->pollEvent(event)){				// dès qu'un evenement est déclenché
+		switch (event.type){ 						// Selon le Type de l'évènement
+			case Event::Closed : 					// si "Bouton de fermeture" activé
+				game->CleanUp();
+				break;
+			case Event::KeyReleased :{ 				// "Appui sur une touche du clavier"
+				switch (event.key.code){ 			// si la touche qui a été appuyée
+					case Keyboard::Escape: 			// est "Echap"
+						window->close();
+						break;
+					default :
+						break;
+				}
+				break;
+			}
+			case Event::MouseMoved :				// "Mouvement de la souris"
+				x = event.mouseMove.x;
+				y = event.mouseMove.y;
+				break;
+			case Event::MouseButtonPressed :		// "Appui sur un bouton de la souris
+				switch (event.mouseButton.button){ 	// si le bouton qui a été préssée
+					case Mouse::Left: 			    // est "Clic gauche"
+						//TODO REAGIR
+						break;
+					default :
+						break;
+				}
+				break;
+			default :
+				break;
+		}
+	}
 }
+
 void Partie::Update(IHMmanager* game){
 
 }
 
 void Partie::Draw(IHMmanager* game){
+	game->get_myWindow()->clear();
 
+	game->get_myWindow()->display();
 }
 
 /*** ******************************************************************************************************** ***/

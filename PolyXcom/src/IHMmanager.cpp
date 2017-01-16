@@ -17,15 +17,14 @@ IHMmanager::IHMmanager(RenderWindow& w) {
 }
 
 void IHMmanager::CleanUp(){
-	/*while( !_myStates.empty() ){
+	while( !_myStates.empty() ){
 		_myStates.pop_back();
-	}*/
+	}
 	_myWindow->close();
 }
 
 void IHMmanager::ChangeState(IHMstate* state){
 	if( !_myStates.empty() ){
-		//_myStates.back()->Cleanup();
 		_myStates.pop_back();
 	}
 	_myStates.push_back(state);
@@ -42,7 +41,7 @@ void IHMmanager::PushState(IHMstate* state){
 
 void IHMmanager::PopState(){
 	if( !_myStates.empty() ){
-		//_myStates.back()->Cleanup();
+		_myStates.back()->CleanUp();
 		_myStates.pop_back();
 		_myStates.back()->Resume();
 	}

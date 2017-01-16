@@ -13,18 +13,17 @@ using namespace std;
 
 
 Menu::Menu(){
-	unSelected = Color(100,100,100);
-	selected = Color(160,160,160);
-
-	if (!font.loadFromFile("src\\PressStart2P.ttf")){
-	    cout << "erreur de chargement de la police" << endl;
-	}
 	Init();
 	cout << " + Menu Construit " << endl;
 }
 
 void Menu::Init(){
+	unSelected = Color(100,100,100);
+	selected = Color(160,160,160);
 
+	if (!font.loadFromFile("src\\PressStart2P.ttf")){
+		cout << "erreur de chargement de la police" << endl;
+	}
 	if( !i.loadFromFile("src\\sprite.png") ){
 		cout << "feuille de sprite introuvable " << endl;
 	} else {
@@ -50,10 +49,10 @@ void Menu::Init(){
 	text[1].setString("Charger Partie");
 	text[2].setString("Quitter la Partie");
 }
-/*
-void Cleanup(){
+
+void Menu::CleanUp(){
 	cout << " ... Fermeture du Menu " << endl;
-}*/
+}
 
 void Menu::Pause(){
 

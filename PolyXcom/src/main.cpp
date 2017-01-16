@@ -34,7 +34,12 @@ int chooseMain();			// gère le choix de l'action à faire par le joueur
 
 int main(){
 	cout << " lancement de PolyXcom " << endl;
-	RenderWindow window(VideoMode(1360,720,64), "PolyXcom", Style::Close | Style::Titlebar );
+
+	RenderWindow window( VideoMode(VideoMode::getDesktopMode().width
+								  ,VideoMode::getDesktopMode().height
+								  ,VideoMode::getDesktopMode().bitsPerPixel)
+						, "PolyXcom"
+						, Style::Close | Style::Titlebar );
 	IHMmanager ihm(window);
 	ihm.PushState( new Menu() );
 

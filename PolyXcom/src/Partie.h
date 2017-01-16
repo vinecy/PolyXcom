@@ -42,7 +42,7 @@ public:
 	Partie(int);							// CONSTRUCTEUR
 										// METHODES Hérités
 	void Init();
-	//void Cleanup();
+	void CleanUp();
 
 	void Pause();
 	void Resume();

@@ -13,8 +13,8 @@
 
 
 class Menu : public IHMstate{
-private:
-	RectangleShape bouton[3];
+private:						// ATTRIBUTS
+	RectangleShape bouton[3];		// GRAPHIQUES
 	Text text[3];
 	Color selected;
 	Color unSelected;
@@ -24,7 +24,7 @@ private:
 	Font font;
 
 
-	//Partie jeu;
+	//Partie jeu;					// JEU
 	bool valide;
 	int choix;
 
@@ -32,7 +32,7 @@ public:
 	Menu();
 
 	void Init();
-	//void Cleanup();
+	void CleanUp();
 
 	void Pause();
 	void Resume();

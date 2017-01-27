@@ -29,19 +29,19 @@ using namespace std;
 /** Le constructeur Partie crée la partie en cours
   * */
 Partie::Partie(int choix) {
-	cout << " + Partie construite " << endl;
 	if( choix == 1 ){
 		newPartie();		// reinitialisation de la sauvegarde
 		loadPartie();		// chargement du jeu
-		launchPartie();		// lancement du jeu
 		Init();
 	} else if( choix == 2 ){
 		loadPartie();		// chargement du jeu
-		launchPartie();		// lancement du jeu
 		Init();
 	} else {
 		cout << "ERREUR: choix erroné" << endl;
 	}
+	Init();
+	cout << " + Partie construite " << endl;
+
 }
 
 /*** ******************************************************************************************************** ***/
@@ -49,7 +49,36 @@ Partie::Partie(int choix) {
 /*** ******************************************************************************************************** ***/
 
 void Partie::Init(){
+	unSelected = Color(100,100,100);
+	selected = Color(160,160,160);
 
+	if (!font.loadFromFile("src\\PressStart2P.ttf")){			// chargement de la police de caractère
+		cout << "erreur de chargement de la police" << endl;
+	}
+	if( !i.loadFromFile("src\\sprite.png") ){					// chargement de la feuille de sprite
+		cout << "feuille de sprite introuvable " << endl;
+	} else {
+		i.createMaskFromColor(Color::White);					// application d'un masque de transparance sur l'arrière fond
+		t.loadFromImage(i);
+		//t.update(i);
+		//t.setSmooth(true);  // lissage des textures
+		logo.setTexture(t);
+		logo.setTextureRect(IntRect(1,131,69,74));
+		logo.setScale(5, 5);
+		//logo.setTextureRect(IntRect(1,1,63,63));
+		cout << "feuille de sprite crée " << endl;
+	}
+
+	// Construction des boutons et attribution des couleur par défaut
+	for(int i=0 ; i<3 ; i++){
+		bouton[i] = RectangleShape(Vector2f(400,100)); bouton[0].setFillColor(unSelected);
+		text[i].setFont(font);
+		text[i].setCharacterSize(22);
+		text[i].setOutlineColor(Color::White);
+	}
+	text[0].setString("Nouvelle Partie");
+	text[1].setString("Charger Partie");
+	text[2].setString("Quitter la Partie");
 }
 
 void Partie::CleanUp(){
@@ -123,9 +152,7 @@ void Partie::Draw(IHMmanager* game){
 void Partie::newPartie(void){
 	Fichier pathFile("Save",1); 				// ouverture en lecture et ecriture de la sauvegarde
 	pathFile.cleanFile();						// init de la sauvegarde
-	pathFile.writeFile("mapCurrent: Luminy");	// réecriture du fichier initiale
-	//TODO faire une copie du fichier de référence pour l'init d'une sauvegarde
-
+	pathFile.copyFile("InitSave");				// à partir du fichier de référence
 }
 
 /** La méthode loadPartie permet de charger le fichier contenant la sauvegarde

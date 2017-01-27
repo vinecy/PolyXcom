@@ -22,10 +22,10 @@ using namespace std;
 	 * */
 Fichier::Fichier(string nameFile, bool readWrite) {
 	_nameFile = nameFile;
-	if(readWrite == true){
-		_path = fstream( "src\\" + _nameFile + ".txt", ios::in | ios::out);
-	} else {
-		_path = fstream( "src\\" + _nameFile + ".txt", ios::in );
+	if(readWrite == true){														// si mode lecture et ecriture autorisée
+		_path = fstream( "src\\" + _nameFile + ".txt", ios::in | ios::out);		// ouverture du fichier en lecture et ecriture
+	} else {																	// sinon
+		_path = fstream( "src\\" + _nameFile + ".txt", ios::in );				// ouverture du fichier en lecture seule
 	}
 	cout << " + Creation du fichier " << _nameFile << endl;
 }
@@ -36,16 +36,15 @@ Fichier::Fichier(string nameFile, bool readWrite) {
 void Fichier::seekMapCurrent(string &nameCurrentMap){
 	string mot;
 	bool end = 0;
-	if(_path){
-		_path.seekg(0,ios::beg);
-		while( mot != "END" && !end){
-			_path >> mot;
-			if(mot == "mapCurrent:"){
-				_path >> mot;
-				nameCurrentMap = mot;
+	if(_path){									// si fichier ouvert
+		_path.seekg(0,ios::beg);				// curseur du fichier au début
+		while( mot != "END" && !end){			// tant que l'on a pas atteint la fin du fichier et trouvé le champ
+			_path >> mot;						// on passe au mot suivant
+			if(mot == "mapCurrent:"){			// si on a trouvé le champ
+				_path >> mot;					// chargement du nom
+				nameCurrentMap = mot;			// dans l'argument par adresse
 				end = 1;
 			}
-			//cout << mot << endl;
 		}
 	} else {
 		cout << "ERREUR loadFile: Impossible d'ouvrir " << _nameFile << ".txt" << endl;
@@ -59,11 +58,30 @@ void Fichier::cleanFile(void){
 	_path = fstream( "src\\" + _nameFile + ".txt", ios::in | ios::out | ios::trunc);
 }
 
-/** La méthode writeFile permet d'écrire une chaine de caractère dans le fichier
- 	 * @param s - la chaine de caractère à écrire dans le fichier*/
-void Fichier::writeFile(string s){
-	_path << s << endl;
+/** La méthode copyFile permet de copier le fichier avec son nom en argument sur le fichier de référence
+ 	 * @param nameFile - nom du fichier à copier*/
+void Fichier::copyFile(string nameFile){
+	fstream file = fstream( "src\\" + nameFile + ".txt", ios::in );	// ouverture en lecture seule du fichier de référence
+	string ligne;
+	if(file){
+		cout << "copie du Fichier de sauvegarde par défaut" << endl;
+		file.seekg(0,ios::beg);										// curseur fichier de copie au début
+		_path.seekg(0,ios::beg);									// curseur fichier de référence au début
+		getline(file, ligne);										// lecteur de la première ligne
+		while(ligne != "END"){										// tant que l'on attend pas la fin du fichier
+			_path << ligne;											// on copie la ligne sur le fichier de référence
+			_path << "\n";											// rajout d'un saut de ligne
+			getline(file, ligne);									// récupération de la ligne suivante
+		}
+		_path << ligne;
+		file.close();												// fermeture du fichier de copie
+		cout << "copie terminée" << endl;
+	} else {
+		cout << "echec de la copie de " << nameFile << endl;
+		exit(EXIT_FAILURE);
+	}
 }
+
 
 /** La méthode loadMap permet de charger le contenu de la carte
   * mis en référence pour l'initialisation des niveaux du jeu

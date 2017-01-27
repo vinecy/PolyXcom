@@ -8,7 +8,8 @@
 #ifndef IHMMANAGER_H_
 #define IHMMANAGER_H_
 
-#include <SFML/Graphics.hpp>
+#include <SFML/Graphics.hpp>				// Bibliothèque Mulimédia
+
 using namespace sf;
 using namespace std;
 
@@ -34,7 +35,6 @@ public:
 
 	bool isRunning(){ return _myWindow->isOpen(); }
 	RenderWindow* get_myWindow(){ return _myWindow; }
-
 
 	virtual ~IHMmanager();
 };

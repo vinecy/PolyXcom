@@ -22,6 +22,15 @@ using namespace std;
 
 class Partie : public IHMstate {
 private:								// ATTRIBUTS
+	RectangleShape bouton[3];		// GRAPHIQUES
+	Text text[3];
+	Color selected;
+	Color unSelected;
+	Image i;
+	Texture t;
+	Sprite logo;
+	Font font;
+
 	list<Ennemi> 		_tank_ennemi;		// conteneurs pour
 	list<Hero>			_tank_hero;			// le chargement a partir d'un fichier
 	list<Obstacle>  	_tank_obstacle;

@@ -18,7 +18,7 @@ IHMmanager::IHMmanager(RenderWindow& w) {
 
 void IHMmanager::CleanUp(){
 	while( !_myStates.empty() ){
-		_myStates.pop_back();
+		PopState();
 	}
 	_myWindow->close();
 }

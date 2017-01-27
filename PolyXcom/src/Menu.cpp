@@ -17,23 +17,26 @@ Menu::Menu(){
 	cout << " + Menu Construit " << endl;
 }
 
+/*
+ * Initialisation de l'interface
+ */
 void Menu::Init(){
 	unSelected = Color(100,100,100);
 	selected = Color(160,160,160);
 
-	if (!font.loadFromFile("src\\PressStart2P.ttf")){
+	if (!font.loadFromFile("src\\PressStart2P.ttf")){			// chargement de la police de caractère
 		cout << "erreur de chargement de la police" << endl;
 	}
-	if( !i.loadFromFile("src\\sprite.png") ){
+	if( !i.loadFromFile("src\\sprite.png") ){					// chargement de la feuille de sprite
 		cout << "feuille de sprite introuvable " << endl;
 	} else {
-		i.createMaskFromColor(Color::White);
-		t.create(i.getSize().x, i.getSize().y);
-		t.update(i);
+		i.createMaskFromColor(Color::White);					// application d'un masque de transparance sur l'arrière fond
+		t.loadFromImage(i);
+		//t.update(i);
 		//t.setSmooth(true);  // lissage des textures
 		logo.setTexture(t);
-		logo.setTextureRect(IntRect(1,131,69,204));
-		logo.setScale(4, 4);
+		logo.setTextureRect(IntRect(1,131,69,74));
+		logo.setScale(5, 5);
 		//logo.setTextureRect(IntRect(1,1,63,63));
 		cout << "feuille de sprite crée " << endl;
 	}
@@ -55,10 +58,11 @@ void Menu::CleanUp(){
 }
 
 void Menu::Pause(){
-
+	cout << " ||  Menu en pause " << endl;
 }
 
 void Menu::Resume(){
+	cout << " |>  Reprise du menu " << endl;
 	Init();
 }
 
@@ -138,7 +142,7 @@ void Menu::Update(IHMmanager* game){
 
 
 	logo.setPosition( (size_WindowX/2) - (logo.getGlobalBounds().width/2)
-				    , (size_WindowY/5) - (logo.getLocalBounds().height/2) );
+				    , (size_WindowY/4) - (logo.getGlobalBounds().height/2) );
 	if( choix == 1 ) bouton[0].setFillColor(selected);
 	else bouton[0].setFillColor(unSelected);
 	if( choix == 2 ) bouton[1].setFillColor(selected);
@@ -147,29 +151,28 @@ void Menu::Update(IHMmanager* game){
 	else bouton[2].setFillColor(unSelected);
 
 	if(valide == true){
-	switch(choix){
-		case 1:
-			cout << " * Nouvelle Partie " << endl;
-			//jeu.newPartie();		// reinitialisation de la sauvegarde
-			//jeu.loadPartie();		// chargement du jeu
-			//jeu.launchPartie();		// lancement du jeu
-			game->PushState(new Partie(1));
-			choix = 0;
-			break;
-		case 2:
-			cout << " * Charger Partie " << endl;
-			//jeu.loadPartie();		// chargement du jeu
-			//jeu.launchPartie();		// lancement du jeu
-			game->PushState(new Partie(2));
-			break;
-		case 3:
-			cout << " * Bye " << endl;
-			game->get_myWindow()->close();		// fin
-			break;
+		switch(choix){
+			case 1:
+				cout << " * Nouvelle Partie " << endl;
+				//jeu.newPartie();		// reinitialisation de la sauvegarde
+				//jeu.loadPartie();		// chargement du jeu
+				//jeu.launchPartie();		// lancement du jeu
+				game->PushState(new Partie(1));
+				choix = 0;
+				break;
+			case 2:
+				cout << " * Charger Partie " << endl;
+				//jeu.loadPartie();		// chargement du jeu
+				//jeu.launchPartie();		// lancement du jeu
+				game->PushState(new Partie(2));
+				break;
+			case 3:
+				cout << " * Bye " << endl;
+				game->get_myWindow()->close();		// fin
+				break;
+		}
+		valide = false;
 	}
-	valide = false;
-}
-
 }
 void Menu::Draw(IHMmanager* game){
 	game->get_myWindow()->clear();

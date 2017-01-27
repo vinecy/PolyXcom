@@ -23,6 +23,7 @@ private:						// ATTRIBUTS
 	Sprite logo;
 	Font font;
 
+	std::vector<Drawable> listDrawable;
 
 	//Partie jeu;					// JEU
 	bool valide;

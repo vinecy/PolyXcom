@@ -18,20 +18,21 @@
 using namespace std;
 
 class Fichier {
-private:
+private:											// ATTRIBUTS
 	string _nameFile;
 	fstream _path;
 
 public:
-	Fichier(string nameFile, bool readWrite);
-
+	Fichier(string nameFile, bool readWrite);		// CONSTRUCTEURS
+													// METHODES
 	void seekMapCurrent(string &nameCurrentMap);
-	void cleanFile(void);
-	void writeFile(string s);
+	void cleanFile(void);								// nettoie le fichier
+	void copyFile(string nameFile);						// copie le fichier en argument sur le fichier de référence
+
 
 	void loadMap(string nameMap,Carte&,list<Ennemi>&, list<Hero>&, list<Obstacle>&, list<Portail>&);
 
-	virtual ~Fichier();
+	virtual ~Fichier();								// DESTRUCTEUR
 };
 
 #endif /* FICHIER_H_ */

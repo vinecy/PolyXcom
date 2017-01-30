@@ -20,6 +20,7 @@ void IHMmanager::CleanUp(){
 	while( !_myStates.empty() ){
 		PopState();
 	}
+	cout << "Fermeture de la fenêtre" << endl;
 	_myWindow->close();
 }
 
@@ -40,10 +41,10 @@ void IHMmanager::PushState(IHMstate* state){
 }
 
 void IHMmanager::PopState(){
+	_myStates.back()->CleanUp();
 	if( !_myStates.empty() ){
-		_myStates.back()->CleanUp();
 		_myStates.pop_back();
-		_myStates.back()->Resume();
+		if( !_myStates.empty() ) _myStates.back()->Resume();
 	}
 }
 

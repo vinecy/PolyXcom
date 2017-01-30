@@ -1,17 +1,17 @@
 mapCurrent: Luminy
 
-nameHero: Polytech warrior
-inventory: 
-stats: 
+nameHero: Polytech Warrior ;
+inventory: ;
+stats: ;
 
-felowTravellerName1: Alexis
-inventory:
-stats:
+felowTravellerName1: Alexis ;
+inventory: ;
+stats: ;
 
-felowTravellerName2: none
-inventory:
-stats: 
+felowTravellerName2: none ;
+inventory: ;
+stats: ;
 
-closedPortalList: 
+closedPortalList: ;
 
 END

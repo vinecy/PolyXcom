@@ -29,8 +29,9 @@ public:
 	void cleanFile(void);								// nettoie le fichier
 	void copyFile(string nameFile);						// copie le fichier en argument sur le fichier de référence
 
-
 	void loadMap(string nameMap,Carte&,list<Ennemi>&, list<Hero>&, list<Obstacle>&, list<Portail>&);
+	void loadSave(list<Hero>&, list<Portail>&);
+
 
 	virtual ~Fichier();								// DESTRUCTEUR
 };

@@ -21,9 +21,6 @@ Menu::Menu(){
  * Initialisation de l'interface
  */
 void Menu::Init(){
-	unSelected = Color(100,100,100);
-	selected = Color(160,160,160);
-
 	if (!font.loadFromFile("src\\PressStart2P.ttf")){			// chargement de la police de caractère
 		cout << "erreur de chargement de la police" << endl;
 	}
@@ -35,7 +32,7 @@ void Menu::Init(){
 		//t.update(i);
 		//t.setSmooth(true);  // lissage des textures
 		logo.setTexture(t);
-		logo.setTextureRect(IntRect(1,131,69,74));
+		logo.setTextureRect(IntRect(1,261,69,74));
 		logo.setScale(5, 5);
 		//logo.setTextureRect(IntRect(1,1,63,63));
 		cout << "feuille de sprite crée " << endl;
@@ -63,7 +60,6 @@ void Menu::Pause(){
 
 void Menu::Resume(){
 	cout << " |>  Reprise du menu " << endl;
-	Init();
 }
 
 void Menu::HandleEvents(IHMmanager* game){
@@ -140,7 +136,6 @@ void Menu::Update(IHMmanager* game){
 						   , (bouton[i].getPosition().y + bouton[i].getSize().y/2 - text[i].getGlobalBounds().height/2) );
 	}
 
-
 	logo.setPosition( (size_WindowX/2) - (logo.getGlobalBounds().width/2)
 				    , (size_WindowY/4) - (logo.getGlobalBounds().height/2) );
 	if( choix == 1 ) bouton[0].setFillColor(selected);
@@ -154,16 +149,11 @@ void Menu::Update(IHMmanager* game){
 		switch(choix){
 			case 1:
 				cout << " * Nouvelle Partie " << endl;
-				//jeu.newPartie();		// reinitialisation de la sauvegarde
-				//jeu.loadPartie();		// chargement du jeu
-				//jeu.launchPartie();		// lancement du jeu
 				game->PushState(new Partie(1));
 				choix = 0;
 				break;
 			case 2:
 				cout << " * Charger Partie " << endl;
-				//jeu.loadPartie();		// chargement du jeu
-				//jeu.launchPartie();		// lancement du jeu
 				game->PushState(new Partie(2));
 				break;
 			case 3:

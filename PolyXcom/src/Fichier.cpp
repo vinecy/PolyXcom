@@ -177,6 +177,123 @@ void Fichier::loadMap(string nameMap,Carte &carteActuel,list<Ennemi> &listEnnemi
 	}
 }
 
+void Fichier::loadSave(list<Hero>& listHero, list<Portail>&){
+	bool dZ;
+	string nameMap,mot;
+	string nameHero;
+	/*if(_path){
+		_path.seekg(0,ios::beg);							// Retour au debut du fichier
+		while( (mot != "END") ){		// Curseur du fichier texte sur la ligne
+			if(mot == "mapCurrent:"){
+				_path >> nameMap;
+			} else if( mot == "nameHero:" ){
+				_path >> mot;
+				while( mot != ";" ) {
+					nameHero << mot;
+					_path >> mot;
+				}
+				_path >> mot;
+				if( mot == "inventory:"){
+					_path >> mot;
+					while( mot != ";" ) {
+						nameHero << mot;
+						_path >> mot;
+					}
+				}
+
+
+			} else if( mot == "fellowTravellerName1:"){
+
+			} else if( mot == "fellowTravellerName2:"){
+
+			} else if( mot == "closedPortalList:"){
+
+			} else {
+				_path >> mot;
+			}
+		}
+
+
+
+			while( (mot != "END") && (mot != "mapCurrent:") ){	// où on a le contenu de la carte ayant le
+				_path >> mot;								// nom nameMap
+			}
+			_path >> mot;
+		}
+		if( mot == (nameMap) ){								// si on est bien sur la carte
+			int x,y;										// on récupere la taille
+			_path >> mot;									// et le booléen indiquant
+			_path >> x;										// si on est dans une zone de danger
+			_path >> y;
+			_path >> dZ;
+			carteActuel = (Carte(nameMap, x , y, dZ));		// création de l'objet Carte correspondant
+			listEnnemi.clear();								// init du conteneur d'ennemi
+			listObstacle.clear();							// init du conteneur d'obstacle
+			listPortail.clear();							// init du conteneur de Portail
+			_path >> mot;
+			if(mot == "Contenu{"){							// si on est bien dans la partie contenu
+				cout << "recherche du contenu "<< endl;		// rajout du contenu dans les conteneurs
+				int x,y,nX,nY,ID,lev,str,acc,agi,end,luck;
+				string nom,nextMap;
+				_path >> mot;
+				while( mot != "}"){
+					if( mot == "Ennemi" ){
+						_path >> x;							// ajout d'un ennemi
+						_path >> y;
+						_path >> ID;
+						_path >> lev;
+						_path >> str;
+						_path >> acc;
+						_path >> agi;
+						_path >> end;
+						_path >> luck;
+						listEnnemi.push_front(Ennemi(x,y,ID,lev,str,acc,agi,end,luck,Inventaire()));
+						cout << "ceci est un ennemi" << endl;
+					} else if( mot == "Hero" ){
+						_path >> x;							// ajout d'un héro
+						_path >> y;
+						_path >> ID;
+						_path >> lev;
+						_path >> str;
+						_path >> acc;
+						_path >> agi;
+						_path >> end;
+						_path >> luck;
+						_path >> nom;
+						listHero.push_front(Hero(x,y,ID,lev,str,acc,agi,end,luck,Inventaire(),nom));
+						cout << "ceci est un heros" << endl;
+					} else if( mot == "Mur" ){
+						_path >> x;							// ajout d'un obstacle
+						_path >> y;
+						_path >> ID;
+						listObstacle.push_front(Obstacle(x,y,ID));
+						cout << "ceci est un mur" << endl;
+					} else if( mot == "Portail" ){
+						_path >> x;							// ajout d'un portail
+						_path >> y;
+						_path >> ID;
+						_path >> nX;
+						_path >> nY;
+						_path >> nextMap;
+						listPortail.push_front(Portail(x,y,ID,nX,nY,nextMap));
+						cout << "ceci est un portail" << endl;
+					} else {
+						cout << "ERREUR loadMap: Element \""<< mot << "\" inconnu" << endl;
+					}
+					_path >> mot;
+				}											// fin de l'analyse de contenu
+				cout << "fin de l'analyse" << endl;
+			} else {
+				cout << "ERREUR loadMap: Atributs \"Contenu{\" non trouvé" << endl;
+			}
+		} else {
+			cout << "ERREUR: Carte \"" << nameMap << "\" non trouvé" << endl;
+		}
+	} else {
+		cout << "ERREUR: Impossible d'ouvrir " << _nameFile << ".txt" << endl;
+	}*/
+}
+
 /** Le destructeur de Fichier
  * */
 Fichier::~Fichier() {

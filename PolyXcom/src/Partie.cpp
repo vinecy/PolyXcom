@@ -26,6 +26,14 @@
 
 using namespace std;
 
+#define ROWPLAYERBUTTOM_PXL 391	// n° de pixel sur l'axe x de la feuille de sprite pour les boutons du menu du joueur
+#define ROWFIGHTBUTTOM_PXL 456	// n° de pixel sur l'axe x de la feuille de sprite pour les boutons du mode combat
+#define COLUNN1_PXL 1		// n° de pixel de la colonne 1
+#define COLUNN2_PXL 131		// n° de pixel de la colonne 2
+#define COLUNN3_PXL 261		// n° de pixel de la colonne 3
+#define COLUNN4_PXL 391		// n° de pixel de la colonne 4
+#define ESPACE 20			// espacemment entre les boutons
+
 /** Le constructeur Partie crée la partie en cours
   * */
 Partie::Partie(int choix) {
@@ -48,41 +56,95 @@ Partie::Partie(int choix) {
 /*** *********************** METHODES HERITES DE IHMstate *************************************************** ***/
 /*** ******************************************************************************************************** ***/
 
+/** La méthode Init initialise l'IHM de l'écran
+  * */
 void Partie::Init(){
-	unSelected = Color(100,100,100);
-	selected = Color(160,160,160);
+	cout << "Initialisation de la Partie " << endl;
+	if (font.loadFromFile("src\\PressStart2P.ttf")){			// chargement de la police de caractère
+		cout << "Init des chaines de caractères" << endl;
+		textPV.setFont(font); textPV.setCharacterSize(22);
+		textPA.setFont(font); textPA.setCharacterSize(22);
+		textPV.setOutlineColor(Color::White);
+		textPA.setOutlineColor(Color::White);
 
-	if (!font.loadFromFile("src\\PressStart2P.ttf")){			// chargement de la police de caractère
+		textPV.setString(" .../... PV");
+		textPA.setString(" .../... PA");
+	} else {
 		cout << "erreur de chargement de la police" << endl;
 	}
+
 	if( !i.loadFromFile("src\\sprite.png") ){					// chargement de la feuille de sprite
 		cout << "feuille de sprite introuvable " << endl;
 	} else {
 		i.createMaskFromColor(Color::White);					// application d'un masque de transparance sur l'arrière fond
 		t.loadFromImage(i);
-		//t.update(i);
-		//t.setSmooth(true);  // lissage des textures
-		logo.setTexture(t);
-		logo.setTextureRect(IntRect(1,131,69,74));
-		logo.setScale(5, 5);
-		//logo.setTextureRect(IntRect(1,1,63,63));
 		cout << "feuille de sprite crée " << endl;
 	}
 
-	// Construction des boutons et attribution des couleur par défaut
-	for(int i=0 ; i<3 ; i++){
-		bouton[i] = RectangleShape(Vector2f(400,100)); bouton[0].setFillColor(unSelected);
-		text[i].setFont(font);
-		text[i].setCharacterSize(22);
-		text[i].setOutlineColor(Color::White);
-	}
-	text[0].setString("Nouvelle Partie");
-	text[1].setString("Charger Partie");
-	text[2].setString("Quitter la Partie");
+	PersoActif = RectangleShape(Vector2f(96,96));
+	PersoActif.setFillColor(Color(128,128,128));
+
+	ConteneurPVMAX = RectangleShape(Vector2f(300,40));
+	ConteneurPVMAX.setOutlineColor(Color::Red);
+	ConteneurPVMAX.setFillColor(Color(128,128,128,0));
+	ConteneurPVMAX.setOutlineThickness(4.0);
+
+	ConteneurPAMAX = RectangleShape(Vector2f(300,40));
+	ConteneurPAMAX.setOutlineColor(Color::Green);
+	ConteneurPAMAX.setFillColor(Color(128,128,128,0));
+	ConteneurPAMAX.setOutlineThickness(4.0);
+
+	ConteneurPV = RectangleShape(Vector2f(100,32));
+	ConteneurPV.setOutlineColor(Color(128,128,128,0));
+	ConteneurPV.setFillColor(Color::Red);
+	ConteneurPV.setOutlineThickness(4.0);
+
+	ConteneurPA = RectangleShape(Vector2f(100,32));
+	ConteneurPA.setOutlineColor(Color(128,128,128,0));
+	ConteneurPA.setFillColor(Color::Green);
+	ConteneurPA.setOutlineThickness(4.0);
+
+	boutonMenu[0].setTexture(t);
+	boutonMenu[0].setScale(2,2);
+
+	boutonMenu[1].setTexture(t);
+	boutonMenu[1].setScale(2,2);
+
+	boutonMenu[2].setTexture(t);
+	boutonMenu[2].setScale(2,2);
+
+	boutonMenu[3].setTexture(t);
+	boutonMenu[3].setScale(2,2);
+	boutonArmeActive = RectangleShape(Vector2f(96,96));
+
+	boutonTirer.setTexture(t);
+	boutonTirer.setScale(2,2);
+
+	boutonRecharger.setTexture(t);
+	boutonRecharger.setScale(2,2);
+
+	boutonChangerCompagnon.setTexture(t);
+	boutonChangerCompagnon.setScale(2,2);
+
+	boutonFinTour.setTexture(t);
+	boutonFinTour.setScale(2,2);
+
+	textMenuQuitter = Text("Voulez-vous vraiment quitter ?\nLes données non sauvegardées seront perdus",font,20);
+	textOui = Text("Oui",font,20);
+	textNon = Text("Non",font,20);
+	menuQuitter = RectangleShape(Vector2f(textMenuQuitter.getGlobalBounds().width + ESPACE*2
+										, textMenuQuitter.getGlobalBounds().height + 100));
+	menuQuitter.setFillColor(unSelected);
+	boutonOui = RectangleShape(Vector2f(textOui.getGlobalBounds().width + 5
+									   , textOui.getGlobalBounds().height + 5));
+	boutonNon = RectangleShape(Vector2f(textNon.getGlobalBounds().width + 5
+									   , textNon.getGlobalBounds().height + 5));
+
+
 }
 
 void Partie::CleanUp(){
-	cout << " ... Fermeture du Menu " << endl;
+	cout << " ... Fermeture de la Partie " << endl;
 }
 
 void Partie::Pause(){
@@ -101,28 +163,60 @@ void Partie::HandleEvents(IHMmanager* game){
 	while(window->pollEvent(event)){				// dès qu'un evenement est déclenché
 		switch (event.type){ 						// Selon le Type de l'évènement
 			case Event::Closed : 					// si "Bouton de fermeture" activé
+				cout << "Fermeture de Partie" << endl;
 				game->CleanUp();
 				break;
-			case Event::KeyReleased :{ 				// "Appui sur une touche du clavier"
+			case Event::KeyReleased : 				// "Appui sur une touche du clavier"
 				switch (event.key.code){ 			// si la touche qui a été appuyée
 					case Keyboard::Escape: 			// est "Echap"
 						window->close();
 						break;
-					default :
+					default:
 						break;
 				}
 				break;
-			}
 			case Event::MouseMoved :				// "Mouvement de la souris"
 				x = event.mouseMove.x;
 				y = event.mouseMove.y;
+
+				if( boutonMenu[0].getGlobalBounds().contains(x, y) == true ){
+					choix = 1;
+				} else if( boutonMenu[1].getGlobalBounds().contains(x, y) == true ){
+					choix = 2;
+				} else if( boutonMenu[2].getGlobalBounds().contains(x, y) == true ){
+					choix = 3;
+				} else if( boutonMenu[3].getGlobalBounds().contains(x, y) == true ){
+					choix = 4;
+				} else if( boutonTirer.getGlobalBounds().contains(x, y) == true ){
+					choix = 5;
+				} else if( boutonRecharger.getGlobalBounds().contains(x, y) == true ){
+					choix = 6;
+				} else if( boutonChangerCompagnon.getGlobalBounds().contains(x, y) == true ){
+					choix = 7;
+				} else if( boutonFinTour.getGlobalBounds().contains(x, y) == true ){
+					choix = 8;
+				} else {
+					choix = 0; valide = false;
+				}
+				if(fenetreActive == 4){
+					if( boutonOui.getGlobalBounds().contains(x, y) == true ){
+						choixYesNo = 1;
+					} else if( boutonNon.getGlobalBounds().contains(x, y) == true ){
+						choixYesNo = 2;
+					} else {
+						choixYesNo = 0; valide = false;
+					}
+				}
+
 				break;
 			case Event::MouseButtonPressed :		// "Appui sur un bouton de la souris
 				switch (event.mouseButton.button){ 	// si le bouton qui a été préssée
 					case Mouse::Left: 			    // est "Clic gauche"
-						//TODO REAGIR
+						if( choix > 0) valide = true;
+						if( choixYesNo > 0) valide = true;
 						break;
 					default :
+						valide = false;
 						break;
 				}
 				break;
@@ -134,12 +228,197 @@ void Partie::HandleEvents(IHMmanager* game){
 
 void Partie::Update(IHMmanager* game){
 
+
+
+
+	updateAllButton(game);
+	if(fenetreActive == 1){
+
+	} else if(fenetreActive == 2){
+
+	} else if(fenetreActive == 3){
+
+	} else if(fenetreActive == 4){
+		updateMenuQuitter(game);
+	}
+}
+
+void Partie::updateAllButton(IHMmanager* game){
+	// mis à jour des positions des boutons de l'interface
+	PersoActif.setPosition( 40 , (game->get_myWindow()->getSize().y - 40 - PersoActif.getSize().y));
+	ConteneurPVMAX.setPosition( PersoActif.getGlobalBounds().left + PersoActif.getGlobalBounds().width + 40,
+								PersoActif.getGlobalBounds().top + ConteneurPVMAX.getOutlineThickness());
+	ConteneurPAMAX.setPosition( PersoActif.getGlobalBounds().left + PersoActif.getGlobalBounds().width + 40,
+								PersoActif.getGlobalBounds().top + ConteneurPVMAX.getGlobalBounds().height + 4);
+
+	ConteneurPV.setPosition( ConteneurPVMAX.getGlobalBounds().left + 8,
+							 ConteneurPVMAX.getGlobalBounds().top + 8 );
+	ConteneurPA.setPosition( ConteneurPAMAX.getGlobalBounds().left + 8,
+							 ConteneurPAMAX.getGlobalBounds().top + 8 );
+
+	textPV.setPosition(ConteneurPV.getGlobalBounds().left,
+					   ConteneurPV.getGlobalBounds().top + ConteneurPV.getGlobalBounds().height/2 - textPV.getGlobalBounds().height/2 );
+	textPA.setPosition(ConteneurPA.getGlobalBounds().left,
+					   ConteneurPA.getGlobalBounds().top + ConteneurPA.getGlobalBounds().height/2 - textPA.getGlobalBounds().height/2 );
+
+	boutonMenu[0].setPosition( (game->get_myWindow()->getSize().x - ESPACE - boutonMenu[0].getGlobalBounds().width),
+								ESPACE );
+	boutonMenu[1].setPosition( (game->get_myWindow()->getSize().x - ESPACE - boutonMenu[1].getGlobalBounds().width),
+							   boutonMenu[0].getGlobalBounds().top + boutonMenu[0].getGlobalBounds().height + 10 );
+	boutonMenu[2].setPosition( (game->get_myWindow()->getSize().x - ESPACE - boutonMenu[2].getGlobalBounds().width),
+							   boutonMenu[1].getGlobalBounds().top + boutonMenu[1].getGlobalBounds().height + 10 );
+	boutonMenu[3].setPosition( (game->get_myWindow()->getSize().x - ESPACE - boutonMenu[3].getGlobalBounds().width),
+							   boutonMenu[2].getGlobalBounds().top + boutonMenu[2].getGlobalBounds().height + 10 );
+
+	boutonFinTour.setPosition( (game->get_myWindow()->getSize().x) - ESPACE - boutonFinTour.getGlobalBounds().width ,
+							   (game->get_myWindow()->getSize().y) - ESPACE - boutonFinTour.getGlobalBounds().height );
+	boutonChangerCompagnon.setPosition( boutonFinTour.getGlobalBounds().left - ESPACE - boutonChangerCompagnon.getGlobalBounds().width,
+										boutonFinTour.getGlobalBounds().top);
+	boutonRecharger.setPosition( boutonChangerCompagnon.getGlobalBounds().left - ESPACE - boutonRecharger.getGlobalBounds().width,
+								 boutonChangerCompagnon.getGlobalBounds().top);
+	boutonTirer.setPosition( boutonRecharger.getGlobalBounds().left - ESPACE - boutonTirer.getGlobalBounds().width,
+							 boutonRecharger.getGlobalBounds().top);
+	boutonArmeActive.setPosition( boutonTirer.getGlobalBounds().left - ESPACE - boutonArmeActive.getGlobalBounds().width,
+								  boutonTirer.getGlobalBounds().top);
+
+	boutonMenu[0].setTextureRect(IntRect(COLUNN1_PXL,ROWPLAYERBUTTOM_PXL,64,64));
+	boutonMenu[1].setTextureRect(IntRect(COLUNN2_PXL,ROWPLAYERBUTTOM_PXL,64,64));
+	boutonMenu[2].setTextureRect(IntRect(COLUNN3_PXL,ROWPLAYERBUTTOM_PXL,64,64));
+	boutonMenu[3].setTextureRect(IntRect(COLUNN4_PXL,ROWPLAYERBUTTOM_PXL,64,64));
+	boutonTirer.setTextureRect(IntRect(COLUNN4_PXL,ROWFIGHTBUTTOM_PXL,64,64));
+	boutonRecharger.setTextureRect(IntRect(COLUNN3_PXL,ROWFIGHTBUTTOM_PXL,64,64));
+	boutonChangerCompagnon.setTextureRect(IntRect(COLUNN1_PXL,ROWFIGHTBUTTOM_PXL,64,64));
+	boutonFinTour.setTextureRect(IntRect(COLUNN2_PXL,ROWFIGHTBUTTOM_PXL,64,64));
+
+	switch(choix){
+		case 1: boutonMenu[0].setTextureRect(IntRect(COLUNN1_PXL + 65 ,ROWPLAYERBUTTOM_PXL,64,64)); break;
+		case 2: boutonMenu[1].setTextureRect(IntRect(COLUNN2_PXL + 65 ,ROWPLAYERBUTTOM_PXL,64,64)); break;
+		case 3: boutonMenu[2].setTextureRect(IntRect(COLUNN3_PXL + 65 ,ROWPLAYERBUTTOM_PXL,64,64)); break;
+		case 4: boutonMenu[3].setTextureRect(IntRect(COLUNN4_PXL + 65 ,ROWPLAYERBUTTOM_PXL,64,64)); break;
+		case 5: boutonTirer.setTextureRect(IntRect(COLUNN4_PXL + 65 ,ROWFIGHTBUTTOM_PXL,64,64)); break;
+		case 6: boutonRecharger.setTextureRect(IntRect(COLUNN3_PXL + 65 ,ROWFIGHTBUTTOM_PXL,64,64)); break;
+		case 7: boutonChangerCompagnon.setTextureRect(IntRect(COLUNN1_PXL + 65 ,ROWFIGHTBUTTOM_PXL,64,64)); break;
+		case 8: boutonFinTour.setTextureRect(IntRect(COLUNN2_PXL + 65 ,ROWFIGHTBUTTOM_PXL,64,64)); break;
+		default:
+			break;
+	}
+	if(valide){
+		switch(choix){
+			case 1:
+				// TODO afficher Inventaire
+				break;
+			case 2:
+				// TODO afficher Statistiques
+				break;
+			case 3:
+				// TODO afficher Carte
+				break;
+			case 4:
+				if(fenetreActive != 4) fenetreActive = 4;
+				else fenetreActive = 0;
+				valide = 0;
+				break;
+			case 5:
+				// TODO afficher Tirer
+				break;
+			case 6:
+				// TODO afficher Recharger
+				break;
+			case 7:
+				// TODO afficher Changer Compagnon
+				break;
+			case 8:
+				// TODO afficher Fin du Tour
+				break;
+			default:
+				break;
+		}
+	}
+}
+
+void Partie::updateMenuQuitter(IHMmanager*game){
+	menuQuitter.setPosition((game->get_myWindow()->getSize().x - ESPACE*2 - 96)/2 - menuQuitter.getGlobalBounds().width/2
+			  , (game->get_myWindow()->getSize().y - ESPACE*2 - 96)/2 - menuQuitter.getGlobalBounds().height/2
+			  );
+	textMenuQuitter.setPosition( menuQuitter.getPosition().x + 20
+							   , menuQuitter.getPosition().y + 20);
+	boutonOui.setPosition(menuQuitter.getGlobalBounds().left + ESPACE,
+						  menuQuitter.getGlobalBounds().top + menuQuitter.getGlobalBounds().height - boutonOui.getGlobalBounds().height - ESPACE );
+	boutonNon.setPosition(menuQuitter.getGlobalBounds().left + menuQuitter.getGlobalBounds().width - boutonNon.getGlobalBounds().width - ESPACE ,
+						  menuQuitter.getGlobalBounds().top + menuQuitter.getGlobalBounds().height - boutonNon.getGlobalBounds().height - ESPACE );
+	boutonOui.setFillColor(unSelected);
+	boutonNon.setFillColor(unSelected);
+
+	textOui.setPosition(boutonOui.getGlobalBounds().left + boutonOui.getGlobalBounds().width/2 - textOui.getGlobalBounds().width/2,
+						boutonOui.getGlobalBounds().top + boutonOui.getGlobalBounds().height/2 - textOui.getGlobalBounds().height/2);
+	textNon.setPosition(boutonNon.getGlobalBounds().left + boutonNon.getGlobalBounds().width/2 - textNon.getGlobalBounds().width/2,
+						boutonNon.getGlobalBounds().top + boutonNon.getGlobalBounds().height/2 - textNon.getGlobalBounds().height/2);
+	switch(choixYesNo){
+		case 1: boutonOui.setFillColor(selected); break;
+		case 2: boutonNon.setFillColor(selected); break;
+		default:
+			break;
+	}
+	if(valide){
+		switch(choixYesNo){
+			case 1:
+				game->PopState();
+				break;
+			case 2:
+				fenetreActive = 0;
+				valide = 0;
+				choixYesNo = 0;
+				break;
+			default:
+				break;
+		}
+	}
 }
 
 void Partie::Draw(IHMmanager* game){
 	game->get_myWindow()->clear();
 
+	DrawHUD(game);
+	if(fenetreActive > 0) {
+		DrawActiveFrame(game);
+	}
+
 	game->get_myWindow()->display();
+}
+
+void Partie::DrawActiveFrame(IHMmanager* game){
+	if(fenetreActive == 1){
+
+	} else if(fenetreActive == 2){
+
+	} else if(fenetreActive == 3){
+
+	} else if(fenetreActive == 4){
+		game->get_myWindow()->draw(menuQuitter);
+		game->get_myWindow()->draw(textMenuQuitter);
+		game->get_myWindow()->draw(boutonOui);
+		game->get_myWindow()->draw(boutonNon);
+		game->get_myWindow()->draw(textOui);
+		game->get_myWindow()->draw(textNon);
+	}
+}
+
+void Partie::DrawHUD(IHMmanager* game){
+	game->get_myWindow()->draw(PersoActif);
+	game->get_myWindow()->draw(ConteneurPVMAX);
+	game->get_myWindow()->draw(ConteneurPAMAX);
+	game->get_myWindow()->draw(ConteneurPV);
+	game->get_myWindow()->draw(ConteneurPA);
+	game->get_myWindow()->draw(textPV);
+	game->get_myWindow()->draw(textPA);
+
+	game->get_myWindow()->draw(boutonFinTour);
+	game->get_myWindow()->draw(boutonChangerCompagnon);
+	game->get_myWindow()->draw(boutonRecharger) ;
+	game->get_myWindow()->draw(boutonTirer) ;
+	game->get_myWindow()->draw(boutonArmeActive) ;
+
+	for(Sprite g : boutonMenu) game->get_myWindow()->draw(g);
 }
 
 /*** ******************************************************************************************************** ***/
@@ -163,25 +442,24 @@ void Partie::loadPartie(void){
 	Fichier pathFile("Save",1); 	// ouverture en lecture et ecriture de la sauvegarde
 	string nameCurrentMap;			// nom de la carte actuel
 
-	pathFile.seekMapCurrent(nameCurrentMap);// recherche de la carte actuel dans la sauvegarde
-	// chargement de la carte actuel
-	pathMap.loadMap(nameCurrentMap, _mapCurrent, _tank_ennemi, _tank_hero, _tank_obstacle, _tank_portail);
-
-	// itérateur sur la carte actuel
-	/*_ite_c = _tank_carte.begin();
-	while( ( _mapCurrent.get_nameMap() != nameCurrentMap )
-		&& ( _ite_c != _tank_carte.end()) ){
-		_ite_c++;
-	}*/
+	pathFile.seekMapCurrent(nameCurrentMap); 		// recherche de la carte actuel dans la sauvegarde
+	pathMap.loadMap(nameCurrentMap, _mapCurrent, 	// chargement de la carte actuel
+								    _tank_ennemi,	// avec la liste d'ennemi,
+									_tank_hero,		// la liste d'héros,
+									_tank_obstacle,	// la liste d'obstacle et
+									_tank_portail);	// la liste de portails.
 
 	// ajout des ennemis sur la carte
 	for(_ite_e = _tank_ennemi.begin();_ite_e!=_tank_ennemi.end();_ite_e++){
 		_mapCurrent.addItem((*_ite_e));
 	}
-	// ajout des héros sur la carte
+
 	// TODO Hero codé en dur temporairement. ils sont issu normalement de la save
 	_tank_hero.push_front(Hero(0,0,2,0,10,11,12,13,14,Inventaire(),"Vincent"));
 	_tank_hero.push_front(Hero(0,1,2,0,9,10,11,12,13,Inventaire(),"Alexis"));
+	// TODO URGENT !!!!!!!!!!
+
+	// ajout des héros sur la carte
 	for(_ite_h = _tank_hero.begin(); _ite_h!=_tank_hero.end(); _ite_h++){
 		_mapCurrent.addItem((*_ite_h));
 	}
@@ -226,7 +504,7 @@ void Partie::launchPartie(void){
 		//exitGame = true;
 	}
 }
-// TODO
+// TODO URGENT AUSSI
 void Partie::savePartie(void){
 
 }
@@ -237,9 +515,9 @@ void Partie::savePartie(void){
 void Partie::switchMap( Portail p ){
 	_mapCurrent.removeAllItem();							// on retire tous le monde de la carte sans toucher au conteneur
 	Fichier pathMap("World",0);							// chargement de la prochaine map
-	cout << "chargement de la map" << endl;
+	//cout << "chargement de la map" << endl;
 	pathMap.loadMap(p.get_nameNextMap(), _mapCurrent, _tank_ennemi, _tank_hero, _tank_obstacle, _tank_portail);
-	cout << "iterateur sur la map" << endl;
+	//cout << "iterateur sur la map" << endl;
 	/*_ite_c = _tank_carte.begin();						// itérateur sur la nouvelle carte
 	while( ( _mapCurrent.get_nameMap() != p.get_nameNextMap() )
 		&& ( _ite_c != _tank_carte.end()) ){
@@ -264,7 +542,7 @@ void Partie::switchMap( Portail p ){
 
 	_mapCurrent.display();
 	// recherche des points de spawn disponibles sur la carte
-	cout << "recherche des spawn pour héros sur "<< p.get_newX() << "," << p.get_newY() << endl;
+	//cout << "recherche des spawn pour héros sur "<< p.get_newX() << "," << p.get_newY() << endl;
 	list<pair<int,int> > spawnList = _mapCurrent.seekSpawnPoint(p.get_newX(), p.get_newY(), 3);
 	list<pair<int,int> >::iterator ite = spawnList.begin();
 	for( ; ite != spawnList.end() ; ite++ ){

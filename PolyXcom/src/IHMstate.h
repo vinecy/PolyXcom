@@ -10,6 +10,9 @@
 
 #include "IHMmanager.h"
 
+static Color unSelected(100,100,100);
+static Color selected(160,160,160);
+
 class IHMmanager;
 
 class IHMstate {

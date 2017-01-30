@@ -11,38 +11,34 @@
 #include "IHMstate.h"
 #include <SFML/Graphics.hpp>
 
-
 class Menu : public IHMstate{
 private:						// ATTRIBUTS
-	RectangleShape bouton[3];		// GRAPHIQUES
-	Text text[3];
-	Color selected;
-	Color unSelected;
-	Image i;
-	Texture t;
-	Sprite logo;
-	Font font;
-
-	std::vector<Drawable> listDrawable;
+									// GRAPHIQUES
+	RectangleShape bouton[3];		// bouton "nouvelle Partie", "Charger Partie", "Quitter la Partie"
+	Text text[3];					// texte des boutons "nouvelle Partie", "Charger Partie", "Quitter la Partie"
+	Image i;						// Fichier contenant la feuille de Sprite
+	Texture t;						// Texture chargé à partir la feuille de Sprite
+	Sprite logo;					// Image correspondant au logo et chargé à partir de la texture
+	Font font;						// Police de caractère
 
 	//Partie jeu;					// JEU
-	bool valide;
-	int choix;
+	bool valide;					// indique si le choix est valide
+	int choix;						// entier correspondant au choix
 
 public:
-	Menu();
+	Menu();						// CONSTRUCTEUR
+								// METHODES herités de IHMState
+	void Init();							// Initialisation de l"etat
+	void CleanUp();							// Nettoyage de l'Etat
 
-	void Init();
-	void CleanUp();
+	void Pause();							// Méthode déclenché lorsque l'état est en pause
+	void Resume();							// Méthode déclenché lorsque l"état reprend
 
-	void Pause();
-	void Resume();
+	void HandleEvents(IHMmanager* game);	// Maj de la détection des événements exterieur
+	void Update(IHMmanager* game);			// Maj des variables
+	void Draw(IHMmanager* game);			// Maj de l'écran
 
-	void HandleEvents(IHMmanager* game);
-	void Update(IHMmanager* game);
-	void Draw(IHMmanager* game);
-
-	virtual ~Menu();
+	virtual ~Menu();		 	// DESTRUCTEUR
 };
 
 #endif /* MENU_H_ */

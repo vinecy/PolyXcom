@@ -22,15 +22,41 @@ using namespace std;
 
 class Partie : public IHMstate {
 private:								// ATTRIBUTS
-	RectangleShape bouton[3];		// GRAPHIQUES
-	Text text[3];
-	Color selected;
-	Color unSelected;
+										// GRAPHIQUES
+	Sprite boutonMenu[4];
+	Sprite boutonTirer;
+	Sprite boutonRecharger;
+	Sprite boutonChangerCompagnon;
+	Sprite boutonFinTour;
+
+	Sprite BackgroundMap;
+
+	RectangleShape boutonArmeActive;
+	RectangleShape PersoActif;
+
+	RectangleShape ConteneurPVMAX;
+	RectangleShape ConteneurPV;
+	Text textPV;
+	RectangleShape ConteneurPAMAX;
+	RectangleShape ConteneurPA;
+	Text textPA;
+
 	Image i;
 	Texture t;
-	Sprite logo;
 	Font font;
 
+	RectangleShape menuQuitter;
+	RectangleShape boutonOui;
+	RectangleShape boutonNon;
+	Text textMenuQuitter;
+	Text textOui;
+	Text textNon;
+
+	int choix;
+	int choixYesNo;
+	int fenetreActive;
+	bool valide;
+										// JEU
 	list<Ennemi> 		_tank_ennemi;		// conteneurs pour
 	list<Hero>			_tank_hero;			// le chargement a partir d'un fichier
 	list<Obstacle>  	_tank_obstacle;
@@ -47,6 +73,7 @@ private:								// ATTRIBUTS
 	list<Hero>::iterator 		_ite_h;		// iterateur hero
 	list<Obstacle>::iterator 	_ite_o;		// iterateur obstacle
 	list<Portail>::iterator		_ite_p;		// iterateur de portail
+
 public:
 	Partie(int);							// CONSTRUCTEUR
 										// METHODES Hérités
@@ -57,8 +84,14 @@ public:
 	void Resume();
 
 	void HandleEvents(IHMmanager* game);
+
 	void Update(IHMmanager* game);
+	void updateAllButton(IHMmanager* game);
+	void updateMenuQuitter(IHMmanager* game);
+
 	void Draw(IHMmanager* game);
+	void DrawHUD(IHMmanager* game);
+	void DrawActiveFrame(IHMmanager* game);
 										// METHODES
 	void newPartie( void );					// réinitialise la sauvegarde
 	void loadPartie( void );				// charge la sauvegarde

@@ -79,20 +79,24 @@ public:
 										// METHODES Hérités
 	void Init();
 	void InitHUD();
-	void CleanUp();
+	void InitMenuQuitter();
+	void InitMap();
 
+	void CleanUp();
 	void Pause();
 	void Resume();
 
 	void HandleEvents(IHMmanager* game);
 
 	void Update(IHMmanager* game);
-	void updateAllButton(IHMmanager* game);
-	void updateMenuQuitter(IHMmanager* game);
+	void UpdateHUD(IHMmanager* game);
+	void UpdateMenuQuitter(IHMmanager* game);
+	void UpdateMap(IHMmanager* game);
 
 	void Draw(IHMmanager* game);
 	void DrawHUD(IHMmanager* game);
 	void DrawActiveFrame(IHMmanager* game);
+	void DrawMap(IHMmanager* game);
 										// METHODES
 	void newPartie( void );					// réinitialise la sauvegarde
 	void loadPartie( void );				// charge la sauvegarde

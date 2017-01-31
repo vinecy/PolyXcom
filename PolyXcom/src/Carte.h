@@ -22,6 +22,10 @@ class Carte {
 		Affichable ***_map;			// Matrice de pointeur d'objets affichables
 		string _nameMap;			// nom de la carte
 		bool _dangerZone;			// booléen indiquant si c'est une zone de danger
+
+
+
+
 	// Methodes
 	public:													// CONSTRUCTEUR
 		Carte();

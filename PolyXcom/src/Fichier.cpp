@@ -61,19 +61,24 @@ void Fichier::cleanFile(void){
 /** La méthode copyFile permet de copier le fichier avec son nom en argument sur le fichier de référence
  	 * @param nameFile - nom du fichier à copier*/
 void Fichier::copyFile(string nameFile){
-	fstream file = fstream( _nameFile.c_str(), ios::in );	// ouverture en lecture seule du fichier de référence
+	fstream file = fstream( nameFile.c_str(), ios::in );	// ouverture en lecture seule du fichier de référence
 	string ligne;
 	if(file){
 		cout << "copie du Fichier de sauvegarde par défaut" << endl;
 		file.seekg(0,ios::beg);										// curseur fichier de copie au début
 		_path.seekg(0,ios::beg);									// curseur fichier de référence au début
-		getline(file, ligne);										// lecteur de la première ligne
-		while(ligne != "END"){										// tant que l'on attend pas la fin du fichier
+		//getline(file, ligne);										// lecteur de la première ligne
+		/*while(ligne != "END"){										// tant que l'on attend pas la fin du fichier
 			_path << ligne;											// on copie la ligne sur le fichier de référence
 			_path << "\n";											// rajout d'un saut de ligne
 			getline(file, ligne);									// récupération de la ligne suivante
+		}*/
+		while(getline(file, ligne)){
+			_path << ligne;
+			_path << "\n";
 		}
-		_path << ligne;
+
+		_path << "END";
 		file.close();												// fermeture du fichier de copie
 		cout << "copie terminée" << endl;
 	} else {

@@ -62,17 +62,9 @@ void Partie::Init(){
 	cout << "Initialisation de la Partie " << endl;
 	if (font.loadFromFile("src\\PressStart2P.ttf")){			// chargement de la police de caractère
 		cout << "Init des chaines de caractères" << endl;
-		textPV.setFont(font); textPV.setCharacterSize(22);
-		textPA.setFont(font); textPA.setCharacterSize(22);
-		textPV.setOutlineColor(Color::White);
-		textPA.setOutlineColor(Color::White);
-
-		textPV.setString(" .../... PV");
-		textPA.setString(" .../... PA");
 	} else {
 		cout << "erreur de chargement de la police" << endl;
 	}
-
 	if( !i.loadFromFile("src\\sprite.png") ){					// chargement de la feuille de sprite
 		cout << "feuille de sprite introuvable " << endl;
 	} else {
@@ -80,6 +72,19 @@ void Partie::Init(){
 		t.loadFromImage(i);
 		cout << "feuille de sprite crée " << endl;
 	}
+	InitHUD();
+	InitMap();
+	InitMenuQuitter();
+}
+
+void Partie::InitHUD(){
+	textPV.setFont(font); textPV.setCharacterSize(22);
+	textPA.setFont(font); textPA.setCharacterSize(22);
+	textPV.setOutlineColor(Color::White);
+	textPA.setOutlineColor(Color::White);
+
+	textPV.setString(" .../... PV");
+	textPA.setString(" .../... PA");
 
 	PersoActif = RectangleShape(Vector2f(96,96));
 	PersoActif.setFillColor(Color(128,128,128));
@@ -128,7 +133,14 @@ void Partie::Init(){
 
 	boutonFinTour.setTexture(t);
 	boutonFinTour.setScale(2,2);
+}
 
+void Partie::InitMap(){
+	//static RectangleShape dessinMap(Vector2f(_mapCurrent.get_sizeX()*64,_mapCurrent.get_sizeY())*64);
+
+}
+
+void Partie::InitMenuQuitter(){
 	textMenuQuitter = Text("Voulez-vous vraiment quitter ?\nLes données non sauvegardées seront perdus",font,20);
 	textOui = Text("Oui",font,20);
 	textNon = Text("Non",font,20);
@@ -139,10 +151,6 @@ void Partie::Init(){
 									   , textOui.getGlobalBounds().height + 5));
 	boutonNon = RectangleShape(Vector2f(textNon.getGlobalBounds().width + 5
 									   , textNon.getGlobalBounds().height + 5));
-}
-
-void Partie::InitHUD(){
-
 }
 
 void Partie::CleanUp(){
@@ -230,7 +238,7 @@ void Partie::HandleEvents(IHMmanager* game){
 
 void Partie::Update(IHMmanager* game){
 
-	updateAllButton(game);
+	UpdateHUD(game);
 	if(fenetreActive == 1){
 
 	} else if(fenetreActive == 2){
@@ -238,11 +246,11 @@ void Partie::Update(IHMmanager* game){
 	} else if(fenetreActive == 3){
 
 	} else if(fenetreActive == 4){
-		updateMenuQuitter(game);
+		UpdateMenuQuitter(game);
 	}
 }
 
-void Partie::updateAllButton(IHMmanager* game){
+void Partie::UpdateHUD(IHMmanager* game){
 	// mis à jour des positions des boutons de l'interface
 	PersoActif.setPosition( 40 , (game->get_myWindow()->getSize().y - 40 - PersoActif.getSize().y));
 	ConteneurPVMAX.setPosition( PersoActif.getGlobalBounds().left + PersoActif.getGlobalBounds().width + 40,
@@ -335,7 +343,7 @@ void Partie::updateAllButton(IHMmanager* game){
 	}
 }
 
-void Partie::updateMenuQuitter(IHMmanager*game){
+void Partie::UpdateMenuQuitter(IHMmanager*game){
 	menuQuitter.setPosition((game->get_myWindow()->getSize().x - ESPACE*2 - 96)/2 - menuQuitter.getGlobalBounds().width/2
 			  , (game->get_myWindow()->getSize().y - ESPACE*2 - 96)/2 - menuQuitter.getGlobalBounds().height/2
 			  );
@@ -430,8 +438,11 @@ void Partie::DrawHUD(IHMmanager* game){
   * */
 void Partie::newPartie(void){
 	Fichier pathFile("src\\Save.txt",1); 				// ouverture en lecture et ecriture de la sauvegarde
-	pathFile.cleanFile();						// init de la sauvegarde
+	cout << "creation de la save" << endl;
+	pathFile.cleanFile();								// init de la sauvegarde
+	cout << "nettoyage de la save" << endl;
 	pathFile.copyFile("src\\InitSave.txt");				// à partir du fichier de référence
+	cout << "copie de la save de départ" << endl;
 }
 
 /** La méthode loadPartie permet de charger le fichier contenant la sauvegarde

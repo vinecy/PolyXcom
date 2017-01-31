@@ -23,9 +23,9 @@ using namespace std;
 Fichier::Fichier(string nameFile, bool readWrite) {
 	_nameFile = nameFile;
 	if(readWrite == true){														// si mode lecture et ecriture autorisée
-		_path = fstream( (string)"src\\" + _nameFile + ".txt", ios::in | ios::out);		// ouverture du fichier en lecture et ecriture
+		_path = fstream(_nameFile.c_str(), ios::in | ios::out | ios::ate);		// ouverture du fichier en lecture et ecriture
 	} else {																	// sinon
-		_path = fstream( (string)"src\\" + _nameFile + ".txt", ios::in );				// ouverture du fichier en lecture seule
+		_path = fstream( _nameFile.c_str(), ios::in | ios::ate);				// ouverture du fichier en lecture seule
 	}
 	cout << " + Creation du fichier " << _nameFile << endl;
 }
@@ -55,13 +55,13 @@ void Fichier::seekMapCurrent(string &nameCurrentMap){
   * */
 void Fichier::cleanFile(void){
 	_path.close();
-	_path = fstream( "src\\" + _nameFile + ".txt", ios::in | ios::out | ios::trunc);
+	_path = fstream(_nameFile.c_str(), ios::in | ios::out | ios::trunc);
 }
 
 /** La méthode copyFile permet de copier le fichier avec son nom en argument sur le fichier de référence
  	 * @param nameFile - nom du fichier à copier*/
 void Fichier::copyFile(string nameFile){
-	fstream file = fstream( "src\\" + nameFile + ".txt", ios::in );	// ouverture en lecture seule du fichier de référence
+	fstream file = fstream( _nameFile.c_str(), ios::in );	// ouverture en lecture seule du fichier de référence
 	string ligne;
 	if(file){
 		cout << "copie du Fichier de sauvegarde par défaut" << endl;
@@ -178,7 +178,7 @@ void Fichier::loadMap(string nameMap,Carte &carteActuel,list<Ennemi> &listEnnemi
 }
 
 void Fichier::loadSave(list<Hero>& listHero, list<Portail>&){
-	bool dZ;
+	//bool dZ;
 	string nameMap,mot;
 	string nameHero;
 	/*if(_path){

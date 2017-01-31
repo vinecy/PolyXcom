@@ -418,6 +418,7 @@ void Partie::DrawHUD(IHMmanager* game){
 	game->get_myWindow()->draw(boutonArmeActive) ;
 
 	for(Sprite g : boutonMenu) game->get_myWindow()->draw(g);
+
 }
 
 /*** ******************************************************************************************************** ***/
@@ -428,26 +429,24 @@ void Partie::DrawHUD(IHMmanager* game){
   * du joueur
   * */
 void Partie::newPartie(void){
-	Fichier pathFile("Save",1); 				// ouverture en lecture et ecriture de la sauvegarde
+	Fichier pathFile("src\\Save.txt",1); 				// ouverture en lecture et ecriture de la sauvegarde
 	pathFile.cleanFile();						// init de la sauvegarde
-	pathFile.copyFile("InitSave");				// à partir du fichier de référence
+	pathFile.copyFile("src\\InitSave.txt");				// à partir du fichier de référence
 }
 
 /** La méthode loadPartie permet de charger le fichier contenant la sauvegarde
   * du joueur
   * */
 void Partie::loadPartie(void){
-	Fichier pathMap("World",0); 	// ouverture en lecture de la carte
-	Fichier pathFile("Save",1); 	// ouverture en lecture et ecriture de la sauvegarde
+	Fichier pathMap("src\\World.txt",0); 	// ouverture en lecture de la carte
+	Fichier pathFile("src\\Save.txt",1); 	// ouverture en lecture et ecriture de la sauvegarde
 	string nameCurrentMap;			// nom de la carte actuel
-
 	pathFile.seekMapCurrent(nameCurrentMap); 		// recherche de la carte actuel dans la sauvegarde
 	pathMap.loadMap(nameCurrentMap, _mapCurrent, 	// chargement de la carte actuel
 								    _tank_ennemi,	// avec la liste d'ennemi,
 									_tank_hero,		// la liste d'héros,
 									_tank_obstacle,	// la liste d'obstacle et
 									_tank_portail);	// la liste de portails.
-
 	// ajout des ennemis sur la carte
 	for(_ite_e = _tank_ennemi.begin();_ite_e!=_tank_ennemi.end();_ite_e++){
 		_mapCurrent.addItem((*_ite_e));
@@ -482,6 +481,7 @@ void Partie::loadPartie(void){
 	for(_ite_h = _tank_hero.begin() ; _ite_h != _tank_hero.end() ; _ite_h++){
 		_team_hero.push_front( &(*_ite_h) );
 	}
+	cout << "fin loadPartie " << endl;
 }
 
 /** La méthode launchPartie permet de lancer le jeu en fonction de la sauvegarde
@@ -513,7 +513,7 @@ void Partie::savePartie(void){
   	  * @param p - portail où le joueur se situe qui engendre le changement de carte*/
 void Partie::switchMap( Portail p ){
 	_mapCurrent.removeAllItem();							// on retire tous le monde de la carte sans toucher au conteneur
-	Fichier pathMap("World",0);							// chargement de la prochaine map
+	Fichier pathMap("src\\World.txt",0);							// chargement de la prochaine map
 	//cout << "chargement de la map" << endl;
 	pathMap.loadMap(p.get_nameNextMap(), _mapCurrent, _tank_ennemi, _tank_hero, _tank_obstacle, _tank_portail);
 	//cout << "iterateur sur la map" << endl;
@@ -779,7 +779,8 @@ int Partie::main_switch ( void ){
 	 * 						  2 si le déplacement engendre un changement de carte
  	 * */
 int Partie::move_choice(bool withUsePA){
-	int choix,rep;
+	int choix;
+	int rep=0;//je c pas si c 0
 	do{
 		choix = move_switch();
 		switch(choix){

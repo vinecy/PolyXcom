@@ -8,7 +8,7 @@ felowTravellerName1: Alexis ;
 inventory: ;
 stats: ;
 
-felowTravellerName2: none ;
+felowTravellerName2: ;
 inventory: ;
 stats: ;
 

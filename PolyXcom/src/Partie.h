@@ -78,6 +78,7 @@ public:
 	Partie(int);							// CONSTRUCTEUR
 										// METHODES Hérités
 	void Init();
+	void InitHUD();
 	void CleanUp();
 
 	void Pause();

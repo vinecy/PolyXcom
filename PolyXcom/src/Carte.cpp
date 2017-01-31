@@ -489,7 +489,8 @@ list <pair<int , int> > Carte::pathfinding( int xA , int yA , int xB , int yB ){
 		//cout << "   ... Nettoyage de listeVoisin ..." << endl;
 		listeVoisin.clear();
 		//cout << "   listeVoisin vide ? " << listeVoisin.empty() << endl;
-		listeVoisin.splice(voisinIt, graphDeRecherche.find_Voisin(xC,yC));
+		list<Noeud> tps = graphDeRecherche.find_Voisin(xC,yC);
+		listeVoisin.splice(voisinIt, tps);
 		//cout << "   size listeVoisin = " << listeVoisin.size() << endl;
 		//cout << "   ... verification de listeVoisin " << endl;
 		voisinIt = listeVoisin.begin();

@@ -139,7 +139,9 @@ void Partie::Init(){
 									   , textOui.getGlobalBounds().height + 5));
 	boutonNon = RectangleShape(Vector2f(textNon.getGlobalBounds().width + 5
 									   , textNon.getGlobalBounds().height + 5));
+}
 
+void Partie::InitHUD(){
 
 }
 
@@ -227,9 +229,6 @@ void Partie::HandleEvents(IHMmanager* game){
 }
 
 void Partie::Update(IHMmanager* game){
-
-
-
 
 	updateAllButton(game);
 	if(fenetreActive == 1){

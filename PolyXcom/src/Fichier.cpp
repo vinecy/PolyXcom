@@ -23,9 +23,9 @@ using namespace std;
 Fichier::Fichier(string nameFile, bool readWrite) {
 	_nameFile = nameFile;
 	if(readWrite == true){														// si mode lecture et ecriture autorisée
-		_path = fstream( "src\\" + _nameFile + ".txt", ios::in | ios::out);		// ouverture du fichier en lecture et ecriture
+		_path = fstream( (string)"src\\" + _nameFile + ".txt", ios::in | ios::out);		// ouverture du fichier en lecture et ecriture
 	} else {																	// sinon
-		_path = fstream( "src\\" + _nameFile + ".txt", ios::in );				// ouverture du fichier en lecture seule
+		_path = fstream( (string)"src\\" + _nameFile + ".txt", ios::in );				// ouverture du fichier en lecture seule
 	}
 	cout << " + Creation du fichier " << _nameFile << endl;
 }

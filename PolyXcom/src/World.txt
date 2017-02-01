@@ -1,6 +1,6 @@
 
 name: Luminy
-	Taille: 5 5 0
+	Taille: 11 11 0
 
 	Contenu{
 	 	Mur 2 2 1 

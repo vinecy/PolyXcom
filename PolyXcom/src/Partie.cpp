@@ -35,6 +35,11 @@ using namespace std;
 
 #define ESPACE 20			// espacemment entre les boutons
 
+static int size_window_X ;
+static int size_window_Y ;
+static int size_Map_part_X;
+static int size_Map_part_Y;
+
 /** Le constructeur Partie crée la partie en cours
   * */
 Partie::Partie(int choix) {
@@ -213,7 +218,7 @@ void Partie::HandleEvents(IHMmanager* game){
 			case Event::MouseMoved :				// "Mouvement de la souris"
 				x = event.mouseMove.x;
 				y = event.mouseMove.y;
-
+				//cout << x << " " << y << endl;
 				if( boutonMenu[0].getGlobalBounds().contains(x, y) == true ){
 					choix = 1;
 				} else if( boutonMenu[1].getGlobalBounds().contains(x, y) == true ){
@@ -249,8 +254,15 @@ void Partie::HandleEvents(IHMmanager* game){
 			case Event::MouseButtonPressed :		// "Appui sur un bouton de la souris
 				switch (event.mouseButton.button){ 	// si le bouton qui a été préssée
 					case Mouse::Left: 			    // est "Clic gauche"
-						if( choix > 0) valide = true;
-						if( choixYesNo > 0) valide = true;
+						cout << "x: " << event.mouseButton.x << endl;
+						cout << "y: " << event.mouseButton.y << endl;
+						cout << "j'ai cliqué" << endl;
+						if( choix > 0) { valide = true;				// si la souris est sur un bouton de l'HUD
+						} else if( choixYesNo > 0){ valide = true; 	// si la souris est sur un bouton du menu quitter
+						} else {										// sinon on clique dans une zone sans bouton
+							cout << event.mouseMove.x << " " << event.mouseMove.y << endl;
+							cout << "j'ai cliqué" << endl;
+						}
 						break;
 					default :
 						valide = false;
@@ -338,8 +350,8 @@ void Partie::UpdateHUD(IHMmanager* game){
 		default:
 			break;
 	}
-	if(valide){
-		switch(choix){
+	if(valide){											// si clic sur un bouton
+		switch(choix){									// selon le bouton selectionné
 			case 1:
 				// TODO afficher Inventaire
 				break;
@@ -367,6 +379,7 @@ void Partie::UpdateHUD(IHMmanager* game){
 				// TODO afficher Fin du Tour
 				break;
 			default:
+
 				break;
 		}
 	}
@@ -412,6 +425,11 @@ void Partie::UpdateMenuQuitter(IHMmanager*game){
 }
 
 void Partie::Draw(IHMmanager* game){
+	size_window_X = game->get_myWindow()->getSize().x;
+	size_window_Y = game->get_myWindow()->getSize().y;
+	size_Map_part_X = size_window_X - ESPACE*2 - 96;
+	size_Map_part_Y = size_window_Y - ESPACE*2 - 96;
+
 	game->get_myWindow()->clear();
 
 	DrawMap(game);
@@ -460,6 +478,8 @@ void Partie::DrawHUD(IHMmanager* game){
 
 void Partie::DrawMap(IHMmanager* game){
 	float origineMapX = (game->get_myWindow()->getSize().x - ESPACE*2 - 96)/2 - (64*_zoom*_mapCurrent.get_sizeX())/2;
+	//float origineMapX = size_Map_part_X/2 - 64*_zoom*_mapCurrent.get_sizeX();
+
 	float origineMapY = (game->get_myWindow()->getSize().y - ESPACE*2 - 96)/2 + (64*_zoom*_mapCurrent.get_sizeY())/2;
 
 	list<RectangleShape> squareMap;
@@ -503,8 +523,8 @@ void Partie::DrawMap(IHMmanager* game){
 		(*ite_hero).set_sprite(t);
 		tpsSprite = (*ite_hero).get_sprite();
 		tpsSprite.setScale(_zoom, _zoom);
-		tpsSprite.setPosition(origineMapX + 64*_zoom*(*ite_hero).get_x()
-							,(origineMapY - 64*_zoom*((*ite_hero).get_y()+1)) );
+		tpsSprite.setPosition(origineMapX - 1 + 63*_zoom*(*ite_hero).get_x()
+							,(origineMapY + 1 - 64*_zoom*((*ite_hero).get_y() + 1)) );
 		game->get_myWindow()->draw(tpsSprite);
 		Text t((*ite_hero).get_name(),font,12);
 		t.setPosition(tpsSprite.getGlobalBounds().left, tpsSprite.getGlobalBounds().top);
@@ -515,8 +535,8 @@ void Partie::DrawMap(IHMmanager* game){
 		(*ite_ennemi).set_sprite(t);
 		tpsSprite = (*ite_ennemi).get_sprite();
 		tpsSprite.setScale(_zoom, _zoom);
-		tpsSprite.setPosition(origineMapX-1 + 63*_zoom*(*ite_ennemi).get_x()
-							,(origineMapY-1 - 63*_zoom*(*ite_ennemi).get_y()) );
+		tpsSprite.setPosition(origineMapX - 1 + 63*_zoom*(*ite_ennemi).get_x()
+							,(origineMapY + 1 - 64*_zoom*((*ite_ennemi).get_y() + 1)) );
 		game->get_myWindow()->draw(tpsSprite);
 		Text t("Ennemy",font,12);
 		t.setPosition(tpsSprite.getGlobalBounds().left, tpsSprite.getGlobalBounds().top);

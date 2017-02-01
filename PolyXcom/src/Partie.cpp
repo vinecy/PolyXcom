@@ -74,11 +74,13 @@ void Partie::Init(){
 		t.loadFromImage(i);
 		cout << "feuille de sprite crée " << endl;
 	}
-	InitHUD();
-	InitMap();
-	InitMenuQuitter();
+	InitHUD();				// Initialisation des éléments de l'interface utilisateur
+	InitMap();				// Initialisation des éléments de la partie Carte de l'IHM
+	InitMenuQuitter();		// Initialisation du menu Quitter pour choix de quitter la partie
 }
 
+/** La méthode InitHUD initialise les éléments de l'interface utilisateur
+  * */
 void Partie::InitHUD(){
 	textPV.setFont(font); textPV.setCharacterSize(22);
 	textPA.setFont(font); textPA.setCharacterSize(22);
@@ -137,8 +139,11 @@ void Partie::InitHUD(){
 	boutonFinTour.setScale(2,2);
 }
 
+/** La méthode InitHUD initialise les éléments de l'interface utilisateur
+  * */
 void Partie::InitMap(){
 	//static RectangleShape dessinMap(Vector2f(_mapCurrent.get_sizeX()*64,_mapCurrent.get_sizeY())*64);
+
 }
 
 void Partie::InitMenuQuitter(){
@@ -469,8 +474,8 @@ void Partie::DrawMap(IHMmanager* game){
 		ite_squareMap = squareMap.begin();
 		prec = squareMap.begin();
 		prec++;
-		if(i!=0) (*ite_squareMap).setPosition( (*(prec)).getGlobalBounds().left + (*(prec)).getGlobalBounds().width + 1, origineMapY);
-		else (*ite_squareMap).setPosition( origineMapX , origineMapY );
+		if(i!=0) (*ite_squareMap).setPosition( (*(prec)).getGlobalBounds().left + (*(prec)).getGlobalBounds().width + 1, origineMapY - 64*_zoom*_mapCurrent.get_sizeY());
+		else (*ite_squareMap).setPosition( origineMapX , origineMapY - 64*_zoom*_mapCurrent.get_sizeY());
 		(*ite_squareMap).setFillColor(Color(0,0,0,0));
 		(*ite_squareMap).setOutlineThickness(1.0);
 		(*ite_squareMap).setOutlineColor(Color::Cyan);
@@ -485,7 +490,7 @@ void Partie::DrawMap(IHMmanager* game){
 		prec = squareMap.begin();
 		prec++;
 		if(i!=0) (*ite_squareMap).setPosition(origineMapX , (*(prec)).getGlobalBounds().top + (*(prec)).getGlobalBounds().height + 1);
-		else (*ite_squareMap).setPosition( origineMapX , origineMapY );
+		else (*ite_squareMap).setPosition( origineMapX , origineMapY - 64*_zoom*_mapCurrent.get_sizeY() );
 		(*ite_squareMap).setFillColor(Color(0,0,0,0));
 		(*ite_squareMap).setOutlineThickness(1.0);
 		(*ite_squareMap).setOutlineColor(Color::Cyan);
@@ -499,8 +504,11 @@ void Partie::DrawMap(IHMmanager* game){
 		tpsSprite = (*ite_hero).get_sprite();
 		tpsSprite.setScale(_zoom, _zoom);
 		tpsSprite.setPosition(origineMapX-1 + 63*_zoom*(*ite_hero).get_x()
-							,(origineMapY-1 + 63*_zoom*(*ite_hero).get_y()) );
+							,(origineMapY-1 - 63*_zoom*(*ite_hero).get_y()) );
 		game->get_myWindow()->draw(tpsSprite);
+		Text t((*ite_hero).get_name(),font,12);
+		t.setPosition(tpsSprite.getGlobalBounds().left, tpsSprite.getGlobalBounds().top);
+		game->get_myWindow()->draw(t);
 		ite_hero++;
 	}
 	while(ite_ennemi != _tank_ennemi.end()){
@@ -508,8 +516,10 @@ void Partie::DrawMap(IHMmanager* game){
 		tpsSprite = (*ite_ennemi).get_sprite();
 		tpsSprite.setScale(_zoom, _zoom);
 		tpsSprite.setPosition(origineMapX-1 + 63*_zoom*(*ite_ennemi).get_x()
-							,(origineMapY-1 + 63*_zoom*(*ite_ennemi).get_y()) );
+							,(origineMapY-1 - 63*_zoom*(*ite_ennemi).get_y()) );
 		game->get_myWindow()->draw(tpsSprite);
+		Text t("Ennemy",font,12);
+		t.setPosition(tpsSprite.getGlobalBounds().left, tpsSprite.getGlobalBounds().top);
 		ite_ennemi++;
 	}
 }
@@ -546,8 +556,8 @@ void Partie::loadPartie(void){
 	}
 
 	// TODO Hero codé en dur temporairement. ils sont issu normalement de la save
-	_tank_hero.push_front(Hero(0,0,2,0,10,11,12,13,14,Inventaire(),"Vincent"));
-	_tank_hero.push_front(Hero(0,1,2,0,9,10,11,12,13,Inventaire(),"Alexis"));
+	_tank_hero.push_back(Hero(0,0,2,0,10,11,12,13,14,Inventaire(),"Vincent"));
+	_tank_hero.push_back(Hero(0,1,2,0,9,10,11,12,13,Inventaire(),"Alexis"));
 	// TODO URGENT !!!!!!!!!!
 
 	// ajout des héros sur la carte

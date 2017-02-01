@@ -52,6 +52,8 @@ private:								// ATTRIBUTS
 	Text textOui;
 	Text textNon;
 
+	float _zoom;
+
 	int choix;
 	int choixYesNo;
 	int fenetreActive;

@@ -32,6 +32,7 @@ using namespace std;
 #define COLUNN2_PXL 131		// n° de pixel de la colonne 2
 #define COLUNN3_PXL 261		// n° de pixel de la colonne 3
 #define COLUNN4_PXL 391		// n° de pixel de la colonne 4
+
 #define ESPACE 20			// espacemment entre les boutons
 
 /** Le constructeur Partie crée la partie en cours
@@ -59,6 +60,7 @@ Partie::Partie(int choix) {
 /** La méthode Init initialise l'IHM de l'écran
   * */
 void Partie::Init(){
+	_zoom = 1.0;
 	cout << "Initialisation de la Partie " << endl;
 	if (font.loadFromFile("src\\PressStart2P.ttf")){			// chargement de la police de caractère
 		cout << "Init des chaines de caractères" << endl;
@@ -137,7 +139,6 @@ void Partie::InitHUD(){
 
 void Partie::InitMap(){
 	//static RectangleShape dessinMap(Vector2f(_mapCurrent.get_sizeX()*64,_mapCurrent.get_sizeY())*64);
-
 }
 
 void Partie::InitMenuQuitter(){
@@ -181,8 +182,27 @@ void Partie::HandleEvents(IHMmanager* game){
 					case Keyboard::Escape: 			// est "Echap"
 						window->close();
 						break;
+					case Keyboard::Z:
+						//_mapCurrent.move_up(*(*_ite_l), _mapCurrent.get_dangerZone());
+						break;
+					case Keyboard::S:
+						//_mapCurrent.move_down(*(*_ite_l), _mapCurrent.get_dangerZone());
+						break;
+					case Keyboard::Q:
+						//_mapCurrent.move_left(*(*_ite_l), _mapCurrent.get_dangerZone());
+						break;
+					case Keyboard::D:
+						//_mapCurrent.move_right(*(*_ite_l), _mapCurrent.get_dangerZone());
+						break;
 					default:
 						break;
+				}
+				break;
+			case Event::MouseWheelScrolled : 				// "Mouvement sur la molette de la souris"
+				float tps;
+				tps = _zoom + (0.5 * event.mouseWheelScroll.delta);
+				if( (event.mouseWheelScroll.delta != 0) && tps >= 1 && tps <= 5){		// vers le bas (delta negatif)
+					_zoom = tps ;
 				}
 				break;
 			case Event::MouseMoved :				// "Mouvement de la souris"
@@ -208,6 +228,8 @@ void Partie::HandleEvents(IHMmanager* game){
 				} else {
 					choix = 0; valide = false;
 				}
+
+
 				if(fenetreActive == 4){
 					if( boutonOui.getGlobalBounds().contains(x, y) == true ){
 						choixYesNo = 1;
@@ -247,6 +269,8 @@ void Partie::Update(IHMmanager* game){
 
 	} else if(fenetreActive == 4){
 		UpdateMenuQuitter(game);
+	} else {
+
 	}
 }
 
@@ -385,6 +409,7 @@ void Partie::UpdateMenuQuitter(IHMmanager*game){
 void Partie::Draw(IHMmanager* game){
 	game->get_myWindow()->clear();
 
+	DrawMap(game);
 	DrawHUD(game);
 	if(fenetreActive > 0) {
 		DrawActiveFrame(game);
@@ -426,7 +451,67 @@ void Partie::DrawHUD(IHMmanager* game){
 	game->get_myWindow()->draw(boutonArmeActive) ;
 
 	for(Sprite g : boutonMenu) game->get_myWindow()->draw(g);
+}
 
+void Partie::DrawMap(IHMmanager* game){
+	float origineMapX = (game->get_myWindow()->getSize().x - ESPACE*2 - 96)/2 - (64*_zoom*_mapCurrent.get_sizeX())/2;
+	float origineMapY = (game->get_myWindow()->getSize().y - ESPACE*2 - 96)/2 + (64*_zoom*_mapCurrent.get_sizeY())/2;
+
+	list<RectangleShape> squareMap;
+	list<Sprite> listSprite;
+	list<RectangleShape>::iterator ite_squareMap;
+	list<RectangleShape>::iterator prec;
+	squareMap.clear();
+	for(int i=0 ; i<_mapCurrent.get_sizeX() ; i++ ){
+		squareMap.push_front(RectangleShape(Vector2f( 62*_zoom,
+													  ( _mapCurrent.get_sizeY()*(62*_zoom) + (_mapCurrent.get_sizeY()-1)*2 )
+													  )));
+		ite_squareMap = squareMap.begin();
+		prec = squareMap.begin();
+		prec++;
+		if(i!=0) (*ite_squareMap).setPosition( (*(prec)).getGlobalBounds().left + (*(prec)).getGlobalBounds().width + 1, origineMapY);
+		else (*ite_squareMap).setPosition( origineMapX , origineMapY );
+		(*ite_squareMap).setFillColor(Color(0,0,0,0));
+		(*ite_squareMap).setOutlineThickness(1.0);
+		(*ite_squareMap).setOutlineColor(Color::Cyan);
+
+		game->get_myWindow()->draw((*ite_squareMap));
+	}
+	for(int i=0 ; i<_mapCurrent.get_sizeY() ; i++ ){
+		squareMap.push_front(RectangleShape(Vector2f( _mapCurrent.get_sizeY()*(62*_zoom) + (_mapCurrent.get_sizeY()-1)*2 ,
+												      62*_zoom
+													 )));
+		ite_squareMap = squareMap.begin();
+		prec = squareMap.begin();
+		prec++;
+		if(i!=0) (*ite_squareMap).setPosition(origineMapX , (*(prec)).getGlobalBounds().top + (*(prec)).getGlobalBounds().height + 1);
+		else (*ite_squareMap).setPosition( origineMapX , origineMapY );
+		(*ite_squareMap).setFillColor(Color(0,0,0,0));
+		(*ite_squareMap).setOutlineThickness(1.0);
+		(*ite_squareMap).setOutlineColor(Color::Cyan);
+		game->get_myWindow()->draw((*ite_squareMap));
+	}
+	Sprite tpsSprite;
+	list<Hero>::iterator ite_hero = _tank_hero.begin();
+	list<Ennemi>::iterator ite_ennemi = _tank_ennemi.begin();
+	while(ite_hero != _tank_hero.end()){
+		(*ite_hero).set_sprite(t);
+		tpsSprite = (*ite_hero).get_sprite();
+		tpsSprite.setScale(_zoom, _zoom);
+		tpsSprite.setPosition(origineMapX-1 + 63*_zoom*(*ite_hero).get_x()
+							,(origineMapY-1 + 63*_zoom*(*ite_hero).get_y()) );
+		game->get_myWindow()->draw(tpsSprite);
+		ite_hero++;
+	}
+	while(ite_ennemi != _tank_ennemi.end()){
+		(*ite_ennemi).set_sprite(t);
+		tpsSprite = (*ite_ennemi).get_sprite();
+		tpsSprite.setScale(_zoom, _zoom);
+		tpsSprite.setPosition(origineMapX-1 + 63*_zoom*(*ite_ennemi).get_x()
+							,(origineMapY-1 + 63*_zoom*(*ite_ennemi).get_y()) );
+		game->get_myWindow()->draw(tpsSprite);
+		ite_ennemi++;
+	}
 }
 
 /*** ******************************************************************************************************** ***/
@@ -438,11 +523,8 @@ void Partie::DrawHUD(IHMmanager* game){
   * */
 void Partie::newPartie(void){
 	Fichier pathFile("src\\Save.txt",1); 				// ouverture en lecture et ecriture de la sauvegarde
-	cout << "creation de la save" << endl;
 	pathFile.cleanFile();								// init de la sauvegarde
-	cout << "nettoyage de la save" << endl;
 	pathFile.copyFile("src\\InitSave.txt");				// à partir du fichier de référence
-	cout << "copie de la save de départ" << endl;
 }
 
 /** La méthode loadPartie permet de charger le fichier contenant la sauvegarde
@@ -514,6 +596,8 @@ void Partie::launchPartie(void){
 		//exitGame = true;
 	}
 }
+
+
 // TODO URGENT AUSSI
 void Partie::savePartie(void){
 

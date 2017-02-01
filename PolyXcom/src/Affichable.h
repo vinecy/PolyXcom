@@ -9,12 +9,19 @@
 #ifndef AFFICHABLE_H_
 #define AFFICHABLE_H_
 
+#include <SFML/Graphics.hpp>
+
+using namespace sf;
+
 class Affichable
 {
 	protected:								//Attributs
 		int _coordX;						//Abscisse
 		int _coordY;						//Ordonnée
 		int _ID;							//Identifiant
+
+		int _rotation;
+		Sprite _sprite;
 
 	public:
 		Affichable();						//Construteur par defaut
@@ -26,8 +33,13 @@ class Affichable
 		int get_x(void);					//getters
 		int get_y(void);
 		int get_ID(void);
+		int get_rotation(){ return _rotation; }
 		void set_x(int);					//setters
 		void set_y(int);
+		void set_rotation(int r){ _rotation = r; }
+
+		Sprite get_sprite();
+		void set_sprite(Texture &spriteSheet);
 
 		virtual ~Affichable();				//Destructeur
 };

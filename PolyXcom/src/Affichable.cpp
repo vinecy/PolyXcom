@@ -27,12 +27,25 @@
 
 using namespace std;
 
+#define NORD 1
+#define OUEST 2
+#define EST 3
+#define SUD 4
+
+#define COLUMN_PLAYER_SPRITE 1
+#define COLUMN_ENNEMY_SPRITE 521
+#define ROW_NORTH_PXL 1
+#define ROW_SOUTH_PXL 66
+#define ROW_EAST_PXL 131
+#define ROW_WEST_PXL 196
+
 /** Le constructeur Affichable construit un Affichable par defaut*/
 Affichable::Affichable(void)
 {
 	_coordX=0;
 	_coordY=0;
 	_ID=00;
+	_rotation = SUD;
 	cout << " + Affichable créé avec les attributs " << _coordX <<  _coordY << _ID << endl;
 	cout << " + adresse : "<< &_coordX  << endl;
 }
@@ -46,6 +59,7 @@ Affichable::Affichable(int x, int y, int ID)	//Construteur surchargé
 	_coordX=x;
 	_coordY=y;
 	_ID=ID;
+	_rotation = SUD;
 	cout << " + Affichable créé avec les attributs " << _coordX <<  _coordY << _ID << endl;
 	cout << " + adresse : "<< &_coordX  << endl;
 }
@@ -85,6 +99,29 @@ void Affichable::set_x(int x)			//setters
 void Affichable::set_y(int y)
 {
 	_coordY=y;
+}
+
+Sprite Affichable::get_sprite(){
+	return _sprite;
+}
+
+void Affichable::set_sprite(Texture &spriteSheet){
+	_sprite.setTexture(spriteSheet);
+	if(_ID == 2){
+		switch(_rotation){
+			case NORD : _sprite.setTextureRect(IntRect(COLUMN_PLAYER_SPRITE,ROW_NORTH_PXL,64,64)); break;
+			case OUEST: _sprite.setTextureRect(IntRect(COLUMN_PLAYER_SPRITE,ROW_WEST_PXL,64,64)); break;
+			case EST :	_sprite.setTextureRect(IntRect(COLUMN_PLAYER_SPRITE,ROW_EAST_PXL,64,64)); break;
+			case SUD : 	_sprite.setTextureRect(IntRect(COLUMN_PLAYER_SPRITE,ROW_SOUTH_PXL,64,64)); break;
+		}
+	} else if(_ID == 3){
+		switch(_rotation){
+			case NORD : _sprite.setTextureRect(IntRect(COLUMN_ENNEMY_SPRITE,ROW_NORTH_PXL,64,64)); break;
+			case OUEST: _sprite.setTextureRect(IntRect(COLUMN_ENNEMY_SPRITE,ROW_WEST_PXL,64,64)); break;
+			case EST :	_sprite.setTextureRect(IntRect(COLUMN_ENNEMY_SPRITE,ROW_EAST_PXL,64,64)); break;
+			case SUD : 	_sprite.setTextureRect(IntRect(COLUMN_ENNEMY_SPRITE,ROW_SOUTH_PXL,64,64)); break;
+		}
+	}
 }
 
 /** Le destructeur Affichable */

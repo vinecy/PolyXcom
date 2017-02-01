@@ -503,8 +503,8 @@ void Partie::DrawMap(IHMmanager* game){
 		(*ite_hero).set_sprite(t);
 		tpsSprite = (*ite_hero).get_sprite();
 		tpsSprite.setScale(_zoom, _zoom);
-		tpsSprite.setPosition(origineMapX-1 + 63*_zoom*(*ite_hero).get_x()
-							,(origineMapY-1 - 63*_zoom*(*ite_hero).get_y()) );
+		tpsSprite.setPosition(origineMapX + 64*_zoom*(*ite_hero).get_x()
+							,(origineMapY - 64*_zoom*((*ite_hero).get_y()+1)) );
 		game->get_myWindow()->draw(tpsSprite);
 		Text t((*ite_hero).get_name(),font,12);
 		t.setPosition(tpsSprite.getGlobalBounds().left, tpsSprite.getGlobalBounds().top);
@@ -910,7 +910,7 @@ int Partie::move_choice(bool withUsePA){
 			break;
 		}
 	} while (choix != 10);
-	return rep;
+	return (rep);
 }
 
 /** La méthode move_switch invite le joueur à choisir le déplacement à faire
@@ -951,10 +951,10 @@ bool Partie::shoot_choice( void ){
 		}
 		_team_ennemi=temp;
 		if(_team_ennemi.size()==0){
-			return true;
+			return (true);
 		}
 	}
-	return false;
+	return (false);
 }
 
 bool Partie::reload()
@@ -982,12 +982,12 @@ bool Partie::close_combat_choice( void ){
 		}
 		_team_ennemi=temp;
 		if(_team_ennemi.size()==0){
-			return true;
+			return (true);
 		}
 	} else {
 		cout<<"Pas assez de PA!"<<endl;
 	}
-	return false;
+	return (false);
 }
 
 bool Partie::bonus_choice( void ){
@@ -999,7 +999,7 @@ bool Partie::bonus_choice( void ){
 	if(choice==1)
 	{
 		(*_ite_l)->use_medkit();
-		return false;
+		return (false);
 	}
 	else if(choice==2)
 	{
@@ -1068,16 +1068,16 @@ bool Partie::bonus_choice( void ){
 				}
 				(*_ite_l)->get_inv()->get_grenade()->add_number(-1);
 				if(_team_ennemi.size()==0){
-					return true;
+					return (true);
 				}
-				return false;//TODO cas suicide
+				return (false);//TODO cas suicide
 			}
 		}
-		return false;
+		return (false);
 	}
 	else
 	{
-		return false;
+		return (false);
 	}
 }
 

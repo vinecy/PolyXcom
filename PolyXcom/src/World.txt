@@ -56,11 +56,7 @@ name: Luminy4
 }
 
 name: checkpoint
-<<<<<<< HEAD
 	Taille: 4 4 0
-=======
-	Taille: 2 2 0
->>>>>>> refs/remotes/origin/master
 
 	Contenu{
 	 	Mur 1 3 1 

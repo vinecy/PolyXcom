@@ -21,6 +21,7 @@ class Affichable
 		int _ID;							//Identifiant
 
 		int _rotation;
+	public:
 		Sprite _sprite;
 
 	public:

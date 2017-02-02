@@ -204,20 +204,25 @@ void Partie::HandleEvents(IHMmanager* game){
 				break;
 			case Event::KeyReleased : 				// "Appui sur une touche du clavier"
 				switch (event.key.code){ 			// si la touche qui a été appuyée
-					_ite_h=_tank_hero.begin();
+					//_ite_h=_tank_hero.begin();
+					(*_ite_h).display_info();
 					case Keyboard::Escape: 			// est "Echap"
 						window->close();
 						break;
 					case Keyboard::Z:
+						(*_ite_h).display_info();
 						_mapCurrent.move_up((*_ite_h), _mapCurrent.get_dangerZone());
 						break;
 					case Keyboard::S:
+						(*_ite_h).display_info();
 						_mapCurrent.move_down((*_ite_h), _mapCurrent.get_dangerZone());
 						break;
 					case Keyboard::Q:
+						(*_ite_h).display_info();
 						_mapCurrent.move_left((*_ite_h), _mapCurrent.get_dangerZone());
 						break;
 					case Keyboard::D:
+						(*_ite_h).display_info();
 						_mapCurrent.move_right((*_ite_h), _mapCurrent.get_dangerZone());
 						break;
 					default:
@@ -618,9 +623,9 @@ void Partie::DrawMap(IHMmanager* game){
 				tpsSprite.setPosition(_mapCurrent._origXmap + 64*(_mapCurrent._zoom)*(*_ite_h).get_x()
 									, _mapCurrent._origYmap - 64*(_mapCurrent._zoom)*(*_ite_h).get_y() );
 				game->get_myWindow()->draw(tpsSprite);
-				Text a("Hero", font, _mapCurrent._zoom*12);
-				a.setPosition(tpsSprite.getGlobalBounds().left, tpsSprite.getGlobalBounds().top);
-				game->get_myWindow()->draw(a);
+				Text nom((*_ite_h).get_name(), font, _mapCurrent._zoom*12);
+				nom.setPosition(tpsSprite.getGlobalBounds().left, tpsSprite.getGlobalBounds().top);
+				game->get_myWindow()->draw(nom);
 	}else{
 		for(_ite_h = _tank_hero.begin() ; _ite_h != _tank_hero.end() ; _ite_h++){
 			(*_ite_h).set_sprite(t);
@@ -640,18 +645,21 @@ void Partie::DrawMap(IHMmanager* game){
 							, _mapCurrent._origYmap - 64*(_mapCurrent._zoom)*(*ite_l)->get_y() );
 		game->get_myWindow()->draw(tpsSprite);
 	}
+
 	for(_ite_o = _tank_obstacle.begin(); _ite_o != _tank_obstacle.end(); _ite_o++)
 	{
 		Text obs("obstacle", font, _mapCurrent._zoom*12);
-						obs.setPosition(_mapCurrent._origXmap+(*_ite_o).get_x()*64*_mapCurrent._zoom,_mapCurrent._origYmap-(*_ite_o).get_y()*64*_mapCurrent._zoom);
-						game->get_myWindow()->draw(obs);
+		obs.setPosition(_mapCurrent._origXmap+(*_ite_o).get_x()*64*_mapCurrent._zoom,
+				_mapCurrent._origYmap-(*_ite_o).get_y()*64*_mapCurrent._zoom);
+		game->get_myWindow()->draw(obs);
 	}
 
 	for(_ite_p = _tank_portail.begin(); _ite_p != _tank_portail.end(); _ite_p++)
 	{
 		Text por("portail", font, _mapCurrent._zoom*12);
-								por.setPosition(_mapCurrent._origXmap+(*_ite_p).get_x()*64*_mapCurrent._zoom,_mapCurrent._origYmap-(*_ite_p).get_y()*64*_mapCurrent._zoom);
-								game->get_myWindow()->draw(por);
+		por.setPosition(_mapCurrent._origXmap+(*_ite_p).get_x()*64*_mapCurrent._zoom,
+				_mapCurrent._origYmap-(*_ite_p).get_y()*64*_mapCurrent._zoom);
+		game->get_myWindow()->draw(por);
 	}
 
 	/*list<Hero>::iterator ite_hero = _tank_hero.begin();

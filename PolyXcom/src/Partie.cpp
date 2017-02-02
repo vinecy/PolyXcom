@@ -205,7 +205,6 @@ void Partie::HandleEvents(IHMmanager* game){
 			case Event::KeyReleased : 				// "Appui sur une touche du clavier"
 				switch (event.key.code){ 			// si la touche qui a été appuyée
 					//_ite_h=_tank_hero.begin();
-					(*_ite_h).display_info();
 					case Keyboard::Escape: 			// est "Echap"
 						window->close();
 						break;
@@ -294,7 +293,7 @@ void Partie::HandleEvents(IHMmanager* game){
 							int xcase = ((event.mouseButton.x-_mapCurrent._origXmap)/64)/_mapCurrent._zoom;
 							int ycase = ((_mapCurrent._origYmap-event.mouseButton.y)/64)/_mapCurrent._zoom;
 							//TODO deplacement
-							ycase++;
+							
 							cout << "\t\t\t\tdeplacement en "<< xcase << " " << ycase << endl;
 							_ite_h=_tank_hero.begin();// ?
 														//case actuelle
@@ -542,7 +541,7 @@ void Partie::UpdateMap(IHMmanager* game){
 	for(i = 0 ; i <_mapCurrent.get_sizeX() ; i++){
 		for(j = 0 ; j < _mapCurrent.get_sizeY() ; j++){
 			(*itelistSquareMap).setPosition(_mapCurrent._origXmap + i*64*_mapCurrent._zoom
-										   ,_mapCurrent._origYmap - j*64*_mapCurrent._zoom);
+										   ,_mapCurrent._origYmap - j*64*_mapCurrent._zoom - _mapCurrent._zoom*64);
 			(*itelistSquareMap).setScale(_mapCurrent._zoom, _mapCurrent._zoom);
 			(*itelistSquareMap).setOutlineThickness(1);
 			(*itelistSquareMap).setOutlineColor(Color(Color::Cyan));
@@ -604,6 +603,13 @@ void Partie::DrawHUD(IHMmanager* game){
 
 void Partie::DrawMap(IHMmanager* game){
 
+	RectangleShape r(Vector2f(_mapCurrent.get_sizeX()*64*_mapCurrent._zoom,_mapCurrent.get_sizeY()*_mapCurrent._zoom*64));
+	r.setPosition(_mapCurrent._origXmap, _mapCurrent._origYmap - _mapCurrent.get_sizeY()*_mapCurrent._zoom*64);
+	r.setOutlineThickness(2.0);
+	r.setOutlineColor(Color::Magenta);
+	r.setFillColor(Color(0,0,0,0));
+	game->get_myWindow()->draw(r);
+
 	int i,j;
 	list<RectangleShape>::iterator itelistSquareMap = _mapCurrent._listSquareMap.begin();
 	for(i = 0 ; i <_mapCurrent.get_sizeX() ; i++){
@@ -621,7 +627,7 @@ void Partie::DrawMap(IHMmanager* game){
 		tpsSprite = (*_ite_h).get_sprite();
 				tpsSprite.setScale(_mapCurrent._zoom, _mapCurrent._zoom);
 				tpsSprite.setPosition(_mapCurrent._origXmap + 64*(_mapCurrent._zoom)*(*_ite_h).get_x()
-									, _mapCurrent._origYmap - 64*(_mapCurrent._zoom)*(*_ite_h).get_y() );
+									, _mapCurrent._origYmap - _mapCurrent._zoom*64 - 64*(_mapCurrent._zoom)*(*_ite_h).get_y() );
 				game->get_myWindow()->draw(tpsSprite);
 				Text nom((*_ite_h).get_name(), font, _mapCurrent._zoom*12);
 				nom.setPosition(tpsSprite.getGlobalBounds().left, tpsSprite.getGlobalBounds().top);
@@ -632,7 +638,7 @@ void Partie::DrawMap(IHMmanager* game){
 			tpsSprite = (*_ite_h).get_sprite();
 			tpsSprite.setScale(_mapCurrent._zoom, _mapCurrent._zoom);
 			tpsSprite.setPosition(_mapCurrent._origXmap + 64*(_mapCurrent._zoom)*(*_ite_h).get_x()
-								, _mapCurrent._origYmap - 64*(_mapCurrent._zoom)*(*_ite_h).get_y() );
+								, _mapCurrent._origYmap  - _mapCurrent._zoom*64- 64*(_mapCurrent._zoom)*(*_ite_h).get_y() );
 			game->get_myWindow()->draw(tpsSprite);
 		}
 	}
@@ -650,7 +656,7 @@ void Partie::DrawMap(IHMmanager* game){
 	{
 		Text obs("obstacle", font, _mapCurrent._zoom*12);
 		obs.setPosition(_mapCurrent._origXmap+(*_ite_o).get_x()*64*_mapCurrent._zoom,
-				_mapCurrent._origYmap-(*_ite_o).get_y()*64*_mapCurrent._zoom);
+				_mapCurrent._origYmap- _mapCurrent._zoom*64 -(*_ite_o).get_y()*64*_mapCurrent._zoom);
 		game->get_myWindow()->draw(obs);
 	}
 
@@ -658,7 +664,7 @@ void Partie::DrawMap(IHMmanager* game){
 	{
 		Text por("portail", font, _mapCurrent._zoom*12);
 		por.setPosition(_mapCurrent._origXmap+(*_ite_p).get_x()*64*_mapCurrent._zoom,
-				_mapCurrent._origYmap-(*_ite_p).get_y()*64*_mapCurrent._zoom);
+				_mapCurrent._origYmap - _mapCurrent._zoom*64-(*_ite_p).get_y()*64*_mapCurrent._zoom);
 		game->get_myWindow()->draw(por);
 	}
 

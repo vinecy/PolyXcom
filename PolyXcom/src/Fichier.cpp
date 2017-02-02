@@ -44,30 +44,38 @@ void Fichier::loadSave(string &nameCurrentMap, list<Hero>& listHero, list<Portai
 	if(_path){									// si fichier ouvert
 		cout << "chargement sauvegarde " << endl;
 		_path.seekg(0,ios::beg);				// curseur du fichier au début
-		while( mot != "END"){			// tant que l'on a pas atteint la fin du fichier et trouvé le champ
+		while( mot != "END"){					// tant que l'on a pas atteint la fin du fichier et trouvé le champ
 			_path >> mot;						// on passe au mot suivant
-			cout << mot << endl;
+			cout << "1:" << mot << endl;
 			if(mot == "mapCurrent:"){			// si on a trouvé le champ "mapCurrent:"
+				cout << "carte trouvé" << endl;
 				_path >> mot;						// chargement du nom
 				nameCurrentMap = mot;				// dans l'argument par adresse
 			} else if(mot == "coordSpawn:"){			// si on a trouvé le champ "mapCurrent:"
+				cout << "spawn trouvé" << endl;
 				_path >> coordSpawnX;
 				_path >> coordSpawnY;
 			} else if( mot == "nameHero:" || mot == "felowTravellerName1:" || mot == "felowTravellerName2:"){
+				cout << "heros trouvé" << endl;
 				_path >> mot;
-				cout << mot << endl;
+				cout << "2:" << mot << endl;
 				while(mot != ";"){
 					nom = nom + mot + " ";
 					_path >> mot;
 				}
 				_path >> mot;
+				cout << "3:" << mot << endl;
 				if( mot == "inventory:" ){
+					cout << "inventaire trouvé" << endl;
 					_path >> mot;
 					while(mot != ";"){
 						// TODO Definir constructeur de Inventaire
 					}
 				}
+				_path >> mot;
+				cout << "4:" << mot << endl;
 				if( mot == "stats:"){			// si on a trouvé le champ "stats:"
+					cout << "stats trouvé" << endl;
 					_path >> lev;
 					_path >> str;
 					_path >> acc;

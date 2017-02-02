@@ -23,8 +23,14 @@ using namespace std;
 class Partie : public IHMstate {
 private:								// ATTRIBUTS
 										// GRAPHIQUES
+	RectangleShape PersoActif;				// Element de l'HUD
+	RectangleShape ConteneurPVMAX;
+	RectangleShape ConteneurPV;
+	Text textPV;
+	RectangleShape ConteneurPAMAX;
+	RectangleShape ConteneurPA;
+	Text textPA;
 	Sprite boutonMenu[4];
-
 	Sprite boutonCC;
 	Sprite boutonTirer;
 	Sprite boutonRecharger;
@@ -33,34 +39,22 @@ private:								// ATTRIBUTS
 	Sprite boutonChangerCompagnon;
 	Sprite boutonFinTour;
 
-	Sprite BackgroundMap;
+	Image i;								// Image contenant le sprite
+	Texture t;								// Texture contenant la feuille de sprite
+	Font font;								// Police de caractère
 
-	RectangleShape PersoActif;
-
-	RectangleShape ConteneurPVMAX;
-	RectangleShape ConteneurPV;
-	Text textPV;
-	RectangleShape ConteneurPAMAX;
-	RectangleShape ConteneurPA;
-	Text textPA;
-
-	Image i;
-	Texture t;
-	Font font;
-
-	RectangleShape menuQuitter;
+	RectangleShape menuQuitter;				// Element du menu Quitter
 	RectangleShape boutonOui;
 	RectangleShape boutonNon;
 	Text textMenuQuitter;
 	Text textOui;
 	Text textNon;
 
-	float _zoom;
-
 	int choix;
 	int choixYesNo;
 	int fenetreActive;
 	bool valide;
+	bool premiereApparition;
 										// JEU
 	list<Ennemi> 		_tank_ennemi;		// conteneurs pour
 	list<Hero>			_tank_hero;			// le chargement a partir d'un fichier

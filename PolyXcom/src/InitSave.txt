@@ -1,17 +1,19 @@
-mapCurrent: Luminy
+mapCurrent: checkpoint
 
-nameHero: Polytech Warrior ;
+coordSpawn: 0 2
+
+nameHero: Vincent ;
 inventory: ;
-stats: ;
+stats: 1 2 3 4 3 2 ;
 
 felowTravellerName1: Alexis ;
 inventory: ;
-stats: ;
+stats: 1 2 3 4 3 2 ;
 
-felowTravellerName2: ;
-inventory: ;
-stats: ;
+//felowTravellerName2: ;
+//inventory: ;
+//stats: ;
 
-closedPortalList: ;
+closedPortalList ; 
 
 END

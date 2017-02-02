@@ -46,6 +46,7 @@ static int size_Map_part_Y;
 /** Le constructeur Partie crée la partie en cours
   * */
 Partie::Partie(int choix) {
+	premiereApparition = true;
 	if( choix == 1 ){
 		newPartie();		// reinitialisation de la sauvegarde
 		loadPartie();		// chargement du jeu
@@ -68,7 +69,7 @@ Partie::Partie(int choix) {
 /** La méthode Init initialise l'IHM de l'écran
   * */
 void Partie::Init(){
-	_zoom = 1.0;
+	_mapCurrent._zoom = 1.0;
 	cout << "Initialisation de la Partie " << endl;
 	if (font.loadFromFile("src\\PressStart2P.ttf")){			// chargement de la police de caractère
 		cout << "Init des chaines de caractères" << endl;
@@ -83,7 +84,7 @@ void Partie::Init(){
 		cout << "feuille de sprite crée " << endl;
 	}
 	InitHUD();				// Initialisation des éléments de l'interface utilisateur
-	InitMap();				// Initialisation des éléments de la partie Carte de l'IHM
+	//InitMap();				// Initialisation des éléments de la partie Carte de l'IHM
 	InitMenuQuitter();		// Initialisation du menu Quitter pour choix de quitter la partie
 }
 
@@ -158,6 +159,9 @@ void Partie::InitHUD(){
 /** La méthode InitHUD initialise les éléments de l'interface utilisateur
   * */
 void Partie::InitMap(){
+	//static int witdh_mapScreen
+	//static int height_mapScreen
+
 	//static RectangleShape dessinMap(Vector2f(_mapCurrent.get_sizeX()*64,_mapCurrent.get_sizeY())*64);
 
 }
@@ -174,9 +178,6 @@ void Partie::InitMenuQuitter(){
 	boutonNon = RectangleShape(Vector2f(textNon.getGlobalBounds().width + 5
 									   , textNon.getGlobalBounds().height + 5));
 }
-
-
-
 
 void Partie::CleanUp(){
 	cout << " ... Fermeture de la Partie " << endl;
@@ -224,9 +225,9 @@ void Partie::HandleEvents(IHMmanager* game){
 				break;
 			case Event::MouseWheelScrolled : 				// "Mouvement sur la molette de la souris"
 				float tps;
-				tps = _zoom + (0.5 * event.mouseWheelScroll.delta);
+				tps = _mapCurrent._zoom + (0.5 * event.mouseWheelScroll.delta);
 				if( (event.mouseWheelScroll.delta != 0) && tps >= 1 && tps <= 5){		// vers le bas (delta negatif)
-					_zoom = tps ;
+					_mapCurrent._zoom = tps ;
 				}
 				break;
 			case Event::MouseMoved :				// "Mouvement de la souris"
@@ -280,8 +281,9 @@ void Partie::HandleEvents(IHMmanager* game){
 						} else if( choixYesNo > 0){
 							valide = true; 				// si la souris est sur un bouton du menu quitter
 						} else {						// sinon on clique dans une zone sans bouton
-							float origineMapX = (game->get_myWindow()->getSize().x - ESPACE*2 - 96)/2 - (64*_zoom*_mapCurrent.get_sizeX())/2;
-							float origineMapY = (game->get_myWindow()->getSize().y - ESPACE*2 - 96)/2 + (64*_zoom*_mapCurrent.get_sizeY())/2;
+
+							float origineMapX = (game->get_myWindow()->getSize().x - ESPACE*2 - 96)/2 - (64*_mapCurrent._zoom*_mapCurrent.get_sizeX())/2;
+							float origineMapY = (game->get_myWindow()->getSize().y - ESPACE*2 - 96)/2 + (64*_mapCurrent._zoom*_mapCurrent.get_sizeY())/2;
 							int xcase = (event.mouseButton.x-origineMapX)/64;
 							int ycase = (origineMapY-event.mouseButton.y)/64;
 							//TODO deplacement
@@ -302,8 +304,8 @@ void Partie::HandleEvents(IHMmanager* game){
 									(*_ite_h).set_y(chemin.back().second);
 									cout << "\t\t\tdeplacement en "<< chemin.back().first << " " << chemin.back().second <<" terminé"<< endl;
 								}
-								*/
-								//yolo
+
+								//yolo*/
 								(*_ite_h).set_x(xcase);
 								(*_ite_h).set_y(ycase);
 							}
@@ -322,7 +324,12 @@ void Partie::HandleEvents(IHMmanager* game){
 }
 
 void Partie::Update(IHMmanager* game){
+	size_window_X = game->get_myWindow()->getSize().x;
+	size_window_Y = game->get_myWindow()->getSize().y;
+	size_Map_part_X = size_window_X - ESPACE*2 - boutonMenu[0].getGlobalBounds().width;
+	size_Map_part_Y = size_window_Y - ESPACE*2 - boutonMenu[0].getGlobalBounds().height;
 
+	UpdateMap(game);
 	UpdateHUD(game);
 	if(fenetreActive == 1){
 
@@ -333,7 +340,28 @@ void Partie::Update(IHMmanager* game){
 	} else if(fenetreActive == 4){
 		UpdateMenuQuitter(game);
 	} else {
+		if(premiereApparition == true){
+			premiereApparition = false;
+			// phase d'initialisation
+			if(_mapCurrent.get_dangerZone() == false){
+				// mode exploration
+				cout << " Mode exploration " << endl;
+				// TODO à remettre au propre
+				_ite_l = _team_hero.begin();			// itérateur sur le héros principal car il est le seul à se déplacer
+				_ite_l++;								// on retire les compagnons de la carte
+				while( _ite_l != _team_hero.end()){
+					_mapCurrent.removeItem(*(*_ite_l));
+					_ite_l++;
+				}
+				_ite_h = _tank_hero.end();
+				_ite_l = _team_hero.begin();
+			} else {
+				// mode combat
 
+			}
+		} else {
+
+		}
 	}
 }
 
@@ -491,12 +519,28 @@ void Partie::UpdateMenuQuitter(IHMmanager*game){
 	}
 }
 
-void Partie::Draw(IHMmanager* game){
-	size_window_X = game->get_myWindow()->getSize().x;
-	size_window_Y = game->get_myWindow()->getSize().y;
-	size_Map_part_X = size_window_X - ESPACE*2 - 96;
-	size_Map_part_Y = size_window_Y - ESPACE*2 - 96;
+void Partie::UpdateMap(IHMmanager* game){
+	_mapCurrent.updatePosition();
+	_mapCurrent._origXmap = size_Map_part_X/2 - _mapCurrent._widthMap/2;
+	_mapCurrent._origYmap = size_Map_part_Y/2 + _mapCurrent._heightMap/2;
 
+	int i,j;
+	list<RectangleShape>::iterator itelistSquareMap = _mapCurrent._listSquareMap.begin();
+	for(i = 0 ; i <_mapCurrent.get_sizeX() ; i++){
+		for(j = 0 ; j < _mapCurrent.get_sizeY() ; j++){
+			(*itelistSquareMap).setPosition(_mapCurrent._origXmap + i*64*_mapCurrent._zoom
+										   ,_mapCurrent._origYmap - j*64*_mapCurrent._zoom);
+			(*itelistSquareMap).setScale(_mapCurrent._zoom, _mapCurrent._zoom);
+			(*itelistSquareMap).setOutlineThickness(1);
+			(*itelistSquareMap).setOutlineColor(Color(Color::Cyan));
+			(*itelistSquareMap).setFillColor(Color(0,0,0,0));
+			itelistSquareMap++;
+		}
+	}
+}
+
+
+void Partie::Draw(IHMmanager* game){
 	game->get_myWindow()->clear();
 
 	DrawMap(game);
@@ -546,54 +590,45 @@ void Partie::DrawHUD(IHMmanager* game){
 }
 
 void Partie::DrawMap(IHMmanager* game){
-	float origineMapX = (game->get_myWindow()->getSize().x - ESPACE*2 - 96)/2 - (64*_zoom*_mapCurrent.get_sizeX())/2;
-	//float origineMapX = size_Map_part_X/2 - 64*_zoom*_mapCurrent.get_sizeX();
 
-	float origineMapY = (game->get_myWindow()->getSize().y - ESPACE*2 - 96)/2 + (64*_zoom*_mapCurrent.get_sizeY())/2;
-
-	list<RectangleShape> squareMap;
-	list<Sprite> listSprite;
-	list<RectangleShape>::iterator ite_squareMap;
-	list<RectangleShape>::iterator prec;
-	squareMap.clear();
-	for(int i=0 ; i<_mapCurrent.get_sizeX() ; i++ ){
-		squareMap.push_front(RectangleShape(Vector2f( 62*_zoom,
-													  ( _mapCurrent.get_sizeY()*(62*_zoom) + (_mapCurrent.get_sizeY()-1)*2 )
-													  )));
-		ite_squareMap = squareMap.begin();
-		prec = squareMap.begin();
-		prec++;
-		if(i!=0) (*ite_squareMap).setPosition( (*(prec)).getGlobalBounds().left + (*(prec)).getGlobalBounds().width + 1, origineMapY - 64*_zoom*_mapCurrent.get_sizeY());
-		else (*ite_squareMap).setPosition( origineMapX , origineMapY - 64*_zoom*_mapCurrent.get_sizeY());
-		(*ite_squareMap).setFillColor(Color(0,0,0,0));
-		(*ite_squareMap).setOutlineThickness(1.0);
-		(*ite_squareMap).setOutlineColor(Color::Cyan);
-
-		game->get_myWindow()->draw((*ite_squareMap));
+	int i,j;
+	list<RectangleShape>::iterator itelistSquareMap = _mapCurrent._listSquareMap.begin();
+	for(i = 0 ; i <_mapCurrent.get_sizeX() ; i++){
+		for(j = 0 ; j < _mapCurrent.get_sizeY() ; j++){
+			game->get_myWindow()->draw((*itelistSquareMap));
+			itelistSquareMap++;
+		}
 	}
-	for(int i=0 ; i<_mapCurrent.get_sizeY() ; i++ ){
-		squareMap.push_front(RectangleShape(Vector2f( _mapCurrent.get_sizeY()*(62*_zoom) + (_mapCurrent.get_sizeY()-1)*2 ,
-												      62*_zoom
-													 )));
-		ite_squareMap = squareMap.begin();
-		prec = squareMap.begin();
-		prec++;
-		if(i!=0) (*ite_squareMap).setPosition(origineMapX , (*(prec)).getGlobalBounds().top + (*(prec)).getGlobalBounds().height + 1);
-		else (*ite_squareMap).setPosition( origineMapX , origineMapY - 64*_zoom*_mapCurrent.get_sizeY() );
-		(*ite_squareMap).setFillColor(Color(0,0,0,0));
-		(*ite_squareMap).setOutlineThickness(1.0);
-		(*ite_squareMap).setOutlineColor(Color::Cyan);
-		game->get_myWindow()->draw((*ite_squareMap));
-	}
+
 	Sprite tpsSprite;
-	list<Hero>::iterator ite_hero = _tank_hero.begin();
+	list<Personnage*>::iterator ite_l = _team_hero.begin();
+
+	for(ite_l = _team_hero.begin() ; ite_l != _team_hero.end() ; ite_l++){
+		(*ite_l)->set_sprite(t);
+		tpsSprite = (*ite_l)->get_sprite();
+		tpsSprite.setScale(_mapCurrent._zoom, _mapCurrent._zoom);
+		tpsSprite.setPosition(_mapCurrent._origXmap + 64*(_mapCurrent._zoom)*(*ite_l)->get_x()
+							, _mapCurrent._origYmap - 64*(_mapCurrent._zoom)*(*ite_l)->get_y() );
+		game->get_myWindow()->draw(tpsSprite);
+	}
+	list<Personnage*>::iterator ite_e = _team_ennemi.begin();
+	for(ite_l = _team_ennemi.begin() ; ite_l != _team_ennemi.end() ; ite_l++){
+		(*ite_l)->set_sprite(t);
+		tpsSprite = (*ite_l)->get_sprite();
+		tpsSprite.setScale(_mapCurrent._zoom, _mapCurrent._zoom);
+		tpsSprite.setPosition(_mapCurrent._origXmap + 64*(_mapCurrent._zoom)*(*ite_l)->get_x()
+							, _mapCurrent._origYmap - 64*(_mapCurrent._zoom)*(*ite_l)->get_y() );
+		game->get_myWindow()->draw(tpsSprite);
+	}
+
+	/*list<Hero>::iterator ite_hero = _tank_hero.begin();
 	list<Ennemi>::iterator ite_ennemi = _tank_ennemi.begin();
 	while(ite_hero != _tank_hero.end()){
 		(*ite_hero).set_sprite(t);
 		tpsSprite = (*ite_hero).get_sprite();
-		tpsSprite.setScale(_zoom, _zoom);
-		tpsSprite.setPosition(origineMapX - 1 + 63*_zoom*(*ite_hero).get_x()
-							,(origineMapY + 1 - 64*_zoom*((*ite_hero).get_y() + 1)) );
+		tpsSprite.setScale(_mapCurrent._zoom, _mapCurrent._zoom);
+		tpsSprite.setPosition(_mapCurrent._origXmap + 64*(_mapCurrent._zoom)*(*ite_hero).get_x()
+							, _mapCurrent._origYmap - 64*(_mapCurrent._zoom)*(*ite_hero).get_y() );
 		game->get_myWindow()->draw(tpsSprite);
 		Text t((*ite_hero).get_name(),font,12);
 		t.setPosition(tpsSprite.getGlobalBounds().left, tpsSprite.getGlobalBounds().top);
@@ -603,14 +638,14 @@ void Partie::DrawMap(IHMmanager* game){
 	while(ite_ennemi != _tank_ennemi.end()){
 		(*ite_ennemi).set_sprite(t);
 		tpsSprite = (*ite_ennemi).get_sprite();
-		tpsSprite.setScale(_zoom, _zoom);
-		tpsSprite.setPosition(origineMapX - 1 + 63*_zoom*(*ite_ennemi).get_x()
-							,(origineMapY + 1 - 64*_zoom*((*ite_ennemi).get_y() + 1)) );
+		tpsSprite.setScale(_mapCurrent._zoom, _mapCurrent._zoom);
+		tpsSprite.setPosition(_mapCurrent._origXmap - 1 + 63*_mapCurrent._zoom*(*ite_ennemi).get_x()
+							,(_mapCurrent._origYmap + 1 - 64*_mapCurrent._zoom*((*ite_ennemi).get_y() + 1)) );
 		game->get_myWindow()->draw(tpsSprite);
 		Text t("Ennemy",font,12);
 		t.setPosition(tpsSprite.getGlobalBounds().left, tpsSprite.getGlobalBounds().top);
 		ite_ennemi++;
-	}
+	}*/
 }
 
 /*** ******************************************************************************************************** ***/
@@ -634,11 +669,14 @@ void Partie::loadPartie(void){
 	Fichier pathSave("src\\Save.txt",1); 	// ouverture en lecture et ecriture de la sauvegarde
 	string nameCurrentMap;			// nom de la carte actuel
 	pathSave.loadSave(nameCurrentMap,_tank_hero,_tank_portail_close); 		// recherche de la carte actuel dans la sauvegarde
+	cout << " " << _tank_hero.size() << endl;
 	pathMap.loadMap(nameCurrentMap, _mapCurrent, 	// chargement de la carte actuel
 								    _tank_ennemi,	// avec la liste d'ennemi,
 									_tank_hero,		// la liste d'héros,
 									_tank_obstacle,	// la liste d'obstacle et
 									_tank_portail);	// la liste de portails.
+
+	cout << " " << _tank_hero.size() << endl;
 
 	// ajout des ennemis sur la carte
 	for(_ite_e = _tank_ennemi.begin();_ite_e!=_tank_ennemi.end();_ite_e++){
@@ -669,6 +707,7 @@ void Partie::loadPartie(void){
 	for(_ite_h = _tank_hero.begin() ; _ite_h != _tank_hero.end() ; _ite_h++){
 		_team_hero.push_front( &(*_ite_h) );
 	}
+	_ite_l = _team_hero.begin();
 	cout << "fin loadPartie " << endl;
 }
 
@@ -702,6 +741,7 @@ void Partie::savePartie(void){
   * portail p
   	  * @param p - portail où le joueur se situe qui engendre le changement de carte*/
 void Partie::switchMap( Portail p ){
+	premiereApparition = true;
 	_mapCurrent.removeAllItem();							// on retire tous le monde de la carte sans toucher au conteneur
 	Fichier pathMap("src\\World.txt",0);							// chargement de la prochaine map
 	//cout << "chargement de la map" << endl;

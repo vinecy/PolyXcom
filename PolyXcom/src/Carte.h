@@ -9,7 +9,7 @@
 #ifndef CARTE_H_
 #define CARTE_H_
 
-
+#include <SFML/Graphics.hpp>
 #include <list>					// Carte utilise des listes
 #include "Personnage.h"			// Carte pointe sur des affichables
 
@@ -23,7 +23,14 @@ class Carte {
 		string _nameMap;			// nom de la carte
 		bool _dangerZone;			// booléen indiquant si c'est une zone de danger
 
-
+	public:
+		Sprite BackgroundMap;		// Element IHM de la map
+		int _origXmap = 0;
+		int _origYmap = 0;
+		int _widthMap;
+		int _heightMap;
+		float _zoom = 1.0;
+		list<RectangleShape> _listSquareMap;
 
 
 	// Methodes
@@ -32,6 +39,8 @@ class Carte {
 		Carte(int x , int y);
 		Carte(string name , int x , int y , bool dZ);
 															// METHODES
+		void updatePosition();
+
 		void loadMap(string const name);						// Permet de charger la carte d'après le fichier
 
 		int moveIsPossible(int x , int y , bool canCrossMap);	// Affirme si Déplacement possible à (x,y)

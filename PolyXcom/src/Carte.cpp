@@ -38,9 +38,12 @@ static Affichable vide;
 Carte::Carte() {
 	_sizeX = 4 ;
 	_sizeY = 4 ;
+	_heightMap = 64*_sizeX;
+	_widthMap = 64*_sizeY;
 	_map = new Affichable **[_sizeY];
 	_nameMap = "Map par défaut";
 	_dangerZone = true;
+
 	// initialisation de la carte
 	int i,														// indice parcours sur l'axe Y
 		j;														// indice parcours sur l'axe X
@@ -48,6 +51,7 @@ Carte::Carte() {
 		_map[i] = new Affichable*[_sizeX];
 		for( j = 0 ; j < _sizeX ; j++ ){
 			_map[i][j] = &vide;
+			_listSquareMap.push_back(RectangleShape(Vector2f(64,64)));
 		}
 	}
 	cout << " + carte "<< _nameMap << " crée" << endl;
@@ -61,6 +65,8 @@ Carte::Carte() {
 Carte::Carte( int x , int y ) {
 	_sizeX = x ;
 	_sizeY = y ;
+	_heightMap = 64*_sizeX;
+	_widthMap = 64*_sizeY;
 	_nameMap = "Map de taille fixé";
 	_map = new Affichable **[_sizeY];
 	_dangerZone = true;
@@ -71,6 +77,7 @@ Carte::Carte( int x , int y ) {
 		_map[i] = new Affichable*[_sizeX];
 		for( j = 0 ; j < _sizeX ; j++ ){
 			_map[i][j] = &vide;
+			_listSquareMap.push_back(RectangleShape(Vector2f(64,64)));
 		}
 	}
 	cout << " + carte "<< _nameMap << " crée" << endl;
@@ -87,6 +94,8 @@ Carte::Carte( int x , int y ) {
 Carte::Carte( string name, int x , int y , bool dZ){
 	_sizeX = x;
 	_sizeY = y;
+	_heightMap = 64*_sizeX;
+	_widthMap = 64*_sizeY;
 	_nameMap = name;
 	_dangerZone = dZ;
 	_map = new Affichable **[_sizeY];
@@ -97,11 +106,18 @@ Carte::Carte( string name, int x , int y , bool dZ){
 		_map[i] = new Affichable*[_sizeX];
 		for( j = 0 ; j < _sizeX ; j++ ){
 			_map[i][j] = &vide;
+			_listSquareMap.push_back(RectangleShape(Vector2f(64,64)));
 		}
 	}
 	cout << " + carte "<< _nameMap << " de taille " << _sizeX <<"*"<< _sizeY <<" crée" << endl;
 	cout << " + adresse de vide "<< &vide << endl;
 }
+
+void Carte::updatePosition(){
+	_heightMap = 64*_sizeX*_zoom;
+	_widthMap = 64*_sizeY*_zoom;
+}
+
 
 /** La méthode moveIsPossible permet de vérifier si la case (x,y) est franchissable ou pas
  	 * @param x,y - couple de coordonnées à verifier

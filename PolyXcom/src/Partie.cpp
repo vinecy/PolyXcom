@@ -175,6 +175,9 @@ void Partie::InitMenuQuitter(){
 									   , textNon.getGlobalBounds().height + 5));
 }
 
+
+
+
 void Partie::CleanUp(){
 	cout << " ... Fermeture de la Partie " << endl;
 }
@@ -363,8 +366,6 @@ void Partie::UpdateHUD(IHMmanager* game){
 	boutonRecharger.setTextureRect(IntRect(COLUNN3_PXL,ROWFIGHTBUTTOM_PXL,64,64));
 	boutonTirer.setTextureRect(IntRect(COLUNN2_PXL,ROWFIGHTBUTTOM_PXL,64,64));
 	boutonCC.setTextureRect(IntRect(COLUNN1_PXL,ROWFIGHTBUTTOM_PXL,64,64));
-
-
 
 	switch(choix){
 		case 1: boutonMenu[0].setTextureRect(IntRect(COLUNN1_PXL + 65 ,ROWPLAYERBUTTOM_PXL,64,64)); break;
@@ -604,23 +605,19 @@ void Partie::newPartie(void){
   * */
 void Partie::loadPartie(void){
 	Fichier pathMap("src\\World.txt",0); 	// ouverture en lecture de la carte
-	Fichier pathFile("src\\Save.txt",1); 	// ouverture en lecture et ecriture de la sauvegarde
+	Fichier pathSave("src\\Save.txt",1); 	// ouverture en lecture et ecriture de la sauvegarde
 	string nameCurrentMap;			// nom de la carte actuel
-	pathFile.seekMapCurrent(nameCurrentMap); 		// recherche de la carte actuel dans la sauvegarde
+	pathSave.loadSave(nameCurrentMap,_tank_hero,_tank_portail_close); 		// recherche de la carte actuel dans la sauvegarde
 	pathMap.loadMap(nameCurrentMap, _mapCurrent, 	// chargement de la carte actuel
 								    _tank_ennemi,	// avec la liste d'ennemi,
 									_tank_hero,		// la liste d'héros,
 									_tank_obstacle,	// la liste d'obstacle et
 									_tank_portail);	// la liste de portails.
+
 	// ajout des ennemis sur la carte
 	for(_ite_e = _tank_ennemi.begin();_ite_e!=_tank_ennemi.end();_ite_e++){
 		_mapCurrent.addItem((*_ite_e));
 	}
-
-	// TODO Hero codé en dur temporairement. ils sont issu normalement de la save
-	_tank_hero.push_back(Hero(0,0,2,0,10,11,12,13,14,Inventaire(),"Vincent"));
-	_tank_hero.push_back(Hero(0,1,2,0,9,10,11,12,13,Inventaire(),"Alexis"));
-	// TODO URGENT !!!!!!!!!!
 
 	// ajout des héros sur la carte
 	for(_ite_h = _tank_hero.begin(); _ite_h!=_tank_hero.end(); _ite_h++){

@@ -57,10 +57,9 @@ name: Luminy4
 }
 
 name: checkpoint
-	Taille: 4 4 0
+	Taille: 4 5 0
 
 	Contenu{
-		Save 0 3 5 
 	 	Mur 1 3 1 
 	 	Portail 2 0 4 5 2 Luminy1
 	}

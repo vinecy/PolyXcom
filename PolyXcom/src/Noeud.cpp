@@ -51,31 +51,31 @@ void Noeud::set_costFromEnd(int value){
 /** Retourne le cout depuis le debut
  * */
 int Noeud::get_costFromBegin(void){
-	return _G;
+	return (_G);
 }
 
 /** Retourne le cout depuis la fin
  * */
 int Noeud::get_costFromEnd(void){
-	return _H;
+	return (_H);
 }
 
 /** Retourne le cout final
  * */
 int Noeud::get_costFinal(void){
-	return _F;
+	return (_F);
 }
 
 /** Retourne X
  * */
 int Noeud::get_X(void){
-	return _x;
+	return (_x);
 }
 
 /** Retourne Y
  * */
 int Noeud::get_Y(void){
-	return _y;
+	return (_y);
 }
 
 /** Méthode pour la redef de <<
@@ -97,7 +97,7 @@ void Noeud::display( void ) {
 ostream& operator<<( ostream &flux, Noeud const& noeud )
 {
 	noeud.display(flux);
-    return flux;
+    return (flux);
 }
 
 /** Le destructeur de Noeud

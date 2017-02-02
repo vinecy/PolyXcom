@@ -22,15 +22,15 @@ Portail::Portail(int coordX,int coordY,int ID,int newX,int newY, string nextMap)
 }
 
 int Portail::get_newX( void ){
-	return _newX;
+	return (_newX);
 }
 
 int Portail::get_newY( void ){
-	return _newY;
+	return (_newY);
 }
 
 string Portail::get_nameNextMap( void ){
-	return _nameNextMap;
+	return (_nameNextMap);
 }
 
 void Portail::display( void ){

@@ -282,22 +282,14 @@ void Partie::HandleEvents(IHMmanager* game){
 						} else if( choixYesNo > 0){
 							valide = true; 				// si la souris est sur un bouton du menu quitter
 						} else {						// sinon on clique dans une zone sans bouton
-<<<<<<< HEAD
+
 
 							float origineMapX = (game->get_myWindow()->getSize().x - ESPACE*2 - 96)/2 - (64*_mapCurrent._zoom*_mapCurrent.get_sizeX())/2;
 							float origineMapY = (game->get_myWindow()->getSize().y - ESPACE*2 - 96)/2 + (64*_mapCurrent._zoom*_mapCurrent.get_sizeY())/2;
 							int xcase = (event.mouseButton.x-origineMapX)/64;
 							int ycase = (origineMapY-event.mouseButton.y)/64;
 							//TODO deplacement
-=======
-														//origine de la map
-							float origineMapX = (game->get_myWindow()->getSize().x - ESPACE*2 - 96)/2 - (64*_zoom*_mapCurrent.get_sizeX())/2;
-							float origineMapY = (game->get_myWindow()->getSize().y - ESPACE*2 - 96)/2 + (64*_zoom*_mapCurrent.get_sizeY())/2;
-														//case d'arrivée
-							int xcase = ((event.mouseButton.x-origineMapX)/64)/_zoom;
-							int ycase = ((origineMapY-event.mouseButton.y)/64)/_zoom;
-														//TODO deplacement
->>>>>>> refs/remotes/origin/master
+
 							cout << "\t\t\t\tdeplacement en "<< xcase << " " << ycase << endl;
 							_ite_h=_tank_hero.begin();// ?
 														//case actuelle
@@ -325,15 +317,6 @@ void Partie::HandleEvents(IHMmanager* game){
 								}else{
 									cout<<"\t\t\t\tdeplacement impossible\n"<<endl;
 								}
-<<<<<<< HEAD
-
-								//yolo*/
-								(*_ite_h).set_x(xcase);
-								(*_ite_h).set_y(ycase);
-=======
-							}else{
-								cout<<"\t\t\t\tdeplacement trop grand\n"<<endl;
->>>>>>> refs/remotes/origin/master
 							}
 						}
 						break;

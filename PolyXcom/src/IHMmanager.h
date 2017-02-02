@@ -33,8 +33,8 @@ public:
 	void Update();
 	void Draw();
 
-	bool isRunning(){ return _myWindow->isOpen(); }
-	RenderWindow* get_myWindow(){ return _myWindow; }
+	bool isRunning(){ return (_myWindow->isOpen()); }
+	RenderWindow* get_myWindow(){ return (_myWindow); }
 
 	virtual ~IHMmanager();
 };

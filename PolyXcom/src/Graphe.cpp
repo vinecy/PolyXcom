@@ -53,7 +53,7 @@ bool Graphe::isInTheList(list<Noeud> &l, Noeud &cible){
 		}
 		lit++;
 	}
-	return rep;
+	return (rep);
 }
 
 /** La méthode find_Voisin recherche tout les voisins du noeud de coordonées xC,yC
@@ -82,7 +82,7 @@ list<Noeud> Graphe::find_Voisin(int xC, int yC){
 	} else {
 		cout << "find_Voisin: y=" << 0 << "  inaccessible car CY = " << yC << endl;
 	}
-	return l;
+	return (l);
 }
 
 /** La méthode display affiche le graphe , c'est à dire tout les noeuds ainsi que leur valeur

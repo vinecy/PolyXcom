@@ -140,14 +140,21 @@ int Carte::move_up(Personnage &perso, bool isDangerZone)
 		x = perso.get_x(),
 		y = perso.get_y();
 	repMove = this->moveIsPossible( x , y + 1 , true);
-	if( repMove == 1 ){
-		if(isDangerZone) {
+	if( repMove == 1 )
+	{
+		if(isDangerZone)
+		{
 			perso.set_paCurrent( perso.get_paCurrent() - 1 );	// si zone de combat alors on consomme des PA
 		}
 		moveItemTo( x , y , x , y + 1 );
-	} else if( repMove == 2 && !isDangerZone ){ 				// si mode exploration, on peut changer de Map
+	}
+	else if( repMove == 2 && !isDangerZone )
+	{ 				// si mode exploration, on peut changer de Map
 		moveItemTo( x , y , x , y + 1 );
-	} else {
+	}
+	else
+	{
+		cout << "ancien repmove "<< repMove<<endl;
 		repMove = 0;
 		cout << "erreur" << endl;
 	}

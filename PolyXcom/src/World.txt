@@ -57,7 +57,7 @@ name: Luminy4
 }
 
 name: checkpoint
-	Taille: 4 5 0
+	Taille: 2 2 0
 
 	Contenu{
 	 	Mur 1 3 1 

@@ -203,20 +203,21 @@ void Partie::HandleEvents(IHMmanager* game){
 				break;
 			case Event::KeyReleased : 				// "Appui sur une touche du clavier"
 				switch (event.key.code){ 			// si la touche qui a été appuyée
+					_ite_h=_tank_hero.begin();
 					case Keyboard::Escape: 			// est "Echap"
 						window->close();
 						break;
 					case Keyboard::Z:
-						//_mapCurrent.move_up(*(*_ite_l), _mapCurrent.get_dangerZone());
+						_mapCurrent.move_up((*_ite_h), _mapCurrent.get_dangerZone());
 						break;
 					case Keyboard::S:
-						//_mapCurrent.move_down(*(*_ite_l), _mapCurrent.get_dangerZone());
+						_mapCurrent.move_down((*_ite_h), _mapCurrent.get_dangerZone());
 						break;
 					case Keyboard::Q:
-						//_mapCurrent.move_left(*(*_ite_l), _mapCurrent.get_dangerZone());
+						_mapCurrent.move_left((*_ite_h), _mapCurrent.get_dangerZone());
 						break;
 					case Keyboard::D:
-						//_mapCurrent.move_right(*(*_ite_l), _mapCurrent.get_dangerZone());
+						_mapCurrent.move_right((*_ite_h), _mapCurrent.get_dangerZone());
 						break;
 					default:
 						break;
@@ -280,34 +281,43 @@ void Partie::HandleEvents(IHMmanager* game){
 						} else if( choixYesNo > 0){
 							valide = true; 				// si la souris est sur un bouton du menu quitter
 						} else {						// sinon on clique dans une zone sans bouton
+														//origine de la map
 							float origineMapX = (game->get_myWindow()->getSize().x - ESPACE*2 - 96)/2 - (64*_zoom*_mapCurrent.get_sizeX())/2;
 							float origineMapY = (game->get_myWindow()->getSize().y - ESPACE*2 - 96)/2 + (64*_zoom*_mapCurrent.get_sizeY())/2;
-							int xcase = (event.mouseButton.x-origineMapX)/64;
-							int ycase = (origineMapY-event.mouseButton.y)/64;
-							//TODO deplacement
+														//case d'arrivée
+							int xcase = ((event.mouseButton.x-origineMapX)/64)/_zoom;
+							int ycase = ((origineMapY-event.mouseButton.y)/64)/_zoom;
+														//TODO deplacement
 							cout << "\t\t\t\tdeplacement en "<< xcase << " " << ycase << endl;
 							_ite_h=_tank_hero.begin();// ?
+														//case actuelle
 							int xcur = (*_ite_h).get_x();
 							int ycur = (*_ite_h).get_y();
 							cout << " \t\t\t\tposition actuelle "<< xcur << " " << ycur<< endl;
-
-							if (_mapCurrent.pathIsPossible(xcur, ycur, xcase, ycase))// && (*_ite_h).distance(xcase, ycase)<=4)
+							cout << " \t\t\t\tdistance "<< (*_ite_h).distance(xcase, ycase)<<endl;
+							if((*_ite_h).distance(xcase, ycase)<=2)
 							{
-								cout<<"\t\t\t\tdéplacement accepté\n"<<endl;
-								/*
-								list <pair<int,int>> chemin=_mapCurrent.pathfinding(xcur,ycur,xcase,ycase);
-								if((unsigned int)(*_ite_h).get_paCurrent()>=chemin.size())
+								if (_mapCurrent.pathIsPossible(xcur, ycur, xcase, ycase))
 								{
-									(*_ite_h).set_x(chemin.back().first);
-									(*_ite_h).set_y(chemin.back().second);
-									cout << "\t\t\tdeplacement en "<< chemin.back().first << " " << chemin.back().second <<" terminé"<< endl;
+									cout<<"\t\t\t\tdéplacement accepté"<<endl;
+									cout<<"\t\t\t\tmoove is possible retourne"<<_mapCurrent.pathIsPossible(xcur, ycur, xcase, ycase) <<"\n"<<endl;
+									/*
+									list <pair<int,int>> chemin=_mapCurrent.pathfinding(xcur,ycur,xcase,ycase);
+									if((unsigned int)(*_ite_h).get_paCurrent()>=chemin.size())
+									{
+										(*_ite_h).set_x(chemin.back().first);
+										(*_ite_h).set_y(chemin.back().second);
+										cout << "\t\t\tdeplacement en "<< chemin.back().first << " " << chemin.back().second <<" terminé"<< endl;
+									}
+									*/
+									(*_ite_h).set_x(xcase);
+									(*_ite_h).set_y(ycase);
+								}else{
+									cout<<"\t\t\t\tdeplacement impossible\n"<<endl;
 								}
-								*/
-								//yolo
-								(*_ite_h).set_x(xcase);
-								(*_ite_h).set_y(ycase);
+							}else{
+								cout<<"\t\t\t\tdeplacement trop grand\n"<<endl;
 							}
-							else{cout<<"\t\t\t\tdeplacement refusé\n"<<endl;}
 						}
 						break;
 					default :
@@ -644,7 +654,7 @@ void Partie::loadPartie(void){
 	for(_ite_e = _tank_ennemi.begin();_ite_e!=_tank_ennemi.end();_ite_e++){
 		_mapCurrent.addItem((*_ite_e));
 	}
-
+	_tank_hero.push_front(Hero(0,0,2,2,3,4,5,6,9,Inventaire(),"moi"));
 	// ajout des héros sur la carte
 	for(_ite_h = _tank_hero.begin(); _ite_h!=_tank_hero.end(); _ite_h++){
 		_mapCurrent.addItem((*_ite_h));

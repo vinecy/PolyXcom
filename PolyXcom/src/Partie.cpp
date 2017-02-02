@@ -26,12 +26,15 @@
 
 using namespace std;
 
-#define ROWPLAYERBUTTOM_PXL 391	// n° de pixel sur l'axe x de la feuille de sprite pour les boutons du menu du joueur
-#define ROWFIGHTBUTTOM_PXL 456	// n° de pixel sur l'axe x de la feuille de sprite pour les boutons du mode combat
-#define COLUNN1_PXL 1		// n° de pixel de la colonne 1
+#define ROWPLAYERBUTTOM_PXL 261	// n° de pixel sur l'axe x de la feuille de sprite pour les boutons du menu du joueur
+#define ROWFIGHTBUTTOM_PXL 326	// n° de pixel sur l'axe x de la feuille de sprite pour les boutons du mode combat
+#define COLUNN1_PXL   1		// n° de pixel de la colonne 1
 #define COLUNN2_PXL 131		// n° de pixel de la colonne 2
 #define COLUNN3_PXL 261		// n° de pixel de la colonne 3
 #define COLUNN4_PXL 391		// n° de pixel de la colonne 4
+#define COLUNN5_PXL 521		// n° de pixel de la colonne 5
+#define COLUNN6_PXL 651		// n° de pixel de la colonne 6
+#define COLUNN7_PXL 781		// n° de pixel de la colonne 7
 
 #define ESPACE 20			// espacemment entre les boutons
 
@@ -129,13 +132,21 @@ void Partie::InitHUD(){
 
 	boutonMenu[3].setTexture(t);
 	boutonMenu[3].setScale(2,2);
-	boutonArmeActive = RectangleShape(Vector2f(96,96));
+
+	boutonCC.setTexture(t);
+	boutonCC.setScale(2,2);
 
 	boutonTirer.setTexture(t);
 	boutonTirer.setScale(2,2);
 
 	boutonRecharger.setTexture(t);
 	boutonRecharger.setScale(2,2);
+
+	boutonGrenade.setTexture(t);
+	boutonGrenade.setScale(2,2);
+
+	boutonMedKit.setTexture(t);
+	boutonMedKit.setScale(2,2);
 
 	boutonChangerCompagnon.setTexture(t);
 	boutonChangerCompagnon.setScale(2,2);
@@ -227,14 +238,20 @@ void Partie::HandleEvents(IHMmanager* game){
 					choix = 3;
 				} else if( boutonMenu[3].getGlobalBounds().contains(x, y) == true ){
 					choix = 4;
-				} else if( boutonTirer.getGlobalBounds().contains(x, y) == true ){
+				} else if( boutonCC.getGlobalBounds().contains(x, y) == true ){
 					choix = 5;
-				} else if( boutonRecharger.getGlobalBounds().contains(x, y) == true ){
+				} else if( boutonTirer.getGlobalBounds().contains(x, y) == true ){
 					choix = 6;
-				} else if( boutonChangerCompagnon.getGlobalBounds().contains(x, y) == true ){
+				} else if( boutonRecharger.getGlobalBounds().contains(x, y) == true ){
 					choix = 7;
-				} else if( boutonFinTour.getGlobalBounds().contains(x, y) == true ){
+				} else if( boutonGrenade.getGlobalBounds().contains(x, y) == true ){
 					choix = 8;
+				} else if( boutonMedKit.getGlobalBounds().contains(x, y) == true ){
+					choix = 9;
+				} else if( boutonChangerCompagnon.getGlobalBounds().contains(x, y) == true ){
+					choix = 10;
+				} else if( boutonFinTour.getGlobalBounds().contains(x, y) == true ){
+					choix = 11;
 				} else {
 					choix = 0; valide = false;
 				}
@@ -322,31 +339,45 @@ void Partie::UpdateHUD(IHMmanager* game){
 							   (game->get_myWindow()->getSize().y) - ESPACE - boutonFinTour.getGlobalBounds().height );
 	boutonChangerCompagnon.setPosition( boutonFinTour.getGlobalBounds().left - ESPACE - boutonChangerCompagnon.getGlobalBounds().width,
 										boutonFinTour.getGlobalBounds().top);
-	boutonRecharger.setPosition( boutonChangerCompagnon.getGlobalBounds().left - ESPACE - boutonRecharger.getGlobalBounds().width,
-								 boutonChangerCompagnon.getGlobalBounds().top);
+	boutonMedKit.setPosition( boutonChangerCompagnon.getGlobalBounds().left - ESPACE - boutonMedKit.getGlobalBounds().width,
+							  boutonChangerCompagnon.getGlobalBounds().top);
+	boutonGrenade.setPosition( boutonMedKit.getGlobalBounds().left - ESPACE - boutonGrenade.getGlobalBounds().width,
+							   boutonMedKit.getGlobalBounds().top);
+	boutonRecharger.setPosition( boutonGrenade.getGlobalBounds().left - ESPACE - boutonRecharger.getGlobalBounds().width,
+								 boutonGrenade.getGlobalBounds().top);
 	boutonTirer.setPosition( boutonRecharger.getGlobalBounds().left - ESPACE - boutonTirer.getGlobalBounds().width,
 							 boutonRecharger.getGlobalBounds().top);
-	boutonArmeActive.setPosition( boutonTirer.getGlobalBounds().left - ESPACE - boutonArmeActive.getGlobalBounds().width,
-								  boutonTirer.getGlobalBounds().top);
+	boutonCC.setPosition( boutonTirer.getGlobalBounds().left - ESPACE - boutonCC.getGlobalBounds().width,
+						  boutonTirer.getGlobalBounds().top);
+
 
 	boutonMenu[0].setTextureRect(IntRect(COLUNN1_PXL,ROWPLAYERBUTTOM_PXL,64,64));
 	boutonMenu[1].setTextureRect(IntRect(COLUNN2_PXL,ROWPLAYERBUTTOM_PXL,64,64));
 	boutonMenu[2].setTextureRect(IntRect(COLUNN3_PXL,ROWPLAYERBUTTOM_PXL,64,64));
 	boutonMenu[3].setTextureRect(IntRect(COLUNN4_PXL,ROWPLAYERBUTTOM_PXL,64,64));
-	boutonTirer.setTextureRect(IntRect(COLUNN4_PXL,ROWFIGHTBUTTOM_PXL,64,64));
+
+	boutonFinTour.setTextureRect(IntRect(COLUNN7_PXL,ROWFIGHTBUTTOM_PXL,64,64));
+	boutonChangerCompagnon.setTextureRect(IntRect(COLUNN6_PXL,ROWFIGHTBUTTOM_PXL,64,64));
+	boutonMedKit.setTextureRect(IntRect(COLUNN5_PXL,ROWFIGHTBUTTOM_PXL,64,64));
+	boutonGrenade.setTextureRect(IntRect(COLUNN4_PXL,ROWFIGHTBUTTOM_PXL,64,64));
 	boutonRecharger.setTextureRect(IntRect(COLUNN3_PXL,ROWFIGHTBUTTOM_PXL,64,64));
-	boutonChangerCompagnon.setTextureRect(IntRect(COLUNN1_PXL,ROWFIGHTBUTTOM_PXL,64,64));
-	boutonFinTour.setTextureRect(IntRect(COLUNN2_PXL,ROWFIGHTBUTTOM_PXL,64,64));
+	boutonTirer.setTextureRect(IntRect(COLUNN2_PXL,ROWFIGHTBUTTOM_PXL,64,64));
+	boutonCC.setTextureRect(IntRect(COLUNN1_PXL,ROWFIGHTBUTTOM_PXL,64,64));
+
+
 
 	switch(choix){
 		case 1: boutonMenu[0].setTextureRect(IntRect(COLUNN1_PXL + 65 ,ROWPLAYERBUTTOM_PXL,64,64)); break;
 		case 2: boutonMenu[1].setTextureRect(IntRect(COLUNN2_PXL + 65 ,ROWPLAYERBUTTOM_PXL,64,64)); break;
 		case 3: boutonMenu[2].setTextureRect(IntRect(COLUNN3_PXL + 65 ,ROWPLAYERBUTTOM_PXL,64,64)); break;
 		case 4: boutonMenu[3].setTextureRect(IntRect(COLUNN4_PXL + 65 ,ROWPLAYERBUTTOM_PXL,64,64)); break;
-		case 5: boutonTirer.setTextureRect(IntRect(COLUNN4_PXL + 65 ,ROWFIGHTBUTTOM_PXL,64,64)); break;
-		case 6: boutonRecharger.setTextureRect(IntRect(COLUNN3_PXL + 65 ,ROWFIGHTBUTTOM_PXL,64,64)); break;
-		case 7: boutonChangerCompagnon.setTextureRect(IntRect(COLUNN1_PXL + 65 ,ROWFIGHTBUTTOM_PXL,64,64)); break;
-		case 8: boutonFinTour.setTextureRect(IntRect(COLUNN2_PXL + 65 ,ROWFIGHTBUTTOM_PXL,64,64)); break;
+		case 5: boutonCC.setTextureRect(IntRect(COLUNN1_PXL + 65 ,ROWFIGHTBUTTOM_PXL,64,64)); break;
+		case 6: boutonTirer.setTextureRect(IntRect(COLUNN2_PXL + 65 ,ROWFIGHTBUTTOM_PXL,64,64)); break;
+		case 7: boutonRecharger.setTextureRect(IntRect(COLUNN3_PXL + 65 ,ROWFIGHTBUTTOM_PXL,64,64)); break;
+		case 8: boutonGrenade.setTextureRect(IntRect(COLUNN4_PXL + 65 ,ROWFIGHTBUTTOM_PXL,64,64)); break;
+		case 9: boutonMedKit.setTextureRect(IntRect(COLUNN5_PXL + 65 ,ROWFIGHTBUTTOM_PXL,64,64)); break;
+		case 10: boutonChangerCompagnon.setTextureRect(IntRect(COLUNN6_PXL + 65 ,ROWFIGHTBUTTOM_PXL,64,64)); break;
+		case 11: boutonFinTour.setTextureRect(IntRect(COLUNN7_PXL + 65 ,ROWFIGHTBUTTOM_PXL,64,64)); break;
 		default:
 			break;
 	}
@@ -367,15 +398,24 @@ void Partie::UpdateHUD(IHMmanager* game){
 				valide = 0;
 				break;
 			case 5:
-				// TODO afficher Tirer
+				// TODO afficher CC
 				break;
 			case 6:
-				// TODO afficher Recharger
+				// TODO afficher Tirer
 				break;
 			case 7:
-				// TODO afficher Changer Compagnon
+				// TODO afficher Recharger
 				break;
 			case 8:
+				// TODO afficher Grenade
+				break;
+			case 9:
+				// TODO afficher Medkit
+				break;
+			case 10:
+				// TODO afficher Changer Compagnon
+				break;
+			case 11:
 				// TODO afficher Fin du Tour
 				break;
 			default:
@@ -467,11 +507,13 @@ void Partie::DrawHUD(IHMmanager* game){
 	game->get_myWindow()->draw(textPV);
 	game->get_myWindow()->draw(textPA);
 
-	game->get_myWindow()->draw(boutonFinTour);
-	game->get_myWindow()->draw(boutonChangerCompagnon);
+	game->get_myWindow()->draw(boutonFinTour) ;
+	game->get_myWindow()->draw(boutonChangerCompagnon) ;
+	game->get_myWindow()->draw(boutonMedKit) ;
+	game->get_myWindow()->draw(boutonGrenade) ;
 	game->get_myWindow()->draw(boutonRecharger) ;
 	game->get_myWindow()->draw(boutonTirer) ;
-	game->get_myWindow()->draw(boutonArmeActive) ;
+	game->get_myWindow()->draw(boutonCC) ;
 
 	for(Sprite g : boutonMenu) game->get_myWindow()->draw(g);
 }

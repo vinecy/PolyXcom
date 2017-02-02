@@ -24,14 +24,17 @@ class Partie : public IHMstate {
 private:								// ATTRIBUTS
 										// GRAPHIQUES
 	Sprite boutonMenu[4];
+
+	Sprite boutonCC;
 	Sprite boutonTirer;
 	Sprite boutonRecharger;
+	Sprite boutonGrenade;
+	Sprite boutonMedKit;
 	Sprite boutonChangerCompagnon;
 	Sprite boutonFinTour;
 
 	Sprite BackgroundMap;
 
-	RectangleShape boutonArmeActive;
 	RectangleShape PersoActif;
 
 	RectangleShape ConteneurPVMAX;

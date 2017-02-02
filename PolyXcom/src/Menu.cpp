@@ -32,7 +32,7 @@ void Menu::Init(){
 		//t.update(i);
 		//t.setSmooth(true);  // lissage des textures
 		logo.setTexture(t);
-		logo.setTextureRect(IntRect(1,261,69,74));
+		logo.setTextureRect(IntRect(1,391,69,74));
 		logo.setScale(5, 5);
 		//logo.setTextureRect(IntRect(1,1,63,63));
 		cout << "feuille de sprite crée " << endl;

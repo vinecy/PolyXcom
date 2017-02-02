@@ -284,12 +284,12 @@ void Partie::HandleEvents(IHMmanager* game){
 						} else {						// sinon on clique dans une zone sans bouton
 
 
-							float origineMapX = (game->get_myWindow()->getSize().x - ESPACE*2 - 96)/2 - (64*_mapCurrent._zoom*_mapCurrent.get_sizeX())/2;
-							float origineMapY = (game->get_myWindow()->getSize().y - ESPACE*2 - 96)/2 + (64*_mapCurrent._zoom*_mapCurrent.get_sizeY())/2;
-							int xcase = (event.mouseButton.x-origineMapX)/64;
-							int ycase = (origineMapY-event.mouseButton.y)/64;
+							//float origineMapX = (game->get_myWindow()->getSize().x - ESPACE*2 - 96)/2 - (64*_mapCurrent._zoom*_mapCurrent.get_sizeX())/2;
+							//float origineMapY = (game->get_myWindow()->getSize().y - ESPACE*2 - 96)/2 + (64*_mapCurrent._zoom*_mapCurrent.get_sizeY())/2;
+							int xcase = ((event.mouseButton.x-_mapCurrent._origXmap)/64)/_mapCurrent._zoom;
+							int ycase = ((_mapCurrent._origYmap-event.mouseButton.y)/64)/_mapCurrent._zoom;
 							//TODO deplacement
-
+							ycase++;
 							cout << "\t\t\t\tdeplacement en "<< xcase << " " << ycase << endl;
 							_ite_h=_tank_hero.begin();// ?
 														//case actuelle
@@ -607,17 +607,29 @@ void Partie::DrawMap(IHMmanager* game){
 			itelistSquareMap++;
 		}
 	}
-
 	Sprite tpsSprite;
 	list<Personnage*>::iterator ite_l = _team_hero.begin();
-
-	for(ite_l = _team_hero.begin() ; ite_l != _team_hero.end() ; ite_l++){
-		(*ite_l)->set_sprite(t);
-		tpsSprite = (*ite_l)->get_sprite();
-		tpsSprite.setScale(_mapCurrent._zoom, _mapCurrent._zoom);
-		tpsSprite.setPosition(_mapCurrent._origXmap + 64*(_mapCurrent._zoom)*(*ite_l)->get_x()
-							, _mapCurrent._origYmap - 64*(_mapCurrent._zoom)*(*ite_l)->get_y() );
-		game->get_myWindow()->draw(tpsSprite);
+	if (_mapCurrent.get_dangerZone()==0)
+	{
+		_ite_h = _tank_hero.begin() ;
+		(*_ite_h).set_sprite(t);
+		tpsSprite = (*_ite_h).get_sprite();
+				tpsSprite.setScale(_mapCurrent._zoom, _mapCurrent._zoom);
+				tpsSprite.setPosition(_mapCurrent._origXmap + 64*(_mapCurrent._zoom)*(*_ite_h).get_x()
+									, _mapCurrent._origYmap - 64*(_mapCurrent._zoom)*(*_ite_h).get_y() );
+				game->get_myWindow()->draw(tpsSprite);
+				Text a("Hero", font, _mapCurrent._zoom*12);
+				a.setPosition(tpsSprite.getGlobalBounds().left, tpsSprite.getGlobalBounds().top);
+				game->get_myWindow()->draw(a);
+	}else{
+		for(_ite_h = _tank_hero.begin() ; _ite_h != _tank_hero.end() ; _ite_h++){
+			(*_ite_h).set_sprite(t);
+			tpsSprite = (*_ite_h).get_sprite();
+			tpsSprite.setScale(_mapCurrent._zoom, _mapCurrent._zoom);
+			tpsSprite.setPosition(_mapCurrent._origXmap + 64*(_mapCurrent._zoom)*(*_ite_h).get_x()
+								, _mapCurrent._origYmap - 64*(_mapCurrent._zoom)*(*_ite_h).get_y() );
+			game->get_myWindow()->draw(tpsSprite);
+		}
 	}
 	list<Personnage*>::iterator ite_e = _team_ennemi.begin();
 	for(ite_l = _team_ennemi.begin() ; ite_l != _team_ennemi.end() ; ite_l++){
@@ -690,7 +702,6 @@ void Partie::loadPartie(void){
 	for(_ite_e = _tank_ennemi.begin();_ite_e!=_tank_ennemi.end();_ite_e++){
 		_mapCurrent.addItem((*_ite_e));
 	}
-	_tank_hero.push_front(Hero(0,0,2,2,3,4,5,6,9,Inventaire(),"moi"));
 	// ajout des héros sur la carte
 	for(_ite_h = _tank_hero.begin(); _ite_h!=_tank_hero.end(); _ite_h++){
 		_mapCurrent.addItem((*_ite_h));

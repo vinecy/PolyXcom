@@ -59,6 +59,7 @@ void Fichier::loadSave(string &nameCurrentMap, list<Hero>& listHero, list<Portai
 				cout << "heros trouvé" << endl;
 				_path >> mot;
 				cout << "2:" << mot << endl;
+				nom = "";
 				while(mot != ";"){
 					nom = nom + mot + " ";
 					_path >> mot;

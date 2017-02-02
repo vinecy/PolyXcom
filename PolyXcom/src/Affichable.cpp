@@ -111,7 +111,7 @@ void Affichable::set_y(int y)
 }
 
 Sprite Affichable::get_sprite(){
-	return _sprite;
+	return (_sprite);
 }
 
 void Affichable::set_sprite(Texture &spriteSheet){

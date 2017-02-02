@@ -34,7 +34,7 @@ class Affichable
 		int get_x(void);					//getters
 		int get_y(void);
 		int get_ID(void);
-		int get_rotation(){ return _rotation; }
+		int get_rotation(){ return (_rotation); }
 		void set_x(int);					//setters
 		void set_y(int);
 		void set_rotation(int r){ _rotation = r; }

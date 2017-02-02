@@ -303,6 +303,7 @@ void Partie::HandleEvents(IHMmanager* game){
 									cout << "\t\t\tdeplacement en "<< chemin.back().first << " " << chemin.back().second <<" terminé"<< endl;
 								}
 								*/
+								//yolo
 								(*_ite_h).set_x(xcase);
 								(*_ite_h).set_y(ycase);
 							}

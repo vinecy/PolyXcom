@@ -640,6 +640,19 @@ void Partie::DrawMap(IHMmanager* game){
 							, _mapCurrent._origYmap - 64*(_mapCurrent._zoom)*(*ite_l)->get_y() );
 		game->get_myWindow()->draw(tpsSprite);
 	}
+	for(_ite_o = _tank_obstacle.begin(); _ite_o != _tank_obstacle.end(); _ite_o++)
+	{
+		Text obs("obstacle", font, _mapCurrent._zoom*12);
+						obs.setPosition(_mapCurrent._origXmap+(*_ite_o).get_x()*64*_mapCurrent._zoom,_mapCurrent._origYmap-(*_ite_o).get_y()*64*_mapCurrent._zoom);
+						game->get_myWindow()->draw(obs);
+	}
+
+	for(_ite_p = _tank_portail.begin(); _ite_p != _tank_portail.end(); _ite_p++)
+	{
+		Text por("portail", font, _mapCurrent._zoom*12);
+								por.setPosition(_mapCurrent._origXmap+(*_ite_p).get_x()*64*_mapCurrent._zoom,_mapCurrent._origYmap-(*_ite_p).get_y()*64*_mapCurrent._zoom);
+								game->get_myWindow()->draw(por);
+	}
 
 	/*list<Hero>::iterator ite_hero = _tank_hero.begin();
 	list<Ennemi>::iterator ite_ennemi = _tank_ennemi.begin();

@@ -71,6 +71,15 @@ int Affichable::distance(Affichable A)
 	return(abs(this->_coordX-A._coordX)+abs(this->_coordY-A._coordY));
 }
 
+
+/** La methode distance retourne la 1-distance avec une position
+ 	* @param x - abcisse avec la quelle la 1-distance est calculée
+ 	* @param y - ordonnée avec la quelle la 1-distance est calculée*/
+int Affichable::distance(int x, int y)
+{
+	return(abs(this->_coordX-x)+abs(this->_coordY-y));
+}
+
 /** La methode display_info permet d'afficher les attributs de celui qui l'invoque la console */
 void Affichable::display_info(void)		//debug display
 {

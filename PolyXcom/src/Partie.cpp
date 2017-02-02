@@ -254,14 +254,39 @@ void Partie::HandleEvents(IHMmanager* game){
 			case Event::MouseButtonPressed :		// "Appui sur un bouton de la souris
 				switch (event.mouseButton.button){ 	// si le bouton qui a été préssée
 					case Mouse::Left: 			    // est "Clic gauche"
-						cout << "x: " << event.mouseButton.x << endl;
-						cout << "y: " << event.mouseButton.y << endl;
-						cout << "j'ai cliqué" << endl;
-						if( choix > 0) { valide = true;				// si la souris est sur un bouton de l'HUD
-						} else if( choixYesNo > 0){ valide = true; 	// si la souris est sur un bouton du menu quitter
-						} else {										// sinon on clique dans une zone sans bouton
-							cout << event.mouseMove.x << " " << event.mouseMove.y << endl;
-							cout << "j'ai cliqué" << endl;
+						if( choix > 0)
+						{
+							valide = true;				// si la souris est sur un bouton de l'HUD
+						} else if( choixYesNo > 0){
+							valide = true; 				// si la souris est sur un bouton du menu quitter
+						} else {						// sinon on clique dans une zone sans bouton
+							float origineMapX = (game->get_myWindow()->getSize().x - ESPACE*2 - 96)/2 - (64*_zoom*_mapCurrent.get_sizeX())/2;
+							float origineMapY = (game->get_myWindow()->getSize().y - ESPACE*2 - 96)/2 + (64*_zoom*_mapCurrent.get_sizeY())/2;
+							int xcase = (event.mouseButton.x-origineMapX)/64;
+							int ycase = (origineMapY-event.mouseButton.y)/64;
+							//TODO deplacement
+							cout << "\t\t\t\tdeplacement en "<< xcase << " " << ycase << endl;
+							_ite_h=_tank_hero.begin();// ?
+							int xcur = (*_ite_h).get_x();
+							int ycur = (*_ite_h).get_y();
+							cout << " \t\t\t\tposition actuelle "<< xcur << " " << ycur<< endl;
+
+							if (_mapCurrent.pathIsPossible(xcur, ycur, xcase, ycase))// && (*_ite_h).distance(xcase, ycase)<=4)
+							{
+								cout<<"\t\t\t\tdéplacement accepté\n"<<endl;
+								/*
+								list <pair<int,int>> chemin=_mapCurrent.pathfinding(xcur,ycur,xcase,ycase);
+								if((unsigned int)(*_ite_h).get_paCurrent()>=chemin.size())
+								{
+									(*_ite_h).set_x(chemin.back().first);
+									(*_ite_h).set_y(chemin.back().second);
+									cout << "\t\t\tdeplacement en "<< chemin.back().first << " " << chemin.back().second <<" terminé"<< endl;
+								}
+								*/
+								(*_ite_h).set_x(xcase);
+								(*_ite_h).set_y(ycase);
+							}
+							else{cout<<"\t\t\t\tdeplacement refusé\n"<<endl;}
 						}
 						break;
 					default :

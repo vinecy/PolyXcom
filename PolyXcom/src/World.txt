@@ -1,38 +1,159 @@
 
-name: Luminy
-	Taille: 11 11 0
+name: Luminy1
+	Taille: 6 6 0
 
 	Contenu{
 	 	Mur 2 2 1 
 	 	Mur 2 3 1 
 		Mur 3 2 1 
 		Mur 3 3 1 
-		Portail 0 4 4 0 0 L1
-		Portail 4 4 4 3 1 L2
+		Portail 5 2 4 2 0 checkpoint
+		Portail 0 1 4 5 1 Luminy2
+		Portail 1 5 4 1 0 Luminy4
+	}
+}
+
+name: Luminy2
+	Taille: 6 6 0
+
+	Contenu{
+	 	Mur 2 2 1 
+	 	Mur 2 3 1 
+		Mur 3 2 1 
+		Mur 3 3 1 
+		Portail 4 4 4 0 0 L1
+		Portail 5 1 4 0 1 Luminy1
+		Portail 1 5 4 1 0 Luminy3
+	}
+}
+
+name: Luminy3
+	Taille: 6 6 0
+
+	Contenu{
+	 	Mur 2 2 1 
+	 	Mur 2 3 1 
+		Mur 3 2 1 
+		Mur 3 3 1 
+		Portail 2 5 4 0 4 L2
+		Portail 1 0 4 1 5 Luminy2
+		Portail 5 4 4 0 4 Luminy4
+	}
+}
+
+name: Luminy4
+	Taille: 6 6 0
+
+	Contenu{
+	 	Mur 2 2 1 
+	 	Mur 2 3 1 
+		Mur 3 2 1 
+		Mur 3 3 1 
+		
+		Portail 5 4 4 5 5 L3
+		Portail 0 4 4 5 4 Luminy3
+		Portail 1 0 4 1 5 Luminy1
+	}
+}
+
+name: checkpoint
+	Taille: 4 5 0
+
+	Contenu{
+	 	Mur 1 3 1 
+	 	Portail 2 0 4 5 2 Luminy1
 	}
 }
 
 name: L1
-	Taille: 4 4 1
+	Taille: 6 6 1
 
 	Contenu{
-		Ennemi 2 2 3 0 5 10 10 10 10
-		Mur 0 3 1 
-	 	Mur 2 3 1 
-	 	Portail 0 0 4 0 4 Luminy
+		Ennemi 4 5 3 0 5 10 10 10 10
+		Ennemi 4 4 3 0 5 10 10 10 10
+		Ennemi 3 4 3 0 5 10 10 10 10
+		Mur 2 3 1 
+	 	Mur 3 3 1 
+	 	Mur 4 3 1 
+	 	Portail 0 0 4 4 4 Luminy2
 	}
 }
 
 name: L2
-	Taille: 6 6 1
+	Taille: 8 8 1
 
 	Contenu{
-		Ennemi 2 4 3 0 4 10 10 10 10 
-		Ennemi 4 4 3 0 5 10 10 10 10
+		Ennemi 0 7 3 0 4 10 10 10 10 
+		Ennemi 3 3 3 0 5 10 10 10 10
+		Ennemi 5 0 3 0 4 10 10 10 10 
+		Ennemi 6 6 3 0 5 10 10 10 10
+		Ennemi 6 4 3 0 4 10 10 10 10 
+		Ennemi 7 2 3 0 5 10 10 10 10
+	 	Mur 0 6 1
+	 	Mur 1 6 1
+	 	Mur 2 6 1 
+	 	
+	 	Mur 2 0 1
+	 	Mur 3 0 1
+	 	Mur 4 0 1 
+	 	
+	 	Mur 1 2 1
+	 	Mur 1 4 1
+	 	Mur 2 2 1 
 	 	Mur 2 3 1
-	 	Mur 3 3 1
-	 	Mur 4 3 1 
-	 	Portail 3 1 4 4 4 Luminy
+	 	Mur 2 4 1
+	 	Mur 3 4 1 
+	 	
+	 	Mur 5 6 1
+	 	Mur 5 5 1
+	 	Mur 5 4 1 
+	 	Mur 6 5 1
+	 	
+	 	Mur 5 1 1
+	 	Mur 6 1 1 
+	 	Mur 6 2 1 
+	 	Portail 0 4 4 2 5 Luminy3
+	}
+}
+
+name: L3
+	Taille: 11 11 1
+
+	Contenu{
+		Ennemi 0 10 3 0 5 10 10 10 10
+		Ennemi 1 9 3 0 5 10 10 10 10
+		Ennemi 1 1 3 0 5 10 10 10 10
+		Ennemi 5 9 3 0 5 10 10 10 10
+		Ennemi 9 1 3 0 5 10 10 10 10
+		Ennemi 9 9 3 0 5 10 10 10 10
+		Ennemi 10 10 3 0 5 10 10 10 10
+		
+		Mur 0 4 1 
+		
+	 	Mur 2 2 1 
+	 	Mur 2 3 1 
+	 	Mur 2 7 1 
+	 	Mur 2 8 1 
+	 	
+	 	Mur 3 8 1 
+	 	Mur 3 2 1 
+	 	Mur 3 1 1 
+	 	
+	 	Mur 5 1 1 
+	 	Mur 5 8 1 
+	 	
+	 	Mur 7 8 1 
+	 	Mur 7 2 1 
+	 	Mur 7 1 1 
+	 	
+	 	Mur 8 8 1 
+	 	Mur 8 7 1 
+	 	Mur 8 3 1 
+	 	Mur 8 2 1 
+	 	
+	 	Mur 10 4 1 
+	 	
+	 	Portail 5 5 4 5 4 Luminy4
 	}
 }
 

@@ -24,14 +24,17 @@ class Partie : public IHMstate {
 private:								// ATTRIBUTS
 										// GRAPHIQUES
 	Sprite boutonMenu[4];
+
+	Sprite boutonCC;
 	Sprite boutonTirer;
 	Sprite boutonRecharger;
+	Sprite boutonGrenade;
+	Sprite boutonMedKit;
 	Sprite boutonChangerCompagnon;
 	Sprite boutonFinTour;
 
 	Sprite BackgroundMap;
 
-	RectangleShape boutonArmeActive;
 	RectangleShape PersoActif;
 
 	RectangleShape ConteneurPVMAX;
@@ -63,6 +66,7 @@ private:								// ATTRIBUTS
 	list<Hero>			_tank_hero;			// le chargement a partir d'un fichier
 	list<Obstacle>  	_tank_obstacle;
 	list<Portail>  		_tank_portail;
+	list<Portail>  		_tank_portail_close;
 
 	list<Personnage*>	_team_hero;			// equipe de heros
 	list<Personnage*>	_team_ennemi;		// equipe de ennemi

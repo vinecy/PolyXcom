@@ -1,4 +1,6 @@
-mapCurrent: Luminy
+mapCurrent: checkpoint
+
+coordSpawn: 0 3
 
 nameHero: Polytech Warrior ;
 inventory: ;
@@ -12,7 +14,7 @@ felowTravellerName2: ;
 inventory: ;
 stats: ;
 
-closedPortalList: ;
+closedPortalList ; 
 
 END
 END

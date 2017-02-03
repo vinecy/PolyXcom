@@ -19,7 +19,7 @@ Noeud::Noeud(){
 	_G = 0;
 	_H = 0;
 	_F = _G + _H;
-	cout << " + noeud créé " << endl;
+	//cout << " + noeud créé " << endl;
 }
 
 /** Le constructeur Noeud initialise le noeud et ses couts
@@ -31,7 +31,7 @@ Noeud::Noeud(int x, int y) {
 	_G = 0;
 	_H = 0;
 	_F = _G + _H;
-	cout << " + noeud " << _x << "," << _y << " créé " << endl;
+	//cout << " + noeud " << _x << "," << _y << " créé " << endl;
 }
 
 /** Modifie le cout depuis le debut
@@ -103,5 +103,5 @@ ostream& operator<<( ostream &flux, Noeud const& noeud )
 /** Le destructeur de Noeud
  * */
 Noeud::~Noeud() {
-	cout << " - noeud " << _x << "," <<  _y << " détruit " << endl;
+	//cout << " - noeud " << _x << "," <<  _y << " détruit " << endl;
 }

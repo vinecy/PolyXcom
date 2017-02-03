@@ -3,11 +3,9 @@ name: Luminy1
 	Taille: 6 6 0
 
 	Contenu{
-	 	Mur 0 5 1 
-	 	Mur 2 5 1 
 		Mur 3 5 1 
 		Mur 4 5 1 
-		Portail 5 2 4 2 0 checkpoint
+		Portail 5 1 4 2 0 checkpoint
 		Portail 0 1 4 5 1 Luminy2
 	}
 }
@@ -47,7 +45,7 @@ name: Luminy4
 		
 		Portail 5 4 4 5 5 L3
 		Portail 0 4 4 5 4 Luminy3
-		Portail 1 0 4 1 5 Luminy1
+		Portail 1 0 4 1 4 Luminy1
 	}
 }
 

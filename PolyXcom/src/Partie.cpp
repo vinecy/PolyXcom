@@ -204,63 +204,90 @@ void Partie::HandleEvents(IHMmanager* game){
 				break;
 			case Event::KeyReleased : 				// "Appui sur une touche du clavier"
 				switch (event.key.code){ 			// si la touche qui a été appuyée
-					//_ite_h=_tank_hero.begin();
 					case Keyboard::Escape: 			// est "Echap"
 						window->close();
 						break;
+
 					case Keyboard::Z:
-						//_mapCurrent.move_up((*_ite_h), _mapCurrent.get_dangerZone());
 						if((*_ite_h).get_y()!=_mapCurrent.get_sizeY()-1)
 						{
 							if(_mapCurrent.get_IDin((*_ite_h).get_x(), (*_ite_h).get_y()+1)==0)
 							{
-								//cout << "x "<< (*_ite_h).get_x()<< " max "<< _mapCurrent.get_sizeX()<<endl;
-								(*_ite_h).set_y((*_ite_h).get_y()+1);
+								_mapCurrent.move_up((*_ite_h), _mapCurrent.get_dangerZone());
 							}else if (_mapCurrent.get_IDin((*_ite_h).get_x(), (*_ite_h).get_y()+1)==4 && _mapCurrent.get_dangerZone()==0)
 							{
-								cout <<"portail"<<endl;
+								list<Portail> ::iterator tmp;
+								for(tmp=_tank_portail.begin();tmp!=_tank_portail.end();tmp++)
+								{
+									if( (*tmp).get_x()==(*_ite_h).get_x() &&(*tmp).get_y()==(*_ite_h).get_y()+1)
+									{
+										_ite_p= tmp;
+									}
+								}
+								switchMap((*_ite_p));
 							}
 						}
 						break;
+
 					case Keyboard::S:
-						//_mapCurrent.move_down((*_ite_h), _mapCurrent.get_dangerZone());
 						if((*_ite_h).get_y()!=0)
 						{
 							if(_mapCurrent.get_IDin((*_ite_h).get_x(), (*_ite_h).get_y()-1)==0)
 							{
-								//cout << "x "<< (*_ite_h).get_x()<< " max "<< _mapCurrent.get_sizeX()<<endl;
-								(*_ite_h).set_y((*_ite_h).get_y()-1);
+								_mapCurrent.move_down((*_ite_h), _mapCurrent.get_dangerZone());
 							}else if (_mapCurrent.get_IDin((*_ite_h).get_x(), (*_ite_h).get_y()-1)==4 && _mapCurrent.get_dangerZone()==0)
 							{
-								cout <<"portail"<<endl;
+								list<Portail> ::iterator tmp;
+								for(tmp=_tank_portail.begin();tmp!=_tank_portail.end();tmp++)
+								{
+									if( (*tmp).get_x()==(*_ite_h).get_x() &&(*tmp).get_y()==(*_ite_h).get_y()-1)
+									{
+										_ite_p= tmp;
+									}
+								}
+								switchMap((*_ite_p));
 							}
 						}
 						break;
+
 					case Keyboard::Q:
-						//_mapCurrent.move_left((*_ite_h), _mapCurrent.get_dangerZone());
 						if((*_ite_h).get_x()!=0)
 						{
 							if(_mapCurrent.get_IDin((*_ite_h).get_x()-1, (*_ite_h).get_y())==0)
 							{
-								//cout << "x "<< (*_ite_h).get_x()<< " max "<< _mapCurrent.get_sizeX()<<endl;
-								(*_ite_h).set_x((*_ite_h).get_x()-1);
+								_mapCurrent.move_left((*_ite_h), _mapCurrent.get_dangerZone());
 							}else if (_mapCurrent.get_IDin((*_ite_h).get_x()-1, (*_ite_h).get_y())==4 && _mapCurrent.get_dangerZone()==0)
 							{
-								cout <<"portail"<<endl;
+								list<Portail> ::iterator tmp;
+								for(tmp=_tank_portail.begin();tmp!=_tank_portail.end();tmp++)
+								{
+									if( (*tmp).get_x()==(*_ite_h).get_x()-1 &&(*tmp).get_y()==(*_ite_h).get_y())
+									{
+										_ite_p= tmp;
+									}
+								}
+								switchMap((*_ite_p));
 							}
 						}
 						break;
+
 					case Keyboard::D:
-						//_mapCurrent.move_right((*_ite_h), _mapCurrent.get_dangerZone());
 						if((*_ite_h).get_x()!=_mapCurrent.get_sizeX()-1)
 						{
 							if(_mapCurrent.get_IDin((*_ite_h).get_x()+1, (*_ite_h).get_y())==0)
 							{
-								//cout << "x "<< (*_ite_h).get_x()<< " max "<< _mapCurrent.get_sizeX()<<endl;
-								(*_ite_h).set_x((*_ite_h).get_x()+1);
+								_mapCurrent.move_right((*_ite_h), _mapCurrent.get_dangerZone());
 							}else if (_mapCurrent.get_IDin((*_ite_h).get_x()+1, (*_ite_h).get_y())==4 && _mapCurrent.get_dangerZone()==0)
 							{
-								cout <<"portail"<<endl;
+								list<Portail> ::iterator tmp;
+								for(tmp=_tank_portail.begin();tmp!=_tank_portail.end();tmp++)
+								{
+									if( (*tmp).get_x()==(*_ite_h).get_x()+1 &&(*tmp).get_y()==(*_ite_h).get_y())
+									{
+										_ite_p= tmp;
+									}
+								}
+								switchMap((*_ite_p));
 							}
 						}
 						break;
@@ -333,29 +360,7 @@ void Partie::HandleEvents(IHMmanager* game){
 							int ycur = (*_ite_h).get_y();
 							cout << " \t\t\t\tposition actuelle "<< xcur << " " << ycur<< endl;
 							cout << " \t\t\t\tdistance "<< (*_ite_h).distance(xcase, ycase)<<endl;
-							/*
-							if((xcase>=0 && ycase>=0 && xcase<_mapCurrent.get_sizeX() && ycase<_mapCurrent.get_sizeY())
-									&& (_mapCurrent.pathIsPossible(xcur, ycur, xcase, ycase)))
-							{
-								if( _mapCurrent.get_IDin(xcase, ycase) == 0)
-								{
-									(*_ite_h).set_x(xcase);
-									(*_ite_h).set_y(ycase);
-								}
-								else if(_mapCurrent.get_IDin(xcase, ycase) == 4)
-								{
-									cout << "portail" << endl;
-									_ite_p = _tank_portail.begin();						// recherche du portail correspondant
-									while( ( !( (*_ite_p).get_x() == xcase )&&( (*_ite_p).get_y() == ycase) )
-										&& ( _ite_p != _tank_portail.end() )
-									){
-										_ite_p++;
-									}
-									cout <<"portail trouvé"<<endl;
-									switchMap((*_ite_p)); //TODO Switch
-								}
-							}
-							*/
+
 							if(xcase>=0 && ycase>=0 && xcase<_mapCurrent.get_sizeX() && ycase<_mapCurrent.get_sizeY())
 							{
 								list <pair<int,int>> chemin=_mapCurrent.pathfinding(xcur,ycur,xcase,ycase);
@@ -363,19 +368,19 @@ void Partie::HandleEvents(IHMmanager* game){
 								{
 									if(_mapCurrent.get_IDin(chemin.back().first, chemin.back().second)==0)
 									{
-										(*_ite_h).set_x(chemin.back().first);
-										(*_ite_h).set_y(chemin.back().second);
+										_mapCurrent.moveItemTo(xcur, ycur, chemin.back().first, chemin.back().second);
 									}
 									else if(_mapCurrent.get_IDin(chemin.back().first, chemin.back().second)==4 && _mapCurrent.get_dangerZone()==false)
 									{
-										_ite_p = _tank_portail.begin();						// recherche du portail correspondant
-										while( ( !( (*_ite_p).get_x() == chemin.back().first )&&( (*_ite_p).get_y() == chemin.back().second) )
-											&& ( _ite_p != _tank_portail.end() )
-										){
-											_ite_p++;
+										list<Portail> ::iterator tmp;
+										for(tmp=_tank_portail.begin();tmp!=_tank_portail.end();tmp++)
+										{
+											if( (*tmp).get_x()==chemin.back().first &&(*tmp).get_y()==chemin.back().second)
+											{
+												_ite_p= tmp;
+											}
 										}
-										cout <<"portail trouvé"<<endl;
-										switchMap((*_ite_p)); //TODO Switch
+										switchMap((*_ite_p));
 									}
 								}
 							}
@@ -415,17 +420,10 @@ void Partie::Update(IHMmanager* game){
 			if(_mapCurrent.get_dangerZone() == false){
 				// mode exploration
 				cout << " Mode exploration " << endl;
-				// TODO à remettre au propre
-				_ite_h = _tank_hero.begin();
-				_ite_h++;
-				while(_ite_h != _tank_hero.end())
-				{
-					_mapCurrent.removeItem((*_ite_h));
-					_ite_h++;
-				}
 				_ite_h = _tank_hero.begin();
 			} else {
 				// mode combat
+				cout << " Mode combat " << endl;
 
 			}
 		} else {
@@ -719,10 +717,20 @@ void Partie::DrawMap(IHMmanager* game){
 
 	for(_ite_p = _tank_portail.begin(); _ite_p != _tank_portail.end(); _ite_p++)
 	{
-		Text por("portail", font, _mapCurrent._zoom*12);
-		por.setPosition(_mapCurrent._origXmap+(*_ite_p).get_x()*64*_mapCurrent._zoom,
-				_mapCurrent._origYmap - _mapCurrent._zoom*64-(*_ite_p).get_y()*64*_mapCurrent._zoom);
-		game->get_myWindow()->draw(por);
+		if((*_ite_p).get_nameNextMap().size()==2)
+		{
+			Text por("portail", font, _mapCurrent._zoom*12);
+			por.setPosition(_mapCurrent._origXmap+(*_ite_p).get_x()*64*_mapCurrent._zoom,
+					_mapCurrent._origYmap - _mapCurrent._zoom*64-(*_ite_p).get_y()*64*_mapCurrent._zoom);
+			por.setFillColor(Color::Red);
+			game->get_myWindow()->draw(por);
+		}else{
+			Text por("portail", font, _mapCurrent._zoom*12);
+			por.setPosition(_mapCurrent._origXmap+(*_ite_p).get_x()*64*_mapCurrent._zoom,
+					_mapCurrent._origYmap - _mapCurrent._zoom*64-(*_ite_p).get_y()*64*_mapCurrent._zoom);
+			game->get_myWindow()->draw(por);
+		}
+
 	}
 
 	/*list<Hero>::iterator ite_hero = _tank_hero.begin();
@@ -787,8 +795,15 @@ void Partie::loadPartie(void){
 		_mapCurrent.addItem((*_ite_e));
 	}
 	// ajout des héros sur la carte
-	for(_ite_h = _tank_hero.begin(); _ite_h!=_tank_hero.end(); _ite_h++){
+	if (_mapCurrent.get_dangerZone()==0)
+	{
+		_ite_h = _tank_hero.begin();
 		_mapCurrent.addItem((*_ite_h));
+		(*_ite_h).display_info();
+	}else{
+		for(_ite_h = _tank_hero.begin(); _ite_h!=_tank_hero.end(); _ite_h++){
+			_mapCurrent.addItem((*_ite_h));
+		}
 	}
 
 	// ajout des obstacles sur la carte
@@ -844,18 +859,16 @@ void Partie::savePartie(void){
   * portail p
   	  * @param p - portail où le joueur se situe qui engendre le changement de carte*/
 void Partie::switchMap( Portail p ){
+	cout << "DEBUT DE SWIIIIIIIIIIIIIIIIIIIIITCH\n";
+	cout << " on veux charger cette map " << p.get_nameNextMap() << endl;
 	premiereApparition = true;
 	_mapCurrent.removeAllItem();							// on retire tous le monde de la carte sans toucher au conteneur
-	Fichier pathMap("src\\World.txt",0);							// chargement de la prochaine map
+	Fichier pathMap("src\\World.txt",0);					// chargement de la prochaine map
 	//cout << "chargement de la map" << endl;
 	pathMap.loadMap(p.get_nameNextMap(), _mapCurrent, _tank_ennemi, _tank_hero, _tank_obstacle, _tank_portail);
-	//cout << "iterateur sur la map" << endl;
-	/*_ite_c = _tank_carte.begin();						// itérateur sur la nouvelle carte
-	while( ( _mapCurrent.get_nameMap() != p.get_nameNextMap() )
-		&& ( _ite_c != _tank_carte.end()) ){
-		_ite_c++;
-	}*/
-	_mapCurrent.display();
+
+
+	//_mapCurrent.display();
 
 	// ajout des ennemis sur la carte
 	for(_ite_e = _tank_ennemi.begin();_ite_e!=_tank_ennemi.end();_ite_e++){
@@ -872,7 +885,7 @@ void Partie::switchMap( Portail p ){
 		(*_ite_p).display();
 	}
 
-	_mapCurrent.display();
+	//_mapCurrent.display();
 	// recherche des points de spawn disponibles sur la carte
 	//cout << "recherche des spawn pour héros sur "<< p.get_newX() << "," << p.get_newY() << endl;
 	list<pair<int,int> > spawnList = _mapCurrent.seekSpawnPoint(p.get_newX(), p.get_newY(), 3);
@@ -888,8 +901,14 @@ void Partie::switchMap( Portail p ){
 		ite++;
 	}
 	// ajout des héros sur la carte
-	for(_ite_h = _tank_hero.begin();_ite_h!=_tank_hero.end();_ite_h++){
+	if (_mapCurrent.get_dangerZone()==0)
+	{
+		_ite_h = _tank_hero.begin();
 		_mapCurrent.addItem((*_ite_h));
+	}else{
+		for(_ite_h = _tank_hero.begin(); _ite_h!=_tank_hero.end(); _ite_h++){
+			_mapCurrent.addItem((*_ite_h));
+		}
 	}
 	_mapCurrent.display();
 	// initialisation de la team d'ennemis sur la carte actuel

@@ -19,10 +19,11 @@ class Affichable
 		int _coordX;						//Abscisse
 		int _coordY;						//Ordonnée
 		int _ID;							//Identifiant
-
 		int _rotation;
 	public:
 		Sprite _sprite;
+		int _coordIHMx;
+		int _coordIHMy;
 
 	public:
 		Affichable();						//Construteur par defaut

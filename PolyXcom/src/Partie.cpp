@@ -301,12 +301,12 @@ void Partie::HandleEvents(IHMmanager* game){
 							int ycur = (*_ite_h).get_y();
 							cout << " \t\t\t\tposition actuelle "<< xcur << " " << ycur<< endl;
 							cout << " \t\t\t\tdistance "<< (*_ite_h).distance(xcase, ycase)<<endl;
-							if((*_ite_h).distance(xcase, ycase)<=2)
+							if((*_ite_h).distance(xcase, ycase)<=10)
 							{
-								if (_mapCurrent.pathIsPossible(xcur, ycur, xcase, ycase))
+								if (_mapCurrent.moveIsPossible(xcase, ycase, 1))
 								{
 									cout<<"\t\t\t\tdéplacement accepté"<<endl;
-									cout<<"\t\t\t\tmoove is possible retourne"<<_mapCurrent.pathIsPossible(xcur, ycur, xcase, ycase) <<"\n"<<endl;
+									//cout<<"\t\t\t\tmoove is possible retourne"<<_mapCurrent.pathIsPossible(xcur, ycur, xcase, ycase) <<"\n"<<endl;
 									/*
 									list <pair<int,int>> chemin=_mapCurrent.pathfinding(xcur,ycur,xcase,ycase);
 									if((unsigned int)(*_ite_h).get_paCurrent()>=chemin.size())
@@ -360,7 +360,9 @@ void Partie::Update(IHMmanager* game){
 				cout << " Mode exploration " << endl;
 				// TODO à remettre au propre
 				_ite_l = _team_hero.begin();			// itérateur sur le héros principal car il est le seul à se déplacer
+				cout << "tes cense faire un truc \n";
 				_ite_l++;								// on retire les compagnons de la carte
+				cout << "tes cense faire un truc 2\n";
 				while( _ite_l != _team_hero.end()){
 					_mapCurrent.removeItem(*(*_ite_l));
 					_ite_l++;

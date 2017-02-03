@@ -610,6 +610,9 @@ list <pair<int , int> > Carte::pathfinding( int xA , int yA , int xB , int yB ){
 	}
 	//cout << " * Fin du while " << endl;
 	cout << " Erreur : Impossible d'accéder à la cible " << endl;
+	pair<int,int> rep;
+	rep.first = -1; rep.second = -1;
+	pathList.push_back(rep);
 	return (pathList);
 }
 

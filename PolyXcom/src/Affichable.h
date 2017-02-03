@@ -22,8 +22,8 @@ class Affichable
 		int _rotation;
 	public:
 		Sprite _sprite;
-		int _coordIHMx;
-		int _coordIHMy;
+		int _coordIHMx = 0;
+		int _coordIHMy = 0;
 
 	public:
 		Affichable();						//Construteur par defaut

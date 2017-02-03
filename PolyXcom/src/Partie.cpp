@@ -333,6 +333,7 @@ void Partie::HandleEvents(IHMmanager* game){
 							int ycur = (*_ite_h).get_y();
 							cout << " \t\t\t\tposition actuelle "<< xcur << " " << ycur<< endl;
 							cout << " \t\t\t\tdistance "<< (*_ite_h).distance(xcase, ycase)<<endl;
+							/*
 							if((xcase>=0 && ycase>=0 && xcase<_mapCurrent.get_sizeX() && ycase<_mapCurrent.get_sizeY())
 									&& (_mapCurrent.pathIsPossible(xcur, ycur, xcase, ycase)))
 							{
@@ -354,33 +355,30 @@ void Partie::HandleEvents(IHMmanager* game){
 									switchMap((*_ite_p)); //TODO Switch
 								}
 							}
-							/*
-							if((*_ite_h).distance(xcase, ycase)<=10)
+							*/
+							if(xcase>=0 && ycase>=0 && xcase<_mapCurrent.get_sizeX() && ycase<_mapCurrent.get_sizeY())
 							{
-								if (_mapCurrent.moveIsPossible(xcase, ycase, 1))
-								if ((_mapCurrent.pathIsPossible(xcur, ycur, xcase, ycase)
-										&&(xcase<_mapCurrent.get_sizeX() && ycase<_mapCurrent.get_sizeY())
-										&&(xcase>=0)&&(ycase>=0)))
+								list <pair<int,int>> chemin=_mapCurrent.pathfinding(xcur,ycur,xcase,ycase);
+								if (chemin.back().first!=-1)
 								{
-									cout<<"\t\t\t\tdéplacement accepté"<<endl;
-									cout<<"taille"<<_mapCurrent.get_sizeX()<<" "<<_mapCurrent.get_sizeY()<<endl;
-									//cout<<"\t\t\t\tmoove is possible retourne"<<_mapCurrent.pathIsPossible(xcur, ycur, xcase, ycase) <<"\n"<<endl;
-									//
-									list <pair<int,int>> chemin=_mapCurrent.pathfinding(xcur,ycur,xcase,ycase);
-									if((unsigned int)(*_ite_h).get_paCurrent()>=chemin.size())
+									if(_mapCurrent.get_IDin(chemin.back().first, chemin.back().second)==0)
 									{
 										(*_ite_h).set_x(chemin.back().first);
 										(*_ite_h).set_y(chemin.back().second);
-										cout << "\t\t\tdeplacement en "<< chemin.back().first << " " << chemin.back().second <<" terminé"<< endl;
 									}
-									//
-									(*_ite_h).set_x(xcase);
-									(*_ite_h).set_y(ycase);
-								}else{
-									cout<<"\t\t\t\tdeplacement impossible\n"<<endl;
+									else if(_mapCurrent.get_IDin(chemin.back().first, chemin.back().second)==4 && _mapCurrent.get_dangerZone()==false)
+									{
+										_ite_p = _tank_portail.begin();						// recherche du portail correspondant
+										while( ( !( (*_ite_p).get_x() == chemin.back().first )&&( (*_ite_p).get_y() == chemin.back().second) )
+											&& ( _ite_p != _tank_portail.end() )
+										){
+											_ite_p++;
+										}
+										cout <<"portail trouvé"<<endl;
+										switchMap((*_ite_p)); //TODO Switch
+									}
 								}
 							}
-							*/
 						}
 						break;
 					default :

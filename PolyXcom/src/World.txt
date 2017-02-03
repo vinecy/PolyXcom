@@ -3,10 +3,10 @@ name: Luminy1
 	Taille: 6 6 0
 
 	Contenu{
-	 	Mur 2 2 1 
-	 	Mur 2 3 1 
-		Mur 3 2 1 
-		Mur 3 3 1 
+	 	Mur 0 5 1 
+	 	Mur 2 5 1 
+		Mur 3 5 1 
+		Mur 4 5 1 
 		Portail 5 2 4 2 0 checkpoint
 		Portail 0 1 4 5 1 Luminy2
 	}
@@ -16,10 +16,6 @@ name: Luminy2
 	Taille: 6 6 0
 
 	Contenu{
-	 	Mur 2 2 1 
-	 	Mur 2 3 1 
-		Mur 3 2 1 
-		Mur 3 3 1 
 		Portail 4 4 4 0 0 L1
 		Portail 5 1 4 0 1 Luminy1
 		Portail 1 5 4 1 0 Luminy3
@@ -44,10 +40,10 @@ name: Luminy4
 	Taille: 6 6 0
 
 	Contenu{
-	 	Mur 2 2 1 
-	 	Mur 2 3 1 
-		Mur 3 2 1 
-		Mur 3 3 1 
+	 	Mur 4 1 1 
+	 	Mur 5 1 1 
+		Mur 4 0 1 
+		Mur 5 0 1 
 		
 		Portail 5 4 4 5 5 L3
 		Portail 0 4 4 5 4 Luminy3

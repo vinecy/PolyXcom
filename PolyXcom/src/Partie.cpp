@@ -209,20 +209,60 @@ void Partie::HandleEvents(IHMmanager* game){
 						window->close();
 						break;
 					case Keyboard::Z:
-						(*_ite_h).display_info();
-						_mapCurrent.move_up((*_ite_h), _mapCurrent.get_dangerZone());
+						//_mapCurrent.move_up((*_ite_h), _mapCurrent.get_dangerZone());
+						if((*_ite_h).get_y()!=_mapCurrent.get_sizeY()-1)
+						{
+							if(_mapCurrent.get_IDin((*_ite_h).get_x(), (*_ite_h).get_y()+1)==0)
+							{
+								//cout << "x "<< (*_ite_h).get_x()<< " max "<< _mapCurrent.get_sizeX()<<endl;
+								(*_ite_h).set_y((*_ite_h).get_y()+1);
+							}else if (_mapCurrent.get_IDin((*_ite_h).get_x(), (*_ite_h).get_y()+1)==4 && _mapCurrent.get_dangerZone()==0)
+							{
+								cout <<"portail"<<endl;
+							}
+						}
 						break;
 					case Keyboard::S:
-						(*_ite_h).display_info();
-						_mapCurrent.move_down((*_ite_h), _mapCurrent.get_dangerZone());
+						//_mapCurrent.move_down((*_ite_h), _mapCurrent.get_dangerZone());
+						if((*_ite_h).get_y()!=0)
+						{
+							if(_mapCurrent.get_IDin((*_ite_h).get_x(), (*_ite_h).get_y()-1)==0)
+							{
+								//cout << "x "<< (*_ite_h).get_x()<< " max "<< _mapCurrent.get_sizeX()<<endl;
+								(*_ite_h).set_y((*_ite_h).get_y()-1);
+							}else if (_mapCurrent.get_IDin((*_ite_h).get_x(), (*_ite_h).get_y()-1)==4 && _mapCurrent.get_dangerZone()==0)
+							{
+								cout <<"portail"<<endl;
+							}
+						}
 						break;
 					case Keyboard::Q:
-						(*_ite_h).display_info();
-						_mapCurrent.move_left((*_ite_h), _mapCurrent.get_dangerZone());
+						//_mapCurrent.move_left((*_ite_h), _mapCurrent.get_dangerZone());
+						if((*_ite_h).get_x()!=0)
+						{
+							if(_mapCurrent.get_IDin((*_ite_h).get_x()-1, (*_ite_h).get_y())==0)
+							{
+								//cout << "x "<< (*_ite_h).get_x()<< " max "<< _mapCurrent.get_sizeX()<<endl;
+								(*_ite_h).set_x((*_ite_h).get_x()-1);
+							}else if (_mapCurrent.get_IDin((*_ite_h).get_x()-1, (*_ite_h).get_y())==4 && _mapCurrent.get_dangerZone()==0)
+							{
+								cout <<"portail"<<endl;
+							}
+						}
 						break;
 					case Keyboard::D:
-						(*_ite_h).display_info();
-						_mapCurrent.move_right((*_ite_h), _mapCurrent.get_dangerZone());
+						//_mapCurrent.move_right((*_ite_h), _mapCurrent.get_dangerZone());
+						if((*_ite_h).get_x()!=_mapCurrent.get_sizeX()-1)
+						{
+							if(_mapCurrent.get_IDin((*_ite_h).get_x()+1, (*_ite_h).get_y())==0)
+							{
+								//cout << "x "<< (*_ite_h).get_x()<< " max "<< _mapCurrent.get_sizeX()<<endl;
+								(*_ite_h).set_x((*_ite_h).get_x()+1);
+							}else if (_mapCurrent.get_IDin((*_ite_h).get_x()+1, (*_ite_h).get_y())==4 && _mapCurrent.get_dangerZone()==0)
+							{
+								cout <<"portail"<<endl;
+							}
+						}
 						break;
 					default:
 						break;
@@ -295,7 +335,7 @@ void Partie::HandleEvents(IHMmanager* game){
 							//TODO deplacement
 							
 							cout << "\t\t\t\tdeplacement en "<< xcase << " " << ycase << endl;
-							_ite_h=_tank_hero.begin();// ?
+							//_ite_h=_tank_hero.begin();// ?
 														//case actuelle
 							int xcur = (*_ite_h).get_x();
 							int ycur = (*_ite_h).get_y();
@@ -303,9 +343,10 @@ void Partie::HandleEvents(IHMmanager* game){
 							cout << " \t\t\t\tdistance "<< (*_ite_h).distance(xcase, ycase)<<endl;
 							if((*_ite_h).distance(xcase, ycase)<=2)
 							{
-								if (_mapCurrent.pathIsPossible(xcur, ycur, xcase, ycase))
+								if ((_mapCurrent.pathIsPossible(xcur, ycur, xcase, ycase)&&(xcase<_mapCurrent.get_sizeX() && ycase<_mapCurrent.get_sizeY())))
 								{
 									cout<<"\t\t\t\tdéplacement accepté"<<endl;
+									cout<<"taille"<<_mapCurrent.get_sizeX()<<" "<<_mapCurrent.get_sizeY()<<endl;
 									cout<<"\t\t\t\tmoove is possible retourne"<<_mapCurrent.pathIsPossible(xcur, ycur, xcase, ycase) <<"\n"<<endl;
 									/*
 									list <pair<int,int>> chemin=_mapCurrent.pathfinding(xcur,ycur,xcase,ycase);
@@ -359,14 +400,7 @@ void Partie::Update(IHMmanager* game){
 				// mode exploration
 				cout << " Mode exploration " << endl;
 				// TODO à remettre au propre
-				_ite_l = _team_hero.begin();			// itérateur sur le héros principal car il est le seul à se déplacer
-				_ite_l++;								// on retire les compagnons de la carte
-				while( _ite_l != _team_hero.end()){
-					_mapCurrent.removeItem(*(*_ite_l));
-					_ite_l++;
-				}
 				_ite_h = _tank_hero.end();
-				_ite_l = _team_hero.begin();
 			} else {
 				// mode combat
 

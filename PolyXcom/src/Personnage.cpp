@@ -35,11 +35,11 @@ Personnage::Personnage()
 	_paMax=10;
 	_pvCurrent=10;
 	_paCurrent=10;
-	_strength=10;
-	_accuracy=10;
-	_agility=10;
-	_endurance=10;
-	_luck=10;
+	_strength=5;
+	_accuracy=5;
+	_agility=5;
+	_endurance=5;
+	_luck=5;
 	_rotation=10;
 	_inv=Inventaire();
 }
@@ -54,15 +54,13 @@ Personnage::Personnage()
 Personnage::Personnage(int x,int y,int ID,int lev,int str,int acc,int agi,int end,int luck,Inventaire inventaire):Affichable(x,y,ID)//construteur
 {
 	_level=lev;
-	_pvCurrent=10;
-	_paCurrent=10;
 	_strength=str;
 	_accuracy=acc;
 	_agility=agi;
 	_endurance=end;
 	_luck=luck;
-	_pvMax=str+inventaire.get_armors().front().get_protection();
-	_paMax=acc;
+	_pvMax= 10 + end ;
+	_paMax= 10 + agi;
 	_pvCurrent=_pvMax;
 	_paCurrent=_paMax;
 	_rotation=0;

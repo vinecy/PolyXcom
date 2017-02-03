@@ -4,11 +4,11 @@ coordSpawn: 0 2
 
 nameHero: Vincent ;
 inventory: ;
-stats: 1 5 3 4 3 2 ;
+stats: 1 3 3 1 5 2 ;
 
 felowTravellerName1: Alexis ;
 inventory: ;
-stats: 10 10 3 4 3 2 ;
+stats: 1 5 3 4 3 2 ;
 
 //felowTravellerName2: ;
 //inventory: ;

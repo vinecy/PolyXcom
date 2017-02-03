@@ -23,6 +23,8 @@
 
 #include "Partie.h"
 #include "Fichier.h"
+#include <sstream>
+#include <string>
 
 using namespace std;
 
@@ -108,7 +110,7 @@ void Partie::InitHUD(){
 	ConteneurPVMAX.setOutlineThickness(4.0);
 
 	ConteneurPAMAX = RectangleShape(Vector2f(300,40));
-	ConteneurPAMAX.setOutlineColor(Color::Green);
+	ConteneurPAMAX.setOutlineColor(Color(81,160,33));
 	ConteneurPAMAX.setFillColor(Color(128,128,128,0));
 	ConteneurPAMAX.setOutlineThickness(4.0);
 
@@ -119,7 +121,7 @@ void Partie::InitHUD(){
 
 	ConteneurPA = RectangleShape(Vector2f(100,32));
 	ConteneurPA.setOutlineColor(Color(128,128,128,0));
-	ConteneurPA.setFillColor(Color::Green);
+	ConteneurPA.setFillColor(Color(81,160,33));
 	ConteneurPA.setOutlineThickness(4.0);
 
 	boutonMenu[0].setTexture(t);
@@ -442,14 +444,29 @@ void Partie::UpdateHUD(IHMmanager* game){
 	ConteneurPAMAX.setPosition( PersoActif.getGlobalBounds().left + PersoActif.getGlobalBounds().width + 40,
 								PersoActif.getGlobalBounds().top + ConteneurPVMAX.getGlobalBounds().height + 4);
 
+	ConteneurPVMAX.setSize(Vector2f( (*_ite_l)->get_pvMax() * (500/15)  ,40));
+	ConteneurPV.setSize(Vector2f( ((*_ite_l)->get_pvCurrent()/(*_ite_l)->get_pvMax())*(ConteneurPVMAX.getSize().x) - 8 ,32));
+	ConteneurPAMAX.setSize(Vector2f( (*_ite_l)->get_paMax() * (500/15)  ,40));
+	ConteneurPA.setSize(Vector2f( ((*_ite_l)->get_paCurrent()/(*_ite_l)->get_paMax())*(ConteneurPAMAX.getSize().x) - 8 ,32));
+	stringstream ss[4];
+	ss[0] << (*_ite_l)->get_pvCurrent();
+	ss[1] << (*_ite_l)->get_pvMax();
+	ss[2] << (*_ite_l)->get_paCurrent();
+	ss[3] << (*_ite_l)->get_paMax();
+	textPV.setString( ss[0].str() + " / " + ss[1].str() + " PV");
+	textPA.setString( ss[2].str() + " / " + ss[3].str() + " PA");
+
+
+
+
 	ConteneurPV.setPosition( ConteneurPVMAX.getGlobalBounds().left + 8,
 							 ConteneurPVMAX.getGlobalBounds().top + 8 );
 	ConteneurPA.setPosition( ConteneurPAMAX.getGlobalBounds().left + 8,
 							 ConteneurPAMAX.getGlobalBounds().top + 8 );
 
-	textPV.setPosition(ConteneurPV.getGlobalBounds().left,
+	textPV.setPosition(ConteneurPV.getGlobalBounds().left + 10,
 					   ConteneurPV.getGlobalBounds().top + ConteneurPV.getGlobalBounds().height/2 - textPV.getGlobalBounds().height/2 );
-	textPA.setPosition(ConteneurPA.getGlobalBounds().left,
+	textPA.setPosition(ConteneurPA.getGlobalBounds().left + 10,
 					   ConteneurPA.getGlobalBounds().top + ConteneurPA.getGlobalBounds().height/2 - textPA.getGlobalBounds().height/2 );
 
 	boutonMenu[0].setPosition( (game->get_myWindow()->getSize().x - ESPACE - boutonMenu[0].getGlobalBounds().width),
@@ -803,12 +820,12 @@ void Partie::loadPartie(void){
 	// initialisation de la team d'ennemis sur la carte actuel
 	_team_ennemi.clear();
 	for(_ite_e = _tank_ennemi.begin() ; _ite_e != _tank_ennemi.end() ; _ite_e++){
-		_team_ennemi.push_front( &(*_ite_e) );
+		_team_ennemi.push_back( &(*_ite_e) );
 	}
 	// initialisation de la team de héros sur la carte actuel
 	_team_hero.clear();
 	for(_ite_h = _tank_hero.begin() ; _ite_h != _tank_hero.end() ; _ite_h++){
-		_team_hero.push_front( &(*_ite_h) );
+		_team_hero.push_back( &(*_ite_h) );
 	}
 	_ite_l = _team_hero.begin();
 	cout << "fin loadPartie " << endl;

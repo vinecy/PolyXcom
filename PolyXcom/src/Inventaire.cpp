@@ -26,6 +26,17 @@ Inventaire::Inventaire()
 	_inv_grenade=Grenade();
 }
 
+Inventaire::Inventaire(Arme arme,Armure armure,Soin soin,Grenade gre,list<Arme> la,list<Armure> lar)
+{
+	_inv_armor_c=armure;
+	_inv_weapon_c=arme;
+	_inv_weapons=la;
+	_inv_armors=lar;
+	_inv_medkit=soin;
+	_inv_grenade=gre;
+}
+
+
 list<Armure> Inventaire::get_armors()
 {
 	return(_inv_armors);

@@ -209,20 +209,60 @@ void Partie::HandleEvents(IHMmanager* game){
 						window->close();
 						break;
 					case Keyboard::Z:
-						(*_ite_h).display_info();
-						_mapCurrent.move_up((*_ite_h), _mapCurrent.get_dangerZone());
+						//_mapCurrent.move_up((*_ite_h), _mapCurrent.get_dangerZone());
+						if((*_ite_h).get_y()!=_mapCurrent.get_sizeY()-1)
+						{
+							if(_mapCurrent.get_IDin((*_ite_h).get_x(), (*_ite_h).get_y()+1)==0)
+							{
+								//cout << "x "<< (*_ite_h).get_x()<< " max "<< _mapCurrent.get_sizeX()<<endl;
+								(*_ite_h).set_y((*_ite_h).get_y()+1);
+							}else if (_mapCurrent.get_IDin((*_ite_h).get_x(), (*_ite_h).get_y()+1)==4 && _mapCurrent.get_dangerZone()==0)
+							{
+								cout <<"portail"<<endl;
+							}
+						}
 						break;
 					case Keyboard::S:
-						(*_ite_h).display_info();
-						_mapCurrent.move_down((*_ite_h), _mapCurrent.get_dangerZone());
+						//_mapCurrent.move_down((*_ite_h), _mapCurrent.get_dangerZone());
+						if((*_ite_h).get_y()!=0)
+						{
+							if(_mapCurrent.get_IDin((*_ite_h).get_x(), (*_ite_h).get_y()-1)==0)
+							{
+								//cout << "x "<< (*_ite_h).get_x()<< " max "<< _mapCurrent.get_sizeX()<<endl;
+								(*_ite_h).set_y((*_ite_h).get_y()-1);
+							}else if (_mapCurrent.get_IDin((*_ite_h).get_x(), (*_ite_h).get_y()-1)==4 && _mapCurrent.get_dangerZone()==0)
+							{
+								cout <<"portail"<<endl;
+							}
+						}
 						break;
 					case Keyboard::Q:
-						(*_ite_h).display_info();
-						_mapCurrent.move_left((*_ite_h), _mapCurrent.get_dangerZone());
+						//_mapCurrent.move_left((*_ite_h), _mapCurrent.get_dangerZone());
+						if((*_ite_h).get_x()!=0)
+						{
+							if(_mapCurrent.get_IDin((*_ite_h).get_x()-1, (*_ite_h).get_y())==0)
+							{
+								//cout << "x "<< (*_ite_h).get_x()<< " max "<< _mapCurrent.get_sizeX()<<endl;
+								(*_ite_h).set_x((*_ite_h).get_x()-1);
+							}else if (_mapCurrent.get_IDin((*_ite_h).get_x()-1, (*_ite_h).get_y())==4 && _mapCurrent.get_dangerZone()==0)
+							{
+								cout <<"portail"<<endl;
+							}
+						}
 						break;
 					case Keyboard::D:
-						(*_ite_h).display_info();
-						_mapCurrent.move_right((*_ite_h), _mapCurrent.get_dangerZone());
+						//_mapCurrent.move_right((*_ite_h), _mapCurrent.get_dangerZone());
+						if((*_ite_h).get_x()!=_mapCurrent.get_sizeX()-1)
+						{
+							if(_mapCurrent.get_IDin((*_ite_h).get_x()+1, (*_ite_h).get_y())==0)
+							{
+								//cout << "x "<< (*_ite_h).get_x()<< " max "<< _mapCurrent.get_sizeX()<<endl;
+								(*_ite_h).set_x((*_ite_h).get_x()+1);
+							}else if (_mapCurrent.get_IDin((*_ite_h).get_x()+1, (*_ite_h).get_y())==4 && _mapCurrent.get_dangerZone()==0)
+							{
+								cout <<"portail"<<endl;
+							}
+						}
 						break;
 					default:
 						break;
@@ -286,28 +326,46 @@ void Partie::HandleEvents(IHMmanager* game){
 						} else if( choixYesNo > 0){
 							valide = true; 				// si la souris est sur un bouton du menu quitter
 						} else {						// sinon on clique dans une zone sans bouton
-
-
-							//float origineMapX = (game->get_myWindow()->getSize().x - ESPACE*2 - 96)/2 - (64*_mapCurrent._zoom*_mapCurrent.get_sizeX())/2;
-							//float origineMapY = (game->get_myWindow()->getSize().y - ESPACE*2 - 96)/2 + (64*_mapCurrent._zoom*_mapCurrent.get_sizeY())/2;
 							int xcase = ((event.mouseButton.x-_mapCurrent._origXmap)/64)/_mapCurrent._zoom;
 							int ycase = ((_mapCurrent._origYmap-event.mouseButton.y)/64)/_mapCurrent._zoom;
-							//TODO deplacement
-							
 							cout << "\t\t\t\tdeplacement en "<< xcase << " " << ycase << endl;
-							_ite_h=_tank_hero.begin();// ?
-														//case actuelle
 							int xcur = (*_ite_h).get_x();
 							int ycur = (*_ite_h).get_y();
 							cout << " \t\t\t\tposition actuelle "<< xcur << " " << ycur<< endl;
 							cout << " \t\t\t\tdistance "<< (*_ite_h).distance(xcase, ycase)<<endl;
+							if((xcase>=0 && ycase>=0 && xcase<_mapCurrent.get_sizeX() && ycase<_mapCurrent.get_sizeY())
+									&& (_mapCurrent.pathIsPossible(xcur, ycur, xcase, ycase)))
+							{
+								if( _mapCurrent.get_IDin(xcase, ycase) == 0)
+								{
+									(*_ite_h).set_x(xcase);
+									(*_ite_h).set_y(ycase);
+								}
+								else if(_mapCurrent.get_IDin(xcase, ycase) == 4)
+								{
+									cout << "portail" << endl;
+									_ite_p = _tank_portail.begin();						// recherche du portail correspondant
+									while( ( !( (*_ite_p).get_x() == xcase )&&( (*_ite_p).get_y() == ycase) )
+										&& ( _ite_p != _tank_portail.end() )
+									){
+										_ite_p++;
+									}
+									cout <<"portail trouvé"<<endl;
+									//switchMap((*_ite_p)); //TODO Switch
+								}
+							}
+							/*
 							if((*_ite_h).distance(xcase, ycase)<=10)
 							{
 								if (_mapCurrent.moveIsPossible(xcase, ycase, 1))
+								if ((_mapCurrent.pathIsPossible(xcur, ycur, xcase, ycase)
+										&&(xcase<_mapCurrent.get_sizeX() && ycase<_mapCurrent.get_sizeY())
+										&&(xcase>=0)&&(ycase>=0)))
 								{
 									cout<<"\t\t\t\tdéplacement accepté"<<endl;
+									cout<<"taille"<<_mapCurrent.get_sizeX()<<" "<<_mapCurrent.get_sizeY()<<endl;
 									//cout<<"\t\t\t\tmoove is possible retourne"<<_mapCurrent.pathIsPossible(xcur, ycur, xcase, ycase) <<"\n"<<endl;
-									/*
+									//
 									list <pair<int,int>> chemin=_mapCurrent.pathfinding(xcur,ycur,xcase,ycase);
 									if((unsigned int)(*_ite_h).get_paCurrent()>=chemin.size())
 									{
@@ -315,13 +373,14 @@ void Partie::HandleEvents(IHMmanager* game){
 										(*_ite_h).set_y(chemin.back().second);
 										cout << "\t\t\tdeplacement en "<< chemin.back().first << " " << chemin.back().second <<" terminé"<< endl;
 									}
-									*/
+									//
 									(*_ite_h).set_x(xcase);
 									(*_ite_h).set_y(ycase);
 								}else{
 									cout<<"\t\t\t\tdeplacement impossible\n"<<endl;
 								}
 							}
+							*/
 						}
 						break;
 					default :

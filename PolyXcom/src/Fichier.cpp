@@ -70,7 +70,7 @@ void Fichier::loadSave(string &nameCurrentMap, list<Hero>& listHero, list<Portai
 					cout << "inventaire trouvé" << endl;
 					_path >> mot;
 					while(mot != ";"){
-						// TODO Definir constructeur de Inventaire
+						// TODO Definir constructeur de Inventaire ( done )
 					}
 				}
 				_path >> mot;

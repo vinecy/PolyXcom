@@ -27,6 +27,7 @@ class Inventaire
 
 	public:
 		Inventaire();					//constructeur
+		Inventaire(Arme arme, Armure armure, Soin soin , Grenade gre, list<Arme> la,list<Armure> lar);
 
 		list<Arme>	get_weapons();		//getters
 		list<Armure>get_armors();

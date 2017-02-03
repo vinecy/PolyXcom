@@ -326,29 +326,45 @@ void Partie::HandleEvents(IHMmanager* game){
 						} else if( choixYesNo > 0){
 							valide = true; 				// si la souris est sur un bouton du menu quitter
 						} else {						// sinon on clique dans une zone sans bouton
-
-
-							//float origineMapX = (game->get_myWindow()->getSize().x - ESPACE*2 - 96)/2 - (64*_mapCurrent._zoom*_mapCurrent.get_sizeX())/2;
-							//float origineMapY = (game->get_myWindow()->getSize().y - ESPACE*2 - 96)/2 + (64*_mapCurrent._zoom*_mapCurrent.get_sizeY())/2;
 							int xcase = ((event.mouseButton.x-_mapCurrent._origXmap)/64)/_mapCurrent._zoom;
 							int ycase = ((_mapCurrent._origYmap-event.mouseButton.y)/64)/_mapCurrent._zoom;
-							//TODO deplacement
-							
 							cout << "\t\t\t\tdeplacement en "<< xcase << " " << ycase << endl;
-							//_ite_h=_tank_hero.begin();// ?
-														//case actuelle
 							int xcur = (*_ite_h).get_x();
 							int ycur = (*_ite_h).get_y();
 							cout << " \t\t\t\tposition actuelle "<< xcur << " " << ycur<< endl;
 							cout << " \t\t\t\tdistance "<< (*_ite_h).distance(xcase, ycase)<<endl;
+							if((xcase>=0 && ycase>=0 && xcase<_mapCurrent.get_sizeX() && ycase<_mapCurrent.get_sizeY())
+									&& (_mapCurrent.pathIsPossible(xcur, ycur, xcase, ycase)))
+							{
+								if( _mapCurrent.get_IDin(xcase, ycase) == 0)
+								{
+									(*_ite_h).set_x(xcase);
+									(*_ite_h).set_y(ycase);
+								}
+								else if(_mapCurrent.get_IDin(xcase, ycase) == 4)
+								{
+									cout << "portail" << endl;
+									_ite_p = _tank_portail.begin();						// recherche du portail correspondant
+									while( ( !( (*_ite_p).get_x() == xcase )&&( (*_ite_p).get_y() == ycase) )
+										&& ( _ite_p != _tank_portail.end() )
+									){
+										_ite_p++;
+									}
+									cout <<"portail trouvé"<<endl;
+									//switchMap((*_ite_p)); //TODO Switch
+								}
+							}
+							/*
 							if((*_ite_h).distance(xcase, ycase)<=2)
 							{
-								if ((_mapCurrent.pathIsPossible(xcur, ycur, xcase, ycase)&&(xcase<_mapCurrent.get_sizeX() && ycase<_mapCurrent.get_sizeY())))
+								if ((_mapCurrent.pathIsPossible(xcur, ycur, xcase, ycase)
+										&&(xcase<_mapCurrent.get_sizeX() && ycase<_mapCurrent.get_sizeY())
+										&&(xcase>=0)&&(ycase>=0)))
 								{
 									cout<<"\t\t\t\tdéplacement accepté"<<endl;
 									cout<<"taille"<<_mapCurrent.get_sizeX()<<" "<<_mapCurrent.get_sizeY()<<endl;
 									cout<<"\t\t\t\tmoove is possible retourne"<<_mapCurrent.pathIsPossible(xcur, ycur, xcase, ycase) <<"\n"<<endl;
-									/*
+									//
 									list <pair<int,int>> chemin=_mapCurrent.pathfinding(xcur,ycur,xcase,ycase);
 									if((unsigned int)(*_ite_h).get_paCurrent()>=chemin.size())
 									{
@@ -356,13 +372,14 @@ void Partie::HandleEvents(IHMmanager* game){
 										(*_ite_h).set_y(chemin.back().second);
 										cout << "\t\t\tdeplacement en "<< chemin.back().first << " " << chemin.back().second <<" terminé"<< endl;
 									}
-									*/
+									//
 									(*_ite_h).set_x(xcase);
 									(*_ite_h).set_y(ycase);
 								}else{
 									cout<<"\t\t\t\tdeplacement impossible\n"<<endl;
 								}
 							}
+							*/
 						}
 						break;
 					default :
@@ -399,8 +416,14 @@ void Partie::Update(IHMmanager* game){
 			if(_mapCurrent.get_dangerZone() == false){
 				// mode exploration
 				cout << " Mode exploration " << endl;
-				// TODO à remettre au propre
-				_ite_h = _tank_hero.end();
+				_ite_h = _tank_hero.begin();
+				_ite_h++;
+				while(_ite_h != _tank_hero.end())
+				{
+					_mapCurrent.removeItem((*_ite_h));
+					_ite_h++;
+				}
+				_ite_h = _tank_hero.begin();
 			} else {
 				// mode combat
 
@@ -764,8 +787,19 @@ void Partie::loadPartie(void){
 		_mapCurrent.addItem((*_ite_e));
 	}
 	// ajout des héros sur la carte
-	for(_ite_h = _tank_hero.begin(); _ite_h!=_tank_hero.end(); _ite_h++){
+	if( _mapCurrent.get_dangerZone()==0)
+	{
+		_ite_h = _tank_hero.begin();
+		//(*_ite_h).display_info();
 		_mapCurrent.addItem((*_ite_h));
+	}
+	else
+	{
+		for(_ite_h = _tank_hero.begin(); _ite_h!=_tank_hero.end(); _ite_h++)
+			{
+				_mapCurrent.addItem((*_ite_h));
+				//(*_ite_h).display_info();
+			}
 	}
 
 	// ajout des obstacles sur la carte
@@ -777,12 +811,12 @@ void Partie::loadPartie(void){
 		_mapCurrent.addItem((*_ite_p));
 		(*_ite_p).display();
 	}
-	// initialisation de la team d'ennemis sur la carte actuel
+	// initialisation de la team d'ennemis sur la carte actuelle
 	_team_ennemi.clear();
 	for(_ite_e = _tank_ennemi.begin() ; _ite_e != _tank_ennemi.end() ; _ite_e++){
 		_team_ennemi.push_front( &(*_ite_e) );
 	}
-	// initialisation de la team de héros sur la carte actuel
+	// initialisation de la team de héros sur la carte actuelle
 	_team_hero.clear();
 	for(_ite_h = _tank_hero.begin() ; _ite_h != _tank_hero.end() ; _ite_h++){
 		_team_hero.push_front( &(*_ite_h) );
@@ -955,7 +989,7 @@ void Partie::fightMode(void){
 			{
 				//(*_ite)->set_paCurrent(0);	//mise a 0 des PA des ennemis (passe le tour)
 				list<Personnage*> in_range;	//creation de liste qui contiendra les ennemis a porte de tir
-				for(_ite=_team_hero.begin();_ite!=_team_hero.end();_ite++){//TODO fonction?
+				for(_ite=_team_hero.begin();_ite!=_team_hero.end();_ite++){
 					if(_mapCurrent.pathIsPossible((*_ite_l)->get_x(),(*_ite_l)->get_y(),(*_ite)->get_x(),(*_ite)->get_y())){
 						in_range.push_front((*_ite));
 					}

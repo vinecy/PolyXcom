@@ -45,7 +45,7 @@ name: Luminy4
 		
 		Portail 5 4 4 5 5 L3
 		Portail 0 4 4 5 4 Luminy3
-		Portail 1 0 4 1 4 Luminy1
+		Portail 1 0 4 1 5 Luminy1
 	}
 }
 

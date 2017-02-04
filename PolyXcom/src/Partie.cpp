@@ -48,6 +48,7 @@ static int size_Map_part_X;
 static int size_Map_part_Y;
 
 static RectangleShape PersoActif;				// Element de l'HUD
+static Text namePersoActif;
 static RectangleShape ConteneurPVMAX;
 static RectangleShape ConteneurPV;
 static Text textPV;
@@ -131,15 +132,11 @@ void Partie::Init(){
 /** La méthode InitHUD initialise les éléments de l'interface utilisateur
   * */
 void Partie::InitHUD(){
-	textPV.setFont(font); textPV.setCharacterSize(22);
-	textPA.setFont(font); textPA.setCharacterSize(22);
-	textPV.setOutlineColor(Color::White);
-	textPA.setOutlineColor(Color::White);
+	textPV = Text(" .../... PV",font,22); textPV.setOutlineColor(Color::White);
+	textPA = Text(" .../... PV",font,22); textPA.setOutlineColor(Color::White);
+	namePersoActif = Text((*_ite_l)->get_name(),font,18);
 
-	textPV.setString(" .../... PV");
-	textPA.setString(" .../... PA");
-
-	PersoActif = RectangleShape(Vector2f(96,96));
+	PersoActif = RectangleShape(Vector2f(128,128));
 	PersoActif.setFillColor(Color(128,128,128));
 
 	ConteneurPVMAX = RectangleShape(Vector2f(300,40));
@@ -603,17 +600,20 @@ void Partie::Update(IHMmanager* game){
 
 void Partie::UpdateHUD(IHMmanager* game){
 	// mis à jour des positions des boutons de l'interface
-	PersoActif.setPosition( 40 , (game->get_myWindow()->getSize().y - 40 - PersoActif.getSize().y));
+	PersoActif.setPosition( ESPACE , (game->get_myWindow()->getSize().y - ESPACE - PersoActif.getSize().y));
+	namePersoActif.setString((*_ite_l)->get_name());
+	namePersoActif.setPosition( PersoActif.getGlobalBounds().left + PersoActif.getGlobalBounds().width/2 - namePersoActif.getGlobalBounds().width/2 + 12
+							  , PersoActif.getGlobalBounds().top - 10 - namePersoActif.getGlobalBounds().height );
+
+	ConteneurPVMAX.setSize(Vector2f( (*_ite_l)->get_pvMax() * PXL_PV  ,50));
 	ConteneurPVMAX.setPosition( PersoActif.getGlobalBounds().left + PersoActif.getGlobalBounds().width + 40,
 								PersoActif.getGlobalBounds().top + ConteneurPVMAX.getOutlineThickness());
+	ConteneurPAMAX.setSize(Vector2f( (*_ite_l)->get_paMax() * PXL_PV  ,50));
 	ConteneurPAMAX.setPosition( PersoActif.getGlobalBounds().left + PersoActif.getGlobalBounds().width + 40,
-								PersoActif.getGlobalBounds().top + ConteneurPVMAX.getGlobalBounds().height + 4);
+								PersoActif.getGlobalBounds().top + PersoActif.getGlobalBounds().height - ConteneurPAMAX.getGlobalBounds().height + ConteneurPAMAX.getOutlineThickness());
 
-	ConteneurPVMAX.setSize(Vector2f( (*_ite_l)->get_pvMax() * PXL_PV  ,40));
-	ConteneurPV.setSize(Vector2f( ((*_ite_l)->get_pvCurrent() * PXL_PV - 8) ,32));
-
-	ConteneurPAMAX.setSize(Vector2f( (*_ite_l)->get_paMax() * PXL_PV  ,40));
-	ConteneurPA.setSize(Vector2f( ((*_ite_l)->get_paCurrent() * PXL_PV - 8) ,32));
+	ConteneurPV.setSize(Vector2f( ((*_ite_l)->get_pvCurrent() * PXL_PV - 8) ,42));
+	ConteneurPA.setSize(Vector2f( ((*_ite_l)->get_paCurrent() * PXL_PV - 8) ,42));
 	stringstream ss[4];
 	ss[0] << (*_ite_l)->get_pvCurrent();
 	ss[1] << (*_ite_l)->get_pvMax();
@@ -954,6 +954,7 @@ void Partie::DrawActiveFrame(IHMmanager* game){
 
 void Partie::DrawHUD(IHMmanager* game){
 	game->get_myWindow()->draw(PersoActif);
+	game->get_myWindow()->draw(namePersoActif);
 	game->get_myWindow()->draw(ConteneurPVMAX);
 	game->get_myWindow()->draw(ConteneurPAMAX);
 	game->get_myWindow()->draw(ConteneurPV);
@@ -996,13 +997,13 @@ void Partie::DrawMap(IHMmanager* game){
 		_ite_h = _tank_hero.begin() ;
 		(*_ite_h).set_sprite(t);
 		tpsSprite = (*_ite_h).get_sprite();
-				tpsSprite.setScale(_mapCurrent._zoom, _mapCurrent._zoom);
-				tpsSprite.setPosition(_mapCurrent._origXmap + 64*(_mapCurrent._zoom)*(*_ite_h).get_x()
-									, _mapCurrent._origYmap - _mapCurrent._zoom*64 - 64*(_mapCurrent._zoom)*(*_ite_h).get_y() );
-				game->get_myWindow()->draw(tpsSprite);
-				Text nom((*_ite_h).get_name(), font, _mapCurrent._zoom*12);
-				nom.setPosition(tpsSprite.getGlobalBounds().left, tpsSprite.getGlobalBounds().top);
-				game->get_myWindow()->draw(nom);
+		tpsSprite.setScale(_mapCurrent._zoom, _mapCurrent._zoom);
+		tpsSprite.setPosition(_mapCurrent._origXmap + 64*(_mapCurrent._zoom)*(*_ite_h).get_x()
+							, _mapCurrent._origYmap - _mapCurrent._zoom*64 - 64*(_mapCurrent._zoom)*(*_ite_h).get_y() );
+		game->get_myWindow()->draw(tpsSprite);
+		Text nom((*_ite_h).get_name(), font, _mapCurrent._zoom*8);
+		nom.setPosition(tpsSprite.getGlobalBounds().left, tpsSprite.getGlobalBounds().top);
+		game->get_myWindow()->draw(nom);
 	}else{
 		for(_ite_h = _tank_hero.begin() ; _ite_h != _tank_hero.end() ; _ite_h++){
 			(*_ite_h).set_sprite(t);
@@ -1011,7 +1012,7 @@ void Partie::DrawMap(IHMmanager* game){
 			tpsSprite.setPosition(_mapCurrent._origXmap + 64*(_mapCurrent._zoom)*(*_ite_h).get_x()
 								, _mapCurrent._origYmap - _mapCurrent._zoom*64 - 64*(_mapCurrent._zoom)*(*_ite_h).get_y() );
 			game->get_myWindow()->draw(tpsSprite);
-			Text nom((*_ite_h).get_name(), font, _mapCurrent._zoom*12);
+			Text nom((*_ite_h).get_name(), font, _mapCurrent._zoom*8);
 			nom.setPosition(tpsSprite.getGlobalBounds().left+tpsSprite.getGlobalBounds().width/2 -nom.getGlobalBounds().width/2, tpsSprite.getGlobalBounds().top);
 			nom.setFillColor(Color::Yellow);
 			game->get_myWindow()->draw(nom);
@@ -1024,20 +1025,20 @@ void Partie::DrawMap(IHMmanager* game){
 		tpsSprite.setScale(_mapCurrent._zoom, _mapCurrent._zoom);
 		tpsSprite.setPosition(_mapCurrent._origXmap + 64*(_mapCurrent._zoom)*(*te)->get_x()
 							, _mapCurrent._origYmap - _mapCurrent._zoom*64 - 64*(_mapCurrent._zoom)*(*te)->get_y() );
-		Text Pv("",font,12);
+		Text Pv("",font,_mapCurrent._zoom*8);
 		stringstream s[2];
-			s[0] << (*te)->get_pvCurrent();
-			s[1] << (*te)->get_pvMax();
-			Pv.setString( s[0].str() + "/" + s[1].str());
-			Pv.setPosition(tpsSprite.getGlobalBounds().left+tpsSprite.getGlobalBounds().width/2 -Pv.getGlobalBounds().width/2, tpsSprite.getGlobalBounds().top);
-			Pv.setFillColor(Color::Red);
+		s[0] << (*te)->get_pvCurrent();
+		s[1] << (*te)->get_pvMax();
+		Pv.setString( s[0].str() + "/" + s[1].str());
+		Pv.setPosition(tpsSprite.getGlobalBounds().left+tpsSprite.getGlobalBounds().width/2 -Pv.getGlobalBounds().width/2, tpsSprite.getGlobalBounds().top);
+		Pv.setFillColor(Color::Red);
 		game->get_myWindow()->draw(tpsSprite);
 		game->get_myWindow()->draw(Pv);
 	}
 
 	for(_ite_o = _tank_obstacle.begin(); _ite_o != _tank_obstacle.end(); _ite_o++)
 	{
-		Text obs("obstacle", font, _mapCurrent._zoom*12);
+		Text obs("obstacle", font, _mapCurrent._zoom*8);
 		obs.setPosition(_mapCurrent._origXmap+(*_ite_o).get_x()*64*_mapCurrent._zoom,
 				_mapCurrent._origYmap- _mapCurrent._zoom*64 -(*_ite_o).get_y()*64*_mapCurrent._zoom);
 		game->get_myWindow()->draw(obs);
@@ -1047,13 +1048,13 @@ void Partie::DrawMap(IHMmanager* game){
 	{
 		if((*_ite_p).get_nameNextMap().size()==2)
 		{
-			Text por("portail", font, _mapCurrent._zoom*12);
+			Text por("portail", font, _mapCurrent._zoom*8);
 			por.setPosition(_mapCurrent._origXmap+(*_ite_p).get_x()*64*_mapCurrent._zoom,
 					_mapCurrent._origYmap - _mapCurrent._zoom*64-(*_ite_p).get_y()*64*_mapCurrent._zoom);
 			por.setFillColor(Color::Red);
 			game->get_myWindow()->draw(por);
 		}else{
-			Text por("portail", font, _mapCurrent._zoom*12);
+			Text por("portail", font, _mapCurrent._zoom*8);
 			por.setPosition(_mapCurrent._origXmap+(*_ite_p).get_x()*64*_mapCurrent._zoom,
 					_mapCurrent._origYmap - _mapCurrent._zoom*64-(*_ite_p).get_y()*64*_mapCurrent._zoom);
 			game->get_myWindow()->draw(por);

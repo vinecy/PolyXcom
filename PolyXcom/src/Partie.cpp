@@ -24,6 +24,7 @@
 #include "Partie.h"
 #include "Fichier.h"
 #include <windows.h>
+#include <cstdlib>
 #include <sstream>
 #include <string>
 
@@ -526,7 +527,39 @@ void Partie::HandleEvents(IHMmanager* game){
 								}
 								else
 								{//cas tir
+									if((_mapCurrent.get_IDin(xcase,ycase)==3) && (_mapCurrent.pathIsPossible(xcur, ycur, xcase, ycase)))
+									{
+										for(list<Ennemi*>::iterator _itmp=_team_ennemi.begin(); _itmp!=_team_ennemi.end();_itmp++)
+										{
+											if((*_itmp)->get_x()==xcase && (*_itmp)->get_y()==ycase)
+											{
+												_ite_ee=_itmp;
+											}
+										}
+										if((*_ite_ee)->get_x()==xcase && (*_ite_ee)->get_y()==ycase)
+										{
+											int alea = rand()%10;
+											if(alea<=(*_ite_l)->get_luck())
+											{
+												cout <<"CRITIQUE !!"<< (*_ite_l)->get_luck()<< " / "<< alea<<endl;
+											}
+											else
+											{
+												cout <<"non crit"<< (*_ite_l)->get_luck()<< " / "<< alea<<endl;
+											}
+											(*_ite_ee)->set_pvCurrent(
+													(*_ite_ee)->get_pvCurrent()-
+													( ((*_ite_l)->get_inv()->get_weapon_c()->get_degats()) * ( (alea<=((*_ite_l)->get_accuracy()+5)) * (1+(alea<=(*_ite_l)->get_luck())) ) ));
 
+											(*_ite_ee)->set_pvCurrent((*_ite_ee)->get_pvCurrent()-(*_ite_l)->get_str());
+											if((*_ite_ee)->get_pvCurrent()<0)
+											{
+												(*_ite_ee)->set_pvCurrent(0);
+											}
+											(*_ite_l)->set_paCurrent((*_ite_l)->get_paCurrent()-4);
+											STATE_TIR=false;
+										}
+									}
 								}
 							}
 							else
@@ -542,7 +575,13 @@ void Partie::HandleEvents(IHMmanager* game){
 									}
 									if((*_ite_ee)->get_x()==xcase && (*_ite_ee)->get_y()==ycase)
 									{
-										(*_ite_ee)->set_pvCurrent((*_ite_ee)->get_pvCurrent()-(*_ite_l)->get_str());
+										int crit = rand()%10;
+										if(crit<=(*_ite_l)->get_luck())
+										{
+											cout << (*_ite_l)->get_luck()<< " / "<< crit<<endl;
+											cout<< "CRITIQUE !!\n";
+										}
+										(*_ite_ee)->set_pvCurrent((*_ite_ee)->get_pvCurrent()-(*_ite_l)->get_str()*(1+(crit<=(*_ite_l)->get_luck())));
 										if((*_ite_ee)->get_pvCurrent()<0)
 										{
 											(*_ite_ee)->set_pvCurrent(0);

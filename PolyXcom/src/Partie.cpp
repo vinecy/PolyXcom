@@ -701,16 +701,12 @@ void Partie::UpdateHUD(IHMmanager* game){
 	boutonTirer.setPosition( boutonRecharger.getGlobalBounds().left - ESPACE - boutonTirer.getGlobalBounds().width,
 			boutonRecharger.getGlobalBounds().top);
 	boutonCC.setPosition( boutonTirer.getGlobalBounds().left - ESPACE - boutonCC.getGlobalBounds().width,
-<<<<<<< HEAD
 						  boutonTirer.getGlobalBounds().top);
 	WeaponActif.setPosition( boutonCC.getGlobalBounds().left - ESPACE - WeaponActif.getGlobalBounds().width,
 							  boutonCC.getGlobalBounds().top);
 	textAmmunation.setPosition( WeaponActif.getGlobalBounds().left + WeaponActif.getGlobalBounds().width - ESPACE - textAmmunation.getGlobalBounds().width,
 								WeaponActif.getGlobalBounds().top + WeaponActif.getGlobalBounds().height - textAmmunation.getGlobalBounds().height - ESPACE);
-=======
-			boutonTirer.getGlobalBounds().top);
 
->>>>>>> refs/remotes/origin/master
 
 	boutonMenu[0].setTextureRect(IntRect(COLUNN1_PXL,ROWPLAYERBUTTOM_PXL,64,64));
 	boutonMenu[1].setTextureRect(IntRect(COLUNN2_PXL,ROWPLAYERBUTTOM_PXL,64,64));

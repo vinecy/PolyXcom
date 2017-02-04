@@ -60,6 +60,7 @@ public:
 	void InitHUD();
 	void InitMenuQuitter();
 	void InitMenuStats();
+	void InitMenuCarte();
 	void InitMap();
 
 	void CleanUp();
@@ -72,6 +73,7 @@ public:
 	void UpdateHUD(IHMmanager* game);
 	void UpdateMenuQuitter(IHMmanager* game);
 	void UpdateMenuStats(IHMmanager* game);
+	void UpdateMenuCarte(IHMmanager* game);
 	void UpdateMap(IHMmanager* game);
 
 	void Draw(IHMmanager* game);

@@ -39,7 +39,7 @@ public:
 	int get_paMax(void);
 	int get_pvCurrent(void);
 	int get_paCurrent(void);
-	int get_rotation(void);
+	int get_str(void);
 	int get_strength(void){	return _strength; }
 	int get_accuracy(void){	return _accuracy; }
 	int get_endurance(void){ return _endurance; }

@@ -50,6 +50,8 @@ static int size_Map_part_Y;
 
 static RectangleShape PersoActif;				// Element de l'HUD
 static Text namePersoActif;
+static RectangleShape WeaponActif;
+static Text textAmmunation;
 static RectangleShape ConteneurPVMAX;
 static RectangleShape ConteneurPV;
 static Text textPV;
@@ -138,7 +140,10 @@ void Partie::InitHUD(){
 	namePersoActif = Text((*_ite_l)->get_name(),font,18);
 
 	PersoActif = RectangleShape(Vector2f(128,128));
-	PersoActif.setFillColor(Color(128,128,128));
+	PersoActif.setFillColor(Color(unSelected));
+	WeaponActif = RectangleShape(Vector2f(200,128));
+	WeaponActif.setFillColor(Color(unSelected));
+	textAmmunation = Text(" .../... PV",font,22); textAmmunation.setOutlineColor(Color::White);
 
 	ConteneurPVMAX = RectangleShape(Vector2f(300,40));
 	ConteneurPVMAX.setOutlineColor(Color::Red);
@@ -653,13 +658,17 @@ void Partie::UpdateHUD(IHMmanager* game){
 
 	ConteneurPV.setSize(Vector2f( ((*_ite_l)->get_pvCurrent() * PXL_PV - 8) ,42));
 	ConteneurPA.setSize(Vector2f( ((*_ite_l)->get_paCurrent() * PXL_PV - 8) ,42));
-	stringstream ss[4];
+	stringstream ss[6];
 	ss[0] << (*_ite_l)->get_pvCurrent();
 	ss[1] << (*_ite_l)->get_pvMax();
 	ss[2] << (*_ite_l)->get_paCurrent();
 	ss[3] << (*_ite_l)->get_paMax();
-	textPV.setString( ss[0].str() + " / " + ss[1].str() + " PV");
-	textPA.setString( ss[2].str() + " / " + ss[3].str() + " PA");
+	ss[4] << (*_ite_l)->get_inv()->get_weapon_c()->get_munCurrent();
+	ss[5] << (*_ite_l)->get_inv()->get_weapon_c()->get_munMax();
+	textPV.setString( ss[0].str() + "/" + ss[1].str() + " PV");
+	textPA.setString( ss[2].str() + "/" + ss[3].str() + " PA");
+	textAmmunation.setString( ss[4].str() + "/" + ss[5].str() + " mun");
+
 
 	ConteneurPV.setPosition( ConteneurPVMAX.getGlobalBounds().left + 8,
 							 ConteneurPVMAX.getGlobalBounds().top + 8 );
@@ -694,7 +703,10 @@ void Partie::UpdateHUD(IHMmanager* game){
 							 boutonRecharger.getGlobalBounds().top);
 	boutonCC.setPosition( boutonTirer.getGlobalBounds().left - ESPACE - boutonCC.getGlobalBounds().width,
 						  boutonTirer.getGlobalBounds().top);
-
+	WeaponActif.setPosition( boutonCC.getGlobalBounds().left - ESPACE - WeaponActif.getGlobalBounds().width,
+							  boutonCC.getGlobalBounds().top);
+	textAmmunation.setPosition( WeaponActif.getGlobalBounds().left + WeaponActif.getGlobalBounds().width - ESPACE - textAmmunation.getGlobalBounds().width,
+								WeaponActif.getGlobalBounds().top + WeaponActif.getGlobalBounds().height - textAmmunation.getGlobalBounds().height - ESPACE);
 
 	boutonMenu[0].setTextureRect(IntRect(COLUNN1_PXL,ROWPLAYERBUTTOM_PXL,64,64));
 	boutonMenu[1].setTextureRect(IntRect(COLUNN2_PXL,ROWPLAYERBUTTOM_PXL,64,64));
@@ -1008,6 +1020,8 @@ void Partie::DrawHUD(IHMmanager* game){
 	game->get_myWindow()->draw(boutonRecharger) ;
 	game->get_myWindow()->draw(boutonTirer) ;
 	game->get_myWindow()->draw(boutonCC) ;
+	game->get_myWindow()->draw(WeaponActif) ;
+	game->get_myWindow()->draw(textAmmunation) ;
 
 	for(Sprite g : boutonMenu) game->get_myWindow()->draw(g);
 }

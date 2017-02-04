@@ -23,33 +23,6 @@ using namespace std;
 class Partie : public IHMstate {
 private:								// ATTRIBUTS
 										// GRAPHIQUES
-	RectangleShape PersoActif;				// Element de l'HUD
-	RectangleShape ConteneurPVMAX;
-	RectangleShape ConteneurPV;
-	Text textPV;
-	RectangleShape ConteneurPAMAX;
-	RectangleShape ConteneurPA;
-	Text textPA;
-	Sprite boutonMenu[4];
-	Sprite boutonCC;
-	Sprite boutonTirer;
-	Sprite boutonRecharger;
-	Sprite boutonGrenade;
-	Sprite boutonMedKit;
-	Sprite boutonChangerCompagnon;
-	Sprite boutonFinTour;
-
-	Image i;								// Image contenant le sprite
-	Texture t;								// Texture contenant la feuille de sprite
-	Font font;								// Police de caractère
-
-	RectangleShape menuQuitter;				// Element du menu Quitter
-	RectangleShape boutonOui;
-	RectangleShape boutonNon;
-	Text textMenuQuitter;
-	Text textOui;
-	Text textNon;
-
 	int choix;
 	int choixYesNo;
 	int fenetreActive;
@@ -65,12 +38,12 @@ private:								// ATTRIBUTS
 	list<Portail>  		_tank_portail;
 	list<Portail>  		_tank_portail_close;
 
-	list<Hero*>	_team_hero;			// equipe de heros
+	list<Personnage*>	_team_hero;			// equipe de heros
 	list<Personnage*>	_team_ennemi;		// equipe de ennemi
 
 	Carte 				_mapCurrent;		// carte actuel
 
-	list<Hero*>::iterator _ite_l;		// itérateur de personnage en action
+	list<Personnage*>::iterator _ite_l;		// itérateur de personnage en action
 	list<Personnage*>::iterator _ite;		// iterateur divers
 	list<Ennemi>::iterator 		_ite_e;		// iterateur ennemi
 	list<Hero>::iterator 		_ite_h;		// iterateur hero
@@ -83,6 +56,7 @@ public:
 	void Init();
 	void InitHUD();
 	void InitMenuQuitter();
+	void InitMenuStats();
 	void InitMap();
 
 	void CleanUp();
@@ -94,6 +68,7 @@ public:
 	void Update(IHMmanager* game);
 	void UpdateHUD(IHMmanager* game);
 	void UpdateMenuQuitter(IHMmanager* game);
+	void UpdateMenuStats(IHMmanager* game);
 	void UpdateMap(IHMmanager* game);
 
 	void Draw(IHMmanager* game);

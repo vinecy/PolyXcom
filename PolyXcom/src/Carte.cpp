@@ -886,6 +886,42 @@ list <pair<int , int> > Carte::seekSpawnPoint(int xA, int yA, int nb){
 		cont--;
 		cout << " -> valide" << endl;
 	} else cout << " -> impossible" << endl;
+	i = (xA + 1);
+	j = (yA + 1);
+	cout << "test: " << i << " " << j ;
+	if ( (moveIsPossible(i, j, false) == 1) && (cont>0) ){
+		tmp.first = i; tmp.second = j;
+		rep.push_back(tmp);
+		cont--;
+		cout << " -> valide" << endl;
+	} else cout << " -> impossible" << endl;
+	i = (xA - 1) ;
+	j = (yA + 1);
+	cout << "test: " << i << " " << j ;
+	if ( (moveIsPossible(i, j, false) == 1) && (cont>0)){
+		tmp.first = i; tmp.second = j;
+		rep.push_back(tmp);
+		cont--;
+		cout << " -> valide" << endl;
+	} else cout << " -> impossible" << endl;
+	i = (xA + 1);
+	j = (yA - 1);
+	cout << "test: " << i << " " << j ;
+	if ( (moveIsPossible(i, j, false) == 1) && (cont>0)){
+		tmp.first = i; tmp.second = j;
+		rep.push_back(tmp);
+		cont--;
+		cout << " -> valide" << endl;
+	} else cout << " -> impossible" << endl;
+	i = (xA - 1);
+	j = (yA - 1);
+	cout << "test: " << i << " " << j ;
+	if ( (moveIsPossible(i, j, false) == 1) && (cont>0)){
+		tmp.first = i; tmp.second = j;
+		rep.push_back(tmp);
+		cont--;
+		cout << " -> valide" << endl;
+	} else cout << " -> impossible" << endl;
 	return (rep);
 }
 

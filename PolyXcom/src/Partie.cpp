@@ -558,6 +558,8 @@ void Partie::HandleEvents(IHMmanager* game){
 												(*_ite_ee)->set_pvCurrent(0);
 											}
 											(*_ite_l)->set_paCurrent((*_ite_l)->get_paCurrent()-4);
+											(*_ite_l)->get_inv()->get_weapon_c()->set_munCurrent(
+													(*_ite_l)->get_inv()->get_weapon_c()->get_munCurrent()-1);
 											STATE_TIR=false;
 										}
 									}
@@ -771,7 +773,7 @@ void Partie::UpdateHUD(IHMmanager* game){
 			//afficher Tirer
 			if ( _mapCurrent.get_dangerZone()==true)
 			{
-				if(( STATE_TIR==false) && ((*_ite_l)->get_paCurrent()>=3))
+				if(( STATE_TIR==false) && ((*_ite_l)->get_paCurrent()>=4))
 				{
 					STATE_TIR=true;
 					cout <<" Locked and loaded !"<<endl;
@@ -884,6 +886,7 @@ void Partie::UpdateHUD(IHMmanager* game){
 						{
 							//_mapCurrent.moveItemTo((*_ite_ee)->get_x(), (*_ite_ee)->get_x(),
 									//(*tmpl).first, (*tmpl).second);
+							cout<< "on veux se deplacer en "<< (*tmpl).first<<" "<<(*tmpl).second<<endl;
 							tmpl++;
 						}
 					}

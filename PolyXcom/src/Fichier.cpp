@@ -85,6 +85,7 @@ void Fichier::loadSave(string &nameCurrentMap, list<Hero>& listHero, list<Portai
 					_path >> luck;
 					Hero tpsH(coordSpawnX,coordSpawnY,2,lev,str,acc,agi,end,luck,Inventaire(),nom);
 					listHero.push_back(tpsH);   // creation et ajout du hero dans la liste
+					//tpsH.display_info();
 				}
 			} else if( mot == "closedPortalList "){ // si on a trouvé le champ "closedPortalList:"
 				_path >> mot;

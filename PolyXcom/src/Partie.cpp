@@ -73,6 +73,11 @@ static Text textMenuQuitter;
 static Text textOui;
 static Text textNon;
 
+static const int nbRectStats = 11;
+static const int nbtextStats = 16;
+static RectangleShape rectStats[nbRectStats];				// Element du menu Stats
+static Text textStats[nbtextStats];
+static Sprite spritePersoActuel;
 
 /** Le constructeur Partie crée la partie en cours
   * */
@@ -118,7 +123,7 @@ void Partie::Init(){
 	//InitMap();				// Initialisation des éléments de la partie Carte de l'IHM
 
 
-
+	InitMenuStats();
 	InitMenuQuitter();		// Initialisation du menu Quitter pour choix de quitter la partie
 }
 
@@ -201,7 +206,11 @@ void Partie::InitMap(){
 }
 
 void Partie::InitMenuStats(){
+	// Init Fenetre Stats
+	rectStats[0] = RectangleShape();
+	rectStats[0].setFillColor(unSelected);
 
+	//textStats.
 }
 
 void Partie::InitMenuQuitter(){
@@ -448,7 +457,7 @@ void Partie::Update(IHMmanager* game){
 	} else if(fenetreActive == 2){
 
 	} else if(fenetreActive == 3){
-
+		UpdateMenuStats(game);
 	} else if(fenetreActive == 4){
 		UpdateMenuQuitter(game);
 	} else {
@@ -560,13 +569,19 @@ void Partie::UpdateHUD(IHMmanager* game){
 	if(valide){											// si clic sur un bouton
 		switch(choix){									// selon le bouton selectionné
 			case 1:
-				// TODO afficher Inventaire
+				if(fenetreActive != 1) fenetreActive = 1;
+				else fenetreActive = 0;
+				valide = 0;
 				break;
 			case 2:
-				// TODO afficher Statistiques
+				if(fenetreActive != 2) fenetreActive = 2;
+				else fenetreActive = 0;
+				valide = 0;
 				break;
 			case 3:
-				// TODO afficher Carte
+				if(fenetreActive != 3) fenetreActive = 3;
+				else fenetreActive = 0;
+				valide = 0;
 				break;
 			case 4:
 				if(fenetreActive != 4) fenetreActive = 4;
@@ -601,8 +616,16 @@ void Partie::UpdateHUD(IHMmanager* game){
 	}
 }
 
-void Partie::UpdateMenuStats(IHMmanager*game){
-
+void Partie::UpdateMenuStats(IHMmanager* game){
+	rectStats[0].setSize(Vector2f(size_Map_part_X*0.80 , size_Map_part_Y*0.80));
+	rectStats[0].setPosition((game->get_myWindow()->getSize().x - ESPACE*2 - 96)/2 - rectStats[0].getGlobalBounds().width/2
+						   , (game->get_myWindow()->getSize().y - ESPACE*2 - 96)/2 - rectStats[0].getGlobalBounds().height/2
+						     );
+	spritePersoActuel = (*_ite_l)->_sprite;
+	spritePersoActuel.setScale(3,3);
+	spritePersoActuel.setPosition( rectStats[0].getGlobalBounds().left + 10
+						         , rectStats[0].getGlobalBounds().top + (rectStats[0].getGlobalBounds().height/2 - spritePersoActuel.getGlobalBounds().height/2 )
+								 );
 }
 
 void Partie::UpdateMenuQuitter(IHMmanager*game){
@@ -678,12 +701,19 @@ void Partie::Draw(IHMmanager* game){
 }
 
 void Partie::DrawActiveFrame(IHMmanager* game){
+	int i = 0;
 	if(fenetreActive == 1){
 
 	} else if(fenetreActive == 2){
 
 	} else if(fenetreActive == 3){
-
+		for(i = 0 ; i < nbRectStats ; i++) {
+			game->get_myWindow()->draw(rectStats[i]);
+		}
+		game->get_myWindow()->draw(spritePersoActuel);
+		for(i = 0 ; i < nbtextStats ; i++) {
+			game->get_myWindow()->draw(textStats[i]);
+		}
 	} else if(fenetreActive == 4){
 		game->get_myWindow()->draw(menuQuitter);
 		game->get_myWindow()->draw(textMenuQuitter);

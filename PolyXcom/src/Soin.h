@@ -17,7 +17,7 @@ private:
 
 public:
 	Soin();		//constructeur
-
+	Soin(int s1, int s2);
 	int get_heal();
 	int get_uses();
 

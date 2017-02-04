@@ -551,7 +551,8 @@ void Partie::HandleEvents(IHMmanager* game){
 											}
 											(*_ite_ee)->set_pvCurrent(
 													(*_ite_ee)->get_pvCurrent()-
-													( ((*_ite_l)->get_inv()->get_weapon_c()->get_degats()) * ( (alea<=((*_ite_l)->get_accuracy()+5)) * (1+(alea<=(*_ite_l)->get_luck())) ) ));
+													( ((*_ite_l)->get_inv()->get_weapon_c()->get_degats()) *
+															( (alea<=((*_ite_l)->get_accuracy()+5)) * (1+(alea<=(*_ite_l)->get_luck())) ) ));
 
 											if((*_ite_ee)->get_pvCurrent()<0)
 											{
@@ -817,6 +818,8 @@ void Partie::UpdateHUD(IHMmanager* game){
 				{
 					(*_ite_l)->set_pvCurrent((*_ite_l)->get_pvMax());
 				}
+				(*_ite_l)->set_paCurrent((*_ite_l)->get_paCurrent()-2);
+				(*_ite_l)->get_inv()->get_medkit()->add_uses(-1);
 			}
 			Sleep(500);
 			break;
@@ -826,8 +829,7 @@ void Partie::UpdateHUD(IHMmanager* game){
 			(*_ite_l)->display_info();
 			if(_mapCurrent.get_dangerZone()==true)
 			{
-				if(	(*_ite_l)->get_x()==_team_hero.back()->get_x() &&
-						(*_ite_l)->get_y()==_team_hero.back()->get_y())
+				if(	*(_ite_l)==_team_hero.back())
 				{
 					_ite_l=_team_hero.begin();
 				}
@@ -844,7 +846,7 @@ void Partie::UpdateHUD(IHMmanager* game){
 			break;
 		case 11:
 		{
-			// TODO afficher Fin du Tour
+			// afficher Fin du Tour
 			STATE_CC=false;
 			STATE_TIR=false;
 
@@ -871,6 +873,8 @@ void Partie::UpdateHUD(IHMmanager* game){
 			if(_team_ennemi.size()==0)
 			{
 				cout << "WIIIIIIIIIIIIIIIIIIIIIIIn\n";
+				//todo fermer portail
+				switchMap(_tank_portail.front());
 			}
 			for (_ite_ee=_team_ennemi.begin(); _ite_ee!=_team_ennemi.end();_ite_ee++)
 			{
@@ -879,22 +883,41 @@ void Partie::UpdateHUD(IHMmanager* game){
 					(*_ite_ee)->get_inv()->get_weapon_c()->set_munCurrent(
 							(*_ite_ee)->get_inv()->get_weapon_c()->get_munMax());
 				}
-				if(1)//tirer)
+				int cible=rand()%10;
+				list<Hero*>::iterator tmp= _team_hero.begin();
+				while(cible==0)
 				{
-					//tirer
+					if(tmp==_team_hero.end())
+					{
+						tmp= _team_hero.begin();
+					}
+					tmp++;
+					cible--;
+				}
+				if( ((*_ite_ee)->get_paCurrent()>=4)&&((*_ite_ee)->get_inv()->get_weapon_c()->get_munCurrent()>=1)
+						&& (_mapCurrent.pathIsPossible((*_ite_ee)->get_x(), (*_ite_ee)->get_y(),
+								(*tmp)->get_x(), (*tmp)->get_y())))
+				{
+					//cout<< " je vias tirer sur "<<(*tmp)->get_x()<< " "<<  (*tmp)->get_y()<<endl;
+					(*_ite_ee)->get_inv()->get_weapon_c()->set_munCurrent(
+							(*_ite_ee)->get_inv()->get_weapon_c()->get_munCurrent()-1);
+					(*_ite_ee)->set_paCurrent((*_ite_ee)->get_paCurrent());
+					cout<<" yo";
+					(*tmp)->set_pvCurrent((*tmp)->get_pvCurrent()-( ((*_ite_ee)->get_inv()->get_weapon_c()->get_degats()) *( (cible<=((*_ite_ee)->get_accuracy()+5)) * (1+(cible<=(*_ite_ee)->get_luck())) ) ));
+					cout << "lo\n";
 				}
 				if((*_ite_ee)->get_paCurrent()>=1)
 				{
 					list<pair<int,int>> chemin = _mapCurrent.pathfinding((*_ite_ee)->get_x(),
-							(*_ite_ee)->get_y(),_team_hero.front()->get_x(), _team_hero.front()->get_y());
+							(*_ite_ee)->get_y(),(*tmp)->get_x(), (*tmp)->get_y());
 					if(chemin.front().first!=-1)
 					{
 						list<pair<int,int>>::iterator tmpl=chemin.begin();
 						while ( (*_ite_ee)->get_paCurrent()!=0 && tmpl!=chemin.end())
 						{
-							//_mapCurrent.moveItemTo((*_ite_ee)->get_x(), (*_ite_ee)->get_x(),
-									//(*tmpl).first, (*tmpl).second);
-							cout<< "on veux se deplacer en "<< (*tmpl).first<<" "<<(*tmpl).second<<endl;
+							_mapCurrent.moveItemToWithMoveAnim((*_ite_ee)->get_x(), (*_ite_ee)->get_y(),(*tmpl).first, (*tmpl).second);
+							//cout<< "on veux se deplacer de "<<(*_ite_ee)->get_x()<< " "<< << " en "<< (*tmpl).first<<" "<<(*tmpl).second<<endl;
+							(*_ite_ee)->set_paCurrent((*_ite_ee)->get_paCurrent()-1);
 							tmpl++;
 						}
 					}
@@ -906,7 +929,7 @@ void Partie::UpdateHUD(IHMmanager* game){
 				(*_ite_l)->set_paCurrent((*_ite_l)->get_paMax());
 				if((*_ite_l)->get_pvCurrent()>0)
 				{
-					temph.push_front(*_ite_l);
+					temph.push_front(*_ite_l);//back
 				}
 			}
 			for (_ite_ee=_team_ennemi.begin(); _ite_ee!=_team_ennemi.end();_ite_ee++)
@@ -921,6 +944,7 @@ void Partie::UpdateHUD(IHMmanager* game){
 			if( _team_hero.size()==0)
 			{
 				cout <<" loooooooooooooose\n";
+				game->PopState();
 			}
 			_ite_l=_team_hero.begin();
 		}

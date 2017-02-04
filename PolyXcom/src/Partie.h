@@ -30,7 +30,7 @@ private:								// ATTRIBUTS
 	bool premiereApparition;
 
 										//STATES
-	//TODO states
+
 	bool STATE_CC;
 	bool STATE_TIR;
 										// JEU

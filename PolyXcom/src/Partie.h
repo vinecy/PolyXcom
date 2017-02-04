@@ -23,8 +23,8 @@ using namespace std;
 class Partie : public IHMstate {
 private:								// ATTRIBUTS
 										// GRAPHIQUES
-	int choix;
-	int choixYesNo;
+	int choix = 0;
+	int choixYesNo = 0;
 	int fenetreActive;
 	bool valide;
 	bool premiereApparition;

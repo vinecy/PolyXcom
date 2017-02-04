@@ -39,7 +39,7 @@ public:
 	int get_paMax(void);
 	int get_pvCurrent(void);
 	int get_paCurrent(void);
-	int get_rotation(void);
+	int get_str(void);
 	Inventaire* get_inv(void);
 
 

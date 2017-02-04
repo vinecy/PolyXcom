@@ -468,42 +468,74 @@ void Partie::HandleEvents(IHMmanager* game){
 								ycur = (*_ite_l)->get_y();
 							}
 							cout << " \t\t\t\tposition actuelle "<< xcur << " " << ycur<< endl;
-							cout << " \t\t\t\tdistance "<< (*_ite_h).distance(xcase, ycase)<<endl;
-
-							if(xcase>=0 && ycase>=0 && xcase<_mapCurrent.get_sizeX() && ycase<_mapCurrent.get_sizeY())
+							//cout << " \t\t\t\tdistance "<< (*_ite_h).distance(xcase, ycase)<<endl;
+							if(STATE_CC==false)
 							{
-								list <pair<int,int>> chemin=_mapCurrent.pathfinding(xcur,ycur,xcase,ycase);
-								if (chemin.back().first!=-1)
+								if(STATE_TIR==false)
 								{
-									if( _mapCurrent.get_dangerZone()==false)
-									{
-										if(_mapCurrent.get_IDin(chemin.back().first, chemin.back().second)==0)
+									if(xcase>=0 && ycase>=0 && xcase<_mapCurrent.get_sizeX() && ycase<_mapCurrent.get_sizeY())
+									{//Cas déplacement hors combat
+										list <pair<int,int>> chemin=_mapCurrent.pathfinding(xcur,ycur,xcase,ycase);
+										if (chemin.back().first!=-1)
 										{
-											_mapCurrent.moveItemTo(xcur, ycur, chemin.back().first, chemin.back().second);
-										}
-										else if(_mapCurrent.get_IDin(chemin.back().first, chemin.back().second)==4 && _mapCurrent.get_dangerZone()==false)
-										{
-											list<Portail> ::iterator tmp;
-											for(tmp=_tank_portail.begin();tmp!=_tank_portail.end();tmp++)
+											if( _mapCurrent.get_dangerZone()==false)
 											{
-												if( (*tmp).get_x()==chemin.back().first &&(*tmp).get_y()==chemin.back().second)
+												if(_mapCurrent.get_IDin(chemin.back().first, chemin.back().second)==0)
 												{
-													_ite_p= tmp;
+													_mapCurrent.moveItemTo(xcur, ycur, chemin.back().first, chemin.back().second);
+												}
+												else if(_mapCurrent.get_IDin(chemin.back().first, chemin.back().second)==4 && _mapCurrent.get_dangerZone()==false)
+												{
+													list<Portail> ::iterator tmp;
+													for(tmp=_tank_portail.begin();tmp!=_tank_portail.end();tmp++)
+													{
+														if( (*tmp).get_x()==chemin.back().first &&(*tmp).get_y()==chemin.back().second)
+														{
+															_ite_p= tmp;
+														}
+													}
+													switchMap((*_ite_p));
 												}
 											}
-											switchMap((*_ite_p));
+											else
+											{//cas deplacement en combat
+												int distance =(*_ite_l)->distance(chemin.back().first, chemin.back().second);
+												if(_mapCurrent.get_IDin(chemin.back().first, chemin.back().second)==0
+														&& distance <= (*_ite_l)->get_paCurrent())
+												{
+													_mapCurrent.moveItemTo(xcur, ycur, chemin.back().first, chemin.back().second);
+													(*_ite_l)->set_paCurrent((*_ite_l)->get_paCurrent()-distance);
+													//(*_ite_l)->display_info();
+												}
+											}
 										}
 									}
-									else
+								}
+								else
+								{//cas tir
+
+								}
+							}
+							else
+							{// cas cc
+								if((_mapCurrent.get_IDin(xcase,ycase)==3) && ((*_ite_l)->distance(xcase, ycase)==1))
+								{
+									for(list<Ennemi*>::iterator _itmp=_team_ennemi.begin(); _itmp!=_team_ennemi.end();_itmp++)
 									{
-										int distance =(*_ite_l)->distance(chemin.back().first, chemin.back().second);
-										if(_mapCurrent.get_IDin(chemin.back().first, chemin.back().second)==0
-												&& distance <= (*_ite_l)->get_paCurrent())
+										if((*_itmp)->get_x()==xcase && (*_itmp)->get_y()==ycase)
 										{
-											_mapCurrent.moveItemTo(xcur, ycur, chemin.back().first, chemin.back().second);
-											(*_ite_l)->set_paCurrent((*_ite_l)->get_paCurrent()-distance);
-											//(*_ite_l)->display_info();
+											_ite_ee=_itmp;
 										}
+									}
+									if((*_ite_ee)->get_x()==xcase && (*_ite_ee)->get_y()==ycase)
+									{
+										(*_ite_ee)->set_pvCurrent((*_ite_ee)->get_pvCurrent()-(*_ite_l)->get_str());
+										if((*_ite_ee)->get_pvCurrent()<0)
+										{
+											(*_ite_ee)->set_pvCurrent(0);
+										}
+										(*_ite_l)->set_paCurrent((*_ite_l)->get_paCurrent()-3);
+										STATE_CC=false;
 									}
 								}
 							}
@@ -547,7 +579,8 @@ void Partie::Update(IHMmanager* game){
 			} else {
 				// mode combat
 				cout << " Mode combat " << endl;
-
+				STATE_CC=false;
+				STATE_TIR=false;
 			}
 		} else {
 
@@ -666,9 +699,37 @@ void Partie::UpdateHUD(IHMmanager* game){
 				break;
 			case 5:
 				// TODO afficher CC
+				if ( _mapCurrent.get_dangerZone()==true)
+				{
+					if(( STATE_CC==false) && (*_ite_l)->get_paCurrent()>=3)
+					{
+						STATE_CC=true;
+						cout << " THIS IS OOOON!"<< endl;
+					}
+					else
+					{
+						STATE_CC=false;
+						cout << " Ok..."<< endl;
+					}
+				}
+				Sleep(500);
 				break;
 			case 6:
 				// TODO afficher Tirer
+				if ( _mapCurrent.get_dangerZone()==true)
+				{
+					if(( STATE_TIR==false) )//&& (*_ite_l)->get_paCurrent()>=3)
+					{
+						STATE_TIR=true;
+						cout <<" Locked and loaded !"<<endl;
+					}
+					else
+					{
+						STATE_TIR=false;
+						cout << "Peace man!"<< endl;
+					}
+				}
+				Sleep(500);
 				break;
 			case 7:
 				// TODO afficher Recharger
@@ -714,6 +775,8 @@ void Partie::UpdateHUD(IHMmanager* game){
 				}
 				cout << "\n maintenant avec ";
 				(*_ite_l)->display_info();
+				STATE_CC=false;
+				STATE_TIR=false;
 				Sleep(500);
 				break;
 			case 11:
@@ -899,14 +962,22 @@ void Partie::DrawMap(IHMmanager* game){
 			game->get_myWindow()->draw(nom);
 		}
 	}
-	list<Personnage*>::iterator ite_e = _team_ennemi.begin();
-	for(ite_e = _team_ennemi.begin() ; ite_e != _team_ennemi.end() ; ite_e++){
-		(*ite_e)->set_sprite(t);
-		tpsSprite = (*ite_e)->get_sprite();
+	for(list<Ennemi*>::iterator te = _team_ennemi.begin(); te!=_team_ennemi.end(); te++){
+		//(*te)->display_info();
+		(*te)->set_sprite(t);
+		tpsSprite = (*te)->get_sprite();
 		tpsSprite.setScale(_mapCurrent._zoom, _mapCurrent._zoom);
-		tpsSprite.setPosition(_mapCurrent._origXmap + 64*(_mapCurrent._zoom)*(*ite_e)->get_x()
-							, _mapCurrent._origYmap - _mapCurrent._zoom*64 - 64*(_mapCurrent._zoom)*(*ite_e)->get_y() );
+		tpsSprite.setPosition(_mapCurrent._origXmap + 64*(_mapCurrent._zoom)*(*te)->get_x()
+							, _mapCurrent._origYmap - _mapCurrent._zoom*64 - 64*(_mapCurrent._zoom)*(*te)->get_y() );
+		Text Pv("",font,12);
+		stringstream s[2];
+			s[0] << (*te)->get_pvCurrent();
+			s[1] << (*te)->get_pvMax();
+			Pv.setString( s[0].str() + "/" + s[1].str());
+			Pv.setPosition(tpsSprite.getGlobalBounds().left+tpsSprite.getGlobalBounds().width/2 -Pv.getGlobalBounds().width/2, tpsSprite.getGlobalBounds().top);
+			Pv.setFillColor(Color::Red);
 		game->get_myWindow()->draw(tpsSprite);
+		game->get_myWindow()->draw(Pv);
 	}
 
 	for(_ite_o = _tank_obstacle.begin(); _ite_o != _tank_obstacle.end(); _ite_o++)

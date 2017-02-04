@@ -31,6 +31,8 @@ private:								// ATTRIBUTS
 
 										//STATES
 	//TODO states
+	bool STATE_CC;
+	bool STATE_TIR;
 										// JEU
 	list<Ennemi> 		_tank_ennemi;		// conteneurs pour
 	list<Hero>			_tank_hero;			// le chargement a partir d'un fichier
@@ -39,13 +41,14 @@ private:								// ATTRIBUTS
 	list<Portail>  		_tank_portail_close;
 
 	list<Hero*>	_team_hero;			// equipe de heros
-	list<Personnage*>	_team_ennemi;		// equipe de ennemi
+	list<Ennemi*>	_team_ennemi;		// equipe de ennemi
 
-	Carte 				_mapCurrent;		// carte actuel
+	Carte 				_mapCurrent;		// carte actuelle
 
 	list<Hero*>::iterator _ite_l;		// itérateur de personnage en action
 	list<Personnage*>::iterator _ite;		// iterateur divers
 	list<Ennemi>::iterator 		_ite_e;		// iterateur ennemi
+	list<Ennemi*>::iterator 	_ite_ee;		// iterateur ennemi
 	list<Hero>::iterator 		_ite_h;		// iterateur hero
 	list<Obstacle>::iterator 	_ite_o;		// iterateur obstacle
 	list<Portail>::iterator		_ite_p;		// iterateur de portail

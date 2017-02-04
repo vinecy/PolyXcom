@@ -38,12 +38,12 @@ private:								// ATTRIBUTS
 	list<Portail>  		_tank_portail;
 	list<Portail>  		_tank_portail_close;
 
-	list<Personnage*>	_team_hero;			// equipe de heros
+	list<Hero*>	_team_hero;			// equipe de heros
 	list<Personnage*>	_team_ennemi;		// equipe de ennemi
 
 	Carte 				_mapCurrent;		// carte actuel
 
-	list<Personnage*>::iterator _ite_l;		// itérateur de personnage en action
+	list<Hero*>::iterator _ite_l;		// itérateur de personnage en action
 	list<Personnage*>::iterator _ite;		// iterateur divers
 	list<Ennemi>::iterator 		_ite_e;		// iterateur ennemi
 	list<Hero>::iterator 		_ite_h;		// iterateur hero

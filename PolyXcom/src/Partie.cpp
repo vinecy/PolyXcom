@@ -863,6 +863,10 @@ void Partie::DrawMap(IHMmanager* game){
 			tpsSprite.setPosition(_mapCurrent._origXmap + 64*(_mapCurrent._zoom)*(*_ite_h).get_x()
 								, _mapCurrent._origYmap - _mapCurrent._zoom*64 - 64*(_mapCurrent._zoom)*(*_ite_h).get_y() );
 			game->get_myWindow()->draw(tpsSprite);
+			Text nom((*_ite_h).get_name(), font, _mapCurrent._zoom*12);
+			nom.setPosition(tpsSprite.getGlobalBounds().left+tpsSprite.getGlobalBounds().width/2 -nom.getGlobalBounds().width/2, tpsSprite.getGlobalBounds().top);
+			nom.setFillColor(Color::Yellow);
+			game->get_myWindow()->draw(nom);
 		}
 	}
 	list<Personnage*>::iterator ite_e = _team_ennemi.begin();

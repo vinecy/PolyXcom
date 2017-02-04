@@ -10,7 +10,7 @@ felowTravellerName1: Alexis ;
 inventory: ;
 stats: 1 5 3 4 3 2 ;
 
-felowTravellerName2: Valentin ;
+felowTravellerName2: Bob ;
 inventory: ;
 stats: 1 0 4 4 2 4;
 

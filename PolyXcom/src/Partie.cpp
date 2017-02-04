@@ -553,7 +553,6 @@ void Partie::HandleEvents(IHMmanager* game){
 													(*_ite_ee)->get_pvCurrent()-
 													( ((*_ite_l)->get_inv()->get_weapon_c()->get_degats()) * ( (alea<=((*_ite_l)->get_accuracy()+5)) * (1+(alea<=(*_ite_l)->get_luck())) ) ));
 
-											(*_ite_ee)->set_pvCurrent((*_ite_ee)->get_pvCurrent()-(*_ite_l)->get_str());
 											if((*_ite_ee)->get_pvCurrent()<0)
 											{
 												(*_ite_ee)->set_pvCurrent(0);
@@ -647,14 +646,14 @@ void Partie::UpdateHUD(IHMmanager* game){
 	PersoActif.setPosition( ESPACE , (game->get_myWindow()->getSize().y - ESPACE - PersoActif.getSize().y));
 	namePersoActif.setString((*_ite_l)->get_name());
 	namePersoActif.setPosition( PersoActif.getGlobalBounds().left + PersoActif.getGlobalBounds().width/2 - namePersoActif.getGlobalBounds().width/2 + 12
-							  , PersoActif.getGlobalBounds().top - 10 - namePersoActif.getGlobalBounds().height );
+			, PersoActif.getGlobalBounds().top - 10 - namePersoActif.getGlobalBounds().height );
 
 	ConteneurPVMAX.setSize(Vector2f( (*_ite_l)->get_pvMax() * PXL_PV  ,50));
 	ConteneurPVMAX.setPosition( PersoActif.getGlobalBounds().left + PersoActif.getGlobalBounds().width + 40,
-								PersoActif.getGlobalBounds().top + ConteneurPVMAX.getOutlineThickness());
+			PersoActif.getGlobalBounds().top + ConteneurPVMAX.getOutlineThickness());
 	ConteneurPAMAX.setSize(Vector2f( (*_ite_l)->get_paMax() * PXL_PV  ,50));
 	ConteneurPAMAX.setPosition( PersoActif.getGlobalBounds().left + PersoActif.getGlobalBounds().width + 40,
-								PersoActif.getGlobalBounds().top + PersoActif.getGlobalBounds().height - ConteneurPAMAX.getGlobalBounds().height + ConteneurPAMAX.getOutlineThickness());
+			PersoActif.getGlobalBounds().top + PersoActif.getGlobalBounds().height - ConteneurPAMAX.getGlobalBounds().height + ConteneurPAMAX.getOutlineThickness());
 
 	ConteneurPV.setSize(Vector2f( ((*_ite_l)->get_pvCurrent() * PXL_PV - 8) ,42));
 	ConteneurPA.setSize(Vector2f( ((*_ite_l)->get_paCurrent() * PXL_PV - 8) ,42));
@@ -671,42 +670,47 @@ void Partie::UpdateHUD(IHMmanager* game){
 
 
 	ConteneurPV.setPosition( ConteneurPVMAX.getGlobalBounds().left + 8,
-							 ConteneurPVMAX.getGlobalBounds().top + 8 );
+			ConteneurPVMAX.getGlobalBounds().top + 8 );
 	ConteneurPA.setPosition( ConteneurPAMAX.getGlobalBounds().left + 8,
-							 ConteneurPAMAX.getGlobalBounds().top + 8 );
+			ConteneurPAMAX.getGlobalBounds().top + 8 );
 
 	textPV.setPosition(ConteneurPV.getGlobalBounds().left + 10,
-					   ConteneurPV.getGlobalBounds().top + ConteneurPV.getGlobalBounds().height/2 - textPV.getGlobalBounds().height/2 );
+			ConteneurPV.getGlobalBounds().top + ConteneurPV.getGlobalBounds().height/2 - textPV.getGlobalBounds().height/2 );
 	textPA.setPosition(ConteneurPA.getGlobalBounds().left + 10,
-					   ConteneurPA.getGlobalBounds().top + ConteneurPA.getGlobalBounds().height/2 - textPA.getGlobalBounds().height/2 );
+			ConteneurPA.getGlobalBounds().top + ConteneurPA.getGlobalBounds().height/2 - textPA.getGlobalBounds().height/2 );
 
 	boutonMenu[0].setPosition( (game->get_myWindow()->getSize().x - ESPACE - boutonMenu[0].getGlobalBounds().width),
-								ESPACE );
+			ESPACE );
 	boutonMenu[1].setPosition( (game->get_myWindow()->getSize().x - ESPACE - boutonMenu[1].getGlobalBounds().width),
-							   boutonMenu[0].getGlobalBounds().top + boutonMenu[0].getGlobalBounds().height + 10 );
+			boutonMenu[0].getGlobalBounds().top + boutonMenu[0].getGlobalBounds().height + 10 );
 	boutonMenu[2].setPosition( (game->get_myWindow()->getSize().x - ESPACE - boutonMenu[2].getGlobalBounds().width),
-							   boutonMenu[1].getGlobalBounds().top + boutonMenu[1].getGlobalBounds().height + 10 );
+			boutonMenu[1].getGlobalBounds().top + boutonMenu[1].getGlobalBounds().height + 10 );
 	boutonMenu[3].setPosition( (game->get_myWindow()->getSize().x - ESPACE - boutonMenu[3].getGlobalBounds().width),
-							   boutonMenu[2].getGlobalBounds().top + boutonMenu[2].getGlobalBounds().height + 10 );
+			boutonMenu[2].getGlobalBounds().top + boutonMenu[2].getGlobalBounds().height + 10 );
 
 	boutonFinTour.setPosition( (game->get_myWindow()->getSize().x) - ESPACE - boutonFinTour.getGlobalBounds().width ,
-							   (game->get_myWindow()->getSize().y) - ESPACE - boutonFinTour.getGlobalBounds().height );
+			(game->get_myWindow()->getSize().y) - ESPACE - boutonFinTour.getGlobalBounds().height );
 	boutonChangerCompagnon.setPosition( boutonFinTour.getGlobalBounds().left - ESPACE - boutonChangerCompagnon.getGlobalBounds().width,
-										boutonFinTour.getGlobalBounds().top);
+			boutonFinTour.getGlobalBounds().top);
 	boutonMedKit.setPosition( boutonChangerCompagnon.getGlobalBounds().left - ESPACE - boutonMedKit.getGlobalBounds().width,
-							  boutonChangerCompagnon.getGlobalBounds().top);
+			boutonChangerCompagnon.getGlobalBounds().top);
 	boutonGrenade.setPosition( boutonMedKit.getGlobalBounds().left - ESPACE - boutonGrenade.getGlobalBounds().width,
-							   boutonMedKit.getGlobalBounds().top);
+			boutonMedKit.getGlobalBounds().top);
 	boutonRecharger.setPosition( boutonGrenade.getGlobalBounds().left - ESPACE - boutonRecharger.getGlobalBounds().width,
-								 boutonGrenade.getGlobalBounds().top);
+			boutonGrenade.getGlobalBounds().top);
 	boutonTirer.setPosition( boutonRecharger.getGlobalBounds().left - ESPACE - boutonTirer.getGlobalBounds().width,
-							 boutonRecharger.getGlobalBounds().top);
+			boutonRecharger.getGlobalBounds().top);
 	boutonCC.setPosition( boutonTirer.getGlobalBounds().left - ESPACE - boutonCC.getGlobalBounds().width,
+<<<<<<< HEAD
 						  boutonTirer.getGlobalBounds().top);
 	WeaponActif.setPosition( boutonCC.getGlobalBounds().left - ESPACE - WeaponActif.getGlobalBounds().width,
 							  boutonCC.getGlobalBounds().top);
 	textAmmunation.setPosition( WeaponActif.getGlobalBounds().left + WeaponActif.getGlobalBounds().width - ESPACE - textAmmunation.getGlobalBounds().width,
 								WeaponActif.getGlobalBounds().top + WeaponActif.getGlobalBounds().height - textAmmunation.getGlobalBounds().height - ESPACE);
+=======
+			boutonTirer.getGlobalBounds().top);
+
+>>>>>>> refs/remotes/origin/master
 
 	boutonMenu[0].setTextureRect(IntRect(COLUNN1_PXL,ROWPLAYERBUTTOM_PXL,64,64));
 	boutonMenu[1].setTextureRect(IntRect(COLUNN2_PXL,ROWPLAYERBUTTOM_PXL,64,64));
@@ -722,130 +726,209 @@ void Partie::UpdateHUD(IHMmanager* game){
 	boutonCC.setTextureRect(IntRect(COLUNN1_PXL,ROWFIGHTBUTTOM_PXL,64,64));
 
 	switch(choix){
-		case 1: boutonMenu[0].setTextureRect(IntRect(COLUNN1_PXL + 65 ,ROWPLAYERBUTTOM_PXL,64,64)); break;
-		case 2: boutonMenu[1].setTextureRect(IntRect(COLUNN2_PXL + 65 ,ROWPLAYERBUTTOM_PXL,64,64)); break;
-		case 3: boutonMenu[2].setTextureRect(IntRect(COLUNN3_PXL + 65 ,ROWPLAYERBUTTOM_PXL,64,64)); break;
-		case 4: boutonMenu[3].setTextureRect(IntRect(COLUNN4_PXL + 65 ,ROWPLAYERBUTTOM_PXL,64,64)); break;
-		case 5: boutonCC.setTextureRect(IntRect(COLUNN1_PXL + 65 ,ROWFIGHTBUTTOM_PXL,64,64)); break;
-		case 6: boutonTirer.setTextureRect(IntRect(COLUNN2_PXL + 65 ,ROWFIGHTBUTTOM_PXL,64,64)); break;
-		case 7: boutonRecharger.setTextureRect(IntRect(COLUNN3_PXL + 65 ,ROWFIGHTBUTTOM_PXL,64,64)); break;
-		case 8: boutonGrenade.setTextureRect(IntRect(COLUNN4_PXL + 65 ,ROWFIGHTBUTTOM_PXL,64,64)); break;
-		case 9: boutonMedKit.setTextureRect(IntRect(COLUNN5_PXL + 65 ,ROWFIGHTBUTTOM_PXL,64,64)); break;
-		case 10: boutonChangerCompagnon.setTextureRect(IntRect(COLUNN6_PXL + 65 ,ROWFIGHTBUTTOM_PXL,64,64)); break;
-		case 11: boutonFinTour.setTextureRect(IntRect(COLUNN7_PXL + 65 ,ROWFIGHTBUTTOM_PXL,64,64)); break;
-		default:
-			break;
+	case 1: boutonMenu[0].setTextureRect(IntRect(COLUNN1_PXL + 65 ,ROWPLAYERBUTTOM_PXL,64,64)); break;
+	case 2: boutonMenu[1].setTextureRect(IntRect(COLUNN2_PXL + 65 ,ROWPLAYERBUTTOM_PXL,64,64)); break;
+	case 3: boutonMenu[2].setTextureRect(IntRect(COLUNN3_PXL + 65 ,ROWPLAYERBUTTOM_PXL,64,64)); break;
+	case 4: boutonMenu[3].setTextureRect(IntRect(COLUNN4_PXL + 65 ,ROWPLAYERBUTTOM_PXL,64,64)); break;
+	case 5: boutonCC.setTextureRect(IntRect(COLUNN1_PXL + 65 ,ROWFIGHTBUTTOM_PXL,64,64)); break;
+	case 6: boutonTirer.setTextureRect(IntRect(COLUNN2_PXL + 65 ,ROWFIGHTBUTTOM_PXL,64,64)); break;
+	case 7: boutonRecharger.setTextureRect(IntRect(COLUNN3_PXL + 65 ,ROWFIGHTBUTTOM_PXL,64,64)); break;
+	case 8: boutonGrenade.setTextureRect(IntRect(COLUNN4_PXL + 65 ,ROWFIGHTBUTTOM_PXL,64,64)); break;
+	case 9: boutonMedKit.setTextureRect(IntRect(COLUNN5_PXL + 65 ,ROWFIGHTBUTTOM_PXL,64,64)); break;
+	case 10: boutonChangerCompagnon.setTextureRect(IntRect(COLUNN6_PXL + 65 ,ROWFIGHTBUTTOM_PXL,64,64)); break;
+	case 11: boutonFinTour.setTextureRect(IntRect(COLUNN7_PXL + 65 ,ROWFIGHTBUTTOM_PXL,64,64)); break;
+	default:
+		break;
 	}
 	if(valide){											// si clic sur un bouton
 		switch(choix){									// selon le bouton selectionné
-			case 1:
-				if(fenetreActive != 1) fenetreActive = 1;
-				else fenetreActive = 0;
-				valide = 0;
-				break;
-			case 2:
-				if(fenetreActive != 2) fenetreActive = 2;
-				else fenetreActive = 0;
-				valide = 0;
-				break;
-			case 3:
-				if(fenetreActive != 3) fenetreActive = 3;
-				else fenetreActive = 0;
-				valide = 0;
-				break;
-			case 4:
-				if(fenetreActive != 4) fenetreActive = 4;
-				else fenetreActive = 0;
-				valide = 0;
-				break;
-			case 5:
-				// TODO afficher CC
-				if ( _mapCurrent.get_dangerZone()==true)
+		case 1://inv
+		if(fenetreActive != 1) fenetreActive = 1;
+		else fenetreActive = 0;
+		valide = 0;
+		break;
+		case 2://carte
+			if(fenetreActive != 2) fenetreActive = 2;
+			else fenetreActive = 0;
+			valide = 0;
+			break;
+		case 3://stat
+			if(fenetreActive != 3) fenetreActive = 3;
+			else fenetreActive = 0;
+			valide = 0;
+			break;
+		case 4://quitter
+			if(fenetreActive != 4) fenetreActive = 4;
+			else fenetreActive = 0;
+			valide = 0;
+			break;
+		case 5:
+			//  afficher CC
+			if ( _mapCurrent.get_dangerZone()==true)
+			{
+				if(( STATE_CC==false) && (*_ite_l)->get_paCurrent()>=3)
 				{
-					if(( STATE_CC==false) && (*_ite_l)->get_paCurrent()>=3)
-					{
-						STATE_CC=true;
-						cout << " THIS IS OOOON!"<< endl;
-					}
-					else
-					{
-						STATE_CC=false;
-						cout << " Ok..."<< endl;
-					}
+					STATE_CC=true;
+					cout << " THIS IS OOOON!"<< endl;
 				}
-				Sleep(500);
-				break;
-			case 6:
-				// TODO afficher Tirer
-				if ( _mapCurrent.get_dangerZone()==true)
+				else
 				{
-					if(( STATE_TIR==false) )//&& (*_ite_l)->get_paCurrent()>=3)
-					{
-						STATE_TIR=true;
-						cout <<" Locked and loaded !"<<endl;
-					}
-					else
-					{
-						STATE_TIR=false;
-						cout << "Peace man!"<< endl;
-					}
+					STATE_CC=false;
+					cout << " Ok..."<< endl;
 				}
-				Sleep(500);
-				break;
-			case 7:
-				// TODO afficher Recharger
-				if(	_mapCurrent.get_dangerZone()==true &&(*_ite_l)->get_paCurrent()>=2)
+			}
+			Sleep(500);
+			break;
+		case 6:
+			//afficher Tirer
+			if ( _mapCurrent.get_dangerZone()==true)
+			{
+				if(( STATE_TIR==false) && ((*_ite_l)->get_paCurrent()>=3))
 				{
-					(*_ite_l)->get_inv()->get_weapon_c()->set_munCurrent(
-							(*_ite_l)->get_inv()->get_weapon_c()->get_munMax());
+					STATE_TIR=true;
+					cout <<" Locked and loaded !"<<endl;
 				}
-				Sleep(500);
-				break;
-			case 8:
-				// TODO afficher Grenade
-				break;
-			case 9:
-				// TODO afficher Medkit
-				if(	_mapCurrent.get_dangerZone()==true &&
+				else
+				{
+					STATE_TIR=false;
+					cout << "Peace man!"<< endl;
+				}
+			}
+			Sleep(500);
+			break;
+		case 7:
+			// afficher Recharger
+			if(	_mapCurrent.get_dangerZone()==true &&(*_ite_l)->get_paCurrent()>=2)
+			{
+				(*_ite_l)->get_inv()->get_weapon_c()->set_munCurrent(
+						(*_ite_l)->get_inv()->get_weapon_c()->get_munMax());
+			}
+			Sleep(500);
+			break;
+		case 8:
+			// TODO afficher Grenade
+			break;
+		case 9:
+			// afficher Medkit
+			if(	_mapCurrent.get_dangerZone()==true &&
 					(*_ite_l)->get_inv()->get_medkit()->get_uses()>=1 &&
 					(*_ite_l)->get_paCurrent()>=2)
+			{
+				(*_ite_l)->set_pvCurrent((*_ite_l)->get_pvCurrent()+2);
+				if ((*_ite_l)->get_pvCurrent()>(*_ite_l)->get_pvMax())
 				{
-					(*_ite_l)->set_pvCurrent((*_ite_l)->get_pvCurrent()+2);
-					if ((*_ite_l)->get_pvCurrent()>(*_ite_l)->get_pvMax())
-					{
-						(*_ite_l)->set_pvCurrent((*_ite_l)->get_pvMax());
-					}
+					(*_ite_l)->set_pvCurrent((*_ite_l)->get_pvMax());
 				}
-				Sleep(500);
-				break;
-			case 10:
-				// TODO afficher Changer Compagnon
-				cout << "actuellement avec ";
-				(*_ite_l)->display_info();
-				if(_mapCurrent.get_dangerZone()==true)
-				{
-					if(	(*_ite_l)->get_x()==_team_hero.back()->get_x() &&
+			}
+			Sleep(500);
+			break;
+		case 10:
+			//  afficher Changer Compagnon
+			cout << "actuellement avec ";
+			(*_ite_l)->display_info();
+			if(_mapCurrent.get_dangerZone()==true)
+			{
+				if(	(*_ite_l)->get_x()==_team_hero.back()->get_x() &&
 						(*_ite_l)->get_y()==_team_hero.back()->get_y())
+				{
+					_ite_l=_team_hero.begin();
+				}
+				else
+				{
+					_ite_l++;
+				}
+			}
+			cout << "\n maintenant avec ";
+			(*_ite_l)->display_info();
+			STATE_CC=false;
+			STATE_TIR=false;
+			Sleep(500);
+			break;
+		case 11:
+		{
+			// TODO afficher Fin du Tour
+			STATE_CC=false;
+			STATE_TIR=false;
+
+			list<Hero*> temph;
+			list<Ennemi*> tempe;
+
+			for (_ite_l=_team_hero.begin();_ite_l!=_team_hero.end();_ite_l++)
+			{
+				(*_ite_l)->set_paCurrent(0);
+				if((*_ite_l)->get_pvCurrent()>0)
+				{
+					temph.push_front(*_ite_l);
+				}
+			}
+			for (_ite_ee=_team_ennemi.begin(); _ite_ee!=_team_ennemi.end();_ite_ee++)
+			{
+				if((*_ite_ee)->get_pvCurrent()>0)
+				{
+					tempe.push_front(*_ite_ee);
+				}
+			}
+			_team_ennemi=tempe;
+			_team_hero=temph;
+			if(_team_ennemi.size()==0)
+			{
+				cout << "WIIIIIIIIIIIIIIIIIIIIIIIn\n";
+			}
+			for (_ite_ee=_team_ennemi.begin(); _ite_ee!=_team_ennemi.end();_ite_ee++)
+			{
+				if((*_ite_ee)->get_inv()->get_weapon_c()->get_munCurrent()==0 && (*_ite_ee)->get_paCurrent()>=2)
+				{
+					(*_ite_ee)->get_inv()->get_weapon_c()->set_munCurrent(
+							(*_ite_ee)->get_inv()->get_weapon_c()->get_munMax());
+				}
+				if(1)//tirer)
+				{
+					//tirer
+				}
+				if((*_ite_ee)->get_paCurrent()>=1)
+				{
+					list<pair<int,int>> chemin = _mapCurrent.pathfinding((*_ite_ee)->get_x(),
+							(*_ite_ee)->get_y(),_team_hero.front()->get_x(), _team_hero.front()->get_y());
+					if(chemin.front().first!=-1)
 					{
-						_ite_l=_team_hero.begin();
-					}
-					else
-					{
-						_ite_l++;
+						list<pair<int,int>>::iterator tmpl=chemin.begin();
+						while ( (*_ite_ee)->get_paCurrent()!=0 && tmpl!=chemin.end())
+						{
+							//_mapCurrent.moveItemTo((*_ite_ee)->get_x(), (*_ite_ee)->get_x(),
+									//(*tmpl).first, (*tmpl).second);
+							tmpl++;
+						}
 					}
 				}
-				cout << "\n maintenant avec ";
-				(*_ite_l)->display_info();
-				STATE_CC=false;
-				STATE_TIR=false;
-				Sleep(500);
-				break;
-			case 11:
-				// TODO afficher Fin du Tour
-				break;
-			default:
+			}
 
-				break;
+			for (_ite_l=_team_hero.begin();_ite_l!=_team_hero.end();_ite_l++)
+			{
+				(*_ite_l)->set_paCurrent((*_ite_l)->get_paMax());
+				if((*_ite_l)->get_pvCurrent()>0)
+				{
+					temph.push_front(*_ite_l);
+				}
+			}
+			for (_ite_ee=_team_ennemi.begin(); _ite_ee!=_team_ennemi.end();_ite_ee++)
+			{
+				if((*_ite_ee)->get_pvCurrent()>0)
+				{
+					tempe.push_front(*_ite_ee);
+				}
+			}
+			_team_ennemi=tempe;
+			_team_hero=temph;
+			if( _team_hero.size()==0)
+			{
+				cout <<" loooooooooooooose\n";
+			}
+			_ite_l=_team_hero.begin();
+		}
+		break;
+		default:
+
+			break;
 		}
 	}
 }

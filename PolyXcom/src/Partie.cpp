@@ -46,6 +46,34 @@ static int size_window_Y ;
 static int size_Map_part_X;
 static int size_Map_part_Y;
 
+static RectangleShape PersoActif;				// Element de l'HUD
+static RectangleShape ConteneurPVMAX;
+static RectangleShape ConteneurPV;
+static Text textPV;
+static RectangleShape ConteneurPAMAX;
+static RectangleShape ConteneurPA;
+static Text textPA;
+static Sprite boutonMenu[4];
+static Sprite boutonCC;
+static Sprite boutonTirer;
+static Sprite boutonRecharger;
+static Sprite boutonGrenade;
+static Sprite boutonMedKit;
+static Sprite boutonChangerCompagnon;
+static Sprite boutonFinTour;
+
+static Image i;								// Image contenant le sprite
+static Texture t;								// Texture contenant la feuille de sprite
+static Font font;								// Police de caractère
+
+static RectangleShape menuQuitter;				// Element du menu Quitter
+static RectangleShape boutonOui;
+static RectangleShape boutonNon;
+static Text textMenuQuitter;
+static Text textOui;
+static Text textNon;
+
+
 /** Le constructeur Partie crée la partie en cours
   * */
 Partie::Partie(int choix) {
@@ -169,6 +197,10 @@ void Partie::InitMap(){
 	//static int height_mapScreen
 
 	//static RectangleShape dessinMap(Vector2f(_mapCurrent.get_sizeX()*64,_mapCurrent.get_sizeY())*64);
+
+}
+
+void Partie::InitMenuStats(){
 
 }
 
@@ -567,6 +599,10 @@ void Partie::UpdateHUD(IHMmanager* game){
 				break;
 		}
 	}
+}
+
+void Partie::UpdateMenuStats(IHMmanager*game){
+
 }
 
 void Partie::UpdateMenuQuitter(IHMmanager*game){

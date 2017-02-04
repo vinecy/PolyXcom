@@ -864,7 +864,30 @@ void Partie::UpdateHUD(IHMmanager* game){
 			}
 			for (_ite_ee=_team_ennemi.begin(); _ite_ee!=_team_ennemi.end();_ite_ee++)
 			{
-				//IA
+				if((*_ite_ee)->get_inv()->get_weapon_c()->get_munCurrent()==0 && (*_ite_ee)->get_paCurrent()>=2)
+				{
+					(*_ite_ee)->get_inv()->get_weapon_c()->set_munCurrent(
+							(*_ite_ee)->get_inv()->get_weapon_c()->get_munMax());
+				}
+				if(1)//tirer)
+				{
+					//tirer
+				}
+				if((*_ite_ee)->get_paCurrent()>=1)
+				{
+					list<pair<int,int>> chemin = _mapCurrent.pathfinding((*_ite_ee)->get_x(),
+							(*_ite_ee)->get_y(),_team_hero.front()->get_x(), _team_hero.front()->get_y());
+					if(chemin.front().first!=-1)
+					{
+						list<pair<int,int>>::iterator tmpl=chemin.begin();
+						while ( (*_ite_ee)->get_paCurrent()!=0 && tmpl!=chemin.end())
+						{
+							//_mapCurrent.moveItemTo((*_ite_ee)->get_x(), (*_ite_ee)->get_x(),
+									//(*tmpl).first, (*tmpl).second);
+							tmpl++;
+						}
+					}
+				}
 			}
 
 			for (_ite_l=_team_hero.begin();_ite_l!=_team_hero.end();_ite_l++)

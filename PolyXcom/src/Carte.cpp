@@ -681,7 +681,7 @@ list <pair<int , int> > Carte::drawPath( int xA, int yA, int xB, int yB ){
 							coord.first = xA;
 							coord.second = yA;
 							path.push_back(coord);
-							yA--;
+							xA++;
 						}
 					} else {		// vecteur oblique proche de la verticale, dans le 7e octant
 						int e = dy;

@@ -39,6 +39,7 @@ using namespace std;
 #define COLUNN7_PXL 781		// n° de pixel de la colonne 7
 
 #define ESPACE 20			// espacemment entre les boutons
+#define PXL_PV 25			// taille d'un point de PV/PA en pxl dans la barre de PV/PA
 
 static int size_window_X ;
 static int size_window_Y ;
@@ -87,6 +88,9 @@ void Partie::Init(){
 	}
 	InitHUD();				// Initialisation des éléments de l'interface utilisateur
 	//InitMap();				// Initialisation des éléments de la partie Carte de l'IHM
+
+
+
 	InitMenuQuitter();		// Initialisation du menu Quitter pour choix de quitter la partie
 }
 
@@ -442,10 +446,11 @@ void Partie::UpdateHUD(IHMmanager* game){
 	ConteneurPAMAX.setPosition( PersoActif.getGlobalBounds().left + PersoActif.getGlobalBounds().width + 40,
 								PersoActif.getGlobalBounds().top + ConteneurPVMAX.getGlobalBounds().height + 4);
 
-	ConteneurPVMAX.setSize(Vector2f( (*_ite_l)->get_pvMax() * (500/15)  ,40));
-	ConteneurPV.setSize(Vector2f( ((*_ite_l)->get_pvCurrent()/(*_ite_l)->get_pvMax())*(ConteneurPVMAX.getSize().x) - 8 ,32));
-	ConteneurPAMAX.setSize(Vector2f( (*_ite_l)->get_paMax() * (500/15)  ,40));
-	ConteneurPA.setSize(Vector2f( ((*_ite_l)->get_paCurrent()/(*_ite_l)->get_paMax())*(ConteneurPAMAX.getSize().x) - 8 ,32));
+	ConteneurPVMAX.setSize(Vector2f( (*_ite_l)->get_pvMax() * PXL_PV  ,40));
+	ConteneurPV.setSize(Vector2f( ((*_ite_l)->get_pvCurrent() * PXL_PV - 8) ,32));
+
+	ConteneurPAMAX.setSize(Vector2f( (*_ite_l)->get_paMax() * PXL_PV  ,40));
+	ConteneurPA.setSize(Vector2f( ((*_ite_l)->get_paCurrent() * PXL_PV - 8) ,32));
 	stringstream ss[4];
 	ss[0] << (*_ite_l)->get_pvCurrent();
 	ss[1] << (*_ite_l)->get_pvMax();
@@ -710,7 +715,7 @@ void Partie::DrawMap(IHMmanager* game){
 			tpsSprite = (*_ite_h).get_sprite();
 			tpsSprite.setScale(_mapCurrent._zoom, _mapCurrent._zoom);
 			tpsSprite.setPosition(_mapCurrent._origXmap + 64*(_mapCurrent._zoom)*(*_ite_h).get_x()
-								, _mapCurrent._origYmap  - _mapCurrent._zoom*64- 64*(_mapCurrent._zoom)*(*_ite_h).get_y() );
+								, _mapCurrent._origYmap - _mapCurrent._zoom*64 - 64*(_mapCurrent._zoom)*(*_ite_h).get_y() );
 			game->get_myWindow()->draw(tpsSprite);
 		}
 	}
@@ -720,7 +725,7 @@ void Partie::DrawMap(IHMmanager* game){
 		tpsSprite = (*ite_l)->get_sprite();
 		tpsSprite.setScale(_mapCurrent._zoom, _mapCurrent._zoom);
 		tpsSprite.setPosition(_mapCurrent._origXmap + 64*(_mapCurrent._zoom)*(*ite_l)->get_x()
-							, _mapCurrent._origYmap - 64*(_mapCurrent._zoom)*(*ite_l)->get_y() );
+							, _mapCurrent._origYmap - _mapCurrent._zoom*64 - 64*(_mapCurrent._zoom)*(*ite_l)->get_y() );
 		game->get_myWindow()->draw(tpsSprite);
 	}
 

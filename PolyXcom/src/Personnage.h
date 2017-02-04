@@ -40,11 +40,11 @@ public:
 	int get_pvCurrent(void);
 	int get_paCurrent(void);
 	int get_str(void);
-	int get_strength(void){	return _strength; }
-	int get_accuracy(void){	return _accuracy; }
-	int get_endurance(void){ return _endurance; }
-	int get_agility(void){ return _agility; }
-	int get_luck(void){	return _luck; }
+	int get_strength(void){	return (_strength); }
+	int get_accuracy(void){	return (_accuracy); }
+	int get_endurance(void){ return (_endurance); }
+	int get_agility(void){ return (_agility); }
+	int get_luck(void){	return (_luck); }
 	Inventaire* get_inv(void);
 
 

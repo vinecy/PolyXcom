@@ -825,14 +825,20 @@ list <pair<int , int> > Carte::drawPath( int xA, int yA, int xB, int yB ){
  	 * 					  0 sinon
  	 * */
 bool Carte::pathIsPossible( int xA, int yA, int xB, int yB ){
+	cout << "avant\n";
 	list<pair<int,int> > path = this->drawPath(xA, yA, xB, yB);
+	cout << "apres\n";
 	list<pair<int,int> >::iterator it;
 	it = path.begin();
 	bool rep = true;
 
-	while( it != path.end() && rep == true ){
-		rep = (moveIsPossible( (*it).first, (*it).second , false) != 0) ;
+	int i = 0;
+	while( (it != path.end()) && (rep == true) && (i<10000)){
+		cout << "pathisPossible" << (*it).first << " " << (*it).second<<endl;
+		rep = (moveIsPossible( (*it).first, (*it).second , false) ) ;
 		it++;
+		i++;
+		cout << i << endl;
 	}
 	return (rep);
 }

@@ -33,6 +33,7 @@ private:								// ATTRIBUTS
 
 	bool STATE_CC;
 	bool STATE_TIR;
+	bool STATE_GRE;
 										// JEU
 	list<Ennemi> 		_tank_ennemi;		// conteneurs pour
 	list<Hero>			_tank_hero;			// le chargement a partir d'un fichier

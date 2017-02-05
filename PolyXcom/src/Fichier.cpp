@@ -37,7 +37,10 @@ void Fichier::loadSave(string &nameCurrentMap, list<Hero>& listHero, list<Portai
 	string mot;
 	int coordSpawnX,coordSpawnY;
 	int lev,str,acc,agi,end,luck;
+	int s1,s2,g1,g2,g3,a1,a2,a3,a4,ar1,ar2;
 	int coordX, coordY, newX, newY;
+	list<Arme> la;
+	list<Armure> lar;
 	Inventaire inv;
 	string nom,nextMap;
 
@@ -70,7 +73,31 @@ void Fichier::loadSave(string &nameCurrentMap, list<Hero>& listHero, list<Portai
 					cout << "inventaire trouvé" << endl;
 					_path >> mot;
 					while(mot != ";"){
-						// TODO Definir constructeur de Inventaire ( done )
+						if( mot == "Medkit" )
+						{
+							cout << "Medkit trouvé" << endl;
+							_path >> s1;
+							_path >> s2;
+							_path >> mot;
+						} else if( mot == "Grenade")
+						{
+							_path >> g1;
+							_path >> g2;
+							_path >> g3;
+							_path >> mot;
+						} else if( mot == "Arme")
+						{
+							_path >> a1;
+							_path >> a2;
+							_path >> a3;
+							_path >> a4;
+							_path >> mot;
+						} else if( mot == "Armure")
+						{
+							_path >> ar1;
+							_path >> ar2;
+							_path >> mot;
+						}
 					}
 				}
 				_path >> mot;
@@ -83,7 +110,8 @@ void Fichier::loadSave(string &nameCurrentMap, list<Hero>& listHero, list<Portai
 					_path >> agi;
 					_path >> end;
 					_path >> luck;
-					Hero tpsH(coordSpawnX,coordSpawnY,2,lev,str,acc,agi,end,luck,Inventaire(),nom);
+					Hero tpsH(coordSpawnX,coordSpawnY,2,lev,str,acc,agi,end,luck,Inventaire(
+							Arme(a1,a2,a3,a4),Armure(ar1,ar2),Soin(s1,s2),Grenade(g1,g2,g3),la,lar ),nom);
 					listHero.push_back(tpsH);   // creation et ajout du hero dans la liste
 					//tpsH.display_info();
 				}

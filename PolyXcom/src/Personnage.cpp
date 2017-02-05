@@ -83,9 +83,6 @@ int Personnage::get_paCurrent(void)
 {
 	return(_paCurrent);
 }
-int Personnage::get_str(void){
-	return(_strength);
-}
 
 Inventaire* Personnage::get_inv(void){
 	return(&_inv);

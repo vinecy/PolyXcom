@@ -28,7 +28,6 @@ private:								// ATTRIBUTS
 	int fenetreActive;
 	bool valide;
 	bool premiereApparition;
-
 										//STATES
 	bool STATE_CC;
 	bool STATE_TIR;
@@ -58,10 +57,10 @@ public:
 										// METHODES Hérités
 	void Init();
 	void InitHUD();
-	void InitMenuQuitter();
-	void InitMenuStats();
+	void InitMenuInvent();
 	void InitMenuCarte();
-	void InitMap();
+	void InitMenuStats();
+	void InitMenuQuitter();
 
 	void CleanUp();
 	void Pause();
@@ -71,9 +70,10 @@ public:
 
 	void Update(IHMmanager* game);
 	void UpdateHUD(IHMmanager* game);
-	void UpdateMenuQuitter(IHMmanager* game);
-	void UpdateMenuStats(IHMmanager* game);
+	void UpdateMenuInvent(IHMmanager* game);
 	void UpdateMenuCarte(IHMmanager* game);
+	void UpdateMenuStats(IHMmanager* game);
+	void UpdateMenuQuitter(IHMmanager* game);
 	void UpdateMap(IHMmanager* game);
 
 	void Draw(IHMmanager* game);

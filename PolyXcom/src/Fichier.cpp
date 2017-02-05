@@ -10,7 +10,7 @@
 #include <cstdlib>
 #include "Fichier.h"
 #include "Arme.h"
-
+#include <sstream>
 
 using namespace std;
 
@@ -58,6 +58,7 @@ void Fichier::loadSave(string &nameCurrentMap, list<Hero>& listHero, list<Portai
 				cout << "spawn trouvé" << endl;
 				_path >> coordSpawnX;
 				_path >> coordSpawnY;
+				cout << "YOLO" << coordSpawnX << " " << coordSpawnY << endl;
 			} else if( mot == "nameHero:" || mot == "felowTravellerName1:" || mot == "felowTravellerName2:"){
 				cout << "heros trouvé" << endl;
 				_path >> mot;
@@ -72,32 +73,31 @@ void Fichier::loadSave(string &nameCurrentMap, list<Hero>& listHero, list<Portai
 				if( mot == "inventory:" ){
 					cout << "inventaire trouvé" << endl;
 					_path >> mot;
+					cout << "4: " << mot << endl;
 					while(mot != ";"){
+						cout << "5:" << mot << endl;
 						if( mot == "Medkit" )
 						{
 							cout << "Medkit trouvé" << endl;
 							_path >> s1;
 							_path >> s2;
-							_path >> mot;
 						} else if( mot == "Grenade")
 						{
 							_path >> g1;
 							_path >> g2;
 							_path >> g3;
-							_path >> mot;
 						} else if( mot == "Arme")
 						{
 							_path >> a1;
 							_path >> a2;
 							_path >> a3;
 							_path >> a4;
-							_path >> mot;
 						} else if( mot == "Armure")
 						{
 							_path >> ar1;
 							_path >> ar2;
-							_path >> mot;
 						}
+						_path >> mot;
 					}
 				}
 				_path >> mot;
@@ -115,9 +115,9 @@ void Fichier::loadSave(string &nameCurrentMap, list<Hero>& listHero, list<Portai
 					listHero.push_back(tpsH);   // creation et ajout du hero dans la liste
 					//tpsH.display_info();
 				}
-			} else if( mot == "closedPortalList "){ // si on a trouvé le champ "closedPortalList:"
+			} else if( mot == "closedPortalList:"){ // si on a trouvé le champ "closedPortalList:"
 				_path >> mot;
-				if( mot != ";" ){
+				while( mot != ";" ){
 					_path >> coordX;
 					_path >> coordY;
 					_path >> newX;
@@ -140,60 +140,57 @@ void Fichier::loadClosed(list<Portail>& list)
 {
 
 }
-void Fichier::updateSave(string &nameCurrentMap, list<Hero> &listHero, list<Portail> &listPortailFerme){
-	//TODO: Urgent
-
-	/*string mot;
-	bool trouve = 0;
-
-	int lev,str,acc,agi,end,luck;
-	int coordX, coordY, newX, newY;
-	Inventaire inv;
-	string nom,nextMap;
+void Fichier::updateSave(string nameCurrentMap, list<Hero> &listHero, list<Portail> &listPortailFerme){
+	list<Hero>::iterator	iteH = listHero.begin();
+	list<Portail>::iterator iteP = listPortailFerme.begin();
+	string mot;
 
 	if(_path){									// si fichier ouvert
+		this->cleanFile();
 		_path.seekg(0,ios::beg);				// curseur du fichier au début
-		while( mot != "END" && !trouve){			// tant que l'on a pas atteint la fin du fichier et trouvé le champ
-			_path >> mot;						// on passe au mot suivant
-			if(mot == "mapCurrent:"){			// si on a trouvé le champ "mapCurrent:"
-				_path >> mot;						// chargement du nom
-				nameCurrentMap = mot;				// dans l'argument par adresse
-				trouve = 1;
-			} else if( mot == "nameHero:"){
-				_path >> mot;
-				while(mot != ";") nom << mot << " ";
-				_path >> mot;
-				if( mot == "inventory:" ){
-					_path >> mot;
-					while(mot != ";"){
-						// Definir constructeur de Inventaire
-					}
-				}
-				if( mot == "stats:"){			// si on a trouvé le champ "stats:"
-					_path >> lev;
-					_path >> str;
-					_path >> acc;
-					_path >> agi;
-					_path >> end;
-					_path >> luck;
-					Hero tpsH(0,0,2,lev,str,acc,agi,end,luck,Inventaire(),nom);
-					listHero.push_back(tpsH);   // creation et ajout du hero dans la liste
-				}
-			} else if( mot == "closedPortalList:"){ // si on a trouvé le champ "closedPortalList:"
-				_path >> coordX;
-				_path >> coordY;
-				_path >> newX;
-				_path >> newY;
-				_path >> nextMap;
-				Portail tpsP(coordX, coordY, 4, newX, newY, nextMap);
-				listPortailFerme.push_back(tpsP);	// creation et ajout du portail dans la liste
-			} else {
-				cout << "ERREUR loadSave: champ " << mot << " inconnu" << endl;
-			}
+
+		_path << "mapCurrent: " + nameCurrentMap << endl;
+		_path << "" << endl;
+		_path << "coordSpawn: 0 2 " << endl;
+		_path << "" << endl;
+
+		int i = 0;
+		while( i != (int)listHero.size() ){
+			if(i == 0) _path << "nameHero: " + (*iteH).get_name() + " ;" << endl;
+			else if(i == 1) _path << "felowTravellerName1: " + (*iteH).get_name() + " ;" << endl;
+			else if(i == 2) _path << "felowTravellerName2: " + (*iteH).get_name() + " ;" << endl;
+
+			stringstream ss[14];
+			ss[0] << (*iteH).get_inv()->get_medkit()->get_uses();
+			ss[1] << (*iteH).get_inv()->get_medkit()->get_heal();
+			ss[2] << (*iteH).get_inv()->get_grenade()->get_range();
+			ss[3] << (*iteH).get_inv()->get_grenade()->get_number();
+			ss[4] << (*iteH).get_inv()->get_grenade()->get_dammage();
+			ss[5] << (*iteH).get_inv()->get_weapon_c()->get_tier();
+			ss[6] << (*iteH).get_inv()->get_weapon_c()->get_degats();
+			ss[7] << (*iteH).get_inv()->get_weapon_c()->get_portee();
+			ss[8] << (*iteH).get_inv()->get_weapon_c()->get_munMax();
+			ss[9] << (*iteH).get_strength();
+			ss[10]<< (*iteH).get_accuracy();
+			ss[11]<< (*iteH).get_agility();
+			ss[12]<< (*iteH).get_endurance();
+			ss[13]<< (*iteH).get_luck();
+
+			_path << "inventory: MedKit " + ss[0].str() + " " + ss[1].str()
+				  + " Grenade " + ss[2].str() + " " + ss[3].str() + " " + ss[4].str()
+				  + " Arme " + ss[5].str() + " " + ss[6].str() + " " + ss[7].str() + " " + ss[8].str()
+				  + " Armure 11 10 ;" << endl ;
+			_path << "stats: 1 " + ss[9].str() + " " + ss[10].str() + " " + ss[11].str() + " " + ss[12].str() + " " + ss[13].str() + " ;" << endl;
+			_path << "" << endl;
+			iteH++;
+			i++;
 		}
+		_path << "closedPortalList: ; " << endl;
+		_path << "" << endl ;
+		_path << "END" << endl;
 	} else {
 		cout << "ERREUR loadSave: Impossible d'ouvrir " << _nameFile << endl;
-	}*/
+	}
 }
 
 

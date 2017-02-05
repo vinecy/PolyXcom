@@ -71,21 +71,26 @@ static Image i;								// Image contenant le sprite
 static Texture t;								// Texture contenant la feuille de sprite
 static Font font;								// Police de caractère
 
+static RectangleShape rectInvent; // Element du menu Inventaire
+static Text textInvent[7];
+static Sprite spriteInvent[4];
+
+static RectangleShape menuCarte; 				// Element du menu Carte
+static Sprite spriteWorld;
+static Text namePersoActuel;
+
+static const int nbRectStats = 11;				// Element du menu Stats
+static const int nbtextStats = 16;
+static RectangleShape rectStats[nbRectStats];
+static Text textStats[nbtextStats];
+static Sprite spritePersoActuel;
+
 static RectangleShape menuQuitter;				// Element du menu Quitter
 static RectangleShape boutonOui;
 static RectangleShape boutonNon;
 static Text textMenuQuitter;
 static Text textOui;
 static Text textNon;
-
-static const int nbRectStats = 11;					// Element du menu Stats
-static const int nbtextStats = 16;
-static RectangleShape rectStats[nbRectStats];
-static Text textStats[nbtextStats];
-static Sprite spritePersoActuel;
-
-// Element du menu Carte
-
 
 /** Le constructeur Partie crée la partie en cours
   * */
@@ -128,9 +133,8 @@ void Partie::Init(){
 		cout << "feuille de sprite crée " << endl;
 	}
 	InitHUD();				// Initialisation des éléments de l'interface utilisateur
-	//InitMap();				// Initialisation des éléments de la partie Carte de l'IHM
-
-
+	InitMenuInvent();
+	InitMenuCarte();
 	InitMenuStats();
 	InitMenuQuitter();		// Initialisation du menu Quitter pour choix de quitter la partie
 }
@@ -202,16 +206,6 @@ void Partie::InitHUD(){
 	boutonFinTour.setScale(2,2);
 }
 
-/** La méthode InitHUD initialise les éléments de l'interface utilisateur
-  * */
-void Partie::InitMap(){
-	//static int witdh_mapScreen
-	//static int height_mapScreen
-
-	//static RectangleShape dessinMap(Vector2f(_mapCurrent.get_sizeX()*64,_mapCurrent.get_sizeY())*64);
-
-}
-
 void Partie::InitMenuStats(){
 	// Init Fenetre Stats
 	 rectStats[0].setFillColor(unSelected);
@@ -233,8 +227,26 @@ void Partie::InitMenuStats(){
 	 rectStats[7].setFillColor(Color::White);
 }
 
+void Partie::InitMenuInvent(){
+	rectInvent.setFillColor(unSelected);
+	textInvent[0] = Text("...",font,20); textInvent[0].setFillColor(Color::White);
+	textInvent[1] = Text("Arme",font,20); textInvent[1].setFillColor(Color::White);
+	textInvent[2] = Text("Grenade",font,20); textInvent[2].setFillColor(Color::White);
+	textInvent[3] = Text("MedKit",font,20); textInvent[3].setFillColor(Color::White);
+	textInvent[4] = Text("x..",font,20); textInvent[4].setFillColor(Color::White);
+	textInvent[5] = Text("x..",font,20); textInvent[5].setFillColor(Color::White);
+	textInvent[6] = Text("x..",font,20); textInvent[6].setFillColor(Color::White);
+	spriteInvent[1].setTexture(t); spriteInvent[1].setTextureRect(IntRect(131,391,32,32));
+	spriteInvent[2].setTexture(t); spriteInvent[2].setTextureRect(IntRect(164,391,32,32));
+	spriteInvent[3].setTexture(t); spriteInvent[3].setTextureRect(IntRect(197,391,32,32));
+}
+
 void Partie::InitMenuCarte(){
-	// Init Fenetre Stats
+	menuCarte.setFillColor(unSelected);
+	namePersoActuel = Text("none",font,20);
+	namePersoActuel.setFillColor(Color::White);
+	spriteWorld.setTexture(t);
+	spriteWorld.setTextureRect(IntRect(1,466,66,66));
 }
 
 void Partie::InitMenuQuitter(){
@@ -249,6 +261,8 @@ void Partie::InitMenuQuitter(){
 	boutonNon = RectangleShape(Vector2f(textNon.getGlobalBounds().width + 5
 									   , textNon.getGlobalBounds().height + 5));
 }
+
+
 
 void Partie::CleanUp(){
 	_mapCurrent.removeAllItem();// carte actuelle
@@ -710,9 +724,9 @@ void Partie::Update(IHMmanager* game){
 	UpdateMap(game);
 	UpdateHUD(game);
 	if(fenetreActive == 1){
-
+		UpdateMenuInvent(game);
 	} else if(fenetreActive == 2){
-
+		UpdateMenuCarte(game);
 	} else if(fenetreActive == 3){
 		UpdateMenuStats(game);
 	} else if(fenetreActive == 4){
@@ -1094,6 +1108,65 @@ void Partie::UpdateHUD(IHMmanager* game){
 	}
 }
 
+void Partie::UpdateMenuCarte(IHMmanager* game){
+	menuCarte.setSize(Vector2f(size_Map_part_X*0.80 , size_Map_part_Y*0.80));
+	menuCarte.setPosition((game->get_myWindow()->getSize().x - ESPACE*2 - 96)/2 - menuCarte.getGlobalBounds().width/2
+			            , (game->get_myWindow()->getSize().y - ESPACE*2 - 96)/2 - menuCarte.getGlobalBounds().height/2
+	 	 	 	 	 	);
+	spriteWorld.setScale(8, 8);
+	spriteWorld.setPosition( menuCarte.getGlobalBounds().left + menuCarte.getGlobalBounds().width/2 - spriteWorld.getGlobalBounds().width/2
+						   , menuCarte.getGlobalBounds().top + menuCarte.getGlobalBounds().height/2 - spriteWorld.getGlobalBounds().height/2
+	 	 	 			  );
+}
+
+void Partie::UpdateMenuInvent(IHMmanager* game){
+	rectInvent.setSize(Vector2f(size_Map_part_X*0.80 , size_Map_part_Y*0.80));
+	rectInvent.setPosition((game->get_myWindow()->getSize().x - ESPACE*2 - 96)/2 - rectInvent.getGlobalBounds().width/2
+						 , (game->get_myWindow()->getSize().y - ESPACE*2 - 96)/2 - rectInvent.getGlobalBounds().height/2
+						 );
+	spriteInvent[0] = (*_ite_l)->_sprite;
+	spriteInvent[0].setScale(3,3);
+	spriteInvent[0].setPosition( rectInvent.getGlobalBounds().left + 10
+						       , rectInvent.getGlobalBounds().top + (rectInvent.getGlobalBounds().height/2 - spriteInvent[0].getGlobalBounds().height/2 ));
+
+	textInvent[0].setString((*_ite_l)->get_name());
+	textInvent[0].setPosition( spriteInvent[0].getGlobalBounds().left + spriteInvent[0].getGlobalBounds().width/2 - textInvent[0].getGlobalBounds().width/2
+			                 , spriteInvent[0].getGlobalBounds().top - 10);
+
+	spriteInvent[1].setScale(4,4);
+	spriteInvent[2].setScale(4,4);
+	spriteInvent[3].setScale(4,4);
+	spriteInvent[1].setPosition( spriteInvent[0].getGlobalBounds().left + spriteInvent[0].getGlobalBounds().width + ESPACE*2
+							   , rectInvent.getGlobalBounds().top + (rectInvent.getGlobalBounds().height/2 - spriteInvent[1].getGlobalBounds().height/2));
+	spriteInvent[2].setPosition( spriteInvent[1].getGlobalBounds().left + spriteInvent[1].getGlobalBounds().width + ESPACE*2
+							   , spriteInvent[1].getGlobalBounds().top);
+	spriteInvent[3].setPosition( spriteInvent[2].getGlobalBounds().left + spriteInvent[2].getGlobalBounds().width + ESPACE*2
+			   	   	   	   	   , spriteInvent[2].getGlobalBounds().top);
+
+	textInvent[1].setPosition( spriteInvent[1].getGlobalBounds().left ,
+							   spriteInvent[1].getGlobalBounds().top - ESPACE*2 );
+	textInvent[2].setPosition( spriteInvent[2].getGlobalBounds().left ,
+							   spriteInvent[2].getGlobalBounds().top - ESPACE*2 );
+	textInvent[3].setPosition( spriteInvent[3].getGlobalBounds().left ,
+			                   spriteInvent[3].getGlobalBounds().top - ESPACE*2 );
+	stringstream ss[4];
+	ss[0] << (*_ite_l)->get_inv()->get_weapon_c()->get_munCurrent();
+	ss[1] << (*_ite_l)->get_inv()->get_weapon_c()->get_munMax();
+	ss[2] << (*_ite_l)->get_inv()->get_medkit()->get_uses();
+	ss[3] << (*_ite_l)->get_inv()->get_grenade()->get_number();
+	textInvent[4].setString( ss[0].str() + "/" + ss[1].str() + " mun");
+	textInvent[5].setString( "x" + ss[2].str());
+	textInvent[6].setString( "x" + ss[3].str());
+
+	textInvent[4].setPosition( spriteInvent[1].getGlobalBounds().left ,
+				  	  	  	   spriteInvent[1].getGlobalBounds().top + spriteInvent[1].getGlobalBounds().height + ESPACE*2 );
+	textInvent[5].setPosition( spriteInvent[2].getGlobalBounds().left ,
+							   spriteInvent[2].getGlobalBounds().top + spriteInvent[2].getGlobalBounds().height + ESPACE*2 );
+	textInvent[6].setPosition( spriteInvent[3].getGlobalBounds().left ,
+							   spriteInvent[3].getGlobalBounds().top + spriteInvent[3].getGlobalBounds().height + ESPACE*2 );
+
+}
+
 void Partie::UpdateMenuStats(IHMmanager* game){
 	rectStats[0].setSize(Vector2f(size_Map_part_X*0.80 , size_Map_part_Y*0.80));
 	rectStats[0].setPosition((game->get_myWindow()->getSize().x - ESPACE*2 - 96)/2 - rectStats[0].getGlobalBounds().width/2
@@ -1225,9 +1298,12 @@ void Partie::Draw(IHMmanager* game){
 void Partie::DrawActiveFrame(IHMmanager* game){
 	int i = 0;
 	if(fenetreActive == 1){
-
+		game->get_myWindow()->draw(rectInvent);
+		for(Text t : textInvent) game->get_myWindow()->draw(t);
+		for(Sprite s : spriteInvent) game->get_myWindow()->draw(s);
 	} else if(fenetreActive == 2){
-
+		game->get_myWindow()->draw(menuCarte);
+		game->get_myWindow()->draw(spriteWorld);
 	} else if(fenetreActive == 3){
 		for(i = 0 ; i < nbRectStats ; i++) {
 			game->get_myWindow()->draw(rectStats[i]);
@@ -1476,7 +1552,10 @@ void Partie::launchPartie(void){
 
 // TODO URGENT AUSSI
 void Partie::savePartie(void){
-
+	Fichier f("src\\Save.txt",1);
+	f.updateSave( _mapCurrent.get_nameMap(),
+				  _tank_hero,
+				  _tank_portail_close);
 }
 
 /** La méthode switchMap permet de changer de carte actuel à partir des données fourni par le
@@ -1581,6 +1660,14 @@ void Partie::switchMap( Portail p , bool ban){
 	for(_ite_h = _tank_hero.begin() ; _ite_h != _tank_hero.end() ; _ite_h++){
 		_team_hero.push_front( &(*_ite_h) );
 	}
+
+	cout << "SAUVEGARDE ATTENTION " << endl;
+	cout << "car : " << _mapCurrent.get_nameMap() << endl;
+	if(_mapCurrent.get_nameMap() == "checkpoint"){
+		cout << " ... sauvegarde en cours" << endl;
+		savePartie();
+	}
+
 }
 
 

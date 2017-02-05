@@ -30,4 +30,17 @@ public:								// CONSTRUCTEUR
 	virtual ~Portail();				// DESTRUCTEUR
 };
 
+inline bool operator== (Portail p1, Portail p2)
+{
+	if((p1.get_nameNextMap()==p2.get_nameNextMap())&&
+			(p1.get_x()==p2.get_x())&& (p1.get_y()==p2.get_y()))
+	{
+		return(true);
+	}
+	else
+	{
+		return(false);
+	}
+}
+
 #endif /* PORTAIL_H_ */

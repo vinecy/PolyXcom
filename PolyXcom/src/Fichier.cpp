@@ -136,6 +136,10 @@ void Fichier::loadSave(string &nameCurrentMap, list<Hero>& listHero, list<Portai
 	}
 }
 
+void Fichier::loadClosed(list<Portail>& list)
+{
+
+}
 void Fichier::updateSave(string &nameCurrentMap, list<Hero> &listHero, list<Portail> &listPortailFerme){
 	//TODO: Urgent
 

@@ -32,6 +32,7 @@ public:
 
 	void loadMap(string nameMap,Carte&,list<Ennemi>&, list<Hero>&, list<Obstacle>&, list<Portail>&);
 	void loadSave(string &nameCurrentMap, list<Hero>&, list<Portail>&);
+	void loadClosed(list<Portail>&);
 	void updateSave(string &nameCurrentMap, list<Hero>&, list<Portail>&);
 
 	virtual ~Fichier();								// DESTRUCTEUR

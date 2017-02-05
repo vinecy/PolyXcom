@@ -80,11 +80,12 @@ static Text textNon;
 
 static const int nbRectStats = 11;					// Element du menu Stats
 static const int nbtextStats = 16;
-static RectangleShape rectStats[nbRectStats*3];
-static Text textStats[nbtextStats*3];
-static Sprite spritePersoActuel[3];
+static RectangleShape rectStats[nbRectStats];
+static Text textStats[nbtextStats];
+static Sprite spritePersoActuel;
 
-					// Element du menu Carte
+// Element du menu Carte
+
 
 /** Le constructeur Partie crée la partie en cours
   * */
@@ -213,32 +214,27 @@ void Partie::InitMap(){
 
 void Partie::InitMenuStats(){
 	// Init Fenetre Stats
-	rectStats[0].setFillColor(unSelected);
+	 rectStats[0].setFillColor(unSelected);
+	 // Nom du Personnage
+	 textStats[0] = Text("none",font,20);
+	 textStats[0].setFillColor(Color::White);
 
-	for(int j = 0 ; j <3 ; j++){
-		// Nom du Personnage
-		textStats[j*nbtextStats] = Text("none",font,20);
-		textStats[j*nbtextStats].setFillColor(Color::White);
-
-		// Representation des Stats
-		for(int i = 1 ; i <= 5 ; i++){
-			rectStats[j*nbRectStats + i] = RectangleShape(Vector2f(150,PXL_PV));
-			rectStats[j*nbRectStats + i].setFillColor(Color(0,100,255));
-			textStats[j*nbtextStats + i] = Text("...",font,20);
-			textStats[j*nbtextStats + i+5] = Text("...",font,20);
-		}
-		rectStats[j*nbRectStats + 6] = RectangleShape(Vector2f( 5*(rectStats[1].getSize().x) + ESPACE*5 + 20,
-												1));
-		rectStats[j*nbRectStats + 7] = RectangleShape(Vector2f( 1, PXL_PV*5 + 20 + 20 ));
-		rectStats[j*nbRectStats + 6].setFillColor(Color::White);
-		rectStats[j*nbRectStats + 7].setFillColor(Color::White);
-	}
+	 // Representation des Stats
+	 for(int i = 1 ; i <= 5 ; i++){
+	 	rectStats[i] = RectangleShape(Vector2f(150,PXL_PV));
+	 	rectStats[i].setFillColor(Color(0,100,255));
+	 	textStats[i] = Text("...",font,20);
+	 	textStats[i+5] = Text("...",font,20);
+	 }
+	 rectStats[6] = RectangleShape(Vector2f( 5*(rectStats[1].getSize().x) + ESPACE*5 + 20,
+	 										1));
+	 rectStats[7] = RectangleShape(Vector2f( 1, PXL_PV*5 + 20 + 20 ));
+	 rectStats[6].setFillColor(Color::White);
+	 rectStats[7].setFillColor(Color::White);
 }
 
 void Partie::InitMenuCarte(){
 	// Init Fenetre Stats
-
-
 }
 
 void Partie::InitMenuQuitter(){
@@ -1088,70 +1084,58 @@ void Partie::UpdateHUD(IHMmanager* game){
 }
 
 void Partie::UpdateMenuStats(IHMmanager* game){
-	list<Hero>::iterator iteh = _tank_hero.begin();
-
 	rectStats[0].setSize(Vector2f(size_Map_part_X*0.80 , size_Map_part_Y*0.80));
 	rectStats[0].setPosition((game->get_myWindow()->getSize().x - ESPACE*2 - 96)/2 - rectStats[0].getGlobalBounds().width/2
 						   , (game->get_myWindow()->getSize().y - ESPACE*2 - 96)/2 - rectStats[0].getGlobalBounds().height/2
-						     );
+							 );
+	spritePersoActuel = (*_ite_l)->_sprite;
+	textStats[0].setString((*_ite_l)->get_name());
+	spritePersoActuel.setScale(3,3);
+	spritePersoActuel.setPosition( rectStats[0].getGlobalBounds().left + 10
+					             , rectStats[0].getGlobalBounds().top + (rectStats[0].getGlobalBounds().height/2 - spritePersoActuel.getGlobalBounds().height/2 ));
+	textStats[0].setPosition( spritePersoActuel.getGlobalBounds().left + spritePersoActuel.getGlobalBounds().width/2 - textStats[0].getGlobalBounds().width/2
+	 					    , spritePersoActuel.getGlobalBounds().top - 10);
+	// Axe des X
+	rectStats[6] = RectangleShape(Vector2f( 5*(rectStats[1].getSize().x) + PXL_PV*5 + ESPACE*8, 1));
+	// Axe des Y
+	rectStats[7] = RectangleShape(Vector2f( 1, PXL_PV*5 + 20 + 20 ));
 
-	for(int j = 0 ; j < 3 ; j++){
-		spritePersoActuel[j] = (*iteh)._sprite;
-		textStats[j*nbtextStats].setString((*iteh).get_name());
-		spritePersoActuel[j].setScale(3,3);
-		if(j == 0){
-			spritePersoActuel[j].setPosition( rectStats[0].getGlobalBounds().left + 10
-									    	, rectStats[0].getGlobalBounds().top + (rectStats[0].getGlobalBounds().height/6 - spritePersoActuel[j].getGlobalBounds().height/2 ));
-		} else {
-			spritePersoActuel[j].setPosition( rectStats[0].getGlobalBounds().left + 10
-											, spritePersoActuel[j-1].getGlobalBounds().top + (spritePersoActuel[j-1].getGlobalBounds().height) + ESPACE);
-		}
+	rectStats[7].setPosition( spritePersoActuel.getGlobalBounds().left + spritePersoActuel.getGlobalBounds().width + ESPACE*2
+							, rectStats[0].getGlobalBounds().top + (rectStats[0].getGlobalBounds().height/2 - rectStats[7].getGlobalBounds().height/2));
+	rectStats[6].setPosition( rectStats[7].getGlobalBounds().left - ESPACE
+	 						, rectStats[7].getGlobalBounds().top + rectStats[7].getGlobalBounds().height - ESPACE);
 
-		textStats[j*nbtextStats].setPosition( spritePersoActuel[j].getGlobalBounds().left + spritePersoActuel[j].getGlobalBounds().width/2 - textStats[j*nbtextStats].getGlobalBounds().width/2
-											, spritePersoActuel[j].getGlobalBounds().top - 10);
-		// Axe des X
-		rectStats[j*nbRectStats + 6] = RectangleShape(Vector2f( 5*(rectStats[j*nbRectStats + 1].getSize().x) + PXL_PV*5 + ESPACE*8, 1));
-		// Axe des Y
-		rectStats[7] = RectangleShape(Vector2f( 1, PXL_PV*5 + 20 + 20 ));
+	stringstream ss;
+	ss << (*_ite_l)->get_strength();
+	textStats[1].setString( ss.str() ); textStats[6].setString( "Force" );
+	ss.str(string()); ss << (*_ite_l)->get_accuracy();
+	textStats[2].setString( ss.str() ); textStats[7].setString( "Precision" );
+	ss.str(string()); ss << (*_ite_l)->get_endurance();
+	textStats[3].setString( ss.str() ); textStats[8].setString( "Endurance" );
+	ss.str(string()); ss << (*_ite_l)->get_agility();
+	textStats[4].setString( ss.str() ); textStats[9].setString( "Agilité" );
+	ss.str(string()); ss << (*_ite_l)->get_luck();
+	textStats[5].setString( ss.str() ); textStats[10].setString( "Chance" );
 
-		rectStats[7].setPosition( spritePersoActuel[j].getGlobalBounds().left + spritePersoActuel[j].getGlobalBounds().width + ESPACE*2
-								, rectStats[0].getGlobalBounds().top + (rectStats[0].getGlobalBounds().height/2 - rectStats[j*nbRectStats + 7].getGlobalBounds().height/2));
-		rectStats[6].setPosition( rectStats[j*nbRectStats + 7].getGlobalBounds().left - ESPACE
-								, rectStats[j*nbRectStats + 7].getGlobalBounds().top + rectStats[j*nbRectStats + 7].getGlobalBounds().height - ESPACE);
+	rectStats[1].setSize(Vector2f( 150 , PXL_PV*((*_ite_l)->get_strength()) ));
+	rectStats[2].setSize(Vector2f( 150 , PXL_PV*((*_ite_l)->get_accuracy()) ));
+	rectStats[3].setSize(Vector2f( 150 , PXL_PV*((*_ite_l)->get_endurance()) ));
+	rectStats[4].setSize(Vector2f( 150 , PXL_PV*((*_ite_l)->get_agility()) ));
+	rectStats[5].setSize(Vector2f( 150 , PXL_PV*((*_ite_l)->get_luck()) ));
 
-		stringstream ss;
-		ss << (*iteh).get_strength();
-		textStats[j*nbtextStats + 1].setString( ss.str() ); textStats[j*nbtextStats + 6].setString( "Force" );
-		ss.str(string()); ss << (*iteh).get_accuracy();
-		textStats[j*nbtextStats + 2].setString( ss.str() ); textStats[j*nbtextStats + 7].setString( "Precision" );
-		ss.str(string()); ss << (*iteh).get_endurance();
-		textStats[j*nbtextStats + 3].setString( ss.str() ); textStats[j*nbtextStats + 8].setString( "Endurance" );
-		ss.str(string()); ss << (*iteh).get_agility();
-		textStats[j*nbtextStats + 4].setString( ss.str() ); textStats[j*nbtextStats + 9].setString( "Agilité" );
-		ss.str(string()); ss << (*iteh).get_luck();
-		textStats[j*nbtextStats + 5].setString( ss.str() ); textStats[j*nbtextStats + 10].setString( "Chance" );
-
-		rectStats[j*nbRectStats + 1].setSize(Vector2f( 150 , PXL_PV*((*iteh).get_strength()) ));
-		rectStats[j*nbRectStats + 2].setSize(Vector2f( 150 , PXL_PV*((*iteh).get_accuracy()) ));
-		rectStats[j*nbRectStats + 3].setSize(Vector2f( 150 , PXL_PV*((*iteh).get_endurance()) ));
-		rectStats[j*nbRectStats + 4].setSize(Vector2f( 150 , PXL_PV*((*iteh).get_agility()) ));
-		rectStats[j*nbRectStats + 5].setSize(Vector2f( 150 , PXL_PV*((*iteh).get_luck()) ));
-
-		rectStats[j*nbRectStats + 1].setPosition( rectStats[j*nbRectStats + 7].getGlobalBounds().left + ESPACE,
-								  rectStats[j*nbRectStats + 6].getGlobalBounds().top - rectStats[j*nbRectStats + 1].getGlobalBounds().height);
-		textStats[j*nbtextStats + 1].setPosition( rectStats[j*nbRectStats + 1].getGlobalBounds().left + rectStats[j*nbRectStats + 1].getGlobalBounds().width/2 - textStats[j*nbtextStats + 1].getGlobalBounds().width/2
-								, rectStats[j*nbRectStats + 1].getGlobalBounds().top + rectStats[j*nbRectStats + 1].getGlobalBounds().height/2 - textStats[j*nbtextStats + 1].getGlobalBounds().height/2);
-		textStats[j*nbtextStats + 6].setPosition( rectStats[j*nbRectStats + 1].getGlobalBounds().left + rectStats[j*nbRectStats + 1].getGlobalBounds().width/2 - textStats[j*nbtextStats + 6].getGlobalBounds().width/2
-								, rectStats[j*nbRectStats + 1].getGlobalBounds().top - ESPACE);
-		for(int i = 2 ; i <= 5 ; i++){
-			rectStats[j*nbRectStats + i].setPosition( rectStats[j*nbRectStats + i - 1].getGlobalBounds().left + rectStats[j*nbRectStats + i - 1].getGlobalBounds().width + ESPACE*2
-									, rectStats[j*nbRectStats + 6].getGlobalBounds().top - rectStats[j*nbRectStats + i].getGlobalBounds().height );
-			textStats[j*nbtextStats + i].setPosition( rectStats[j*nbRectStats + i].getGlobalBounds().left + rectStats[j*nbRectStats + i].getGlobalBounds().width/2 - textStats[j*nbtextStats + i].getGlobalBounds().width/2
-									, rectStats[j*nbRectStats + i].getGlobalBounds().top + rectStats[j*nbRectStats + i].getGlobalBounds().height/2 - textStats[j*nbtextStats + i].getGlobalBounds().height/2);
-			textStats[j*nbtextStats + i + 5].setPosition( rectStats[j*nbRectStats + i].getGlobalBounds().left + rectStats[j*nbRectStats + i].getGlobalBounds().width/2 - textStats[j*nbtextStats + i + 5].getGlobalBounds().width/2
-										, rectStats[j*nbRectStats + i].getGlobalBounds().top - ESPACE);
-		}
-		iteh++;
+	rectStats[1].setPosition( rectStats[7].getGlobalBounds().left + ESPACE,
+							  rectStats[6].getGlobalBounds().top - rectStats[1].getGlobalBounds().height);
+	textStats[1].setPosition( rectStats[1].getGlobalBounds().left + rectStats[1].getGlobalBounds().width/2 - textStats[1].getGlobalBounds().width/2
+							, rectStats[1].getGlobalBounds().top + rectStats[1].getGlobalBounds().height/2 - textStats[1].getGlobalBounds().height/2);
+	textStats[6].setPosition( rectStats[1].getGlobalBounds().left + rectStats[1].getGlobalBounds().width/2 - textStats[6].getGlobalBounds().width/2
+							, rectStats[1].getGlobalBounds().top - ESPACE);
+	for(int i = 2 ; i <= 5 ; i++){
+		rectStats[i].setPosition( rectStats[i - 1].getGlobalBounds().left + rectStats[i - 1].getGlobalBounds().width + ESPACE*2
+								, rectStats[6].getGlobalBounds().top - rectStats[i].getGlobalBounds().height );
+	 	textStats[i].setPosition( rectStats[i].getGlobalBounds().left + rectStats[i].getGlobalBounds().width/2 - textStats[i].getGlobalBounds().width/2
+								, rectStats[i].getGlobalBounds().top + rectStats[i].getGlobalBounds().height/2 - textStats[i].getGlobalBounds().height/2);
+	 	textStats[i + 5].setPosition( rectStats[i].getGlobalBounds().left + rectStats[i].getGlobalBounds().width/2 - textStats[i + 5].getGlobalBounds().width/2
+	 								, rectStats[i].getGlobalBounds().top - ESPACE);
 	}
 }
 
@@ -1228,22 +1212,19 @@ void Partie::Draw(IHMmanager* game){
 }
 
 void Partie::DrawActiveFrame(IHMmanager* game){
-	int i = 0, j = 0;
+	int i = 0;
 	if(fenetreActive == 1){
 
 	} else if(fenetreActive == 2){
 
 	} else if(fenetreActive == 3){
-		for(j = 0 ; j < 3 ; j++){
-			for(i = 0 ; i < nbRectStats*3 ; i++) {
-				game->get_myWindow()->draw(rectStats[i]);
-			}
-			game->get_myWindow()->draw(spritePersoActuel[j]);
-			for(i = 0 ; i < nbtextStats*3 ; i++) {
-				game->get_myWindow()->draw(textStats[i]);
-			}
+		for(i = 0 ; i < nbRectStats ; i++) {
+			game->get_myWindow()->draw(rectStats[i]);
 		}
-
+		game->get_myWindow()->draw(spritePersoActuel);
+		for(i = 0 ; i < nbtextStats ; i++) {
+			game->get_myWindow()->draw(textStats[i]);
+		}
 	} else if(fenetreActive == 4){
 		game->get_myWindow()->draw(menuQuitter);
 		game->get_myWindow()->draw(textMenuQuitter);

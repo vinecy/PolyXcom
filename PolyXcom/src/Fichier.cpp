@@ -221,6 +221,27 @@ void Fichier::copyFile(string nameFile){
 	}
 }
 
+list<string> Fichier::seekAllNameMap(){
+	list<string> listNameMap;
+	string mot;
+	if(_path){
+		_path.seekg(0,ios::beg);
+		_path >> mot;
+		while( (mot != "END")){
+			if( mot == "name:"){
+				_path >> mot;
+				listNameMap.push_back(mot);
+			} else {
+				_path >> mot;
+			}
+
+		}
+	} else {
+		cout << "ERREUR seekAllNameMap: Impossible d'ouvrir " << _nameFile << endl;
+	}
+	return listNameMap;
+}
+
 
 /** La méthode loadMap permet de charger le contenu de la carte
   * mis en référence pour l'initialisation des niveaux du jeu

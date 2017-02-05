@@ -28,6 +28,7 @@ public:
 
 	void cleanFile(void);								// nettoie le fichier
 	void copyFile(string nameFile);						// copie le fichier en argument sur le fichier de référence
+	list<string> seekAllNameMap();
 
 	void loadMap(string nameMap,Carte&,list<Ennemi>&, list<Hero>&, list<Obstacle>&, list<Portail>&);
 	void loadSave(string &nameCurrentMap, list<Hero>&, list<Portail>&);

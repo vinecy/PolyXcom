@@ -30,7 +30,6 @@ private:								// ATTRIBUTS
 	bool premiereApparition;
 
 										//STATES
-
 	bool STATE_CC;
 	bool STATE_TIR;
 	bool STATE_GRE;

@@ -54,7 +54,7 @@ public:
 	void set_paCurrent(int pa);
 
 	void display_info(void);//affichage des attributs en console
-
+	/*
 	virtual list<Personnage*> near(list<Personnage*> team)=0;	//revoie la liste des ennemis au cc
 	virtual void close_combat(list<Personnage*> list)=0;		//permet de frapper des ennemis au cc
 	virtual void shoot(list<Personnage*> list)=0;				//permet de tirer sur des ennemis
@@ -63,6 +63,7 @@ public:
 
 
 	void reload();			//rechargement de l'arme
+	 */
 
 	virtual ~Personnage(void);//destructor
 

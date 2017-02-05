@@ -32,13 +32,14 @@ Grenade::Grenade(int g1, int g2, int g3)
 }
 /** la fonction add_number sert a ajuster le nombre de grenades disponible
  * @param q - quantité a ajouter ou retirer de grenade*/
-void Grenade::add_number(int q)
+
+/*void Grenade::add_number(int q)
 {
 	cout << _number << endl;
 	_number=_number+q;
 	cout << _number << endl;
 }
-
+*/
 int Grenade::get_dammage()
 {
 	return(_dammage);

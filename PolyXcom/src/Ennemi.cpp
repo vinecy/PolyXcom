@@ -55,6 +55,7 @@ void Ennemi::begin_IA()
 }
 /** La méthode near renvoie la liste d'ennemis proches
  * @param team - liste de tous les ennemis*/
+/*
 list<Personnage*> Ennemi::near(list<Personnage*> team)
 {
 	list<Personnage*>::iterator ite;
@@ -72,25 +73,27 @@ list<Personnage*> Ennemi::near(list<Personnage*> team)
 	}
 	return(l);
 }
-
+*/
 /** La méthode close_combat permet de taper des Heros au corps a corps
  * @param proch - liste Heros valides*/
+/*
 void Ennemi::close_combat(list<Personnage*> proch)
 {
 		proch.front()->set_pvCurrent(proch.front()->get_pvCurrent()-4);
 		cout<<proch.front()->get_pvCurrent()<<"/"<<proch.front()->get_pvMax();
 		_paCurrent=_paCurrent-3;
 }
-
+*/
 /** La méthode shoot permet de tirer sur des Heros
  * @param in_range - liste Heros valides*/
+/*
 void Ennemi::shoot(list<Personnage*> in_range)
 {
 		in_range.front()->set_pvCurrent(in_range.front()->get_pvCurrent()-3);
 		cout<<in_range.front()->get_pvCurrent()<<"/"<<in_range.front()->get_pvMax();
 		_paCurrent=_paCurrent-4;
 }
-
+*/
 /** Le destructeur Ennemi*/
 Ennemi::~Ennemi()				//destructor
 {

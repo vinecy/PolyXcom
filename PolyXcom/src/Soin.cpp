@@ -30,6 +30,7 @@ Soin::Soin(int s1, int s2)
 
 /** change le nombre de medkit disponibles
  * @param q - quantité de medkit a ajouter */
+
 void Soin::add_uses(int q)
 {
 	_uses=_uses+q;

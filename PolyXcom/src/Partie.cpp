@@ -1495,6 +1495,7 @@ void Partie::switchMap( Portail p , bool ban){
 	premiereApparition = true;
 	_mapCurrent.removeAllItem();							// on retire tous le monde de la carte sans toucher au conteneur
 	Fichier pathMap("src\\World.txt",0);					// chargement de la prochaine map
+	Fichier pathSave("src\\Save.txt",1);					// chargement de la Save
 	//cout << "chargement de la map" << endl;
 	pathMap.loadMap(p.get_nameNextMap(), _mapCurrent, _tank_ennemi, _tank_hero, _tank_obstacle, _tank_portail);
 
@@ -1519,7 +1520,6 @@ void Partie::switchMap( Portail p , bool ban){
 			{
 				if( !((*_ite_p).get_x()==(*itep).get_x() && ((*_ite_p).get_y()==(*itep).get_y())))
 				{
-
 					_mapCurrent.addItem((*_ite_p));
 				}
 				else
@@ -1559,14 +1559,18 @@ void Partie::switchMap( Portail p , bool ban){
 		_ite_h = _tank_hero.begin();
 		if(ban==true)
 		{
+			list<Portail>::iterator tmpp;
 			for(_ite_p=_tank_portail.begin();_ite_p!=_tank_portail.end();_ite_p++)
 			{
-				if((*_ite_h).distance((*_ite_p))==1)
+				if(((*_ite_h).distance((*_ite_p)))==1)
 				{
 					_tank_portail_close.push_front((*_ite_p));
+					tmpp==_ite_p;
+					(*_ite_p).display();
 					_mapCurrent.removeItem((*_ite_p));
 				}
 			}
+			//_tank_portail.remove((*tmpp));
 		}
 		_mapCurrent.addItem((*_ite_h));
 	}else{

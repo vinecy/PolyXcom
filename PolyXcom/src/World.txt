@@ -63,9 +63,9 @@ name: L1
 	Taille: 6 6 1
 
 	Contenu{
-		Ennemi 4 5 3 0 5 10 10 10 10
-		Ennemi 4 4 3 0 5 10 10 10 10
-		Ennemi 3 4 3 0 5 10 10 10 10
+		Ennemi 4 5 3 0 5 5 5 0 5
+		Ennemi 4 4 3 0 5 5 5 0 5
+		Ennemi 3 4 3 0 5 6 7 0 9
 		Mur 2 3 1 
 	 	Mur 3 3 1 
 	 	Mur 4 3 1 

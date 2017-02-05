@@ -550,6 +550,7 @@ void Partie::HandleEvents(IHMmanager* game){
 									}
 									else
 									{//cas grenade
+										cout<< "on y va!\n";
 										if(_mapCurrent.moveIsPossible(xcase, ycase, 0))
 										{
 											cout<<"possible!";
@@ -557,19 +558,20 @@ void Partie::HandleEvents(IHMmanager* game){
 											list<Ennemi*>::iterator pe;
 											int xcompt;
 											int ycompt;
-											for(xcompt=x-(*_ite_l)->get_inv()->get_grenade()->get_range();xcompt<=x+(*_ite_l)->get_inv()->get_grenade()->get_range();xcompt++)
+											for(xcompt=xcase-(*_ite_l)->get_inv()->get_grenade()->get_range();xcompt<=xcase+(*_ite_l)->get_inv()->get_grenade()->get_range();xcompt++)
 											{
-												for(ycompt=y-(*_ite_l)->get_inv()->get_grenade()->get_range();ycompt<=y+(*_ite_l)->get_inv()->get_grenade()->get_range();ycompt++)
+												for(ycompt=ycase-(*_ite_l)->get_inv()->get_grenade()->get_range();ycompt<=ycase+(*_ite_l)->get_inv()->get_grenade()->get_range();ycompt++)
 												{
 													if( !((xcompt < 0) || (xcompt >= _mapCurrent.get_sizeX()) || (ycompt < 0) || (ycompt >= _mapCurrent.get_sizeY())))
 													{
 														cout<<"\n\tX= "<<xcompt<<" Y= "<<ycompt<<endl;
+														/*
 														if(_mapCurrent.get_IDin(xcompt, ycompt)==1)
 														{
+															cout<<"obs\n";
 															for(_ite_o=_tank_obstacle.begin();_ite_o!=_tank_obstacle.end();_ite_o++)
 															{
-
-																if(((*_ite_o).get_x()==x)||((*_ite_o).get_y()==y))
+																if(((*_ite_o).get_x()==xcase)||((*_ite_o).get_y()==ycase))
 																{
 																	cout<<"Cet obstacle est modifié X= "<<(*_ite_o).get_x()<<" Y= "<<(*_ite_o).get_y()<<endl;
 																	(*_ite_o).set_destructible();//degats sur les obstacles
@@ -577,11 +579,14 @@ void Partie::HandleEvents(IHMmanager* game){
 																}
 															}
 														}
-														else if(_mapCurrent.get_IDin(xcompt, ycompt)==2)
+														*/
+														/*
+														if(_mapCurrent.get_IDin(xcompt, ycompt)==2)
 														{
+															cout<<"hero\n";
 															for(ph = _team_hero.begin() ; ph != _team_hero.end() ; ph++)
 															{
-																if((*ph)->get_x()==x||(*ph)->get_y()==y)
+																if((*ph)->get_x()==xcase||(*ph)->get_y()==ycase)
 																{								//degats sur les heros
 																	cout<<"Ce hero est touché X= "<<(*ph)->get_x()<<" Y= "<<(*ph)->get_y()<<endl;
 																	(*ph)->set_pvCurrent((*ph)->get_pvCurrent()-(*_ite_l)->get_inv()->get_grenade()->get_dammage());
@@ -589,17 +594,23 @@ void Partie::HandleEvents(IHMmanager* game){
 																}
 															}
 														}
-														else if(_mapCurrent.get_IDin(xcompt, ycompt)==3)
+														*/
+														if(_mapCurrent.get_IDin(xcompt, ycompt)==3)
 														{
+															cout << "en\n";
 															for(pe = _team_ennemi.begin() ; pe != _team_ennemi.end() ; pe++)
 															{
-																if((*pe)->get_x()==x||(*pe)->get_y()==y)
+																if((*pe)->get_x()==xcase||(*pe)->get_y()==ycase)
 																{								//degats sur les ennemis
 																	cout<<"Cet ennemis est touché X= "<<(*pe)->get_x()<<" Y= "<<(*pe)->get_y()<<endl;
 																	(*pe)->set_pvCurrent((*pe)->get_pvCurrent()-(*_ite_l)->get_inv()->get_grenade()->get_dammage());
 																	(*pe)->display_info();
 																}
 															}
+														}
+														else if(_mapCurrent.get_IDin(xcompt, ycompt)==0)
+														{
+															cout << "ya rien en "<< xcompt<< " "<< ycompt<<endl;
 														}
 														else
 														{
@@ -1495,7 +1506,7 @@ void Partie::switchMap( Portail p , bool ban){
 	premiereApparition = true;
 	_mapCurrent.removeAllItem();							// on retire tous le monde de la carte sans toucher au conteneur
 	Fichier pathMap("src\\World.txt",0);					// chargement de la prochaine map
-	Fichier pathSave("src\\Save.txt",1);					// chargement de la Save
+	//Fichier pathSave("src\\Save.txt",1);					// chargement de la Save
 	//cout << "chargement de la map" << endl;
 	pathMap.loadMap(p.get_nameNextMap(), _mapCurrent, _tank_ennemi, _tank_hero, _tank_obstacle, _tank_portail);
 

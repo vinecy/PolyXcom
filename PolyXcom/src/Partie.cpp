@@ -255,8 +255,15 @@ void Partie::InitMenuQuitter(){
 }
 
 void Partie::CleanUp(){
+	_mapCurrent.removeAllItem();// carte actuelle
+	_tank_ennemi.clear();		// conteneurs pour
+	_tank_hero.clear();			// le chargement a partir d'un fichier
+	_tank_obstacle.clear();
+	_tank_portail.clear();
+	_tank_portail_close.clear();
+	_team_hero.clear();			// equipe de heros
+	_team_ennemi.clear();		// equipe de ennemi
 	cout << " ... Fermeture de la Partie " << endl;
-	//TODO Onettoyage de listes
 }
 
 void Partie::Pause(){
@@ -710,11 +717,14 @@ void Partie::Update(IHMmanager* game){
 			if(_mapCurrent.get_dangerZone() == false){
 				// mode exploration
 				cout << " Mode exploration " << endl;
+				STATE_CC =false;
+				STATE_TIR=false;
+				STATE_GRE=false;
 				_ite_h = _tank_hero.begin();
 			} else {
 				// mode combat
 				cout << " Mode combat " << endl;
-				STATE_CC=false;
+				STATE_CC =false;
 				STATE_TIR=false;
 				STATE_GRE=false;
 			}
@@ -822,7 +832,7 @@ void Partie::UpdateHUD(IHMmanager* game){
 				case 2 : boutonMenu[1].setTextureRect(IntRect(COLUNN2_PXL + 65 ,ROWPLAYERBUTTOM_PXL,64,64)); break;
 				case 3 : boutonMenu[2].setTextureRect(IntRect(COLUNN3_PXL + 65 ,ROWPLAYERBUTTOM_PXL,64,64)); break;
 				case 4 : boutonMenu[3].setTextureRect(IntRect(COLUNN4_PXL + 65 ,ROWPLAYERBUTTOM_PXL,64,64)); break;
-				default:
+				default: break;
 			}
 			if(STATE_TIR == true){
 				boutonTirer.setTextureRect(IntRect(COLUNN2_PXL + 65 ,ROWFIGHTBUTTOM_PXL,64,64));

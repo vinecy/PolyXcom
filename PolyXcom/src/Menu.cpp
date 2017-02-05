@@ -145,6 +145,9 @@ void Menu::Update(IHMmanager* game){
 	if( choix == 3 ) bouton[2].setFillColor(selected);
 	else bouton[2].setFillColor(unSelected);
 
+	fstream f("src\\save.txt", ios::in | ios::ate);
+	if(!f) bouton[1].setFillColor(locked);
+
 	if(valide == true){
 		switch(choix){
 			case 1:
@@ -154,7 +157,10 @@ void Menu::Update(IHMmanager* game){
 				break;
 			case 2:
 				cout << " * Charger Partie " << endl;
-				game->PushState(new Partie(2));
+				if(f){
+					f.close();
+					game->PushState(new Partie(2));
+				}
 				break;
 			case 3:
 				cout << " * Bye " << endl;

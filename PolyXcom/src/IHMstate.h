@@ -12,6 +12,7 @@
 
 static Color unSelected(100,100,100);
 static Color selected(160,160,160);
+static Color locked(100,100,100,100);
 
 class IHMmanager;
 

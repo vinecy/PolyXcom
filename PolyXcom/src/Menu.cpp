@@ -125,19 +125,19 @@ void Menu::Update(IHMmanager* game){
 	int	size_WindowY = game->get_myWindow()->getSize().y;
 	int espacement = 10;
 	bouton[0].setPosition( ( (size_WindowX/2) - (bouton[0].getSize().x)/2 )
-						 , ( size_WindowY/2 ) );
+			, ( size_WindowY/2 ) );
 	bouton[1].setPosition( ( (size_WindowX/2) - (bouton[1].getSize().x)/2 )
-						 , ( (bouton[0].getPosition().y) + (bouton[0].getSize().y) + espacement ) );
+			, ( (bouton[0].getPosition().y) + (bouton[0].getSize().y) + espacement ) );
 	bouton[2].setPosition( ( (size_WindowX/2) - (bouton[2].getSize().x)/2 )
-						 , ( (bouton[1].getPosition().y) + (bouton[1].getSize().y) + espacement ) );
+			, ( (bouton[1].getPosition().y) + (bouton[1].getSize().y) + espacement ) );
 
 	for( int i = 0 ; i < 3 ; i++ ){
 		text[i].setPosition( (bouton[i].getPosition().x + bouton[i].getSize().x/2 - text[i].getGlobalBounds().width/2)
-						   , (bouton[i].getPosition().y + bouton[i].getSize().y/2 - text[i].getGlobalBounds().height/2) );
+				, (bouton[i].getPosition().y + bouton[i].getSize().y/2 - text[i].getGlobalBounds().height/2) );
 	}
 
 	logo.setPosition( (size_WindowX/2) - (logo.getGlobalBounds().width/2)
-				    , (size_WindowY/4) - (logo.getGlobalBounds().height/2) );
+			, (size_WindowY/4) - (logo.getGlobalBounds().height/2) );
 	if( choix == 1 ) bouton[0].setFillColor(selected);
 	else bouton[0].setFillColor(unSelected);
 	if( choix == 2 ) bouton[1].setFillColor(selected);
@@ -150,22 +150,28 @@ void Menu::Update(IHMmanager* game){
 
 	if(valide == true){
 		switch(choix){
-			case 1:
-				cout << " * Nouvelle Partie " << endl;
-				game->PushState(new Partie(1));
-				choix = 0;
-				break;
-			case 2:
-				cout << " * Charger Partie " << endl;
-				if(f){
-					f.close();
-					game->PushState(new Partie(2));
-				}
-				break;
-			case 3:
-				cout << " * Bye " << endl;
-				game->get_myWindow()->close();		// fin
-				break;
+		case 1:
+		{
+			cout << " * Nouvelle Partie " << endl;
+			game->PushState(new Partie(1));
+			choix = 0;
+		}
+		break;
+		case 2:
+		{
+			cout << " * Charger Partie " << endl;
+			if(f){
+				f.close();
+				game->PushState(new Partie(2));
+			}
+		}
+		break;
+		case 3:
+		{
+			cout << " * Bye " << endl;
+			game->get_myWindow()->close();
+		}// fin
+		break;
 		}
 		valide = false;
 	}

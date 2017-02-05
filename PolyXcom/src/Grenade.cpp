@@ -23,6 +23,13 @@ Grenade::Grenade()
 	_dammage=4;
 }
 
+
+Grenade::Grenade(int g1, int g2, int g3)
+{
+	_range=g1;
+	_number=g2;
+	_dammage=g3;
+}
 /** la fonction add_number sert a ajuster le nombre de grenades disponible
  * @param q - quantité a ajouter ou retirer de grenade*/
 void Grenade::add_number(int q)

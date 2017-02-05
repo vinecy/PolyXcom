@@ -19,6 +19,7 @@ private:
 	int _range;				//portee de la grenade
 public:
 	Grenade();				//constructeur
+	Grenade(int g1,int g2, int g3);
 
 	int get_dammage();		//getter
 	int get_number();

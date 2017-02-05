@@ -338,15 +338,15 @@ void Carte::moveItemToWithMoveAnim( int oldX, int oldY , int newX , int newY ){
 	path = this->pathfinding(oldX,oldY,newX,newY);
 	path.pop_back();
 
-	cout << " le chemin à faire : " << endl;
+	//cout << " le chemin à faire : " << endl;
 	ite_p = path.begin();
 	ite_p++;
 	for( ; ite_p != path.end() ; ite_p++){
-		cout << (*ite_p).first <<","<< (*ite_p).second << endl;
+		//cout << (*ite_p).first <<","<< (*ite_p).second << endl;
 		this->moveItemTo( oldX, oldY, (*ite_p).first, (*ite_p).second );
 		oldX = (*ite_p).first;
 		oldY = (*ite_p).second;
-		this->display();
+		//this->display();
 	}
 }
 
@@ -409,9 +409,9 @@ list <pair<int , int> > Carte::pathfinding( int xA , int yA , int xB , int yB ){
 	openIt = openList.begin();
 	//cout << " openList contient :" << endl;
 	for(; openIt != openList.end(); openIt++){
-		cout << " * " ;
-		(*openIt).display();
-		cout << endl;
+		//cout << " * " ;
+		//(*openIt).display();
+		//cout << endl;
 	}
 
 	//cout << " *** \n *** DEBUT DE L'ALGORITHME A* *** \n *** "<< endl;
@@ -469,7 +469,7 @@ list <pair<int , int> > Carte::pathfinding( int xA , int yA , int xB , int yB ){
 		// le noeud courant est-il la cible ?
 	//	cout << " ** Debut du If \"le noeud courant est-il sur la cible\""<< endl;
 		if( xC == xB && yC == yB ){
-			cout << "  > Chemin trouvé !!!" << endl;
+			//cout << "  > Chemin trouvé !!!" << endl;
 		//	cout << "    ... reconstitution du chemin " << endl;
 			pair<int,int> coord;
 			int nextX,nextY;
@@ -825,20 +825,20 @@ list <pair<int , int> > Carte::drawPath( int xA, int yA, int xB, int yB ){
  	 * 					  0 sinon
  	 * */
 bool Carte::pathIsPossible( int xA, int yA, int xB, int yB ){
-	cout << "avant\n";
+
 	list<pair<int,int> > path = this->drawPath(xA, yA, xB, yB);
-	cout << "apres\n";
+
 	list<pair<int,int> >::iterator it;
 	it = path.begin();
 	bool rep = true;
 
 	int i = 0;
 	while( (it != path.end()) && (rep == true) && (i<10000)){
-		cout << "pathisPossible" << (*it).first << " " << (*it).second<<endl;
+		//cout << "pathisPossible" << (*it).first << " " << (*it).second<<endl;
 		rep = (moveIsPossible( (*it).first, (*it).second , false) ) ;
 		it++;
 		i++;
-		cout << i << endl;
+		//cout << i << endl;
 	}
 	return (rep);
 }

@@ -302,7 +302,7 @@ void Partie::HandleEvents(IHMmanager* game){
 											_ite_p= tmp;
 										}
 									}
-									switchMap((*_ite_p));
+									switchMap((*_ite_p),false);
 								}
 							}
 						}
@@ -336,7 +336,7 @@ void Partie::HandleEvents(IHMmanager* game){
 											_ite_p= tmp;
 										}
 									}
-									switchMap((*_ite_p));
+									switchMap((*_ite_p),false);
 								}
 							}
 						}
@@ -370,7 +370,7 @@ void Partie::HandleEvents(IHMmanager* game){
 											_ite_p= tmp;
 										}
 									}
-									switchMap((*_ite_p));
+									switchMap((*_ite_p),false);
 								}
 							}
 						}
@@ -404,7 +404,7 @@ void Partie::HandleEvents(IHMmanager* game){
 											_ite_p= tmp;
 										}
 									}
-									switchMap((*_ite_p));
+									switchMap((*_ite_p),false);
 								}
 							}
 						}
@@ -524,7 +524,7 @@ void Partie::HandleEvents(IHMmanager* game){
 																_ite_p= tmp;
 															}
 														}
-														switchMap((*_ite_p));
+														switchMap((*_ite_p),false);
 													}
 												}
 												else
@@ -969,7 +969,7 @@ void Partie::UpdateHUD(IHMmanager* game){
 			{
 				cout << "WIIIIIIIIIIIIIIIIIIIIIIIn\n";
 				//todo fermer portail
-				switchMap(_tank_portail.front());
+				switchMap(_tank_portail.front(),true);
 			}
 
 			cout << " Apres les modifs"<<endl;
@@ -1466,7 +1466,7 @@ void Partie::savePartie(void){
 /** La méthode switchMap permet de changer de carte actuel à partir des données fourni par le
   * portail p
   	  * @param p - portail où le joueur se situe qui engendre le changement de carte*/
-void Partie::switchMap( Portail p ){
+void Partie::switchMap( Portail p , bool ban){
 	cout << " on veux charger cette map " << p.get_nameNextMap() << endl;
 	premiereApparition = true;
 	_mapCurrent.removeAllItem();							// on retire tous le monde de la carte sans toucher au conteneur
@@ -1487,9 +1487,31 @@ void Partie::switchMap( Portail p ){
 		_mapCurrent.addItem((*_ite_o));
 	}
 	// ajout des portail sur la carte
-	for(_ite_p=_tank_portail.begin();_ite_p!=_tank_portail.end();_ite_p++){
-		_mapCurrent.addItem((*_ite_p));
-		(*_ite_p).display();
+	for(_ite_p=_tank_portail.begin();_ite_p!=_tank_portail.end();_ite_p++)
+	{
+		if(_tank_portail_close.size()!=0)
+		{
+			for(list<Portail>::iterator itep=_tank_portail_close.begin(); itep!=_tank_portail_close.end();itep++ )
+			{
+				if( !((*_ite_p).get_x()==(*itep).get_x() && ((*_ite_p).get_y()==(*itep).get_y())))
+				{
+
+					_mapCurrent.addItem((*_ite_p));
+				}
+				else
+				{
+					cout << " ce portail:";
+					(*_ite_p).display();
+					cout<<" est le meme que celui ci";
+					(*itep).display();
+				}
+			}
+		}
+		else
+		{
+			_mapCurrent.addItem((*_ite_p));
+		}
+		//(*_ite_p).display();
 	}
 
 	//_mapCurrent.display();
@@ -1511,6 +1533,17 @@ void Partie::switchMap( Portail p ){
 	if (_mapCurrent.get_dangerZone()==0)
 	{
 		_ite_h = _tank_hero.begin();
+		if(ban==true)
+		{
+			for(_ite_p=_tank_portail.begin();_ite_p!=_tank_portail.end();_ite_p++)
+			{
+				if((*_ite_h).distance((*_ite_p))==1)
+				{
+					_tank_portail_close.push_front((*_ite_p));
+					_mapCurrent.removeItem((*_ite_p));
+				}
+			}
+		}
 		_mapCurrent.addItem((*_ite_h));
 	}else{
 		for(_ite_h = _tank_hero.begin(); _ite_h!=_tank_hero.end(); _ite_h++){

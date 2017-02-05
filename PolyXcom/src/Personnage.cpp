@@ -121,7 +121,8 @@ void Personnage::display_info(void)
 }
 
 /** la methode use_medkit permet a un personnage de regagner de la vie en utilisant un medkit*/
-void Personnage::use_medkit()
+
+/*void Personnage::use_medkit()
 {
 	_pvCurrent=_pvCurrent+_inv.get_medkit()->get_heal();
 	if(_pvCurrent>_pvMax)
@@ -131,13 +132,14 @@ void Personnage::use_medkit()
 	_inv.get_medkit()->add_uses(-1);
 	_paCurrent=_paCurrent-2;
 }
-
+*/
+/*
 void Personnage::reload()
 {
 	this->_inv.get_weapon_c()->set_munCurrent(_inv.get_weapon_c()->get_munMax());
 	_paCurrent=_paCurrent-4;
 }
-
+*/
 
 /** Le destructeur Personnage*/
 Personnage::~Personnage()				//destructor

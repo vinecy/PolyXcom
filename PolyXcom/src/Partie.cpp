@@ -1088,6 +1088,7 @@ void Partie::UpdateHUD(IHMmanager* game){
 				}
 				for (_ite_ee=_team_ennemi.begin(); _ite_ee!=_team_ennemi.end();_ite_ee++)
 				{
+					(*_ite_ee)->set_paCurrent((*_ite_ee)->get_paMax());
 					if((*_ite_ee)->get_pvCurrent()<=0)
 					{
 						_team_ennemi.remove((*_ite_ee));

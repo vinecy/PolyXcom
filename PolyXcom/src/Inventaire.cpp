@@ -26,6 +26,13 @@ Inventaire::Inventaire()
 	_inv_grenade=Grenade();
 }
 
+/** Le constructeur Inventaire construit un Inventaire avec initialisation des attributs
+ * @param arme - arme active
+ * @param armure - armure active
+ * @param soin - objet medkit
+ * @param gre - objet grenade
+ * @param la - liste arme en inventaire
+ * @param lar _ liste armure en inventaire*/
 Inventaire::Inventaire(Arme arme,Armure armure,Soin soin,Grenade gre,list<Arme> la,list<Armure> lar)
 {
 	_inv_armor_c=armure;

@@ -299,16 +299,17 @@ void Partie::HandleEvents(IHMmanager* game){
 					case Keyboard::Escape: 			// est "Echap"
 						window->close();
 						break;
-
+					// touche Z
 					case Keyboard::Z:
-						if(_mapCurrent.get_dangerZone()==false)
+						if(_mapCurrent.get_dangerZone()==false)//deplacement en haut mode exploration
 						{
 							if((*_ite_h).get_y()!=_mapCurrent.get_sizeY()-1)
 							{
-								if(_mapCurrent.get_IDin((*_ite_h).get_x(), (*_ite_h).get_y()+1)==0)
+								if(_mapCurrent.get_IDin((*_ite_h).get_x(), (*_ite_h).get_y()+1)==0) //la case cible est vide
 								{
 									_mapCurrent.move_up((*_ite_h), _mapCurrent.get_dangerZone());
-								}else if (_mapCurrent.get_IDin((*_ite_h).get_x(), (*_ite_h).get_y()+1)==4 && _mapCurrent.get_dangerZone()==0)
+								}else if (_mapCurrent.get_IDin((*_ite_h).get_x(), (*_ite_h).get_y()+1)==4
+										&& _mapCurrent.get_dangerZone()==0)							//la case cible est un portail
 								{
 									list<Portail> ::iterator tmp;
 									for(tmp=_tank_portail.begin();tmp!=_tank_portail.end();tmp++)
@@ -322,7 +323,7 @@ void Partie::HandleEvents(IHMmanager* game){
 								}
 							}
 						}
-						else
+						else //deplacement en haut pour le mode combat
 						{
 							if((*_ite_l)->get_y()!=_mapCurrent.get_sizeY()-1 && ((*_ite_l)->get_paCurrent()>0))
 							{
@@ -333,9 +334,9 @@ void Partie::HandleEvents(IHMmanager* game){
 							}
 						}
 						break;
-
+					//touche S
 					case Keyboard::S:
-						if(_mapCurrent.get_dangerZone()==false)
+						if(_mapCurrent.get_dangerZone()==false)//deplacement bas mode exploration
 						{
 							if((*_ite_h).get_y()!=0)
 							{
@@ -356,7 +357,7 @@ void Partie::HandleEvents(IHMmanager* game){
 								}
 							}
 						}
-						else
+						else	//deplacement bas mode combat
 						{
 							if((*_ite_l)->get_y()!=0 && ((*_ite_l)->get_paCurrent()>0))
 							{
@@ -367,9 +368,9 @@ void Partie::HandleEvents(IHMmanager* game){
 							}
 						}
 						break;
-
+					//touche Q
 					case Keyboard::Q:
-						if(_mapCurrent.get_dangerZone()==false)
+						if(_mapCurrent.get_dangerZone()==false)//deplacement gauche mode exploration
 						{
 							if((*_ite_h).get_x()!=0)
 							{
@@ -390,7 +391,7 @@ void Partie::HandleEvents(IHMmanager* game){
 								}
 							}
 						}
-						else
+						else	//deplacement gauche mode combat
 						{
 							if((*_ite_l)->get_x()!=0 && ((*_ite_l)->get_paCurrent()>0))
 							{
@@ -401,9 +402,9 @@ void Partie::HandleEvents(IHMmanager* game){
 							}
 						}
 						break;
-
+					//touche D
 					case Keyboard::D:
-						if(_mapCurrent.get_dangerZone()==false)
+						if(_mapCurrent.get_dangerZone()==false)//deplacement droite mode exploration
 						{
 							if((*_ite_h).get_x()!=_mapCurrent.get_sizeX()-1)
 							{
@@ -424,7 +425,7 @@ void Partie::HandleEvents(IHMmanager* game){
 								}
 							}
 						}
-						else
+						else	//deplacement droite mode combat
 						{
 							if((*_ite_l)->get_x()!=_mapCurrent.get_sizeX()-1 && ((*_ite_l)->get_paCurrent()>0))
 							{
@@ -497,9 +498,12 @@ void Partie::HandleEvents(IHMmanager* game){
 						} else if( choixYesNo > 0){
 							valide = true; 				// si la souris est sur un bouton du menu quitter
 						} else {						// sinon on clique dans une zone sans bouton
+							//on recupere les coordonnées cibles
 							int xcase = ((event.mouseButton.x-_mapCurrent._origXmap)/64)/_mapCurrent._zoom;
 							int ycase = ((_mapCurrent._origYmap-event.mouseButton.y)/64)/_mapCurrent._zoom;
 							cout << "\t\t\t\tdeplacement en "<< xcase << " " << ycase << endl;
+
+							//on recupere les coordonnées actuelles
 							int xcur, ycur;
 							if( _mapCurrent.get_dangerZone()==false)
 							{
@@ -513,25 +517,25 @@ void Partie::HandleEvents(IHMmanager* game){
 							}
 							cout << " \t\t\t\tposition actuelle "<< xcur << " " << ycur<< endl;
 							//cout << " \t\t\t\tdistance "<< (*_ite_h).distance(xcase, ycase)<<endl;
-							if(STATE_CC==false)
+							if(STATE_CC==false)//etat cc=faux
 							{
-								if(STATE_TIR==false)
+								if(STATE_TIR==false)//etat tir=faux
 								{
-									if(STATE_GRE==false)
+									if(STATE_GRE==false)//etat grenade=faux
 									{
 										if(xcase>=0 && ycase>=0 && xcase<_mapCurrent.get_sizeX() && ycase<_mapCurrent.get_sizeY())
-										{//Cas déplacement hors combat
+										{//Cas déplacement
 											list <pair<int,int>> chemin=_mapCurrent.pathfinding(xcur,ycur,xcase,ycase);
-											if (chemin.back().first!=-1)
+											if (chemin.back().first!=-1)//si le chemin du pathfinding est valide
 											{
-												if( _mapCurrent.get_dangerZone()==false)
+												if( _mapCurrent.get_dangerZone()==false)//deplacement hors combat
 												{
 													if(_mapCurrent.get_IDin(chemin.back().first, chemin.back().second)==0)
-													{
+													{//si la case cible est vide
 														_mapCurrent.moveItemTo(xcur, ycur, chemin.back().first, chemin.back().second);
 													}
 													else if(_mapCurrent.get_IDin(chemin.back().first, chemin.back().second)==4 && _mapCurrent.get_dangerZone()==false)
-													{
+													{//si la case cible est un portail
 														list<Portail> ::iterator tmp;
 														for(tmp=_tank_portail.begin();tmp!=_tank_portail.end();tmp++)
 														{
@@ -540,7 +544,7 @@ void Partie::HandleEvents(IHMmanager* game){
 																_ite_p= tmp;
 															}
 														}
-														switchMap((*_ite_p),false);
+														switchMap((*_ite_p),false);//on prend le portail
 													}
 												}
 												else
@@ -551,7 +555,6 @@ void Partie::HandleEvents(IHMmanager* game){
 													{
 														_mapCurrent.moveItemTo(xcur, ycur, chemin.back().first, chemin.back().second);
 														(*_ite_l)->set_paCurrent((*_ite_l)->get_paCurrent()-distance);
-														//(*_ite_l)->display_info();
 													}
 												}
 											}
@@ -559,10 +562,10 @@ void Partie::HandleEvents(IHMmanager* game){
 									}
 									else
 									{//cas grenade
-										cout<< "on y va!\n";
+										//cout<< "on y va!\n";
 										if(_mapCurrent.moveIsPossible(xcase, ycase, 0))
 										{
-											cout<<"possible!";
+											//cout<<"possible!"; //si on peux lancer la grenade
 											list<Hero*>::iterator ph;
 											list<Ennemi*>::iterator pe;
 											int xcompt;
@@ -605,6 +608,7 @@ void Partie::HandleEvents(IHMmanager* game){
 															}
 														}
 														*/
+														//degat sur les ennemis
 														if(_mapCurrent.get_IDin(xcompt, ycompt)==3)
 														{
 															cout << "en\n";
@@ -622,6 +626,7 @@ void Partie::HandleEvents(IHMmanager* game){
 																}
 															}
 														}
+														/*
 														else if(_mapCurrent.get_IDin(xcompt, ycompt)==0)
 														{
 															cout << "ya rien en "<< xcompt<< " "<< ycompt<<endl;
@@ -630,28 +635,29 @@ void Partie::HandleEvents(IHMmanager* game){
 														{
 															cout<<"Pas traitéX= "<<xcompt<<" Y= "<<ycompt<<endl;
 														}
+														*/
 													}
 												}
 											}
 										}
-
-										STATE_GRE=false;
+										STATE_GRE=false; //sortie en mode grenable
 									}
 								}
 								else
 								{//cas tir
 									if((_mapCurrent.get_IDin(xcase,ycase)==3) && (_mapCurrent.pathIsPossible(xcur, ycur, xcase, ycase)))
-									{
+									{// si la case contient un ennemi et on a une ligne de tir
 										for(list<Ennemi*>::iterator _itmp=_team_ennemi.begin(); _itmp!=_team_ennemi.end();_itmp++)
 										{
 											if((*_itmp)->get_x()==xcase && (*_itmp)->get_y()==ycase)
-											{
+											{//on recupere l'ennemi visé
 												_ite_ee=_itmp;
 											}
 										}
 										if((*_ite_ee)->get_x()==xcase && (*_ite_ee)->get_y()==ycase)
 										{
-											int alea = rand()%10;
+											int alea = rand()%10; //alea=nombre aléatoire entre 0 et 9
+											/*
 											if(alea<=(*_ite_l)->get_luck())
 											{
 												cout <<"CRITIQUE !!"<< (*_ite_l)->get_luck()<< " / "<< alea<<endl;
@@ -660,19 +666,23 @@ void Partie::HandleEvents(IHMmanager* game){
 											{
 												cout <<"non crit"<< (*_ite_l)->get_luck()<< " / "<< alea<<endl;
 											}
+											*/
+											//calcul des degats => PV=PV-(degat_arme*touche*(2*criique)) touche et critique peuvent valoir 0 ou 1
 											(*_ite_ee)->set_pvCurrent(
 													(*_ite_ee)->get_pvCurrent()-
 													( ((*_ite_l)->get_inv()->get_weapon_c()->get_degats()) *
 															( (alea<=((*_ite_l)->get_accuracy()+5)) * (1+(alea<=(*_ite_l)->get_luck())) ) ));
 
 											if((*_ite_ee)->get_pvCurrent()<0)
-											{
+											{// si les ennemis sont mort, leur PV sont mit a 0
 												(*_ite_ee)->set_pvCurrent(0);
 											}
+											//cout en PA
 											(*_ite_l)->set_paCurrent((*_ite_l)->get_paCurrent()-4);
+											//cout en munitions
 											(*_ite_l)->get_inv()->get_weapon_c()->set_munCurrent(
 													(*_ite_l)->get_inv()->get_weapon_c()->get_munCurrent()-1);
-											STATE_TIR=false;
+											STATE_TIR=false; //sortie etat tir
 										}
 									}
 								}
@@ -680,29 +690,33 @@ void Partie::HandleEvents(IHMmanager* game){
 							else
 							{// cas cc
 								if((_mapCurrent.get_IDin(xcase,ycase)==3) && ((*_ite_l)->distance(xcase, ycase)==1))
-								{
+								{// si la case contient un ennemi a cote de nous
 									for(list<Ennemi*>::iterator _itmp=_team_ennemi.begin(); _itmp!=_team_ennemi.end();_itmp++)
 									{
 										if((*_itmp)->get_x()==xcase && (*_itmp)->get_y()==ycase)
-										{
+										{//on recupere l'ennemi
 											_ite_ee=_itmp;
 										}
 									}
 									if((*_ite_ee)->get_x()==xcase && (*_ite_ee)->get_y()==ycase)
 									{
-										int crit = rand()%10;
+										int crit = rand()%10;// 0<=alea<=9
+										/*
 										if(crit<=(*_ite_l)->get_luck())
 										{
 											cout << (*_ite_l)->get_luck()<< " / "<< crit<<endl;
 											cout<< "CRITIQUE !!\n";
 										}
+										*/
+										//calsul des degats
 										(*_ite_ee)->set_pvCurrent((*_ite_ee)->get_pvCurrent()-(*_ite_l)->get_strength()*(1+(crit<=(*_ite_l)->get_luck())));
 										if((*_ite_ee)->get_pvCurrent()<0)
-										{
+										{//mise a 0 des pv si l'ennemi est mort
 											(*_ite_ee)->set_pvCurrent(0);
 										}
+										//cout en PA
 										(*_ite_l)->set_paCurrent((*_ite_l)->get_paCurrent()-3);
-										STATE_CC=false;
+										STATE_CC=false; //fin etat cc
 									}
 								}
 							}
@@ -919,90 +933,95 @@ void Partie::UpdateHUD(IHMmanager* game){
 			valide = 0;
 			break;
 		case 5:
-			//  afficher CC
+			//  bouton corps a corps
 			if ( _mapCurrent.get_dangerZone()==true)
 			{
 				if(( STATE_CC==false) && (*_ite_l)->get_paCurrent()>=3 )
-				{
+				{//si on est pas dans le mode et on a plus de 3 PA
 					STATE_CC=true;
-					cout << " THIS IS OOOON!"<< endl;
+					//cout << " THIS IS OOOON!"<< endl;
 				}
 				else
-				{
+				{//sinon on quitte le mode
 					STATE_CC=false;
-					cout << " Ok..."<< endl;
+					//cout << " Ok..."<< endl;
 				}
 			}
 			Sleep(500);
 			break;
 		case 6:
-			//afficher Tirer
+			//bouton tirer
 			if ( _mapCurrent.get_dangerZone()==true)
 			{
 				if(( STATE_TIR==false) && ((*_ite_l)->get_paCurrent()>=4)
 						&& (*_ite_l)->get_inv()->get_weapon_c()->get_munCurrent()>0)
-				{
+				{//si on est pas dans le mode, on a plus de 4 PA et au moins 1 munition
 					STATE_TIR=true;
-					cout <<" Locked and loaded !"<<endl;
+					//cout <<" Locked and loaded !"<<endl;
 				}
 				else
-				{
+				{//sinon on quitte le mode
 					STATE_TIR=false;
-					cout << "Peace man!"<< endl;
+					//cout << "Peace man!"<< endl;
 				}
 			}
 			Sleep(500);
 			break;
 		case 7:
-			// afficher Recharger
+			// bouton Recharger
 			if(	_mapCurrent.get_dangerZone()==true &&(*_ite_l)->get_paCurrent()>=2)
-			{
+			{//si on est en combat et on a plus de 2 PA
+				//recharge
 				(*_ite_l)->get_inv()->get_weapon_c()->set_munCurrent(
 						(*_ite_l)->get_inv()->get_weapon_c()->get_munMax());
+				//cout en PA
 				(*_ite_l)->set_paCurrent((*_ite_l)->get_paCurrent()-2);
 			}
 			Sleep(500);
 			break;
 		case 8:
-			// afficher Grenade
+			// bouton Grenade
 			if ( _mapCurrent.get_dangerZone()==true)
 			{
 				if(( STATE_GRE==false) && ((*_ite_l)->get_paCurrent()>=4))
-				{
+				{//si on est pas dans le mode et on a plus de 4 PA
 					STATE_GRE=true;
-					cout <<" get ready the boomsticks !"<<endl;
+					//cout <<" get ready the boomsticks !"<<endl;
 				}
 				else
-				{
+				{//sinon on quitte le mode
 					STATE_GRE=false;
-					cout << "no fire works?"<< endl;
+					//cout << "no fire works?"<< endl;
 				}
 			}
 			Sleep(500);
 			break;
 		case 9:
-			// afficher Medkit
+			// bouton Medkit
 			if(	_mapCurrent.get_dangerZone()==true &&
 					(*_ite_l)->get_inv()->get_medkit()->get_uses()>=1 &&
 					(*_ite_l)->get_paCurrent()>=2)
-			{
+			{//si on est en mode combat et que l'on possede au moins 1 mekdit et 2 PA
+				//soin
 				(*_ite_l)->set_pvCurrent((*_ite_l)->get_pvCurrent()+2);
 				if ((*_ite_l)->get_pvCurrent()>(*_ite_l)->get_pvMax())
-				{
+				{//ne pas depasser pv max
 					(*_ite_l)->set_pvCurrent((*_ite_l)->get_pvMax());
 				}
+				//cout en PA
 				(*_ite_l)->set_paCurrent((*_ite_l)->get_paCurrent()-2);
+				//cout en medkit
 				(*_ite_l)->get_inv()->get_medkit()->add_uses(-1);
 			}
 			Sleep(500);
 			break;
 		case 10:
-			//  afficher Changer Compagnon
+			//  bouton Changer Compagnon
 
 			//cout << "actuellement avec ";
 			//(*_ite_l)->display_info();
 			if(_mapCurrent.get_dangerZone()==true)
-			{
+			{//si on est en combat
 				if(	*(_ite_l)==_team_hero.back())
 				{
 					_ite_l=_team_hero.begin();
@@ -1010,11 +1029,11 @@ void Partie::UpdateHUD(IHMmanager* game){
 				else
 				{
 					_ite_l++;
-					cout<<"Cas2\n";
 				}
 			}
 			//cout << "\n maintenant avec ";
 			//(*_ite_l)->display_info();
+			//remise a zero des etats
 			STATE_CC=false;
 			STATE_TIR=false;
 			STATE_GRE=false;
@@ -1023,13 +1042,16 @@ void Partie::UpdateHUD(IHMmanager* game){
 		case 11:
 		{
 			if(_mapCurrent.get_dangerZone()==true)
-			{
-				// afficher Fin du Tour
+			{//dans le mode combat
+				// bouton Fin du Tour
+				//remise a 0 des etats
 				STATE_CC=false;
 				STATE_TIR=false;
-				cout << " Avant les modifs"<<endl;
-				_mapCurrent.display();
+				STATE_GRE=false;
+				//cout << " Avant les modifs"<<endl;
+				//_mapCurrent.display();
 
+				//nettoyages des equipes
 				for (_ite_l=_team_hero.begin();_ite_l!=_team_hero.end();_ite_l++)
 				{
 					(*_ite_l)->set_paCurrent(0);
@@ -1047,10 +1069,10 @@ void Partie::UpdateHUD(IHMmanager* game){
 				}
 
 				if(_team_ennemi.size()==0)
-				{
-					cout << "WIIIIIIIIIIIIIIIIIIIIIIIn\n";
+				{//si il n'y a plus d'ennemis
+					//cout << "WIIIIIIIIIIIIIIIIIIIIIIIn\n";
 					for (_ite_l=_team_hero.begin();_ite_l!=_team_hero.end();_ite_l++)
-					{
+					{//remise a l'etat max de pv et munitions
 						(*_ite_l)->set_paCurrent((*_ite_l)->get_paMax());
 						(*_ite_l)->get_inv()->get_weapon_c()->set_munCurrent(
 								(*_ite_l)->get_inv()->get_weapon_c()->get_munMax());
@@ -1060,20 +1082,26 @@ void Partie::UpdateHUD(IHMmanager* game){
 					switchMap(_tank_portail.front(),false);//todo portail ban
 				}
 
-				cout << " Apres les modifs"<<endl;
-				_mapCurrent.display();
+				//cout << " Apres les modifs"<<endl;
+				//_mapCurrent.display();
 
+
+				//debut IA
 				for (_ite_ee=_team_ennemi.begin(); _ite_ee!=_team_ennemi.end();_ite_ee++)
 				{
-					cout << " je suis en "<< (*_ite_ee)->get_x()<< " / "<<(*_ite_ee)->get_y()<<endl;
+					//cout << " je suis en "<< (*_ite_ee)->get_x()<< " / "<<(*_ite_ee)->get_y()<<endl;
+
+					//recharge
 					if((*_ite_ee)->get_inv()->get_weapon_c()->get_munCurrent()==0 && (*_ite_ee)->get_paCurrent()>=2)
 					{
 						(*_ite_ee)->get_inv()->get_weapon_c()->set_munCurrent(
 								(*_ite_ee)->get_inv()->get_weapon_c()->get_munMax());
-						cout<< "je recharge\n";
+						//cout<< "je recharge"<<endl;
 					}
+
+					//choix du hero cible
 					int cible=rand()%_team_hero.size();
-					cout << " cible ="<< cible<< endl;
+					//cout << " cible ="<< cible<< endl;
 					list<Hero*>::iterator tmp= _team_hero.begin();
 					/*
 					for( tmp=_team_hero.begin();tmp!=_team_hero.end();tmp++)
@@ -1086,13 +1114,14 @@ void Partie::UpdateHUD(IHMmanager* game){
 						if(tmp==_team_hero.end())
 						{
 							tmp= _team_hero.begin();
-							cout << " jour!";
 						}
 						tmp++;
 						(*tmp)->display_info();
 						cible--;
 					}
-					cout << "ma  cible est "<< cible;(*tmp)->display_info();
+					//cout << "ma  cible est "<< cible;(*tmp)->display_info();
+
+					//tir sur la cible
 					if( ((*_ite_ee)->get_paCurrent()>=4)&&((*_ite_ee)->get_inv()->get_weapon_c()->get_munCurrent()>=1)
 							&& (_mapCurrent.pathIsPossible((*_ite_ee)->get_x(), (*_ite_ee)->get_y(),
 									(*tmp)->get_x(), (*tmp)->get_y())))
@@ -1101,8 +1130,10 @@ void Partie::UpdateHUD(IHMmanager* game){
 								(*_ite_ee)->get_inv()->get_weapon_c()->get_munCurrent()-1);
 						(*_ite_ee)->set_paCurrent((*_ite_ee)->get_paCurrent());
 						(*tmp)->set_pvCurrent((*tmp)->get_pvCurrent()-( ((*_ite_ee)->get_inv()->get_weapon_c()->get_degats()) *( (cible<=((*_ite_ee)->get_accuracy()+5)) * (1+(cible<=(*_ite_ee)->get_luck())) ) ));
-						cout << " j'ai tire\n";
+						//cout << " j'ai tire"<<endl;
 					}
+
+					//deplacement
 					if((*_ite_ee)->get_paCurrent()>=1)
 					{
 						list<pair<int,int>> chemin = _mapCurrent.pathfinding((*_ite_ee)->get_x(),
@@ -1125,6 +1156,7 @@ void Partie::UpdateHUD(IHMmanager* game){
 					}
 				}
 
+				//netoyage des equipes
 				for (_ite_l=_team_hero.begin();_ite_l!=_team_hero.end();_ite_l++)
 				{
 					(*_ite_l)->set_paCurrent((*_ite_l)->get_paMax());
@@ -1142,15 +1174,14 @@ void Partie::UpdateHUD(IHMmanager* game){
 					}
 				}
 				if( _team_hero.size()==0)
-				{
-					cout <<" loooooooooooooose\n";
+				{//si il n'y a plus de héro retour au menu
 					game->PopState();
 				}
-				cout <<" size ennemi = "<< _team_ennemi.size()<<endl;
-				cout <<" size hero = "<< _team_hero.size()<<endl;
+				//cout <<" size ennemi = "<< _team_ennemi.size()<<endl;
+				//cout <<" size hero = "<< _team_hero.size()<<endl;
 				_ite_l=_team_hero.begin();
-				cout<<"on y retourne!";
-				Sleep(500);
+				//cout<<"on y retourne!";
+				Sleep(750);
 			}
 		}
 		break;

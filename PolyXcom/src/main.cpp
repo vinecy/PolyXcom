@@ -27,9 +27,9 @@
 int main(){
 	cout << " lancement de PolyXcom " << endl;
 
-	RenderWindow window( VideoMode(VideoMode::getDesktopMode().width
-								  ,VideoMode::getDesktopMode().height
-								  ,VideoMode::getDesktopMode().bitsPerPixel)
+	RenderWindow window( VideoMode( VideoMode::getDesktopMode().width
+								  , VideoMode::getDesktopMode().height
+								  , VideoMode::getDesktopMode().bitsPerPixel)
 						, "PolyXcom"
 						, Style::Close | Style::Titlebar | Style::Fullscreen );
 	IHMmanager ihm(window);

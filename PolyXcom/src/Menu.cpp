@@ -11,6 +11,12 @@
 #include <iostream>
 using namespace std;
 
+static RectangleShape bouton[3];	// bouton "nouvelle Partie", "Charger Partie", "Quitter la Partie"
+static Text text[3];				// texte des boutons "nouvelle Partie", "Charger Partie", "Quitter la Partie"
+static Image i;						// Fichier contenant la feuille de Sprite
+static Texture t;					// Texture chargé à partir la feuille de Sprite
+static Sprite logo;					// Image correspondant au logo et chargé à partir de la texture
+static Font font;					// Police de caractère
 
 Menu::Menu(){
 	Init();
@@ -124,6 +130,17 @@ void Menu::Update(IHMmanager* game){
 	int size_WindowX = game->get_myWindow()->getSize().x;
 	int	size_WindowY = game->get_myWindow()->getSize().y;
 	int espacement = 10;
+
+	logo.setScale(5 * (game->_scaleBouton), 5 * (game->_scaleBouton) );
+
+	bouton[0].setSize(Vector2f(400*game->_scaleBouton,100*game->_scaleBouton));
+	bouton[1].setSize(Vector2f(400*game->_scaleBouton,100*game->_scaleBouton));
+	bouton[2].setSize(Vector2f(400*game->_scaleBouton,100*game->_scaleBouton));
+
+	text[0].setScale((game->_scaleBouton),(game->_scaleBouton));
+	text[1].setScale((game->_scaleBouton),(game->_scaleBouton));
+	text[2].setScale((game->_scaleBouton),(game->_scaleBouton));
+
 	bouton[0].setPosition( ( (size_WindowX/2) - (bouton[0].getSize().x)/2 )
 						 , ( size_WindowY/2 ) );
 	bouton[1].setPosition( ( (size_WindowX/2) - (bouton[1].getSize().x)/2 )

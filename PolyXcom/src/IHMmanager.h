@@ -20,6 +20,8 @@ private:
 	RenderWindow* _myWindow;
 	vector<IHMstate*> _myStates;
 
+public: float _scaleBouton;
+
 public:
 	IHMmanager(RenderWindow&);
 	void Init();

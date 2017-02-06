@@ -13,6 +13,13 @@
 
 IHMmanager::IHMmanager(RenderWindow& w) {
 	_myWindow = &w;
+
+	if( (_myWindow->getSize().x < 1920) && (_myWindow->getSize().y < 1080)){
+		_scaleBouton = 0.75 ;
+	} else {
+		_scaleBouton = 1;
+	}
+
 	cout << " + IHMmanager démarré" << endl;
 }
 

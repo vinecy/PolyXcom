@@ -231,8 +231,8 @@ void Partie::InitMenuInvent(){
 	rectInvent.setFillColor(unSelected);
 	textInvent[0] = Text("...",font,20); textInvent[0].setFillColor(Color::White);
 	textInvent[1] = Text("Arme",font,20); textInvent[1].setFillColor(Color::White);
-	textInvent[2] = Text("Grenade",font,20); textInvent[2].setFillColor(Color::White);
-	textInvent[3] = Text("MedKit",font,20); textInvent[3].setFillColor(Color::White);
+	textInvent[2] = Text("Medkit",font,20); textInvent[2].setFillColor(Color::White);
+	textInvent[3] = Text("Grenade",font,20); textInvent[3].setFillColor(Color::White);
 	textInvent[4] = Text("x..",font,20); textInvent[4].setFillColor(Color::White);
 	textInvent[5] = Text("x..",font,20); textInvent[5].setFillColor(Color::White);
 	textInvent[6] = Text("x..",font,20); textInvent[6].setFillColor(Color::White);

@@ -14,13 +14,6 @@
 class Menu : public IHMstate{
 private:						// ATTRIBUTS
 									// GRAPHIQUES
-	RectangleShape bouton[3];		// bouton "nouvelle Partie", "Charger Partie", "Quitter la Partie"
-	Text text[3];					// texte des boutons "nouvelle Partie", "Charger Partie", "Quitter la Partie"
-	Image i;						// Fichier contenant la feuille de Sprite
-	Texture t;						// Texture chargé à partir la feuille de Sprite
-	Sprite logo;					// Image correspondant au logo et chargé à partir de la texture
-	Font font;						// Police de caractère
-
 	//Partie jeu;					// JEU
 	bool valide;					// indique si le choix est valide
 	int choix;						// entier correspondant au choix

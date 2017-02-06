@@ -39,8 +39,8 @@ private:								// ATTRIBUTS
 	list<Portail>  		_tank_portail;
 	list<Portail>  		_tank_portail_close;
 
-	list<Hero*>	_team_hero;			// equipe de heros
-	list<Ennemi*>	_team_ennemi;		// equipe de ennemi
+	list<Hero*>			_team_hero;			// equipe de heros
+	list<Ennemi*>		_team_ennemi;		// equipe de ennemi
 
 	Carte 				_mapCurrent;		// carte actuelle
 

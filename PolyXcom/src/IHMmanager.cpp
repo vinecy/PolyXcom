@@ -49,7 +49,10 @@ void IHMmanager::PushState(IHMstate* state){
 
 void IHMmanager::PopState(){
 	_myStates.back()->CleanUp();
+
 	if( !_myStates.empty() ){
+		//_myStates.pop_back();
+		delete(_myStates.back());
 		_myStates.pop_back();
 		if( !_myStates.empty() ) _myStates.back()->Resume();
 	}

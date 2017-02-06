@@ -626,6 +626,7 @@ void Partie::HandleEvents(IHMmanager* game){
 														{
 															cout<<"Pas traitéX= "<<xcompt<<" Y= "<<ycompt<<endl;
 														}
+														(*_ite_l)->set_paCurrent((*_ite_l)->get_paCurrent()-4);
 													}
 												}
 											}
@@ -692,7 +693,7 @@ void Partie::HandleEvents(IHMmanager* game){
 											cout << (*_ite_l)->get_luck()<< " / "<< crit<<endl;
 											cout<< "CRITIQUE !!\n";
 										}
-										(*_ite_ee)->set_pvCurrent((*_ite_ee)->get_pvCurrent()-(*_ite_l)->get_str()*(1+(crit<=(*_ite_l)->get_luck())));
+										(*_ite_ee)->set_pvCurrent((*_ite_ee)->get_pvCurrent()-(*_ite_l)->get_strength()*(1+(crit<=(*_ite_l)->get_luck())));
 										if((*_ite_ee)->get_pvCurrent()<0)
 										{
 											(*_ite_ee)->set_pvCurrent(0);
@@ -926,14 +927,15 @@ void Partie::UpdateHUD(IHMmanager* game){
 			{
 				(*_ite_l)->get_inv()->get_weapon_c()->set_munCurrent(
 						(*_ite_l)->get_inv()->get_weapon_c()->get_munMax());
+				(*_ite_l)->set_paCurrent((*_ite_l)->get_paCurrent()-2);
 			}
 			Sleep(500);
 			break;
 		case 8:
-			// TODO afficher Grenade
+			// afficher Grenade
 			if ( _mapCurrent.get_dangerZone()==true)
 			{
-				if(( STATE_GRE==false) && ((*_ite_l)->get_paCurrent()>=2))
+				if(( STATE_GRE==false) && ((*_ite_l)->get_paCurrent()>=4))
 				{
 					STATE_GRE=true;
 					cout <<" get ready the boomsticks !"<<endl;
@@ -988,117 +990,121 @@ void Partie::UpdateHUD(IHMmanager* game){
 			break;
 		case 11:
 		{
-			// afficher Fin du Tour
-			STATE_CC=false;
-			STATE_TIR=false;
-			cout << " Avant les modifs"<<endl;
-			_mapCurrent.display();
-
-			for (_ite_l=_team_hero.begin();_ite_l!=_team_hero.end();_ite_l++)
+			if(_mapCurrent.get_dangerZone()==true)
 			{
-				(*_ite_l)->set_paCurrent(0);
-				if((*_ite_l)->get_pvCurrent()<=0)
-				{
-					_team_hero.remove((*_ite_l));
-				}
-			}
-			for (_ite_ee=_team_ennemi.begin(); _ite_ee!=_team_ennemi.end();_ite_ee++)
-			{
-				if((*_ite_ee)->get_pvCurrent()<=0)
-				{
-					_team_ennemi.remove((*_ite_ee));
-				}
-			}
+				// afficher Fin du Tour
+				STATE_CC=false;
+				STATE_TIR=false;
+				cout << " Avant les modifs"<<endl;
+				_mapCurrent.display();
 
-			if(_team_ennemi.size()==0)
-			{
-				cout << "WIIIIIIIIIIIIIIIIIIIIIIIn\n";
-				//todo fermer portail
-				switchMap(_tank_portail.front(),true);
-			}
-
-			cout << " Apres les modifs"<<endl;
-			_mapCurrent.display();
-
-			for (_ite_ee=_team_ennemi.begin(); _ite_ee!=_team_ennemi.end();_ite_ee++)
-			{
-				cout << " je suis en "<< (*_ite_ee)->get_x()<< " / "<<(*_ite_ee)->get_y()<<endl;
-				if((*_ite_ee)->get_inv()->get_weapon_c()->get_munCurrent()==0 && (*_ite_ee)->get_paCurrent()>=2)
+				for (_ite_l=_team_hero.begin();_ite_l!=_team_hero.end();_ite_l++)
 				{
-					(*_ite_ee)->get_inv()->get_weapon_c()->set_munCurrent(
-							(*_ite_ee)->get_inv()->get_weapon_c()->get_munMax());
-					cout<< "je recharge\n";
-				}
-				int cible=rand()%3;
-				cout << " cible ="<< cible<< endl;
-				list<Hero*>::iterator tmp= _team_hero.begin();
-				while(cible!=0)
-				{
-					if(tmp==_team_hero.end())
+					(*_ite_l)->set_paCurrent(0);
+					if((*_ite_l)->get_pvCurrent()<=0)
 					{
-						tmp= _team_hero.begin();
+						_team_hero.remove((*_ite_l));
 					}
-					tmp++;
-					cible--;
 				}
-				cout << "ma  cible est ";(*tmp)->display_info();
-				if( ((*_ite_ee)->get_paCurrent()>=4)&&((*_ite_ee)->get_inv()->get_weapon_c()->get_munCurrent()>=1)
-						&& (_mapCurrent.pathIsPossible((*_ite_ee)->get_x(), (*_ite_ee)->get_y(),
-								(*tmp)->get_x(), (*tmp)->get_y())))
+				for (_ite_ee=_team_ennemi.begin(); _ite_ee!=_team_ennemi.end();_ite_ee++)
 				{
-					(*_ite_ee)->get_inv()->get_weapon_c()->set_munCurrent(
-							(*_ite_ee)->get_inv()->get_weapon_c()->get_munCurrent()-1);
-					(*_ite_ee)->set_paCurrent((*_ite_ee)->get_paCurrent());
-					(*tmp)->set_pvCurrent((*tmp)->get_pvCurrent()-( ((*_ite_ee)->get_inv()->get_weapon_c()->get_degats()) *( (cible<=((*_ite_ee)->get_accuracy()+5)) * (1+(cible<=(*_ite_ee)->get_luck())) ) ));
-					cout << " j'ai tire\n";
-				}
-				if((*_ite_ee)->get_paCurrent()>=1)
-				{
-					list<pair<int,int>> chemin = _mapCurrent.pathfinding((*_ite_ee)->get_x(),
-							(*_ite_ee)->get_y(),(*tmp)->get_x(), (*tmp)->get_y());
-					if(chemin.front().first!=-1)
+					if((*_ite_ee)->get_pvCurrent()<=0)
 					{
-						/*
-						list<pair<int,int>>::iterator tmpl=chemin.begin();
-						while ( (*_ite_ee)->get_paCurrent()!=0 && tmpl!=chemin.end())
+						_team_ennemi.remove((*_ite_ee));
+					}
+				}
+
+				if(_team_ennemi.size()==0)
+				{
+					cout << "WIIIIIIIIIIIIIIIIIIIIIIIn\n";
+					// fermer portail
+					switchMap(_tank_portail.front(),true);
+				}
+
+				cout << " Apres les modifs"<<endl;
+				_mapCurrent.display();
+
+				for (_ite_ee=_team_ennemi.begin(); _ite_ee!=_team_ennemi.end();_ite_ee++)
+				{
+					cout << " je suis en "<< (*_ite_ee)->get_x()<< " / "<<(*_ite_ee)->get_y()<<endl;
+					if((*_ite_ee)->get_inv()->get_weapon_c()->get_munCurrent()==0 && (*_ite_ee)->get_paCurrent()>=2)
+					{
+						(*_ite_ee)->get_inv()->get_weapon_c()->set_munCurrent(
+								(*_ite_ee)->get_inv()->get_weapon_c()->get_munMax());
+						cout<< "je recharge\n";
+					}
+					int cible=rand()%3;
+					cout << " cible ="<< cible<< endl;
+					list<Hero*>::iterator tmp= _team_hero.begin();
+					while(cible!=0)
+					{
+						if(tmp==_team_hero.end())
 						{
-							_mapCurrent.moveItemToWithMoveAnim((*_ite_ee)->get_x(), (*_ite_ee)->get_y(),(*tmpl).first, (*tmpl).second);
-							cout<< "je bouge en "<< (*tmpl).first<<" "<<(*tmpl).second<<endl;
-							(*_ite_ee)->set_paCurrent((*_ite_ee)->get_paCurrent()-1);
-							tmpl++;
+							tmp= _team_hero.begin();
 						}
-						*/
-						_mapCurrent.moveItemToWithMoveAnim((*_ite_ee)->get_x(), (*_ite_ee)->get_y(),(*tmp)->get_x(), (*tmp)->get_y());
-						_mapCurrent.display();
+						tmp++;
+						cible--;
+					}
+					cout << "ma  cible est ";(*tmp)->display_info();
+					if( ((*_ite_ee)->get_paCurrent()>=4)&&((*_ite_ee)->get_inv()->get_weapon_c()->get_munCurrent()>=1)
+							&& (_mapCurrent.pathIsPossible((*_ite_ee)->get_x(), (*_ite_ee)->get_y(),
+									(*tmp)->get_x(), (*tmp)->get_y())))
+					{
+						(*_ite_ee)->get_inv()->get_weapon_c()->set_munCurrent(
+								(*_ite_ee)->get_inv()->get_weapon_c()->get_munCurrent()-1);
+						(*_ite_ee)->set_paCurrent((*_ite_ee)->get_paCurrent());
+						(*tmp)->set_pvCurrent((*tmp)->get_pvCurrent()-( ((*_ite_ee)->get_inv()->get_weapon_c()->get_degats()) *( (cible<=((*_ite_ee)->get_accuracy()+5)) * (1+(cible<=(*_ite_ee)->get_luck())) ) ));
+						cout << " j'ai tire\n";
+					}
+					if((*_ite_ee)->get_paCurrent()>=1)
+					{
+						list<pair<int,int>> chemin = _mapCurrent.pathfinding((*_ite_ee)->get_x(),
+								(*_ite_ee)->get_y(),(*tmp)->get_x(), (*tmp)->get_y());
+						if(chemin.front().first!=-1)
+						{
+							/*
+							list<pair<int,int>>::iterator tmpl=chemin.begin();
+							while ( (*_ite_ee)->get_paCurrent()!=0 && tmpl!=chemin.end())
+							{
+								_mapCurrent.moveItemToWithMoveAnim((*_ite_ee)->get_x(), (*_ite_ee)->get_y(),(*tmpl).first, (*tmpl).second);
+								cout<< "je bouge en "<< (*tmpl).first<<" "<<(*tmpl).second<<endl;
+								(*_ite_ee)->set_paCurrent((*_ite_ee)->get_paCurrent()-1);
+								tmpl++;
+							}
+							*/
+							_mapCurrent.moveItemToWithMoveAnim((*_ite_ee)->get_x(), (*_ite_ee)->get_y(),(*tmp)->get_x(), (*tmp)->get_y());
+							_mapCurrent.display();
+						}
 					}
 				}
-			}
 
-			for (_ite_l=_team_hero.begin();_ite_l!=_team_hero.end();_ite_l++)
-			{
-				(*_ite_l)->set_paCurrent((*_ite_l)->get_paMax());
-				if((*_ite_l)->get_pvCurrent()<=0)
+				for (_ite_l=_team_hero.begin();_ite_l!=_team_hero.end();_ite_l++)
 				{
-					_team_hero.remove((*_ite_l));
+					(*_ite_l)->set_paCurrent((*_ite_l)->get_paMax());
+					if((*_ite_l)->get_pvCurrent()<=0)
+					{
+						_team_hero.remove((*_ite_l));
+					}
 				}
-			}
-			for (_ite_ee=_team_ennemi.begin(); _ite_ee!=_team_ennemi.end();_ite_ee++)
-			{
-				if((*_ite_ee)->get_pvCurrent()<=0)
+				for (_ite_ee=_team_ennemi.begin(); _ite_ee!=_team_ennemi.end();_ite_ee++)
 				{
-					_team_ennemi.remove((*_ite_ee));
+					(*_ite_ee)->set_paCurrent((*_ite_ee)->get_paMax());
+					if((*_ite_ee)->get_pvCurrent()<=0)
+					{
+						_team_ennemi.remove((*_ite_ee));
+					}
 				}
+				if( _team_hero.size()==0)
+				{
+					cout <<" loooooooooooooose\n";
+					game->PopState();
+				}
+				cout <<" size ennemi = "<< _team_ennemi.size()<<endl;
+				cout <<" size hero = "<< _team_hero.size()<<endl;
+				_ite_l=_team_hero.begin();
+				cout<<"on y retourne!";
+				Sleep(500);
 			}
-			if( _team_hero.size()==0)
-			{
-				cout <<" loooooooooooooose\n";
-				game->PopState();
-			}
-			cout <<" size ennemi = "<< _team_ennemi.size()<<endl;
-			cout <<" size hero = "<< _team_hero.size()<<endl;
-			_ite_l=_team_hero.begin();
-			cout<<"on y retourne!";
-			Sleep(500);
 		}
 		break;
 		default:
@@ -1550,7 +1556,7 @@ void Partie::launchPartie(void){
 }
 
 
-// TODO URGENT AUSSI
+
 void Partie::savePartie(void){
 	Fichier f("src\\Save.txt",1);
 	f.updateSave( _mapCurrent.get_nameMap(),
@@ -1695,7 +1701,7 @@ void Partie::fightMode(void){
 			{
 				//(*_ite)->set_paCurrent(0);	//mise a 0 des PA des ennemis (passe le tour)
 				list<Personnage*> in_range;	//creation de liste qui contiendra les ennemis a porte de tir
-				for(_ite=_team_hero.begin();_ite!=_team_hero.end();_ite++){//TODO fonction?
+				for(_ite=_team_hero.begin();_ite!=_team_hero.end();_ite++){
 					if(_mapCurrent.pathIsPossible((*_ite_l)->get_x(),(*_ite_l)->get_y(),(*_ite)->get_x(),(*_ite)->get_y())){
 						in_range.push_front((*_ite));
 					}
@@ -1718,7 +1724,7 @@ void Partie::fightMode(void){
 				}
 				else
 				{
-					cout<<"me deplacer"<<endl;//TODO deplacement
+					cout<<"me deplacer"<<endl;
 				}
 				(*_ite_l)->set_paCurrent(0);
 			}
@@ -2024,7 +2030,7 @@ bool Partie::bonus_choice( void ){
 				if(_team_ennemi.size()==0){
 					return (true);
 				}
-				return (false);//TODO cas suicide
+				return (false);
 			}
 		}
 		return (false);

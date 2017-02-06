@@ -3,16 +3,16 @@ mapCurrent: checkpoint
 coordSpawn: 0 2
 
 nameHero: Vincent ;
-inventory: Medkit 3 5 Grenade 1 5 3 Arme 6 7 8 9 Armure 11 10;
-stats: 1 1 3 1 5 2 ;
+inventory: Medkit 1 3 Grenade 1 2 4 Arme 1 4 8 4 Armure 0 0;
+stats: 1 3 3 1 5 2 ;
 
 felowTravellerName1: Alexis ;
-inventory: Medkit 3 5 Grenade 1 5 3 Arme 6 7 8 9 Armure 11 10;
-stats: 1 5 3 4 3 2 ;
+inventory: Medkit 1 4 Grenade 1 2 3 Arme 0 3 8 3 Armure 0 0;
+stats: 1 4 1 5 4 1 ;
 
 felowTravellerName2: Valentin ;
-inventory: Medkit 3 5 Grenade 1 5 3 Arme 6 7 8 9 Armure 11 10;
-stats: 1 1 4 4 2 4 ;
+inventory: Medkit 1 2 Grenade 1 2 3 Arme 2 7 8 2 Armure 0 0;
+stats: 1 1 5 2 1 5 ;
 
 closedPortalList: ; 
 

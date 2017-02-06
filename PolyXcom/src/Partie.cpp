@@ -40,9 +40,8 @@ using namespace std;
 #define COLUNN6_PXL 651		// n° de pixel de la colonne 6
 #define COLUNN7_PXL 781		// n° de pixel de la colonne 7
 
-#define ESPACE 20			// espacemment entre les boutons
-#define PXL_PV 25			// taille d'un point de PV/PA en pxl dans la barre de PV/PA
-
+static int PXL_PV;			// taille d'un point de PV/PA en pxl dans la barre de PV/PA
+static int ESPACE;			// espacemment entre les boutons
 static int size_window_X ;
 static int size_window_Y ;
 static int size_Map_part_X;
@@ -717,6 +716,8 @@ void Partie::HandleEvents(IHMmanager* game){
 }
 
 void Partie::Update(IHMmanager* game){
+	PXL_PV = 25*game->_scaleBouton;			// taille d'un point de PV/PA en pxl dans la barre de PV/PA
+	ESPACE = 20*game->_scaleBouton;
 	size_window_X = game->get_myWindow()->getSize().x;
 	size_window_Y = game->get_myWindow()->getSize().y;
 	size_Map_part_X = size_window_X - ESPACE*2 - boutonMenu[0].getGlobalBounds().width;
@@ -758,20 +759,29 @@ void Partie::Update(IHMmanager* game){
 
 void Partie::UpdateHUD(IHMmanager* game){
 	// mis à jour des positions des boutons de l'interface
-	PersoActif.setPosition( ESPACE , (game->get_myWindow()->getSize().y - ESPACE - PersoActif.getSize().y));
+	PersoActif.setScale(game->_scaleBouton , game->_scaleBouton );
+
+
+	PersoActif.setPosition( ESPACE, (game->get_myWindow()->getSize().y - ESPACE - PersoActif.getGlobalBounds().height));
 	namePersoActif.setString((*_ite_l)->get_name());
-	namePersoActif.setPosition( PersoActif.getGlobalBounds().left + PersoActif.getGlobalBounds().width/2 - namePersoActif.getGlobalBounds().width/2 + 12
-			, PersoActif.getGlobalBounds().top - 10 - namePersoActif.getGlobalBounds().height );
+	namePersoActif.setScale(game->_scaleBouton , game->_scaleBouton );
+	namePersoActif.setPosition( PersoActif.getGlobalBounds().left + PersoActif.getGlobalBounds().width/2 - namePersoActif.getGlobalBounds().width/2 + 12*game->_scaleBouton
+							  , PersoActif.getGlobalBounds().top - 10*game->_scaleBouton - namePersoActif.getGlobalBounds().height );
 
 	ConteneurPVMAX.setSize(Vector2f( (*_ite_l)->get_pvMax() * PXL_PV  ,50));
-	ConteneurPVMAX.setPosition( PersoActif.getGlobalBounds().left + PersoActif.getGlobalBounds().width + 40,
-			PersoActif.getGlobalBounds().top + ConteneurPVMAX.getOutlineThickness());
+	ConteneurPVMAX.setScale( game->_scaleBouton , game->_scaleBouton );
+	ConteneurPVMAX.setPosition( PersoActif.getGlobalBounds().left + PersoActif.getGlobalBounds().width + ESPACE*2,
+								PersoActif.getGlobalBounds().top + ConteneurPVMAX.getOutlineThickness());
 	ConteneurPAMAX.setSize(Vector2f( (*_ite_l)->get_paMax() * PXL_PV  ,50));
-	ConteneurPAMAX.setPosition( PersoActif.getGlobalBounds().left + PersoActif.getGlobalBounds().width + 40,
-			PersoActif.getGlobalBounds().top + PersoActif.getGlobalBounds().height - ConteneurPAMAX.getGlobalBounds().height + ConteneurPAMAX.getOutlineThickness());
+	ConteneurPAMAX.setScale( game->_scaleBouton , game->_scaleBouton );
+	ConteneurPAMAX.setPosition( PersoActif.getGlobalBounds().left + PersoActif.getGlobalBounds().width + ESPACE*2,
+								PersoActif.getGlobalBounds().top + PersoActif.getGlobalBounds().height - ConteneurPAMAX.getGlobalBounds().height + ConteneurPAMAX.getOutlineThickness());
 
 	ConteneurPV.setSize(Vector2f( ((*_ite_l)->get_pvCurrent() * PXL_PV - 8) ,42));
 	ConteneurPA.setSize(Vector2f( ((*_ite_l)->get_paCurrent() * PXL_PV - 8) ,42));
+	ConteneurPV.setScale( game->_scaleBouton , game->_scaleBouton );
+	ConteneurPA.setScale( game->_scaleBouton , game->_scaleBouton );
+
 	stringstream ss[6];
 	ss[0] << (*_ite_l)->get_pvCurrent();
 	ss[1] << (*_ite_l)->get_pvMax();
@@ -783,16 +793,24 @@ void Partie::UpdateHUD(IHMmanager* game){
 	textPA.setString( ss[2].str() + "/" + ss[3].str() + " PA");
 	textAmmunation.setString( ss[4].str() + "/" + ss[5].str() + " mun");
 
+	textPV.setScale( game->_scaleBouton , game->_scaleBouton);
+	textPA.setScale( game->_scaleBouton , game->_scaleBouton);
+	textAmmunation.setScale( game->_scaleBouton , game->_scaleBouton);
 
-	ConteneurPV.setPosition( ConteneurPVMAX.getGlobalBounds().left + 8,
-			ConteneurPVMAX.getGlobalBounds().top + 8 );
-	ConteneurPA.setPosition( ConteneurPAMAX.getGlobalBounds().left + 8,
-			ConteneurPAMAX.getGlobalBounds().top + 8 );
+	ConteneurPV.setPosition( ConteneurPVMAX.getGlobalBounds().left + 8*game->_scaleBouton,
+							 ConteneurPVMAX.getGlobalBounds().top + 8*game->_scaleBouton );
+	ConteneurPA.setPosition( ConteneurPAMAX.getGlobalBounds().left + 8*game->_scaleBouton,
+							 ConteneurPAMAX.getGlobalBounds().top + 8*game->_scaleBouton );
 
 	textPV.setPosition(ConteneurPV.getGlobalBounds().left + 10,
 			ConteneurPV.getGlobalBounds().top + ConteneurPV.getGlobalBounds().height/2 - textPV.getGlobalBounds().height/2 );
 	textPA.setPosition(ConteneurPA.getGlobalBounds().left + 10,
 			ConteneurPA.getGlobalBounds().top + ConteneurPA.getGlobalBounds().height/2 - textPA.getGlobalBounds().height/2 );
+
+	boutonMenu[0].setScale(2 * game->_scaleBouton, 2 *game->_scaleBouton);
+	boutonMenu[1].setScale(2 * game->_scaleBouton, 2 *game->_scaleBouton);
+	boutonMenu[2].setScale(2 *game->_scaleBouton, 2 *game->_scaleBouton);
+	boutonMenu[3].setScale(2 *game->_scaleBouton, 2 *game->_scaleBouton);
 
 	boutonMenu[0].setPosition( (game->get_myWindow()->getSize().x - ESPACE - boutonMenu[0].getGlobalBounds().width),
 			ESPACE );
@@ -802,6 +820,15 @@ void Partie::UpdateHUD(IHMmanager* game){
 			boutonMenu[1].getGlobalBounds().top + boutonMenu[1].getGlobalBounds().height + 10 );
 	boutonMenu[3].setPosition( (game->get_myWindow()->getSize().x - ESPACE - boutonMenu[3].getGlobalBounds().width),
 			boutonMenu[2].getGlobalBounds().top + boutonMenu[2].getGlobalBounds().height + 10 );
+
+	boutonFinTour.setScale(2 * game->_scaleBouton, 2 *game->_scaleBouton);
+	boutonChangerCompagnon.setScale(2 * game->_scaleBouton, 2 *game->_scaleBouton);
+	boutonMedKit.setScale(2 * game->_scaleBouton, 2 *game->_scaleBouton);
+	boutonGrenade.setScale(2 * game->_scaleBouton, 2 *game->_scaleBouton);
+	boutonRecharger.setScale(2 * game->_scaleBouton, 2 *game->_scaleBouton);
+	boutonTirer.setScale(2 * game->_scaleBouton, 2 *game->_scaleBouton);
+	boutonCC.setScale(2 * game->_scaleBouton, 2 *game->_scaleBouton);
+	WeaponActif.setScale(game->_scaleBouton, game->_scaleBouton);
 
 	boutonFinTour.setPosition( (game->get_myWindow()->getSize().x) - ESPACE - boutonFinTour.getGlobalBounds().width ,
 			(game->get_myWindow()->getSize().y) - ESPACE - boutonFinTour.getGlobalBounds().height );
@@ -1116,38 +1143,46 @@ void Partie::UpdateHUD(IHMmanager* game){
 
 void Partie::UpdateMenuCarte(IHMmanager* game){
 	menuCarte.setSize(Vector2f(size_Map_part_X*0.80 , size_Map_part_Y*0.80));
+	menuCarte.setScale(game->_scaleBouton, game->_scaleBouton);
 	menuCarte.setPosition((game->get_myWindow()->getSize().x - ESPACE*2 - 96)/2 - menuCarte.getGlobalBounds().width/2
 			            , (game->get_myWindow()->getSize().y - ESPACE*2 - 96)/2 - menuCarte.getGlobalBounds().height/2
 	 	 	 	 	 	);
-	spriteWorld.setScale(8, 8);
+	spriteWorld.setScale(8*game->_scaleBouton, 8*game->_scaleBouton);
 	spriteWorld.setPosition( menuCarte.getGlobalBounds().left + menuCarte.getGlobalBounds().width/2 - spriteWorld.getGlobalBounds().width/2
 						   , menuCarte.getGlobalBounds().top + menuCarte.getGlobalBounds().height/2 - spriteWorld.getGlobalBounds().height/2
 	 	 	 			  );
 }
 
 void Partie::UpdateMenuInvent(IHMmanager* game){
-	rectInvent.setSize(Vector2f(size_Map_part_X*0.80 , size_Map_part_Y*0.80));
-	rectInvent.setPosition((game->get_myWindow()->getSize().x - ESPACE*2 - 96)/2 - rectInvent.getGlobalBounds().width/2
-						 , (game->get_myWindow()->getSize().y - ESPACE*2 - 96)/2 - rectInvent.getGlobalBounds().height/2
+	rectInvent.setSize(Vector2f(size_Map_part_X*0.80*game->_scaleBouton , size_Map_part_Y*0.80*game->_scaleBouton));
+
+	rectInvent.setPosition((game->get_myWindow()->getSize().x - ESPACE*2 - 96*game->_scaleBouton)/2 - rectInvent.getGlobalBounds().width/2
+						 , (game->get_myWindow()->getSize().y - ESPACE*2 - 96*game->_scaleBouton)/2 - rectInvent.getGlobalBounds().height/2
 						 );
 	spriteInvent[0] = (*_ite_l)->_sprite;
-	spriteInvent[0].setScale(3,3);
-	spriteInvent[0].setPosition( rectInvent.getGlobalBounds().left + 10
+	spriteInvent[0].setScale(3*game->_scaleBouton,3*game->_scaleBouton);
+	spriteInvent[0].setPosition( rectInvent.getGlobalBounds().left + 10*game->_scaleBouton
 						       , rectInvent.getGlobalBounds().top + (rectInvent.getGlobalBounds().height/2 - spriteInvent[0].getGlobalBounds().height/2 ));
 
 	textInvent[0].setString((*_ite_l)->get_name());
-	textInvent[0].setPosition( spriteInvent[0].getGlobalBounds().left + spriteInvent[0].getGlobalBounds().width/2 - textInvent[0].getGlobalBounds().width/2
-			                 , spriteInvent[0].getGlobalBounds().top - 10);
+	textInvent[0].setScale(game->_scaleBouton, game->_scaleBouton);
 
-	spriteInvent[1].setScale(4,4);
-	spriteInvent[2].setScale(4,4);
-	spriteInvent[3].setScale(4,4);
+	textInvent[0].setPosition( spriteInvent[0].getGlobalBounds().left + spriteInvent[0].getGlobalBounds().width/2 - textInvent[0].getGlobalBounds().width/2
+			                 , spriteInvent[0].getGlobalBounds().top - 10*game->_scaleBouton);
+
+	spriteInvent[1].setScale(4*game->_scaleBouton,4*game->_scaleBouton);
+	spriteInvent[2].setScale(4*game->_scaleBouton,4*game->_scaleBouton);
+	spriteInvent[3].setScale(4*game->_scaleBouton,4*game->_scaleBouton);
 	spriteInvent[1].setPosition( spriteInvent[0].getGlobalBounds().left + spriteInvent[0].getGlobalBounds().width + ESPACE*2
 							   , rectInvent.getGlobalBounds().top + (rectInvent.getGlobalBounds().height/2 - spriteInvent[1].getGlobalBounds().height/2));
 	spriteInvent[2].setPosition( spriteInvent[1].getGlobalBounds().left + spriteInvent[1].getGlobalBounds().width + ESPACE*2
 							   , spriteInvent[1].getGlobalBounds().top);
 	spriteInvent[3].setPosition( spriteInvent[2].getGlobalBounds().left + spriteInvent[2].getGlobalBounds().width + ESPACE*2
 			   	   	   	   	   , spriteInvent[2].getGlobalBounds().top);
+
+	textInvent[1].setScale(game->_scaleBouton, game->_scaleBouton);
+	textInvent[2].setScale(game->_scaleBouton, game->_scaleBouton);
+	textInvent[3].setScale(game->_scaleBouton, game->_scaleBouton);
 
 	textInvent[1].setPosition( spriteInvent[1].getGlobalBounds().left ,
 							   spriteInvent[1].getGlobalBounds().top - ESPACE*2 );
@@ -1164,6 +1199,10 @@ void Partie::UpdateMenuInvent(IHMmanager* game){
 	textInvent[5].setString( "x" + ss[2].str());
 	textInvent[6].setString( "x" + ss[3].str());
 
+	textInvent[4].setScale(game->_scaleBouton, game->_scaleBouton);
+	textInvent[5].setScale(game->_scaleBouton, game->_scaleBouton);
+	textInvent[6].setScale(game->_scaleBouton, game->_scaleBouton);
+
 	textInvent[4].setPosition( spriteInvent[1].getGlobalBounds().left ,
 				  	  	  	   spriteInvent[1].getGlobalBounds().top + spriteInvent[1].getGlobalBounds().height + ESPACE*2 );
 	textInvent[5].setPosition( spriteInvent[2].getGlobalBounds().left ,
@@ -1174,21 +1213,30 @@ void Partie::UpdateMenuInvent(IHMmanager* game){
 }
 
 void Partie::UpdateMenuStats(IHMmanager* game){
-	rectStats[0].setSize(Vector2f(size_Map_part_X*0.80 , size_Map_part_Y*0.80));
+	rectStats[0].setSize(Vector2f(size_Map_part_X*0.80, size_Map_part_Y*0.80));
 	rectStats[0].setPosition((game->get_myWindow()->getSize().x - ESPACE*2 - 96)/2 - rectStats[0].getGlobalBounds().width/2
 						   , (game->get_myWindow()->getSize().y - ESPACE*2 - 96)/2 - rectStats[0].getGlobalBounds().height/2
 							 );
 	spritePersoActuel = (*_ite_l)->_sprite;
-	textStats[0].setString((*_ite_l)->get_name());
-	spritePersoActuel.setScale(3,3);
+	spritePersoActuel.setScale(3*game->_scaleBouton, 3*game->_scaleBouton);
 	spritePersoActuel.setPosition( rectStats[0].getGlobalBounds().left + 10
-					             , rectStats[0].getGlobalBounds().top + (rectStats[0].getGlobalBounds().height/2 - spritePersoActuel.getGlobalBounds().height/2 ));
+						         , rectStats[0].getGlobalBounds().top + (rectStats[0].getGlobalBounds().height/2 - spritePersoActuel.getGlobalBounds().height/2 ));
+
+	textStats[0].setString((*_ite_l)->get_name());
+	textStats[0].setScale(game->_scaleBouton, game->_scaleBouton);
 	textStats[0].setPosition( spritePersoActuel.getGlobalBounds().left + spritePersoActuel.getGlobalBounds().width/2 - textStats[0].getGlobalBounds().width/2
 	 					    , spritePersoActuel.getGlobalBounds().top - 10);
+
+	rectStats[1].setSize(Vector2f( 150 * game->_scaleBouton, PXL_PV*((*_ite_l)->get_strength()) ));
+	rectStats[2].setSize(Vector2f( 150 * game->_scaleBouton, PXL_PV*((*_ite_l)->get_accuracy()) ));
+	rectStats[3].setSize(Vector2f( 150 * game->_scaleBouton, PXL_PV*((*_ite_l)->get_endurance()) ));
+	rectStats[4].setSize(Vector2f( 150 * game->_scaleBouton, PXL_PV*((*_ite_l)->get_agility()) ));
+	rectStats[5].setSize(Vector2f( 150 * game->_scaleBouton, PXL_PV*((*_ite_l)->get_luck()) ));
+
 	// Axe des X
-	rectStats[6] = RectangleShape(Vector2f( 5*(rectStats[1].getSize().x) + PXL_PV*5 + ESPACE*8, 1));
+	rectStats[6] = RectangleShape(Vector2f( 5*(rectStats[1].getGlobalBounds().width) + PXL_PV*5 + ESPACE*7, 1));
 	// Axe des Y
-	rectStats[7] = RectangleShape(Vector2f( 1, PXL_PV*5 + 20 + 20 ));
+	rectStats[7] = RectangleShape(Vector2f( 1, PXL_PV*5 + ESPACE*2 ));
 
 	rectStats[7].setPosition( spritePersoActuel.getGlobalBounds().left + spritePersoActuel.getGlobalBounds().width + ESPACE*2
 							, rectStats[0].getGlobalBounds().top + (rectStats[0].getGlobalBounds().height/2 - rectStats[7].getGlobalBounds().height/2));
@@ -1207,29 +1255,37 @@ void Partie::UpdateMenuStats(IHMmanager* game){
 	ss.str(string()); ss << (*_ite_l)->get_luck();
 	textStats[5].setString( ss.str() ); textStats[10].setString( "Chance" );
 
-	rectStats[1].setSize(Vector2f( 150 , PXL_PV*((*_ite_l)->get_strength()) ));
-	rectStats[2].setSize(Vector2f( 150 , PXL_PV*((*_ite_l)->get_accuracy()) ));
-	rectStats[3].setSize(Vector2f( 150 , PXL_PV*((*_ite_l)->get_endurance()) ));
-	rectStats[4].setSize(Vector2f( 150 , PXL_PV*((*_ite_l)->get_agility()) ));
-	rectStats[5].setSize(Vector2f( 150 , PXL_PV*((*_ite_l)->get_luck()) ));
+
 
 	rectStats[1].setPosition( rectStats[7].getGlobalBounds().left + ESPACE,
 							  rectStats[6].getGlobalBounds().top - rectStats[1].getGlobalBounds().height);
+	textStats[1].setScale(game->_scaleBouton, game->_scaleBouton);
 	textStats[1].setPosition( rectStats[1].getGlobalBounds().left + rectStats[1].getGlobalBounds().width/2 - textStats[1].getGlobalBounds().width/2
 							, rectStats[1].getGlobalBounds().top + rectStats[1].getGlobalBounds().height/2 - textStats[1].getGlobalBounds().height/2);
+	textStats[6].setScale(game->_scaleBouton, game->_scaleBouton);
 	textStats[6].setPosition( rectStats[1].getGlobalBounds().left + rectStats[1].getGlobalBounds().width/2 - textStats[6].getGlobalBounds().width/2
 							, rectStats[1].getGlobalBounds().top - ESPACE);
 	for(int i = 2 ; i <= 5 ; i++){
 		rectStats[i].setPosition( rectStats[i - 1].getGlobalBounds().left + rectStats[i - 1].getGlobalBounds().width + ESPACE*2
 								, rectStats[6].getGlobalBounds().top - rectStats[i].getGlobalBounds().height );
-	 	textStats[i].setPosition( rectStats[i].getGlobalBounds().left + rectStats[i].getGlobalBounds().width/2 - textStats[i].getGlobalBounds().width/2
+		textStats[i].setScale(game->_scaleBouton, game->_scaleBouton);
+		textStats[i].setPosition( rectStats[i].getGlobalBounds().left + rectStats[i].getGlobalBounds().width/2 - textStats[i].getGlobalBounds().width/2
 								, rectStats[i].getGlobalBounds().top + rectStats[i].getGlobalBounds().height/2 - textStats[i].getGlobalBounds().height/2);
-	 	textStats[i + 5].setPosition( rectStats[i].getGlobalBounds().left + rectStats[i].getGlobalBounds().width/2 - textStats[i + 5].getGlobalBounds().width/2
+		textStats[i + 5].setScale(game->_scaleBouton, game->_scaleBouton);
+		textStats[i + 5].setPosition( rectStats[i].getGlobalBounds().left + rectStats[i].getGlobalBounds().width/2 - textStats[i + 5].getGlobalBounds().width/2
 	 								, rectStats[i].getGlobalBounds().top - ESPACE);
 	}
 }
 
 void Partie::UpdateMenuQuitter(IHMmanager*game){
+	textMenuQuitter.setScale(game->_scaleBouton, game->_scaleBouton);
+	menuQuitter.setSize(Vector2f(textMenuQuitter.getGlobalBounds().width + ESPACE*2
+							   , textMenuQuitter.getGlobalBounds().height + 100*game->_scaleBouton));
+	boutonOui.setScale(game->_scaleBouton, game->_scaleBouton);
+	boutonNon.setScale(game->_scaleBouton, game->_scaleBouton);
+	textOui.setScale(game->_scaleBouton, game->_scaleBouton);
+	textNon.setScale(game->_scaleBouton, game->_scaleBouton);
+
 	menuQuitter.setPosition((game->get_myWindow()->getSize().x - ESPACE*2 - 96)/2 - menuQuitter.getGlobalBounds().width/2
 			  , (game->get_myWindow()->getSize().y - ESPACE*2 - 96)/2 - menuQuitter.getGlobalBounds().height/2
 			  );

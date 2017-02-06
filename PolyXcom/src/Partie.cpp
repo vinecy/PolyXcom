@@ -922,8 +922,7 @@ void Partie::UpdateHUD(IHMmanager* game){
 			//  afficher CC
 			if ( _mapCurrent.get_dangerZone()==true)
 			{
-				if(( STATE_CC==false) && (*_ite_l)->get_paCurrent()>=3 &&
-						(*_ite_l)->get_inv()->get_weapon_c()->get_munCurrent()>0)
+				if(( STATE_CC==false) && (*_ite_l)->get_paCurrent()>=3 )
 				{
 					STATE_CC=true;
 					cout << " THIS IS OOOON!"<< endl;
@@ -940,7 +939,8 @@ void Partie::UpdateHUD(IHMmanager* game){
 			//afficher Tirer
 			if ( _mapCurrent.get_dangerZone()==true)
 			{
-				if(( STATE_TIR==false) && ((*_ite_l)->get_paCurrent()>=4))
+				if(( STATE_TIR==false) && ((*_ite_l)->get_paCurrent()>=4)
+						&& (*_ite_l)->get_inv()->get_weapon_c()->get_munCurrent()>0)
 				{
 					STATE_TIR=true;
 					cout <<" Locked and loaded !"<<endl;
@@ -1072,19 +1072,27 @@ void Partie::UpdateHUD(IHMmanager* game){
 								(*_ite_ee)->get_inv()->get_weapon_c()->get_munMax());
 						cout<< "je recharge\n";
 					}
-					int cible=rand()%3;
+					int cible=rand()%_team_hero.size();
 					cout << " cible ="<< cible<< endl;
 					list<Hero*>::iterator tmp= _team_hero.begin();
+					/*
+					for( tmp=_team_hero.begin();tmp!=_team_hero.end();tmp++)
+					{
+						(*tmp)->display_info();
+					}
+					*/
 					while(cible!=0)
 					{
 						if(tmp==_team_hero.end())
 						{
 							tmp= _team_hero.begin();
+							cout << " jour!";
 						}
 						tmp++;
+						(*tmp)->display_info();
 						cible--;
 					}
-					cout << "ma  cible est ";(*tmp)->display_info();
+					cout << "ma  cible est "<< cible;(*tmp)->display_info();
 					if( ((*_ite_ee)->get_paCurrent()>=4)&&((*_ite_ee)->get_inv()->get_weapon_c()->get_munCurrent()>=1)
 							&& (_mapCurrent.pathIsPossible((*_ite_ee)->get_x(), (*_ite_ee)->get_y(),
 									(*tmp)->get_x(), (*tmp)->get_y())))

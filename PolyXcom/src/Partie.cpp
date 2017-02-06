@@ -568,6 +568,7 @@ void Partie::HandleEvents(IHMmanager* game){
 											list<Ennemi*>::iterator pe;
 											int xcompt;
 											int ycompt;
+											(*_ite_l)->set_paCurrent((*_ite_l)->get_paCurrent()-4);
 											for(xcompt=xcase-(*_ite_l)->get_inv()->get_grenade()->get_range();xcompt<=xcase+(*_ite_l)->get_inv()->get_grenade()->get_range();xcompt++)
 											{
 												for(ycompt=ycase-(*_ite_l)->get_inv()->get_grenade()->get_range();ycompt<=ycase+(*_ite_l)->get_inv()->get_grenade()->get_range();ycompt++)
@@ -614,6 +615,10 @@ void Partie::HandleEvents(IHMmanager* game){
 																{								//degats sur les ennemis
 																	cout<<"Cet ennemis est touché X= "<<(*pe)->get_x()<<" Y= "<<(*pe)->get_y()<<endl;
 																	(*pe)->set_pvCurrent((*pe)->get_pvCurrent()-(*_ite_l)->get_inv()->get_grenade()->get_dammage());
+																	if((*pe)->get_pvCurrent()<0)
+																	{
+																		(*pe)->set_pvCurrent(0);
+																	}
 																	(*pe)->display_info();
 																}
 															}
@@ -626,7 +631,6 @@ void Partie::HandleEvents(IHMmanager* game){
 														{
 															cout<<"Pas traitéX= "<<xcompt<<" Y= "<<ycompt<<endl;
 														}
-														(*_ite_l)->set_paCurrent((*_ite_l)->get_paCurrent()-4);
 													}
 												}
 											}

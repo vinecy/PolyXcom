@@ -27,18 +27,20 @@
 int main(){
 	cout << " lancement de PolyXcom " << endl;
 
+	// Création de la fenêtre
 	RenderWindow window( VideoMode( VideoMode::getDesktopMode().width
 								  , VideoMode::getDesktopMode().height
 								  , VideoMode::getDesktopMode().bitsPerPixel
 								  )
 						, "PolyXcom"
 						, Style::Close | Style::Titlebar | Style::Fullscreen);
-	IHMmanager ihm(window);
-	ihm.PushState( new Menu() );
+	IHMmanager ihm(window);			// Création du gestionnaire de d'Etats de Jeu
+	ihm.PushState( new Menu() );	// Ajout de l'Etat Menu Principal
 
+	// On fait tourner en boucle l'IHM manager
 	while( ihm.isRunning() ){		// tant que la fenêtre est toujours ouvert
-		ihm.HandleEvents();			// maj des evenements externes
-		ihm.Update();				// maj des variables
+		ihm.HandleEvents();			// maj des evenements externes de l'Etat Actif
+		ihm.Update();				// maj des variables de l'etat actif
 		ihm.Draw();					// maj de la fenêtre
 	}
 }

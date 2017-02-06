@@ -140,6 +140,8 @@ void Fichier::loadClosed(list<Portail>& list)
 {
 
 }
+
+
 void Fichier::updateSave(string nameCurrentMap, list<Hero> &listHero, list<Portail> &listPortailFerme){
 	list<Hero>::iterator	iteH = listHero.begin();
 	list<Portail>::iterator iteP = listPortailFerme.begin();

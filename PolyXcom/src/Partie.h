@@ -19,67 +19,66 @@
 
 using namespace std;
 
-
 class Partie : public IHMstate {
 private:								// ATTRIBUTS
 										// GRAPHIQUES
-	int choix = 0;
-	int choixYesNo = 0;
-	int fenetreActive;
-	bool valide;
+	int choix = 0;							// entier indiquant quel bouton est selectionné
+	int choixYesNo = 0;						// entier indiquant si le bouton Oui ou Non est sélectionné
+	int fenetreActive;						// entier indiquant quel fenêtre est active
+	bool valide;							// booléen indiquant si le clic se fait bien sur un bouton
 	bool premiereApparition;
 										//STATES
-	bool STATE_CC;
-	bool STATE_TIR;
-	bool STATE_GRE;
+	bool STATE_CC;							// actif si on est en mode "corps à corps"
+	bool STATE_TIR;							// actif si on est en mode "tir"
+	bool STATE_GRE;							// actif si on est en mode "grenade"
 										// JEU
-	list<Ennemi> 		_tank_ennemi;		// conteneurs pour
-	list<Hero>			_tank_hero;			// le chargement a partir d'un fichier
-	list<Obstacle>  	_tank_obstacle;
-	list<Portail>  		_tank_portail;
-	list<Portail>  		_tank_portail_close;
+	list<Ennemi> 		_tank_ennemi;		// liste des ennemis présent sur la carte
+	list<Hero>			_tank_hero;			// liste des héros encore vivant
+	list<Obstacle>  	_tank_obstacle;		// liste des obstacles présent sur la carte
+	list<Portail>  		_tank_portail;		// liste des portails présent sur la carte
+	list<Portail>  		_tank_portail_close;// liste des portails condammés
 
 	list<Hero*>			_team_hero;			// equipe de heros
 	list<Ennemi*>		_team_ennemi;		// equipe de ennemi
 
 	Carte 				_mapCurrent;		// carte actuelle
 
-	list<Hero*>::iterator _ite_l;		// itérateur de personnage en action
+	list<Hero*>::iterator _ite_l;			// itérateur de personnage en action
 	list<Personnage*>::iterator _ite;		// iterateur divers
 	list<Ennemi>::iterator 		_ite_e;		// iterateur ennemi
-	list<Ennemi*>::iterator 	_ite_ee;		// iterateur ennemi
+	list<Ennemi*>::iterator 	_ite_ee;	// iterateur ennemi
 	list<Hero>::iterator 		_ite_h;		// iterateur hero
 	list<Obstacle>::iterator 	_ite_o;		// iterateur obstacle
 	list<Portail>::iterator		_ite_p;		// iterateur de portail
 
 public:
 	Partie(int);							// CONSTRUCTEUR
-										// METHODES Hérités
-	void Init();
-	void InitHUD();
-	void InitMenuInvent();
-	void InitMenuCarte();
-	void InitMenuStats();
-	void InitMenuQuitter();
+											// METHODES Hérités de IHMstate
+	void Init();								// Initialise les composants de l'interface graphique
+	void InitHUD();								// Initialise les boutons, compteur de PV,PA,munitions
+	void InitMenuInvent();						// Initialise la fenêtre "Ouvrir Inventaire"
+	void InitMenuCarte();						// Initialise la fenêtre "Ouvrir Carte"
+	void InitMenuStats();						// Initialise la fenêtre "Consulter les statistiques"
+	void InitMenuQuitter();						// Initialise la fenêtre "Quitter la partie"
 
-	void CleanUp();
-	void Pause();
-	void Resume();
+	void CleanUp();								// Vide tous les conteneurs
+	void Pause();								// Instructions liés à la mise en pause de la partie
+	void Resume();								// Instructions liés à la remise en route de la partie
 
-	void HandleEvents(IHMmanager* game);
+	void HandleEvents(IHMmanager* game);		// Maj à des évenenements clavier
 
-	void Update(IHMmanager* game);
-	void UpdateHUD(IHMmanager* game);
-	void UpdateMenuInvent(IHMmanager* game);
-	void UpdateMenuCarte(IHMmanager* game);
-	void UpdateMenuStats(IHMmanager* game);
-	void UpdateMenuQuitter(IHMmanager* game);
-	void UpdateMap(IHMmanager* game);
+	void Update(IHMmanager* game);				// Maj des variables
+	void UpdateHUD(IHMmanager* game);			// Maj des boutons, compteurs,...
+	void UpdateMenuInvent(IHMmanager* game);	// Maj des composants du menu "Ouvrir Inventaire"
+	void UpdateMenuCarte(IHMmanager* game);		// Maj des composants du menu "Ouvrir Carte"
+	void UpdateMenuStats(IHMmanager* game);		// Maj des composants du menu "Consulter les statistiques"
+	void UpdateMenuQuitter(IHMmanager* game);	// Maj des composants du menu "Quitter la partie"
+	void UpdateMap(IHMmanager* game);			// Maj des composants de l'écran de jeu
 
-	void Draw(IHMmanager* game);
-	void DrawHUD(IHMmanager* game);
-	void DrawActiveFrame(IHMmanager* game);
-	void DrawMap(IHMmanager* game);
+	void Draw(IHMmanager* game);				// Redessine la fenetre
+	void DrawHUD(IHMmanager* game);				// Redessine les boutons,compteurs, etc
+	void DrawActiveFrame(IHMmanager* game);		// Reddesine la fenetre active
+	void DrawMap(IHMmanager* game);				// Redessine les éléments de l'écran de jeu
 										// METHODES
 	void newPartie( void );					// réinitialise la sauvegarde
 	void loadPartie( void );				// charge la sauvegarde

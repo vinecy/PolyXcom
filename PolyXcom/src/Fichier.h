@@ -18,22 +18,20 @@
 using namespace std;
 
 class Fichier {
-private:											// ATTRIBUTS
-	string _nameFile;
-	fstream _path;
-
+private:									// ATTRIBUTS
+	string _nameFile;							// chemin du fichier en string
+	fstream _path;								// fichier
 public:
-	Fichier(string nameFile, bool readWrite);		// CONSTRUCTEURS
-													// METHODES
+	Fichier(string nameFile, bool readWrite);// CONSTRUCTEURS
+											 // METHODES
+	void cleanFile(void);						// nettoie le fichier
+	void copyFile(string nameFile);				// copie le fichier en argument sur le fichier de référence
+	list<string> seekAllNameMap();				// recherche toute les nom de carte dans le fichier
 
-	void cleanFile(void);								// nettoie le fichier
-	void copyFile(string nameFile);						// copie le fichier en argument sur le fichier de référence
-	list<string> seekAllNameMap();
-
-	void loadMap(string nameMap,Carte&,list<Ennemi>&, list<Hero>&, list<Obstacle>&, list<Portail>&);
-	void loadSave(string &nameCurrentMap, list<Hero>&, list<Portail>&);
-	void loadClosed(list<Portail>&);
-	void updateSave(string nameCurrentMap, list<Hero>&, list<Portail>&);
+	void loadMap(string nameMap,Carte&,list<Ennemi>&, list<Hero>&, list<Obstacle>&, list<Portail>&); // charge la carte
+	void loadSave(string &nameCurrentMap, list<Hero>&, list<Portail>&);								 // charge la sauvegarde
+	void loadClosed(list<Portail>&);									// charge la liste des portails dans la sauvegarde
+	void updateSave(string nameCurrentMap, list<Hero>&, list<Portail>&);// charge les stats et inventaire de chaque hero dans la sauvegarde
 
 	virtual ~Fichier();								// DESTRUCTEUR
 };

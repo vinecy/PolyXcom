@@ -42,12 +42,16 @@ using namespace std;
 
 static int PXL_PV;			// taille d'un point de PV/PA en pxl dans la barre de PV/PA
 static int ESPACE;			// espacemment entre les boutons
-static int size_window_X ;
-static int size_window_Y ;
-static int size_Map_part_X;
-static int size_Map_part_Y;
+static int size_window_X ;	// Longueur de l'écran
+static int size_window_Y ;	// Hauteur de l'écran
+static int size_Map_part_X;	// Longueur de l'écran de jeu
+static int size_Map_part_Y; // Hauteur de l'écran de jeu
 
-static RectangleShape PersoActif;				// Element de l'HUD
+static Image i;								// Image contenant le sprite
+static Texture t;							// Texture contenant la feuille de sprite
+static Font font;							// Police de caractère
+
+static RectangleShape PersoActif;			// Element de l'HUD
 static Text namePersoActif;
 static RectangleShape WeaponActif;
 static Text textAmmunation;
@@ -66,25 +70,21 @@ static Sprite boutonMedKit;
 static Sprite boutonChangerCompagnon;
 static Sprite boutonFinTour;
 
-static Image i;								// Image contenant le sprite
-static Texture t;								// Texture contenant la feuille de sprite
-static Font font;								// Police de caractère
-
-static RectangleShape rectInvent; // Element du menu Inventaire
+static RectangleShape rectInvent; 			// Element du menu Inventaire
 static Text textInvent[7];
 static Sprite spriteInvent[4];
 
-static RectangleShape menuCarte; 				// Element du menu Carte
+static RectangleShape menuCarte; 			// Element du menu Carte
 static Sprite spriteWorld;
 static Text namePersoActuel;
 
-static const int nbRectStats = 11;				// Element du menu Stats
+static const int nbRectStats = 11;			// Element du menu Stats
 static const int nbtextStats = 16;
 static RectangleShape rectStats[nbRectStats];
 static Text textStats[nbtextStats];
 static Sprite spritePersoActuel;
 
-static RectangleShape menuQuitter;				// Element du menu Quitter
+static RectangleShape menuQuitter;			// Element du menu Quitter
 static RectangleShape boutonOui;
 static RectangleShape boutonNon;
 static Text textMenuQuitter;
@@ -260,8 +260,6 @@ void Partie::InitMenuQuitter(){
 	boutonNon = RectangleShape(Vector2f(textNon.getGlobalBounds().width + 5
 									   , textNon.getGlobalBounds().height + 5));
 }
-
-
 
 void Partie::CleanUp(){
 	_mapCurrent.removeAllItem();// carte actuelle
@@ -440,17 +438,16 @@ void Partie::HandleEvents(IHMmanager* game){
 						break;
 				}
 				break;
-			case Event::MouseWheelScrolled : 				// "Mouvement sur la molette de la souris"
+			case Event::MouseWheelScrolled : 	// "Mouvement sur la molette de la souris"
 				float tps;
 				tps = _mapCurrent._zoom + (0.5 * event.mouseWheelScroll.delta);
-				if( (event.mouseWheelScroll.delta != 0) && tps >= 1 && tps <= 5){		// vers le bas (delta negatif)
+				if( (event.mouseWheelScroll.delta != 0) && tps >= 1 && tps <= 5){
 					_mapCurrent._zoom = tps ;
 				}
 				break;
-			case Event::MouseMoved :				// "Mouvement de la souris"
+			case Event::MouseMoved :			// "Mouvement de la souris"
 				x = event.mouseMove.x;
 				y = event.mouseMove.y;
-				//cout << x << " " << y << endl;
 				if( boutonMenu[0].getGlobalBounds().contains(x, y) == true ){
 					choix = 1;
 				} else if( boutonMenu[1].getGlobalBounds().contains(x, y) == true ){
@@ -477,7 +474,6 @@ void Partie::HandleEvents(IHMmanager* game){
 					choix = 0; valide = false;
 				}
 
-
 				if(fenetreActive == 4){
 					if( boutonOui.getGlobalBounds().contains(x, y) == true ){
 						choixYesNo = 1;
@@ -501,7 +497,7 @@ void Partie::HandleEvents(IHMmanager* game){
 							//on recupere les coordonnées cibles
 							int xcase = ((event.mouseButton.x-_mapCurrent._origXmap)/64)/_mapCurrent._zoom;
 							int ycase = ((_mapCurrent._origYmap-event.mouseButton.y)/64)/_mapCurrent._zoom;
-							cout << "\t\t\t\tdeplacement en "<< xcase << " " << ycase << endl;
+							//cout << "\t\t\t\tdeplacement en "<< xcase << " " << ycase << endl;
 
 							//on recupere les coordonnées actuelles
 							int xcur, ycur;
@@ -515,7 +511,7 @@ void Partie::HandleEvents(IHMmanager* game){
 								xcur = (*_ite_l)->get_x();
 								ycur = (*_ite_l)->get_y();
 							}
-							cout << " \t\t\t\tposition actuelle "<< xcur << " " << ycur<< endl;
+							//cout << " \t\t\t\tposition actuelle "<< xcur << " " << ycur<< endl;
 							//cout << " \t\t\t\tdistance "<< (*_ite_h).distance(xcase, ycase)<<endl;
 							if(STATE_CC==false)//etat cc=faux
 							{
@@ -779,7 +775,6 @@ void Partie::UpdateHUD(IHMmanager* game){
 	// mis à jour des positions des boutons de l'interface
 	PersoActif.setScale(game->_scaleBouton , game->_scaleBouton );
 
-
 	PersoActif.setPosition( ESPACE, (game->get_myWindow()->getSize().y - ESPACE - PersoActif.getGlobalBounds().height));
 	namePersoActif.setString((*_ite_l)->get_name());
 	namePersoActif.setScale(game->_scaleBouton , game->_scaleBouton );
@@ -866,7 +861,6 @@ void Partie::UpdateHUD(IHMmanager* game){
 							  boutonCC.getGlobalBounds().top);
 	textAmmunation.setPosition( WeaponActif.getGlobalBounds().left + WeaponActif.getGlobalBounds().width - ESPACE - textAmmunation.getGlobalBounds().width,
 								WeaponActif.getGlobalBounds().top + WeaponActif.getGlobalBounds().height - textAmmunation.getGlobalBounds().height - ESPACE);
-
 
 	boutonMenu[0].setTextureRect(IntRect(COLUNN1_PXL,ROWPLAYERBUTTOM_PXL,64,64));
 	boutonMenu[1].setTextureRect(IntRect(COLUNN2_PXL,ROWPLAYERBUTTOM_PXL,64,64));
@@ -1665,8 +1659,8 @@ void Partie::launchPartie(void){
 	}
 }
 
-
-
+/** La méthode savePartie appelle la méthode de sauvegarde sur le fichier de suavegarde
+  * */
 void Partie::savePartie(void){
 	Fichier f("src\\Save.txt",1);
 	f.updateSave( _mapCurrent.get_nameMap(),
@@ -1782,12 +1776,12 @@ void Partie::switchMap( Portail p , bool ban){
 		_team_hero.push_front( &(*_ite_h) );
 	}
 
-	cout << "SAUVEGARDE ATTENTION " << endl;
-	cout << "car : " << _mapCurrent.get_nameMap() << endl;
+	//cout << "SAUVEGARDE ATTENTION " << endl;
+	//cout << "car : " << _mapCurrent.get_nameMap() << endl;
 	if(_mapCurrent.get_nameMap() == "checkpoint"){
-		cout << " ... sauvegarde en cours" << endl;
+		//cout << " ... sauvegarde en cours" << endl;
 		savePartie();
-		cout << " save terminée" << endl;
+		//cout << " save terminée" << endl;
 	}
 
 }

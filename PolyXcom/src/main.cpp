@@ -32,7 +32,7 @@ int main(){
 								  , VideoMode::getDesktopMode().bitsPerPixel
 								  )
 						, "PolyXcom"
-						, Style::Close | Style::Titlebar );
+						, Style::Close | Style::Titlebar | Style::Fullscreen);
 	IHMmanager ihm(window);
 	ihm.PushState( new Menu() );
 

@@ -1283,6 +1283,7 @@ void Partie::UpdateMenuStats(IHMmanager* game){
 
 void Partie::UpdateMenuQuitter(IHMmanager*game){
 	textMenuQuitter.setScale(game->_scaleBouton, game->_scaleBouton);
+
 	menuQuitter.setSize(Vector2f(textMenuQuitter.getGlobalBounds().width + ESPACE*2
 							   , textMenuQuitter.getGlobalBounds().height + 100*game->_scaleBouton));
 	boutonOui.setScale(game->_scaleBouton, game->_scaleBouton);

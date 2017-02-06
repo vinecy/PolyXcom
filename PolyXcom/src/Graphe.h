@@ -10,8 +10,8 @@
 #define GRAPHE_H_
 
 #include <list>
-#include "Noeud.h"
-#include "Carte.h"
+#include "Noeud.h"					// Il est compose de Noeud
+#include "Carte.h"					// Il construit l'arbre à partir de la Carte
 
 class Graphe {
 private:										// Attributs
@@ -20,15 +20,14 @@ private:										// Attributs
 public:
 	Noeud **_graphe;									// Graphe composé de Noeud
 
-												// Constructeurs
 public:
-	Graphe(Carte *map);									// Constructeur avec la pointeur sur une carte en argument
-
+	Graphe(Carte *map);							// CONSTRUCTEUR avec la pointeur sur une carte en argument
+												// METHODES
 	bool isInTheList(list<Noeud> &l, Noeud &cible);		// Affirme si le Noeud cible est dans la liste l
 	list<Noeud> find_Voisin(int xC, int yC);			// Recherche la liste des voisins du noeud (xC,yC)
 	void display(void);									// Affiche le graphe
 
-	virtual ~Graphe();									// Destructeur
+	virtual ~Graphe();							// DESTRUCTEUR
 };
 
 #endif /* GRAPHE_H_ */

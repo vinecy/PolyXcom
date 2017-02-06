@@ -20,18 +20,18 @@ Graphe::Graphe(Carte *map) {
 	int i = 0,
 		j = 0;
 
-	_sizeX = map->get_sizeX();							// La nombre de Noeud du graphe
-	_sizeY = map->get_sizeY();							// est égale à la taille de la carte
+	_sizeX = map->get_sizeX();								// La nombre de Noeud du graphe
+	_sizeY = map->get_sizeY();								// est égale à la taille de la carte
 
-	_graphe = new Noeud *[_sizeX];						// Initialisation du graphe selon
-	for( i = 0 ; i < _sizeX ; i++ ){					// l'algorithme A*
-		_graphe[i] = new Noeud [_sizeY];				//
+	_graphe = new Noeud *[_sizeX];							// Initialisation du graphe selon
+	for( i = 0 ; i < _sizeX ; i++ ){						// l'algorithme A*
+		_graphe[i] = new Noeud [_sizeY];
 		for( j = 0 ; j < _sizeY ; j++ ){
 			_graphe[i][j] = Noeud(i,j);
-			if( map->moveIsPossible(i, j, false) == false 		// Si c'est une case infranchissable
-				&& map->get_IDin(i, j) != 0 ){			// c'est à dire un obstacle
-				_graphe[i][j].set_costFromBegin(-1);	// on met des couts negatifs à
-				_graphe[i][j].set_costFromEnd(-1);		// FromEnd et FromBegin (_G et _H dans le Noeud)
+			if( map->moveIsPossible(i, j, false) == false	//Si c'est une case infranchissable
+				&& map->get_IDin(i, j) != 0 ){				// c'est à dire un obstacle
+				_graphe[i][j].set_costFromBegin(-1);		// on met des couts negatifs à
+				_graphe[i][j].set_costFromEnd(-1);			// FromEnd et FromBegin (_G et _H dans le Noeud)
 			}
 		}
 	}
@@ -47,10 +47,8 @@ bool Graphe::isInTheList(list<Noeud> &l, Noeud &cible){
 	bool rep = false;
 	list<Noeud>::iterator lit (l.begin()), lend(l.end());
 	while( lit !=lend && rep == false){
-		if( (*lit).get_X() == cible.get_X() && (*lit).get_Y() == cible.get_Y() ){
+		if( (*lit).get_X() == cible.get_X() && (*lit).get_Y() == cible.get_Y() )
 			rep = true;
-			//cout << "isIn: Noeud présent " << endl;
-		}
 		lit++;
 	}
 	return (rep);
@@ -61,27 +59,11 @@ bool Graphe::isInTheList(list<Noeud> &l, Noeud &cible){
 	 * @return - retourne la liste des voisins trouvés
 	 * */
 list<Noeud> Graphe::find_Voisin(int xC, int yC){
-	list<Noeud> l;
-	if( xC != _sizeX-1 ){;
-		l.push_back(this->_graphe[xC + 1][yC]);
-	} else {
-		//cout << "find_Voisin: x=" << _sizeX-1 << "  inaccessible car CX = " << xC << endl;
-	}
-	if( xC != 0 ){
-		l.push_back(this->_graphe[xC - 1][yC]);
-	} else {
-		//cout << "find_Voisin: x=" << 0 << "  inaccessible car CX = " << xC << endl;
-	}
-	if( yC != _sizeY-1 ){
-		l.push_back(this->_graphe[xC][yC + 1]);
-	} else {
-		//cout << "find_Voisin: y=" << _sizeY-1 << "  inaccessible car CY = " << yC << endl;
-	}
-	if( yC != 0 ){
-		l.push_back(this->_graphe[xC][yC - 1]);
-	} else {
-		//cout << "find_Voisin: y=" << 0 << "  inaccessible car CY = " << yC << endl;
-	}
+	list<Noeud> l;												 // Tant qu'on ne sort pas de la carte
+	if( xC != _sizeX-1 ) l.push_back(this->_graphe[xC + 1][yC]); // ajout du voisin à droite du Noeud xC,YC
+	if( xC != 0 )	     l.push_back(this->_graphe[xC - 1][yC]); // ajout du voisin à gauche du Noeud xC,YC
+	if( yC != _sizeY-1 ) l.push_back(this->_graphe[xC][yC + 1]); // ajout du voisin en haut du Noeud xC,YC
+	if( yC != 0 ) 		 l.push_back(this->_graphe[xC][yC - 1]); // ajout du voisin en bas du Noeud xC,YC
 	return (l);
 }
 
@@ -98,7 +80,7 @@ void Graphe::display(){
 			cout << _graphe[j][i].get_costFromEnd() << " ; " ;
 			cout << _graphe[j][i].get_costFinal();
 		}
-		cout << " | "<< endl << " ----------------- " << endl;
+		cout << " | \n ----------------- " << endl;
 	}
 	cout << " *** fin affichage *** " << endl;
 }

@@ -721,13 +721,16 @@ void Partie::HandleEvents(IHMmanager* game){
 }
 
 void Partie::Update(IHMmanager* game){
+	//cout << "spam?"<<endl;
 	size_window_X = game->get_myWindow()->getSize().x;
 	size_window_Y = game->get_myWindow()->getSize().y;
 	size_Map_part_X = size_window_X - ESPACE*2 - boutonMenu[0].getGlobalBounds().width;
 	size_Map_part_Y = size_window_Y - ESPACE*2 - boutonMenu[0].getGlobalBounds().height;
 
 	UpdateMap(game);
+	//cout << "spam1?"<<endl;
 	UpdateHUD(game);
+	//cout << "spam2?"<<endl;
 	if(fenetreActive == 1){
 		UpdateMenuInvent(game);
 	} else if(fenetreActive == 2){
@@ -895,7 +898,8 @@ void Partie::UpdateHUD(IHMmanager* game){
 			//  afficher CC
 			if ( _mapCurrent.get_dangerZone()==true)
 			{
-				if(( STATE_CC==false) && (*_ite_l)->get_paCurrent()>=3)
+				if(( STATE_CC==false) && (*_ite_l)->get_paCurrent()>=3 &&
+						(*_ite_l)->get_inv()->get_weapon_c()->get_munCurrent()>0)
 				{
 					STATE_CC=true;
 					cout << " THIS IS OOOON!"<< endl;
@@ -1021,8 +1025,15 @@ void Partie::UpdateHUD(IHMmanager* game){
 				if(_team_ennemi.size()==0)
 				{
 					cout << "WIIIIIIIIIIIIIIIIIIIIIIIn\n";
+					for (_ite_l=_team_hero.begin();_ite_l!=_team_hero.end();_ite_l++)
+					{
+						(*_ite_l)->set_paCurrent((*_ite_l)->get_paMax());
+						(*_ite_l)->get_inv()->get_weapon_c()->set_munCurrent(
+								(*_ite_l)->get_inv()->get_weapon_c()->get_munMax());
+
+					}
 					// fermer portail
-					switchMap(_tank_portail.front(),true);
+					switchMap(_tank_portail.front(),false);//todo portail ban
 				}
 
 				cout << " Apres les modifs"<<endl;
@@ -1582,7 +1593,7 @@ void Partie::switchMap( Portail p , bool ban){
 
 
 	//_mapCurrent.display();
-
+	_mapCurrent.removeAllItem();
 	// ajout des ennemis sur la carte
 	for(_ite_e = _tank_ennemi.begin();_ite_e!=_tank_ennemi.end();_ite_e++){
 		_mapCurrent.addItem((*_ite_e));
@@ -1595,6 +1606,7 @@ void Partie::switchMap( Portail p , bool ban){
 	// ajout des portail sur la carte
 	for(_ite_p=_tank_portail.begin();_ite_p!=_tank_portail.end();_ite_p++)
 	{
+		/*//todo
 		if(_tank_portail_close.size()!=0)
 		{
 			for(list<Portail>::iterator itep=_tank_portail_close.begin(); itep!=_tank_portail_close.end();itep++ )
@@ -1616,7 +1628,9 @@ void Partie::switchMap( Portail p , bool ban){
 		{
 			_mapCurrent.addItem((*_ite_p));
 		}
+		*/
 		//(*_ite_p).display();
+		_mapCurrent.addItem((*_ite_p));
 	}
 
 	//_mapCurrent.display();
@@ -1638,6 +1652,7 @@ void Partie::switchMap( Portail p , bool ban){
 	if (_mapCurrent.get_dangerZone()==0)
 	{
 		_ite_h = _tank_hero.begin();
+		/*
 		if(ban==true)
 		{
 			list<Portail>::iterator tmpp;
@@ -1653,6 +1668,7 @@ void Partie::switchMap( Portail p , bool ban){
 			}
 			//_tank_portail.remove((*tmpp));
 		}
+		*/
 		_mapCurrent.addItem((*_ite_h));
 	}else{
 		for(_ite_h = _tank_hero.begin(); _ite_h!=_tank_hero.end(); _ite_h++){

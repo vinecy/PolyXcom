@@ -1756,6 +1756,7 @@ void Partie::switchMap( Portail p , bool ban){
 	if(_mapCurrent.get_nameMap() == "checkpoint"){
 		cout << " ... sauvegarde en cours" << endl;
 		savePartie();
+		cout << " save terminée" << endl;
 	}
 
 }

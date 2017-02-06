@@ -40,9 +40,8 @@ using namespace std;
 #define COLUNN6_PXL 651		// n° de pixel de la colonne 6
 #define COLUNN7_PXL 781		// n° de pixel de la colonne 7
 
-#define ESPACE 20			// espacemment entre les boutons
-#define PXL_PV 25			// taille d'un point de PV/PA en pxl dans la barre de PV/PA
-
+static int PXL_PV;			// taille d'un point de PV/PA en pxl dans la barre de PV/PA
+static int ESPACE;			// espacemment entre les boutons
 static int size_window_X ;
 static int size_window_Y ;
 static int size_Map_part_X;

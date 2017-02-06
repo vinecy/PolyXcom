@@ -29,9 +29,10 @@ int main(){
 
 	RenderWindow window( VideoMode( VideoMode::getDesktopMode().width
 								  , VideoMode::getDesktopMode().height
-								  , VideoMode::getDesktopMode().bitsPerPixel)
+								  , VideoMode::getDesktopMode().bitsPerPixel
+								  )
 						, "PolyXcom"
-						, Style::Close | Style::Titlebar | Style::Fullscreen );
+						, Style::Close | Style::Titlebar );
 	IHMmanager ihm(window);
 	ihm.PushState( new Menu() );
 

@@ -1433,6 +1433,8 @@ void Partie::DrawMap(IHMmanager* game){
 	list<RectangleShape>::iterator itelistSquareMap = _mapCurrent._listSquareMap.begin();
 	for(i = 0 ; i <_mapCurrent.get_sizeX() ; i++){
 		for(j = 0 ; j < _mapCurrent.get_sizeY() ; j++){
+			if(_mapCurrent.get_IDin(i, j) == 1) (*itelistSquareMap).setFillColor(Color(128,128,128));
+			if(_mapCurrent.get_IDin(i, j) == 4) (*itelistSquareMap).setFillColor(Color::Blue);
 			game->get_myWindow()->draw((*itelistSquareMap));
 			itelistSquareMap++;
 		}

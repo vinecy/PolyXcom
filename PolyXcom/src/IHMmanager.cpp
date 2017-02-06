@@ -35,7 +35,7 @@ void IHMmanager::CleanUp(){
 
 void IHMmanager::ChangeState(IHMstate* state){
 	if( !_myStates.empty() ){
-		_myStates.pop_back();
+		PopState();
 	}
 	_myStates.push_back(state);
 	_myStates.back()->Init();

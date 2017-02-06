@@ -23,7 +23,10 @@ Grenade::Grenade()
 	_dammage=4;
 }
 
-
+/** Le constructeur de Grenade cree un nombre de grenade, leur portee et les degats associes
+ * @param g1 -portee
+ * @param g2 -number
+ * @param g3 - dommage*/
 Grenade::Grenade(int g1, int g2, int g3)
 {
 	_range=g1;
